@@ -36,13 +36,72 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
 	</array>
+  <key>NSCameraUsageDescription</key>
+  <string>Need camera access for upload images</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>Need photo library access for upload images</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>AntDesign.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>Feather.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
+		<string>SimpleLineIcons.ttf</string>
+		<string>Octicons.ttf</string>
+		<string>Zocial.ttf</string>
+		<string>Fontisto.ttf</string>
+		<string>SFProText-Bold.ttf</string>
+		<string>SFProText-Medium.ttf</string>
+		<string>SFProText-Regular.ttf</string>
+		<string>SFProText-Semibold.ttf</string>
+		<string>icomoon.ttf</string>
+		<string>Oswald-Medium.ttf</string>
+		<string>Oswald-Regular.ttf</string>
+		<string>Oswald-SemiBold.ttf</string>
+	</array>
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>fb824013764887974</string>
+      </array>
+    </dict>
+    <dict>
+      <key>CFBundleTypeRole</key>
+      <string>Editor</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>com.googleusercontent.apps.526209044156-0581th3ge13f3dgrp4mph879mm1e868s</string>
+      </array>
+    </dict>
+    <dict>
+      <key>CFBundleTypeRole</key>
+      <string>Editor</string>
+      <key>CFBundleURLName</key>
+      <string>jp.ezbuy.ezbuyRn</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>ezbuyRn</string>
+        <string>iddev.ezbuy.jp</string>
+      </array>
+    </dict>
+  </array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

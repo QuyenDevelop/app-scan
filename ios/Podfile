@@ -5,13 +5,14 @@ platform :ios, '10.0'
 
 target 'EfexMobileApp' do
   config = use_native_modules!
-
   use_react_native!(
     :path => config[:reactNativePath],
     # to enable hermes on iOS, change `false` to `true` and then install pods
     :hermes_enabled => true
   )
-
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
+  pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
   target 'EfexMobileAppTests' do
     inherit! :complete
     # Pods for testing
