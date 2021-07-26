@@ -59,3 +59,4 @@ buck-out/
 /ios/Pods/
 *.lock
 ios/EfexMobileApp.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+*.hprof
