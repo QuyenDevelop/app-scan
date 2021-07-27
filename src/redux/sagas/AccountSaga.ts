@@ -26,8 +26,8 @@ export function* takeLogin({
           payload.email,
           payload.password,
         )) as AuthorizeResult;
+        console.log("takeLogin data: ", JSON.stringify(data));
         data && (await Utils.storeTokenResponse(data));
-
         return data;
       },
       key: type,

@@ -2,9 +2,10 @@ export default {
   label: {
     tab: {
       home: "Trang chủ",
+      listScan: "Dach sách",
       scan: "Quét",
       cod: "COD",
-      shipment: "Chuyến hàng",
+      menu: "Menu",
     },
     login: "Đăng nhập",
     noAccount: "Chưa có tài khoản?",

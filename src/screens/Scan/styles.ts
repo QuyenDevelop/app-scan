@@ -1,3 +1,5 @@
+import { ScreenUtils } from "@helpers";
+import { Themes } from "@themes";
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
@@ -20,5 +22,13 @@ export default StyleSheet.create({
   },
   buttonTouchable: {
     padding: 16,
+  },
+  inputCode: {
+    borderWidth: 1,
+    paddingHorizontal: ScreenUtils.calculatorWidth(15),
+    paddingVertical: ScreenUtils.calculatorHeight(10),
+    width: "60%",
+    borderColor: Themes.colors.collGray40,
+    borderRadius: ScreenUtils.calculatorWidth(10),
   },
 });

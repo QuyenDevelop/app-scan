@@ -3,33 +3,46 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { HomeScreen, ScanScreen } from "@screens";
 import { Icon, translate } from "@shared";
-import { Themes } from "@themes";
+import { Images, Themes } from "@themes";
+import LottieView from "lottie-react-native";
 import React from "react";
 import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from "./styles";
 
-const getTabBarIcon = (iconName: string, title: string, focused: boolean) => (
-  <View style={styles.tabBarIcon}>
-    <View>
-      <Icon
-        name={focused ? `${iconName}_fill` : iconName}
-        size={24}
-        color={focused ? Themes.colors.primary : Themes.colors.coolGray}
-      />
-    </View>
-    <Text
-      style={[
-        styles.tabBarText,
-        focused
-          ? { color: Themes.colors.primary }
-          : { color: Themes.colors.coolGray },
-      ]}
-    >
-      {title}
-    </Text>
-  </View>
-);
+const getTabBarIcon = (iconName: string, title: string, focused: boolean) => {
+  return (
+    <>
+      {title === translate("label.tab.scan") ? (
+        <LottieView
+          source={focused ? Images.qrIconFill : Images.qrIcon}
+          autoPlay
+          loop
+        />
+      ) : (
+        <View style={styles.tabBarIcon}>
+          <View>
+            <Icon
+              name={focused ? `${iconName}_fill` : iconName}
+              size={24}
+              color={focused ? Themes.colors.primary : Themes.colors.coolGray}
+            />
+          </View>
+          <Text
+            style={[
+              styles.tabBarText,
+              focused
+                ? { color: Themes.colors.primary }
+                : { color: Themes.colors.coolGray },
+            ]}
+          >
+            {title}
+          </Text>
+        </View>
+      )}
+    </>
+  );
+};
 
 export type HomeParamsList = {
   [SCREENS.HOME_SCREEN]: undefined;
@@ -73,7 +86,7 @@ export function BottomTabNavigator() {
   const insets = useSafeAreaInsets();
   return (
     <Tab.Navigator
-      initialRouteName={SCREENS.HOME_SCREEN}
+      initialRouteName={SCREENS.SCAN_STACK}
       tabBarOptions={{
         activeTintColor: "white",
         showLabel: false,
@@ -93,6 +106,14 @@ export function BottomTabNavigator() {
         }}
       />
       <Tab.Screen
+        name={SCREENS.LIST_SCAN_STACK}
+        component={ScanStack}
+        options={{
+          tabBarIcon: ({ focused }) =>
+            getTabBarIcon("ic_order", translate("label.tab.listScan"), focused),
+        }}
+      />
+      <Tab.Screen
         name={SCREENS.SCAN_STACK}
         component={ScanStack}
         options={{
@@ -109,11 +130,11 @@ export function BottomTabNavigator() {
         }}
       />
       <Tab.Screen
-        name={SCREENS.SHIPMENT_STACK}
+        name={SCREENS.MENU_STACK}
         component={HomeStack}
         options={{
           tabBarIcon: ({ focused }) =>
-            getTabBarIcon("ic_user", translate("label.tab.shipment"), focused),
+            getTabBarIcon("ic_home", translate("label.tab.menu"), focused),
         }}
       />
     </Tab.Navigator>
