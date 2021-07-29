@@ -43,10 +43,10 @@
 	<array>
 		<string>armv7</string>
 	</array>
-  <key>NSCameraUsageDescription</key>
-  <string>Need camera access for upload images</string>
-  <key>NSPhotoLibraryUsageDescription</key>
-  <string>Need photo library access for upload images</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Need camera access for upload images</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Need photo library access for upload images</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -74,34 +74,34 @@
 		<string>Oswald-Regular.ttf</string>
 		<string>Oswald-SemiBold.ttf</string>
 	</array>
-  <key>CFBundleURLTypes</key>
-  <array>
-    <dict>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>fb824013764887974</string>
-      </array>
-    </dict>
-    <dict>
-      <key>CFBundleTypeRole</key>
-      <string>Editor</string>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>com.googleusercontent.apps.526209044156-0581th3ge13f3dgrp4mph879mm1e868s</string>
-      </array>
-    </dict>
-    <dict>
-      <key>CFBundleTypeRole</key>
-      <string>Editor</string>
-      <key>CFBundleURLName</key>
-      <string>jp.ezbuy.ezbuyRn</string>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>ezbuyRn</string>
-        <string>iddev.ezbuy.jp</string>
-      </array>
-    </dict>
-  </array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb824013764887974</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.526209044156-0581th3ge13f3dgrp4mph879mm1e868s</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>jp.ezbuy.ezbuyRn</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>ezbuyRn</string>
+				<string>iddev.ezbuy.jp</string>
+			</array>
+		</dict>
+	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
