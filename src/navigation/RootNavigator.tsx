@@ -1,5 +1,9 @@
 import { SCREENS } from "@configs";
-import { AuthStackNavigation, BottomTabNavigator } from "@navigation";
+import {
+  AuthStackNavigation,
+  BottomTabNavigator,
+  ShipmentStackNavigation,
+} from "@navigation";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 
@@ -8,6 +12,7 @@ const RootStack = createStackNavigator<RootParamList>();
 export type RootParamList = {
   [SCREENS.BOTTOM_TAB_NAVIGATION]: undefined;
   [SCREENS.AUTH_STACK]: undefined;
+  [SCREENS.SHIPMENT_STACK]: undefined;
 };
 
 export function RootNavigator() {
@@ -32,6 +37,10 @@ export function RootNavigator() {
         options={{
           gestureEnabled: false,
         }}
+      />
+      <RootStack.Screen
+        name={SCREENS.SHIPMENT_STACK}
+        component={ShipmentStackNavigation}
       />
     </RootStack.Navigator>
   );

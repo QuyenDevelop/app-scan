@@ -1,7 +1,14 @@
 import { SCREENS } from "@configs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { HomeScreen, ScanScreen } from "@screens";
+import {
+  HomeScreen,
+  ScanScreen,
+  ShipmentDetailScreen,
+  ShipmentDetailScreenParams,
+  UploadScreen,
+  UploadScreenParams,
+} from "@screens";
 import { Icon, translate } from "@shared";
 import { Images, Themes } from "@themes";
 import LottieView from "lottie-react-native";
@@ -23,7 +30,7 @@ const getTabBarIcon = (iconName: string, title: string, focused: boolean) => {
         <View style={styles.tabBarIcon}>
           <View>
             <Icon
-              name={focused ? `${iconName}_fill` : iconName}
+              name={iconName}
               size={24}
               color={focused ? Themes.colors.primary : Themes.colors.coolGray}
             />
@@ -50,6 +57,8 @@ export type HomeParamsList = {
 
 export type ScanParamsList = {
   [SCREENS.SCAN_SCREEN]: undefined;
+  [SCREENS.SHIPMENT_DETAIL_SCREEN]: ShipmentDetailScreenParams;
+  [SCREENS.UPLOAD_SCREEN]: UploadScreenParams;
 };
 const Tab = createBottomTabNavigator();
 const HomeStackNavigator = createStackNavigator<HomeParamsList>();
@@ -74,6 +83,20 @@ function ScanStack() {
       <ScanStackNavigator.Screen
         name={SCREENS.SCAN_SCREEN}
         component={ScanScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <ScanStackNavigator.Screen
+        name={SCREENS.SHIPMENT_DETAIL_SCREEN}
+        component={ShipmentDetailScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <ScanStackNavigator.Screen
+        name={SCREENS.UPLOAD_SCREEN}
+        component={UploadScreen}
         options={{
           headerShown: false,
         }}
@@ -126,7 +149,7 @@ export function BottomTabNavigator() {
         component={HomeStack}
         options={{
           tabBarIcon: ({ focused }) =>
-            getTabBarIcon("ic_home", translate("label.tab.cod"), focused),
+            getTabBarIcon("ic_cod", translate("label.tab.cod"), focused),
         }}
       />
       <Tab.Screen
@@ -134,7 +157,7 @@ export function BottomTabNavigator() {
         component={HomeStack}
         options={{
           tabBarIcon: ({ focused }) =>
-            getTabBarIcon("ic_home", translate("label.tab.menu"), focused),
+            getTabBarIcon("ic_menu", translate("label.tab.menu"), focused),
         }}
       />
     </Tab.Navigator>

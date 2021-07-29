@@ -1,7 +1,7 @@
 import { customerApi } from "@api";
 import { Header } from "@components";
 import { SCREENS } from "@configs";
-import { ScreenUtils, Utils } from "@helpers";
+import { Alert, ScreenUtils, Utils } from "@helpers";
 import { useNavigation } from "@react-navigation/native";
 import { AccountAction, IRootState } from "@redux";
 import { Button, Checkbox, Icon, TextInput, translate } from "@shared";
@@ -65,16 +65,16 @@ export const LoginScreen: FunctionComponent = () => {
         {
           onFailure: (err: any) => {
             console.log("🚀🚀🚀 => loginWithEmail => err", err);
-            // if (err && err.locked) {
-            //   navigation.navigate(SCREENS.LOCKED_SCREEN, {
-            //     countDown: err.error_description || "0",
-            //   });
-            // } else {
-            //   Alert.error(
-            //     err.error_description || translate("error.generic"),
-            //     true,
-            //   );
-            // }
+            if (err && err.locked) {
+              navigation.navigate(SCREENS.LOCKED_SCREEN, {
+                countDown: err.error_description || "0",
+              });
+            } else {
+              Alert.error(
+                err.error_description || translate("error.generic"),
+                true,
+              );
+            }
             setIsLoading(false);
           },
           onSuccess: () => {

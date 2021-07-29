@@ -6,6 +6,9 @@ export default {
       scan: "Quét",
       cod: "COD",
       menu: "Menu",
+      generalInfoTab: "Thông tin",
+      contentInfoTab: "Nội dung",
+      addServicesTab: "Dịch vụ",
     },
     login: "Đăng nhập",
     noAccount: "Chưa có tài khoản?",
@@ -21,6 +24,7 @@ export default {
     remember: "Nhớ tài khoản",
     forgotPassword: "Quên mật khẩu?",
     login: "Đăng nhập",
+    back: "Quay lại",
   },
   placeholder: {
     email: "Nhập email",

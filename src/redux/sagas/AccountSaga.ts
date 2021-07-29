@@ -1,6 +1,7 @@
 import { authApi } from "@api";
 import { CONSTANT } from "@configs";
 import { Utils } from "@helpers";
+import { Account } from "@models";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { AuthorizeResult } from "@types";
@@ -69,7 +70,26 @@ export function* takeLogout({
   );
 }
 
+export function* takeGetUserInfo({
+  callbacks,
+  type,
+}: UnfoldSagaActionType): Iterable<SagaIterator> {
+  yield unfoldSaga(
+    {
+      handler: async (): Promise<Account | undefined> => {
+        const data = await authApi.getUserInfo();
+        console.log("🚀🚀🚀 => handler: => data", data);
+
+        return data;
+      },
+      key: type,
+    },
+    callbacks,
+  );
+}
+
 export default function* accountSaga(): SagaIterator {
   yield takeLatest(AccountActionType.LOGIN, takeLogin);
   yield takeLatest(AccountActionType.LOGOUT, takeLogout);
+  yield takeLatest(AccountActionType.GET_USER_INFO, takeGetUserInfo);
 }

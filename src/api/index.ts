@@ -1,5 +1,14 @@
 import accountApi from "./account-api";
+import addServiceApi from "./addService-api";
 import authApi from "./auth-api";
 import customerApi from "./customer-api";
-
-export { authApi, accountApi, customerApi };
+import serviceApi from "./service-api";
+import shipmentApi from "./shipment-api";
+export {
+  authApi,
+  accountApi,
+  customerApi,
+  shipmentApi,
+  serviceApi,
+  addServiceApi,
+};
