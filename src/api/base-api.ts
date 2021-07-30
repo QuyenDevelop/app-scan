@@ -45,6 +45,7 @@ export class BaseApi {
       })
       .then(response => response && response.data)
       .catch(error => {
+        console.log("🚀🚀🚀 => post => error", error);
         return this.onFailed(error);
       });
   }

@@ -1,6 +1,10 @@
 import { SCREENS } from "@configs";
 import { NavigationUtils } from "@helpers";
-import { LoginRouteParams, ShipmentDetailScreenParams } from "@screens";
+import {
+  LoginRouteParams,
+  ShipmentDetailScreenParams,
+  UploadScreenParams,
+} from "@screens";
 
 export const goToLogin = (params?: LoginRouteParams) => {
   NavigationUtils.navigate(SCREENS.AUTH_STACK, {
@@ -15,8 +19,8 @@ export const goToRegister = () => {
   });
 };
 
-export const goToUpload = () => {
-  NavigationUtils.navigate(SCREENS.UPLOAD_SCREEN);
+export const goToUpload = (routeParams: UploadScreenParams) => {
+  NavigationUtils.navigate(SCREENS.UPLOAD_SCREEN, routeParams);
 };
 
 export const goToShipmentDetail = (routeParams: ShipmentDetailScreenParams) => {
@@ -24,4 +28,8 @@ export const goToShipmentDetail = (routeParams: ShipmentDetailScreenParams) => {
     name: SCREENS.SHIPMENT_DETAIL_SCREEN,
     params: routeParams,
   });
+};
+
+export const goToPhotoLibrary = (routeParams: PhotoLibraryScreenParams) => {
+  NavigationUtils.navigate(SCREENS.PHOTO_LIBRARY_SCREEN, routeParams);
 };

@@ -136,4 +136,16 @@ export default StyleSheet.create({
     borderColor: Themes.colors.collGray40,
     borderRadius: ScreenUtils.calculatorWidth(10),
   },
+  logoutContainer: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  logoutTitle: {
+    ...Themes.font.bold,
+    fontSize: 18,
+    color: Themes.colors.textPrimary,
+    marginBottom: ScreenUtils.calculatorHeight(15),
+  },
 });

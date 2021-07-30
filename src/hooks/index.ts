@@ -3,3 +3,4 @@ export * from "./useIsMounted";
 export * from "./useLoading";
 export * from "./useShow";
 export * from "./useStatusBar";
+export * from "./useToggle";

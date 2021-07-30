@@ -61,17 +61,6 @@ export const accountReducer: Reducer<IUserState, UnfoldSagaActionType> = (
       ):
         draftState.language = payload;
         break;
-      // case createActionTypeOnSuccess(AccountActionType.CHANGE_CURRENCY):
-      //   draftState.currency = payload;
-      //   break;
-      // case createActionTypeOnSuccess(
-      //   AccountActionType.CHANGE_CURRENCY_WITH_LAUNCH,
-      // ):
-      //   draftState.currency = payload;
-      //   break;
-      // case createActionTypeOnSuccess(AccountActionType.CHANGE_WEBSITE):
-      //   draftState.websiteShopping = payload;
-      //   break;
       case createActionTypeOnSuccess(AccountActionType.CHANGE_LOADING):
         draftState.loading = payload;
         break;

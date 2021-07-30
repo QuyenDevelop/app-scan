@@ -44,7 +44,7 @@ export default StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: ScreenUtils.calculatorHeight(30),
+    marginTop: ScreenUtils.calculatorHeight(10),
   },
   scanButton: {
     marginHorizontal: ScreenUtils.calculatorWidth(5),

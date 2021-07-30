@@ -7,9 +7,10 @@ import { ServiceInfo } from "./ServiceInfo";
 import styles from "./styles";
 interface Props {
   addServices: Array<ShipmentAddServiceResponse>;
+  shipment: string;
 }
 export const AddServicesTab: FunctionComponent<Props> = props => {
-  const { addServices } = props;
+  const { addServices, shipment } = props;
   const idServices = addServices.map(service => service.CargoAddServiceId);
   const [listService, setListService] =
     useState<Array<AddServiceShipmentResponse>>();
@@ -53,7 +54,12 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
       selectedService(item);
     };
     return (
-      <ServiceInfo item={item} isSelected={isSelected} onSelect={onSelect} />
+      <ServiceInfo
+        item={item}
+        isSelected={isSelected}
+        onSelect={onSelect}
+        shipment={shipment}
+      />
     );
   };
   return (

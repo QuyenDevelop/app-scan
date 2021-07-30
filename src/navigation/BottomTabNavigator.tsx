@@ -3,6 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import {
   HomeScreen,
+  PhotoLibraryScreen,
+  PhotoLibraryScreenParams,
   ScanScreen,
   ShipmentDetailScreen,
   ShipmentDetailScreenParams,
@@ -59,6 +61,7 @@ export type ScanParamsList = {
   [SCREENS.SCAN_SCREEN]: undefined;
   [SCREENS.SHIPMENT_DETAIL_SCREEN]: ShipmentDetailScreenParams;
   [SCREENS.UPLOAD_SCREEN]: UploadScreenParams;
+  [SCREENS.PHOTO_LIBRARY_SCREEN]: PhotoLibraryScreenParams;
 };
 const Tab = createBottomTabNavigator();
 const HomeStackNavigator = createStackNavigator<HomeParamsList>();
@@ -101,6 +104,13 @@ function ScanStack() {
           headerShown: false,
         }}
       />
+      <ScanStackNavigator.Screen
+        name={SCREENS.PHOTO_LIBRARY_SCREEN}
+        component={PhotoLibraryScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
     </ScanStackNavigator.Navigator>
   );
 }
@@ -130,7 +140,7 @@ export function BottomTabNavigator() {
       />
       <Tab.Screen
         name={SCREENS.LIST_SCAN_STACK}
-        component={ScanStack}
+        component={HomeStack}
         options={{
           tabBarIcon: ({ focused }) =>
             getTabBarIcon("ic_order", translate("label.tab.listScan"), focused),

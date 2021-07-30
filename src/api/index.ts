@@ -4,6 +4,7 @@ import authApi from "./auth-api";
 import customerApi from "./customer-api";
 import serviceApi from "./service-api";
 import shipmentApi from "./shipment-api";
+import uploadApi from "./upload-api";
 export {
   authApi,
   accountApi,
@@ -11,4 +12,5 @@ export {
   shipmentApi,
   serviceApi,
   addServiceApi,
+  uploadApi,
 };

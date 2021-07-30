@@ -14,6 +14,7 @@ export const ItemInfo: FunctionComponent<Props> = props => {
         <Text>Comodity: {item?.CommodityText}</Text>
         <Text>Quantity: {item?.Quantity}</Text>
         <Text>Unit: {item?.QuantityUnitCode}</Text>
+        <Text>Value: {item?.Price}</Text>
       </View>
       <View />
     </View>

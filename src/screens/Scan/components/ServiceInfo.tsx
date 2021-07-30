@@ -1,3 +1,4 @@
+import { AddServiceShipmentResponse } from "@models";
 import { goToUpload } from "@navigation";
 import { Checkbox, Icon } from "@shared";
 import { FontFamily, Metrics, Themes } from "@themes";
@@ -10,12 +11,16 @@ import {
 } from "react-native";
 import styles from "./styles";
 interface Props {
-  item: any;
+  item: AddServiceShipmentResponse;
   isSelected: boolean;
   onSelect: () => void;
+  shipment: string;
 }
 export const ServiceInfo: FunctionComponent<Props> = props => {
-  const { item, isSelected, onSelect } = props;
+  const { item, isSelected, onSelect, shipment } = props;
+  const goToUploadImage = () => {
+    goToUpload({ shipment: shipment, service: item.Code });
+  };
   return (
     <TouchableWithoutFeedback onPress={onSelect}>
       <View style={styles.serviceInfoContainer}>
@@ -36,7 +41,7 @@ export const ServiceInfo: FunctionComponent<Props> = props => {
               <TouchableOpacity
                 style={styles.button}
                 hitSlop={styles.hitSlop}
-                onPress={goToUpload}
+                onPress={goToUploadImage}
               >
                 <Icon
                   name="ic_camera-retro"

@@ -52,7 +52,12 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
         case "ContentInfoTab":
           return <ContentInfoTab shipmentItems={item.ShipmentItems} />;
         case "AddServicesTab":
-          return <AddServicesTab addServices={item.ShipmentCargoAddServices} />;
+          return (
+            <AddServicesTab
+              addServices={item.ShipmentCargoAddServices}
+              shipment={item.ShipmentNumber}
+            />
+          );
         default:
           return null;
       }
