@@ -17,6 +17,10 @@ export const CONSTANT = {
     FIRST_LAUNCH_APP: "first_launch_app",
     LANGUAGE: "language",
     ANONYMOUS_ID: "ANONYMOUS_ID",
+    UPLOAD_IMAGES: "upload_images",
   },
   REVOKE_TOKEN_ENDPOINT: "revocation",
+  EVENT_KEY: {
+    UPLOAD_IMAGES: "upload_images",
+  },
 };

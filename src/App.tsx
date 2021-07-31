@@ -8,15 +8,74 @@
  * @format
  */
 
-import { NavigationUtils, ScreenUtils } from "@helpers";
+import { uploadApi } from "@api";
+import { CONSTANT } from "@configs";
+import { getAsyncItem, NavigationUtils, ScreenUtils } from "@helpers";
+import { StorageImages } from "@models";
 import { RootNavigator } from "@navigation";
 import { NavigationContainer } from "@react-navigation/native";
 import { Themes } from "@themes";
-import React from "react";
-import { StatusBar, StyleSheet, View } from "react-native";
+import React, { useEffect } from "react";
+import { DeviceEventEmitter, StatusBar, StyleSheet, View } from "react-native";
+import BackgroundTimer from "react-native-background-timer";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-
 const App = () => {
+  const autoUpload = () => {
+    BackgroundTimer.runBackgroundTimer(async () => {
+      const listImages = await getAsyncItem(
+        CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
+      );
+      if (!listImages || listImages.length === 0) {
+        BackgroundTimer.stopBackgroundTimer();
+      } else {
+        listImages.map(item => {
+          const { shipment, service, photos } = item;
+          const uploadSuccess = [];
+          photos.map(photo => {
+            const fileName = `${shipment}_${service}_${new Date().getTime()}.jpg`;
+            console.log(
+              "🚀🚀🚀 => BackgroundTimer.runBackgroundTimer => fileName",
+              fileName,
+            );
+            const imageForm = new FormData();
+            imageForm.append("files", {
+              uri: photo,
+              type: "image/jpeg",
+              name: fileName,
+            });
+            uploadApi
+              .uploadImage(imageForm)
+              ?.then(response => {
+                uploadSuccess.push(photo);
+                console.log(
+                  "🚀🚀🚀 => uploadApi.uploadImage => response",
+                  response,
+                );
+              })
+              .catch(err => {
+                console.log("🚀🚀🚀 => uploadApi.uploadImage => err", err);
+              });
+          });
+        });
+      }
+    }, 1000000);
+  };
+
+  const uploadImage = () => {};
+
+  useEffect(() => {
+    autoUpload();
+    DeviceEventEmitter.addListener(
+      CONSTANT.EVENT_KEY.UPLOAD_IMAGES,
+      (value: StorageImages) => {
+        console.log("🚀🚀🚀 => useEffect => value", value);
+        // autoUpload();
+      },
+    );
+    return () => {
+      DeviceEventEmitter.removeAllListeners();
+    };
+  }, []);
   return (
     <SafeAreaProvider>
       <View style={styles.content}>

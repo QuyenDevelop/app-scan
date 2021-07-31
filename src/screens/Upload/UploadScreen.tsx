@@ -1,4 +1,3 @@
-import { uploadApi } from "@api";
 import { Header } from "@components";
 import { SCREENS } from "@configs";
 import { useToggle } from "@hooks";
@@ -39,21 +38,21 @@ export const UploadScreen: FunctionComponent = () => {
           console.log("save err: ", err);
         });
 
-      const fileName = `${shipment}_${service}_${new Date().getTime()}.jpg`;
-      const imageForm = new FormData();
-      imageForm.append("files", {
-        uri: data.uri,
-        type: "image/jpeg",
-        name: fileName,
-      });
-      uploadApi
-        .uploadImage(imageForm)
-        ?.then(response => {
-          console.log("🚀🚀🚀 => uploadApi.uploadImage => response", response);
-        })
-        .catch(err => {
-          console.log("🚀🚀🚀 => uploadApi.uploadImage => err", err);
-        });
+      // const fileName = `${shipment}_${service}_${new Date().getTime()}.jpg`;
+      // const imageForm = new FormData();
+      // imageForm.append("files", {
+      //   uri: data.uri,
+      //   type: "image/jpeg",
+      //   name: fileName,
+      // });
+      // uploadApi
+      //   .uploadImage(imageForm)
+      //   ?.then(response => {
+      //     console.log("🚀🚀🚀 => uploadApi.uploadImage => response", response);
+      //   })
+      //   .catch(err => {
+      //     console.log("🚀🚀🚀 => uploadApi.uploadImage => err", err);
+      //   });
     }
   };
 

@@ -39,4 +39,18 @@ export default StyleSheet.create({
     ...Themes.font.medium,
     color: Themes.colors.white,
   },
+  imageLibrary: {
+    width: "100%",
+    height: 80,
+    flex: 1,
+  },
+  iconCheck: {
+    position: "absolute",
+    bottom: 2,
+    right: 2,
+  },
+  imageView: {
+    flex: 0.25,
+    padding: 2,
+  },
 });
