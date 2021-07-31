@@ -1,7 +1,7 @@
 import { Header } from "@components";
 import { SCREENS } from "@configs";
 import { useToggle } from "@hooks";
-import { goToPhotoLibrary, ScanParamsList } from "@navigation";
+import { goToPhotoLibrary, ShipmentStackParamsList } from "@navigation";
 import CameraRoll from "@react-native-community/cameraroll";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { Themes } from "@themes";
@@ -11,7 +11,10 @@ import { RNCamera } from "react-native-camera";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from "./styles";
 
-type NavigationRoute = RouteProp<ScanParamsList, SCREENS.UPLOAD_SCREEN>;
+type NavigationRoute = RouteProp<
+  ShipmentStackParamsList,
+  SCREENS.UPLOAD_SCREEN
+>;
 export interface UploadScreenParams {
   shipment: string;
   service: string;

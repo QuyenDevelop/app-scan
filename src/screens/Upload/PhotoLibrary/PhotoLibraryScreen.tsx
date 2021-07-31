@@ -2,7 +2,7 @@ import { Header } from "@components";
 import { CONSTANT, SCREENS } from "@configs";
 import { getAsyncItem, setAsyncItem } from "@helpers";
 import { StorageImages } from "@models";
-import { ScanParamsList } from "@navigation";
+import { ShipmentStackParamsList } from "@navigation";
 import CameraRoll, {
   PhotoIdentifier,
 } from "@react-native-community/cameraroll";
@@ -13,7 +13,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ImageItem } from "./ImageItem";
 import styles from "./styles";
 
-type NavigationRoute = RouteProp<ScanParamsList, SCREENS.UPLOAD_SCREEN>;
+type NavigationRoute = RouteProp<
+  ShipmentStackParamsList,
+  SCREENS.UPLOAD_SCREEN
+>;
 export interface PhotoLibraryScreenParams {
   shipment: string;
   service: string;
