@@ -1,6 +1,6 @@
 import { Header } from "@components";
 import { CONSTANT, SCREENS } from "@configs";
-import { getAsyncItem, setAsyncItem } from "@helpers";
+import { Alert, getAsyncItem, setAsyncItem } from "@helpers";
 import { StorageImages } from "@models";
 import { ShipmentStackParamsList } from "@navigation";
 import CameraRoll, {
@@ -102,6 +102,10 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
 
     if (storage) {
       DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
+      setPhotosSelected([]);
+      Alert.success("Ảnh đang được upload tự động", true);
+    } else {
+      Alert.error("Đã có lỗi xảy ra, vui lòng thử lại", true);
     }
   };
 

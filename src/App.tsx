@@ -9,7 +9,12 @@
  */
 
 import { CONSTANT } from "@configs";
-import { autoUpload, NavigationUtils, ScreenUtils } from "@helpers";
+import {
+  autoUpload,
+  DropdownMessageHolder,
+  NavigationUtils,
+  ScreenUtils,
+} from "@helpers";
 import { RootNavigator } from "@navigation";
 import { NavigationContainer } from "@react-navigation/native";
 import { Themes } from "@themes";
@@ -17,10 +22,12 @@ import React, { useCallback, useEffect, useState } from "react";
 import {
   AppState,
   DeviceEventEmitter,
+  Platform,
   StatusBar,
   StyleSheet,
   View,
 } from "react-native";
+import DropdownAlert from "react-native-dropdownalert";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const App = () => {
@@ -60,12 +67,12 @@ const App = () => {
           <RootNavigator />
         </NavigationContainer>
       </View>
-      {/* <DropdownAlert
+      <DropdownAlert
         ref={(ref: DropdownAlert) => DropdownMessageHolder.setDropDown(ref)}
         closeInterval={5000}
         updateStatusBar={Platform.OS === "ios"}
       />
-      <ConfirmDialog
+      {/* <ConfirmDialog
         message={translate("label.needUpdate")}
         isVisible={isShowModal}
         onDismiss={() => setIsShowModal(false)}
@@ -74,8 +81,8 @@ const App = () => {
         }}
         onAcceptPress={() => confirmUpdate()}
         acceptText={translate("button.confirm")}
-      />
-      {loading && renderFullPageLoader()} */}
+      /> */}
+      {/* {loading && renderFullPageLoader()} */}
     </SafeAreaProvider>
   );
 };

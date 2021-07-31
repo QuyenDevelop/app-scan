@@ -23,4 +23,7 @@ export const CONSTANT = {
   EVENT_KEY: {
     UPLOAD_IMAGES: "upload_images",
   },
+  REALM_DB: {
+    ADD_SERVICE_PHOTO: "AddServicePhotos",
+  },
 };

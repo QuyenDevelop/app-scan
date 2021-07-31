@@ -145,7 +145,10 @@ export const ScanScreen: FunctionComponent = () => {
                 />
                 <TouchableOpacity
                   style={styles.scanButton}
-                  onPress={showQrCode}
+                  onPress={() => {
+                    Keyboard.dismiss();
+                    showQrCode();
+                  }}
                 >
                   <Icon
                     name="ic_scanner"
@@ -153,13 +156,13 @@ export const ScanScreen: FunctionComponent = () => {
                     color={Themes.colors.black}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.scanButton}>
+                {/* <TouchableOpacity style={styles.scanButton}>
                   <Icon
                     name="ic_arrow_right"
                     size={Metrics.icons.medium}
                     color={Themes.colors.black}
                   />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             </View>
           </TouchableWithoutFeedback>
