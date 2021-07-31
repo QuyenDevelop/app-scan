@@ -1,5 +1,6 @@
 export interface StorageImages {
+  id: number;
   shipment: string;
   service: string;
-  photo: Array<string>;
+  photos: Array<string>;
 }

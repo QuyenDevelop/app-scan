@@ -1,7 +1,11 @@
 import { Header } from "@components";
 import { CONSTANT, SCREENS } from "@configs";
+import { getAsyncItem, setAsyncItem } from "@helpers";
+import { StorageImages } from "@models";
 import { ScanParamsList } from "@navigation";
-import CameraRoll from "@react-native-community/cameraroll";
+import CameraRoll, {
+  PhotoIdentifier,
+} from "@react-native-community/cameraroll";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { DeviceEventEmitter, FlatList, View } from "react-native";
@@ -20,9 +24,9 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const route = useRoute<NavigationRoute>();
   const { shipment, service } = route?.params;
-  const [photos, setPhotos] = useState([]);
+  const [photos, setPhotos] = useState<Array<PhotoIdentifier>>([]);
   const [photosSelected, setPhotosSelected] = useState<Array<string>>([]);
-  const [after, setAfter] = useState();
+  const [after, setAfter] = useState<string>();
   const [hasNextPage, setHasNextPage] = useState(false);
   const getAllPhotos = () => {
     CameraRoll.getPhotos({
@@ -31,7 +35,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
       after: after,
     })
       .then(r => {
-        setPhotos(photos => [...photos, ...r.edges]);
+        setPhotos(p => [...p, ...r.edges]);
         setAfter(r.page_info.end_cursor);
         setHasNextPage(r.page_info.has_next_page);
       })
@@ -64,42 +68,38 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
   };
 
   const uploadImages = async () => {
-    // const listImages = await getAsyncItem(
-    //   CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
-    // );
+    const listImages = await getAsyncItem(
+      CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
+    );
 
-    // let listPush: Array<any> = [];
-    // if (listImages) {
-    //   listPush = [
-    //     ...listImages,
-    //     {
-    //       shipment: shipment,
-    //       service: service,
-    //       photos: photosSelected,
-    //     },
-    //   ];
-    // } else {
-    //   listPush.push({
-    //     shipment: shipment,
-    //     service: service,
-    //     photos: photosSelected,
-    //   });
-    // }
+    let listPush: Array<StorageImages> = [];
+    if (listImages) {
+      listPush = [
+        ...listImages,
+        {
+          id: new Date().getTime(),
+          shipment: shipment,
+          service: service,
+          photos: photosSelected,
+        },
+      ];
+    } else {
+      listPush.push({
+        id: new Date().getTime(),
+        shipment: shipment,
+        service: service,
+        photos: photosSelected,
+      });
+    }
 
-    // const storage = await setAsyncItem(
-    //   CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
-    //   listPush,
-    // );
+    const storage = await setAsyncItem(
+      CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
+      listPush,
+    );
 
-    // if (storage) {
-    //   DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
-    // }
-
-    DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES, {
-      shipment: shipment,
-      service: service,
-      photos: photosSelected,
-    });
+    if (storage) {
+      DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
+    }
   };
 
   const renderItem = ({ item }: { item: any }) => {

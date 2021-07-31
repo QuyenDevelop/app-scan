@@ -71,7 +71,6 @@ export const ScanScreen: FunctionComponent = () => {
     );
 
     if (accessToken) {
-      console.log("🚀🚀🚀 => authenticate => accessToken", accessToken);
       dispatch(
         AccountAction.userInfo(
           {},

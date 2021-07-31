@@ -78,8 +78,6 @@ export function* takeGetUserInfo({
     {
       handler: async (): Promise<Account | undefined> => {
         const data = await authApi.getUserInfo();
-        console.log("🚀🚀🚀 => handler: => data", data);
-
         return data;
       },
       key: type,

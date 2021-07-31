@@ -38,6 +38,7 @@ export class BaseApi {
 
   post(uri: string, data: any, params: any, noPrefix = false) {
     const url = this.createUrl(uri, noPrefix);
+    console.log("🚀🚀🚀 => post => url", url);
     return AxiosService.getAxiosInstance()
       ?.post(url, data, {
         params,

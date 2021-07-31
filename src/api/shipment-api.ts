@@ -9,6 +9,10 @@ class ShipmentApi extends BaseApi {
   scanShipment(value: string) {
     return this.get<ScanShipmentResponse>("scan-shipment", { keyword: value });
   }
+
+  uploadImage(data: FormData) {
+    return this.post("upload-image-cargoraddservice", data, {});
+  }
 }
 
 export default new ShipmentApi("shipment");

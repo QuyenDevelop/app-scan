@@ -37,22 +37,6 @@ export const UploadScreen: FunctionComponent = () => {
         .catch(err => {
           console.log("save err: ", err);
         });
-
-      // const fileName = `${shipment}_${service}_${new Date().getTime()}.jpg`;
-      // const imageForm = new FormData();
-      // imageForm.append("files", {
-      //   uri: data.uri,
-      //   type: "image/jpeg",
-      //   name: fileName,
-      // });
-      // uploadApi
-      //   .uploadImage(imageForm)
-      //   ?.then(response => {
-      //     console.log("🚀🚀🚀 => uploadApi.uploadImage => response", response);
-      //   })
-      //   .catch(err => {
-      //     console.log("🚀🚀🚀 => uploadApi.uploadImage => err", err);
-      //   });
     }
   };
 
