@@ -1,16 +1,7 @@
 import { SCREENS } from "@configs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import {
-  HomeScreen,
-  PhotoLibraryScreen,
-  PhotoLibraryScreenParams,
-  ScanScreen,
-  ShipmentDetailScreen,
-  ShipmentDetailScreenParams,
-  UploadScreen,
-  UploadScreenParams,
-} from "@screens";
+import { HomeScreen, ScanScreen } from "@screens";
 import { Icon, translate } from "@shared";
 import { Images, Themes } from "@themes";
 import LottieView from "lottie-react-native";
@@ -59,9 +50,6 @@ export type HomeParamsList = {
 
 export type ScanParamsList = {
   [SCREENS.SCAN_SCREEN]: undefined;
-  [SCREENS.SHIPMENT_DETAIL_SCREEN]: ShipmentDetailScreenParams;
-  [SCREENS.UPLOAD_SCREEN]: UploadScreenParams;
-  [SCREENS.PHOTO_LIBRARY_SCREEN]: PhotoLibraryScreenParams;
 };
 const Tab = createBottomTabNavigator();
 const HomeStackNavigator = createStackNavigator<HomeParamsList>();
@@ -86,27 +74,6 @@ function ScanStack() {
       <ScanStackNavigator.Screen
         name={SCREENS.SCAN_SCREEN}
         component={ScanScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <ScanStackNavigator.Screen
-        name={SCREENS.SHIPMENT_DETAIL_SCREEN}
-        component={ShipmentDetailScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <ScanStackNavigator.Screen
-        name={SCREENS.UPLOAD_SCREEN}
-        component={UploadScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <ScanStackNavigator.Screen
-        name={SCREENS.PHOTO_LIBRARY_SCREEN}
-        component={PhotoLibraryScreen}
         options={{
           headerShown: false,
         }}

@@ -44,7 +44,12 @@ export const UploadScreen: FunctionComponent = () => {
     goToPhotoLibrary({ shipment: shipment, service: service });
   };
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <View
+      style={[
+        styles.container,
+        { paddingTop: insets.top, paddingBottom: insets.bottom },
+      ]}
+    >
       <Header
         title="Upload Image"
         iconLeftName={["ic_arrow_left"]}

@@ -2,6 +2,7 @@ import { SCREENS } from "@configs";
 import { NavigationUtils } from "@helpers";
 import {
   LoginRouteParams,
+  PhotoLibraryScreenParams,
   ShipmentDetailScreenParams,
   UploadScreenParams,
 } from "@screens";
@@ -20,16 +21,22 @@ export const goToRegister = () => {
 };
 
 export const goToUpload = (routeParams: UploadScreenParams) => {
-  NavigationUtils.navigate(SCREENS.UPLOAD_SCREEN, routeParams);
+  NavigationUtils.navigate(SCREENS.SHIPMENT_STACK, {
+    screen: SCREENS.UPLOAD_SCREEN,
+    params: routeParams,
+  });
 };
 
 export const goToShipmentDetail = (routeParams: ShipmentDetailScreenParams) => {
   NavigationUtils.navigate(SCREENS.SHIPMENT_STACK, {
-    name: SCREENS.SHIPMENT_DETAIL_SCREEN,
+    screen: SCREENS.SHIPMENT_DETAIL_SCREEN,
     params: routeParams,
   });
 };
 
 export const goToPhotoLibrary = (routeParams: PhotoLibraryScreenParams) => {
-  NavigationUtils.navigate(SCREENS.PHOTO_LIBRARY_SCREEN, routeParams);
+  NavigationUtils.navigate(SCREENS.SHIPMENT_STACK, {
+    screen: SCREENS.PHOTO_LIBRARY_SCREEN,
+    params: routeParams,
+  });
 };

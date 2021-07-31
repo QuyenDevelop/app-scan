@@ -114,7 +114,12 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
   };
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <View
+      style={[
+        styles.container,
+        { paddingTop: insets.top, paddingBottom: insets.bottom },
+      ]}
+    >
       <Header
         title="Photo library"
         iconLeftName={["ic_arrow_left"]}

@@ -1,5 +1,5 @@
-import { SCREENS } from "@configs";
 import { ShipmentResponse } from "@models";
+import { goToShipmentDetail } from "@navigation";
 import { useNavigation } from "@react-navigation/native";
 import React, { FunctionComponent } from "react";
 import { Text, TouchableWithoutFeedback, View } from "react-native";
@@ -12,10 +12,7 @@ export const Shipment: FunctionComponent<Props> = props => {
   const navigation = useNavigation();
 
   const goToDetails = () => {
-    // goToShipmentDetail({ item });
-    navigation.navigate(SCREENS.SHIPMENT_DETAIL_SCREEN, {
-      item,
-    });
+    goToShipmentDetail({ item });
   };
   return (
     <TouchableWithoutFeedback onPress={goToDetails}>
