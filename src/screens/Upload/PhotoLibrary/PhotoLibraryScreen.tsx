@@ -75,24 +75,18 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
       CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
     );
 
+    const current = new Date().getTime();
+    const savePhotos = photosSelected.map((image: string, index: number) => {
+      return {
+        name: `${shipment}_${service}_${current}_${index}.jpg`,
+        uri: image,
+      };
+    });
     let listPush: Array<StorageImages> = [];
     if (listImages) {
-      listPush = [
-        ...listImages,
-        {
-          id: new Date().getTime(),
-          shipment: shipment,
-          service: service,
-          photos: photosSelected,
-        },
-      ];
+      listPush = [...listImages, ...savePhotos];
     } else {
-      listPush.push({
-        id: new Date().getTime(),
-        shipment: shipment,
-        service: service,
-        photos: photosSelected,
-      });
+      listPush = [...savePhotos];
     }
 
     const storage = await setAsyncItem(

@@ -1,53 +1,20 @@
 import { shipmentApi } from "@api";
 import { CONSTANT } from "@configs";
 import { getAsyncItem, setAsyncItem } from "@helpers";
-import { StorageImages } from "@models";
 import BackgroundTimer from "react-native-background-timer";
 
-export const uploadImage = async (images: StorageImages) => {
-  const { shipment, service, photos } = images;
-  const uploadFail: Array<string> = [];
+export const removeImage = async (name: string) => {
+  const presentImages = await getAsyncItem(
+    CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
+  );
 
-  //upload image
-  photos.map(async (photo: string) => {
-    const fileName = `${shipment}_${service}_${new Date().getTime()}.jpg`;
-    const imageForm = new FormData();
-    imageForm.append("files", {
-      uri: photo,
-      type: "image/jpeg",
-      name: fileName,
-    });
-    await shipmentApi.uploadImage(imageForm)?.catch(() => {
-      uploadFail.push(photo);
-    });
-  });
-
-  // save image fail
-  if (uploadFail.length > 0) {
-    const listImages = await getAsyncItem(
-      CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
-    );
-    let listPush: Array<StorageImages> = [];
-    if (listImages) {
-      listPush = [
-        ...listImages,
-        {
-          ...images,
-          photos: uploadFail,
-        },
-      ];
-    } else {
-      listPush.push({
-        ...images,
-        photos: uploadFail,
-      });
-    }
-
-    setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES, listPush);
+  if (presentImages && Array.isArray(presentImages)) {
+    const newList = presentImages.filter(image => image.name !== name);
+    await setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES, newList);
   }
 };
 
-export const autoUpload = (
+export const autoUpload = async (
   allowUpdate: boolean,
   updateUploadState: (value: boolean) => void,
 ) => {
@@ -64,68 +31,30 @@ export const autoUpload = (
     const listImages = await getAsyncItem(
       CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
     );
-    console.log(
-      "🚀🚀🚀 => BackgroundTimer.runBackgroundTimer => listImages",
-      listImages,
-    );
 
-    if (!listImages || listImages.length === 0) {
+    if (!listImages || !Array.isArray(listImages) || listImages.length === 0) {
       BackgroundTimer.stopBackgroundTimer();
       updateUploadState(true);
       return;
     }
 
-    await Promise.all(
-      listImages.map(async (item: StorageImages) => {
-        const { shipment, service, photos } = item;
-        await Promise.all(
-          photos.map(async (photo: string) => {
-            const fileName = `${shipment}_${service}_${new Date().getTime()}.jpg`;
-            const imageForm = new FormData();
-            imageForm.append("files", {
-              uri: photo,
-              type: "image/jpeg",
-              name: fileName,
-            });
-            await shipmentApi.uploadImage(imageForm)?.then(async () => {
-              const presentImages = await getAsyncItem(
-                CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
-              );
+    for (const item of listImages) {
+      const { name, uri } = item;
+      const imageForm = new FormData();
+      imageForm.append("files", {
+        uri: uri,
+        type: "image/jpeg",
+        name: name,
+      });
 
-              for (const presentImage of presentImages) {
-                if (presentImage.id === item.id) {
-                  const newPhotos = presentImage.photos.filter(
-                    (p: string) => p !== photo,
-                  );
-
-                  if (newPhotos.length === 0) {
-                    await setAsyncItem(
-                      CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
-                      presentImages.filter(
-                        (imageStore: StorageImages) =>
-                          imageStore.id !== presentImage.id,
-                      ),
-                    );
-                  } else {
-                    await setAsyncItem(
-                      CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
-                      presentImages.map((imageStore: StorageImages) => {
-                        if (imageStore.id !== presentImage.id) {
-                          return imageStore;
-                        } else {
-                          return { ...imageStore, photos: newPhotos };
-                        }
-                      }),
-                    );
-                  }
-
-                  break;
-                }
-              }
-            });
-          }),
-        );
-      }),
-    );
-  }, 20000);
+      await shipmentApi
+        .uploadImage(imageForm)
+        ?.then(async () => {
+          removeImage(name);
+        })
+        .catch(() => {
+          console.log("🚀🚀🚀 => listImages.map => upload fail", item.name);
+        });
+    }
+  }, 100000);
 };

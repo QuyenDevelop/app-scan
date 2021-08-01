@@ -47,7 +47,6 @@ const App = () => {
   }, [isAllowUpdate]);
 
   useEffect(() => {
-    autoUpload(true, setIsAllowUpdate);
     AppState.addEventListener("change", handleAppStateChange);
     DeviceEventEmitter.addListener(
       CONSTANT.EVENT_KEY.UPLOAD_IMAGES,
