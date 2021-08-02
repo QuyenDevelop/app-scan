@@ -15,9 +15,10 @@ interface Props {
   isSelected: boolean;
   onSelect: () => void;
   shipment: string;
+  isHandled: boolean;
 }
 export const ServiceInfo: FunctionComponent<Props> = props => {
-  const { item, isSelected, onSelect, shipment } = props;
+  const { item, isSelected, onSelect, shipment, isHandled } = props;
   const goToUploadImage = () => {
     goToUpload({ shipment: shipment, service: item.Code });
   };
@@ -29,7 +30,14 @@ export const ServiceInfo: FunctionComponent<Props> = props => {
           <Text
             style={[
               styles.serviceLabel,
-              { fontFamily: isSelected ? FontFamily.bold : FontFamily.medium },
+              {
+                fontFamily: isSelected ? FontFamily.bold : FontFamily.medium,
+                color: !isSelected
+                  ? Themes.colors.textPrimary
+                  : isHandled
+                  ? Themes.colors.success60
+                  : Themes.colors.red0722,
+              },
             ]}
           >
             [{item.Code}] {item.Name}

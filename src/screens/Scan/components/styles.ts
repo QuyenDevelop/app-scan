@@ -148,4 +148,16 @@ export default StyleSheet.create({
     color: Themes.colors.textPrimary,
     marginBottom: ScreenUtils.calculatorHeight(15),
   },
+  generalTab: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "flex-start",
+  },
+  generalInfo: {
+    flexDirection: "column",
+    justifyContent: "flex-start",
+  },
+  updateButton: {
+    minWidth: ScreenUtils.calculatorWidth(100),
+  },
 });

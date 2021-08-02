@@ -1,6 +1,5 @@
 import { ShipmentResponse } from "@models";
 import { goToShipmentDetail } from "@navigation";
-import { useNavigation } from "@react-navigation/native";
 import React, { FunctionComponent } from "react";
 import { Text, TouchableWithoutFeedback, View } from "react-native";
 import styles from "./styles";
@@ -9,8 +8,6 @@ interface Props {
 }
 export const Shipment: FunctionComponent<Props> = props => {
   const { item } = props;
-  const navigation = useNavigation();
-
   const goToDetails = () => {
     goToShipmentDetail({ item });
   };

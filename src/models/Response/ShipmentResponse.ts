@@ -152,10 +152,10 @@ export interface ShipmentResponse {
 export interface SubShipment {
   ShipmentId: string;
   WarehouseLocationId: null;
-  Length: null;
-  Width: null;
-  Height: null;
-  TotalGrossWeight: null;
+  Length: number;
+  Width: number;
+  Height: number;
+  TotalGrossWeight: number;
   Status: number;
   CreatedDate: string;
   CreatedBy: string;
@@ -231,8 +231,8 @@ export interface ShipmentAddServiceResponse {
   CargoAddServiceId: string;
   CargoAddServiceCode: string;
   CargoAddServiceName: null;
-  IsProcessed: false;
-  IsSendEmail: false;
+  IsProcessed: boolean;
+  IsSendEmail: boolean;
   ProcessedBy: null;
   SendEmailBy: null;
   ProcessedOnUtc: null;

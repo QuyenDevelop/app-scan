@@ -12,6 +12,7 @@ interface Props {
 export const AddServicesTab: FunctionComponent<Props> = props => {
   const { addServices, shipment } = props;
   const idServices = addServices.map(service => service.CargoAddServiceId);
+  const servicesHandled = addServices.filter(service => service.IsProcessed);
   const [listService, setListService] =
     useState<Array<AddServiceShipmentResponse>>();
   const [selectService, setSelectedService] =
@@ -37,6 +38,14 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
   const isSelectedService = (serviceId: string) => {
     return selectService.filter(service => service === serviceId).length > 0;
   };
+
+  const isHandlerService = (serviceId: string) => {
+    return (
+      servicesHandled.filter(service => service.CargoAddServiceId === serviceId)
+        .length > 0
+    );
+  };
+
   const selectedService = (serviceSelect: AddServiceShipmentResponse) => {
     const isSelected = isSelectedService(serviceSelect.Id);
 
@@ -50,6 +59,7 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
   };
   const renderItem = ({ item }: { item: AddServiceShipmentResponse }) => {
     const isSelected = isSelectedService(item.Id);
+    const isHandled = isHandlerService(item.Id);
     const onSelect = () => {
       selectedService(item);
     };
@@ -59,6 +69,7 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
         isSelected={isSelected}
         onSelect={onSelect}
         shipment={shipment}
+        isHandled={isHandled}
       />
     );
   };

@@ -56,5 +56,5 @@ export const autoUpload = async (
           console.log("🚀🚀🚀 => listImages.map => upload fail", item.name);
         });
     }
-  }, 100000);
+  }, 30000);
 };

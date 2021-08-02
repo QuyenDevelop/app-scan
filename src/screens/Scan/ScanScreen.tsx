@@ -1,7 +1,7 @@
 import { shipmentApi } from "@api";
 import { Header } from "@components";
 import { CONSTANT } from "@configs";
-import { useIsMounted, useShow } from "@hooks";
+import { useShow } from "@hooks";
 import { Account, ShipmentResponse } from "@models";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AccountAction, IRootState } from "@redux";
@@ -36,7 +36,6 @@ export const ScanScreen: FunctionComponent = () => {
   const [content, setContent] = useState<string>("");
   const [isShowQrCode, showQrCode, hideQrCode] = useShow(true);
   const [shipments, setShipments] = useState<Array<ShipmentResponse>>([]);
-  const isMounted = useIsMounted();
 
   const onRead = (e: any) => {
     setContent(e.data);

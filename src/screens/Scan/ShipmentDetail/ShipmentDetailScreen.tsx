@@ -1,7 +1,7 @@
 import { Header } from "@components";
 import { SCREENS } from "@configs";
 import { ShipmentResponse } from "@models";
-import { ScanParamsList } from "@navigation";
+import { ShipmentStackParamsList } from "@navigation";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { translate } from "@shared";
 import { Themes } from "@themes";
@@ -15,7 +15,7 @@ import { GeneralInfoTab } from "../components/GeneralInfoTab";
 import styles from "./styles";
 
 type NavigationRoute = RouteProp<
-  ScanParamsList,
+  ShipmentStackParamsList,
   SCREENS.SHIPMENT_DETAIL_SCREEN
 >;
 
@@ -26,8 +26,8 @@ export interface ShipmentDetailScreenParams {
 export const ShipmentDetailScreen: FunctionComponent = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
-  const route = useRoute<NavigationRoute>();
-  const { item } = route?.params;
+  const routeNavigation = useRoute<NavigationRoute>();
+  const { item } = routeNavigation?.params;
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
   const [routes] = useState([
@@ -42,6 +42,7 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
           return (
             <GeneralInfoTab
               shipment={item.ShipmentNumber}
+              shipmentId={item.SubShipments[0].ShipmentId}
               reference={item.ReferenceNumber}
               subShipments={item.SubShipments}
               customer={item.CustomerName}

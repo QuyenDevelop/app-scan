@@ -1,86 +1,51 @@
-import { ScreenUtils } from "@helpers";
-import { useShow } from "@hooks";
 import { SubShipment } from "@models";
-import { Icon } from "@shared";
-import { Metrics, Themes } from "@themes";
-import React, { FunctionComponent, useState } from "react";
+import { Themes } from "@themes";
+import React, { FunctionComponent, useRef } from "react";
 import {
   Keyboard,
   Text,
   TextInput,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { ServiceShipmentResponse } from "src/models/Response/ServiceResponse";
-import { ServiceModal } from "./ServiceModal";
 import styles from "./styles";
 interface Props {
-  shipment: string;
-  reference: string;
-  customer: string;
-  cnee: string;
   subShipment: SubShipment;
-  service: ServiceShipmentResponse | undefined;
-  services: Array<ServiceShipmentResponse> | undefined;
-  setSelectedService: (service: ServiceShipmentResponse) => void;
+  index: number;
+  updateSubShipment: (shipment: SubShipment) => void;
 }
 export const SubShipmentItem: FunctionComponent<Props> = props => {
-  const {
-    shipment,
-    reference,
-    customer,
-    cnee,
-    subShipment,
-    service,
-    services,
-    setSelectedService,
-  } = props;
-  const [isShowServiceModal, showServiceModal, hideServiceModal] = useShow();
-  const [weight, setWeight] = useState<number>(
-    subShipment.TotalGrossWeight || 0,
-  );
-  const [length, setLength] = useState<number>(subShipment.Length || 0);
-  const [width, setWidth] = useState<number>(subShipment.Width || 0);
-  const [height, setHeight] = useState<number>(subShipment.Height || 0);
+  const { subShipment, index, updateSubShipment } = props;
+  const weightRef = useRef<number>(subShipment.TotalGrossWeight * 1000 || 0);
+  const lengthRef = useRef<number>(subShipment.Length || 0);
+  const widthRef = useRef<number>(subShipment.Width || 0);
+  const heightRef = useRef<number>(subShipment.Height || 0);
 
   const updateWeight = (value: string) => {
-    setWeight(parseFloat(value) || 0);
+    const newWeight = parseFloat(value) || 0;
+    weightRef.current = newWeight;
+    updateSubShipment({ ...subShipment, TotalGrossWeight: newWeight });
   };
   const updateLength = (value: string) => {
-    setLength(parseFloat(value) || 0);
+    const newLength = parseFloat(value) || 0;
+    lengthRef.current = newLength;
+    updateSubShipment({ ...subShipment, Length: newLength });
   };
   const updateWidth = (value: string) => {
-    setWidth(parseFloat(value) || 0);
+    const newWidth = parseFloat(value) || 0;
+    widthRef.current = newWidth;
+    updateSubShipment({ ...subShipment, Width: newWidth });
   };
   const updateHeight = (value: string) => {
-    setHeight(parseFloat(value) || 0);
+    const newHeight = parseFloat(value) || 0;
+    heightRef.current = newHeight;
+    updateSubShipment({ ...subShipment, Height: newHeight });
   };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.subShipmentContainer}>
-        <View style={styles.generalInfoRow}>
-          <Text style={styles.labelInfo}>Shipment:</Text>
-          <Text style={styles.contentInfo}>{shipment}</Text>
-        </View>
-        <View style={styles.generalInfoRow}>
-          <Text style={styles.labelInfo}>Ref:</Text>
-          <Text style={styles.contentInfo}>{reference}</Text>
-        </View>
-        <View style={styles.generalInfoRow}>
-          <Text style={styles.labelInfo}>Customer:</Text>
-          <Text style={styles.contentInfo}>{customer}</Text>
-        </View>
-        <View style={styles.generalInfoRow}>
-          <Text style={styles.labelInfo}>Cnee:</Text>
-          <TouchableOpacity>
-            <Text
-              style={[styles.contentInfo, { textDecorationLine: "underline" }]}
-            >
-              {cnee}
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <Text style={styles.labelInfo}>Piece: {index}</Text>
         <View style={styles.generalInfoRow}>
           <Text style={styles.labelInfo}>GW:</Text>
           <TextInput
@@ -89,7 +54,7 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
             keyboardType="number-pad"
             contextMenuHidden={true}
             placeholderTextColor={Themes.colors.collGray40}
-            defaultValue={(weight * 1000).toString()}
+            defaultValue={weightRef.current.toString()}
             onChangeText={updateWeight}
           />
           <Text style={styles.contentInfo}>gram</Text>
@@ -102,7 +67,7 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
             keyboardType="number-pad"
             contextMenuHidden={true}
             placeholderTextColor={Themes.colors.collGray40}
-            defaultValue={length.toString()}
+            defaultValue={lengthRef.current.toString()}
             onChangeText={updateLength}
           />
           <Text style={styles.contentInfo}>x</Text>
@@ -112,7 +77,7 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
             keyboardType="number-pad"
             contextMenuHidden={true}
             placeholderTextColor={Themes.colors.collGray40}
-            defaultValue={width.toString()}
+            defaultValue={widthRef.current.toString()}
             onChangeText={updateWidth}
           />
           <Text style={styles.contentInfo}>x</Text>
@@ -122,38 +87,11 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
             keyboardType="number-pad"
             contextMenuHidden={true}
             placeholderTextColor={Themes.colors.collGray40}
-            defaultValue={height.toString()}
+            defaultValue={heightRef.current.toString()}
             onChangeText={updateHeight}
           />
           <Text style={styles.contentInfo}>cm</Text>
         </View>
-        <View style={styles.generalInfoRow}>
-          <Text style={styles.labelInfo}>Service:</Text>
-          <TouchableOpacity
-            style={styles.serviceButton}
-            onPress={showServiceModal}
-          >
-            <Text
-              style={[
-                styles.labelInfo,
-                { marginRight: ScreenUtils.calculatorWidth(5) },
-              ]}
-            >
-              {service?.Name}
-            </Text>
-            <Icon
-              name="ic_arrow_down"
-              size={Metrics.icons.smallSmall}
-              color={Themes.colors.black}
-            />
-          </TouchableOpacity>
-        </View>
-        <ServiceModal
-          isShowModal={isShowServiceModal}
-          closeModal={hideServiceModal}
-          onSelectService={setSelectedService}
-          services={services || []}
-        />
       </View>
     </TouchableWithoutFeedback>
   );
