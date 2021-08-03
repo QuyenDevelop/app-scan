@@ -1,8 +1,9 @@
 import { addServiceApi } from "@api";
+import { useShow } from "@hooks";
 import { ShipmentAddServiceResponse } from "@models";
 import { Button, translate } from "@shared";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { FlatList, View } from "react-native";
+import { ActivityIndicator, FlatList, View } from "react-native";
 import { AddServiceShipmentResponse } from "src/models/Response/ServiceResponse";
 import { ServiceInfo } from "./ServiceInfo";
 import styles from "./styles";
@@ -14,22 +15,29 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
   const { addServices, shipment } = props;
   const idServices = addServices.map(service => service.CargoAddServiceId);
   const servicesHandled = addServices.filter(service => service.IsProcessed);
+  const [isLoading, showLoading, hideLoading] = useShow();
   const [listService, setListService] =
     useState<Array<AddServiceShipmentResponse>>();
   const [selectService, setSelectedService] =
     useState<Array<string>>(idServices);
 
   const fetchShipmentService = () => {
-    addServiceApi.getAll()?.then(response => {
-      const services = response?.data || [];
-      const selected = services.filter(service =>
-        idServices.includes(service.Id),
-      );
-      const nonSelected = services.filter(
-        service => !idServices.includes(service.Id),
-      );
-      setListService([...selected, ...nonSelected]);
-    });
+    showLoading();
+    addServiceApi
+      .getAll()
+      ?.then(response => {
+        const services = response?.data || [];
+        const selected = services.filter(service =>
+          idServices.includes(service.Id),
+        );
+        const nonSelected = services.filter(
+          service => !idServices.includes(service.Id),
+        );
+        setListService([...selected, ...nonSelected]);
+      })
+      .finally(() => {
+        hideLoading();
+      });
   };
 
   useEffect(() => {
@@ -76,17 +84,23 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
   };
   return (
     <View style={styles.tabContainer}>
-      <FlatList
-        data={listService}
-        keyExtractor={item => item.Id}
-        renderItem={renderItem}
-        ListFooterComponent={
-          <Button
-            title={translate("button.addService")}
-            buttonStyle={styles.addServiceBtn}
-          />
-        }
-      />
+      {isLoading ? (
+        <View style={styles.loadingView}>
+          <ActivityIndicator />
+        </View>
+      ) : (
+        <FlatList
+          data={listService}
+          keyExtractor={item => item.Id}
+          renderItem={renderItem}
+          ListFooterComponent={
+            <Button
+              title={translate("button.addService")}
+              buttonStyle={styles.addServiceBtn}
+            />
+          }
+        />
+      )}
     </View>
   );
 };

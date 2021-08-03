@@ -6,7 +6,12 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { translate } from "@shared";
 import { Themes } from "@themes";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { Text, useWindowDimensions, View } from "react-native";
+import {
+  ActivityIndicator,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { TabBar, TabView } from "react-native-tab-view";
 import { AddServicesTab } from "../components/AddServicesTab";
@@ -75,6 +80,12 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
     ],
   );
 
+  const renderLazyPlaceholder = () => (
+    <View style={styles.scene}>
+      <ActivityIndicator />
+    </View>
+  );
+
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <Header
@@ -84,10 +95,12 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
         isCenterTitle
       />
       <TabView
+        lazy
         navigationState={{ index, routes }}
         renderScene={renderScene}
         onIndexChange={setIndex}
         initialLayout={{ width: layout.width }}
+        renderLazyPlaceholder={renderLazyPlaceholder}
         renderTabBar={props => (
           <TabBar
             {...props}

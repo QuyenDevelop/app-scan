@@ -4,4 +4,6 @@ export const Images = {
   qrIconFill: require("../assets/lottie/qr_icon_fill.json"),
 };
 
-export const Loader = {};
+export const Loader = {
+  launchLoader: require("../assets/lottie/launch-loader.json"),
+};

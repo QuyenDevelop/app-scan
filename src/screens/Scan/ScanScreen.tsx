@@ -1,14 +1,12 @@
 import { shipmentApi } from "@api";
 import { Header } from "@components";
-import { CONSTANT } from "@configs";
 import { useShow } from "@hooks";
 import { Account, ShipmentResponse } from "@models";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AccountAction, IRootState } from "@redux";
+import { IRootState } from "@redux";
 import { Icon } from "@shared";
 import { Metrics, Themes } from "@themes";
 import debounce from "lodash/debounce";
-import React, { FunctionComponent, useEffect, useRef, useState } from "react";
+import React, { FunctionComponent, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Keyboard,
@@ -20,17 +18,15 @@ import {
 } from "react-native";
 import QRCodeScanner from "react-native-qrcode-scanner";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { ListShipment } from "./components/ListShipment";
 import { Logout } from "./components/Logout";
 import styles from "./styles";
 export const ScanScreen: FunctionComponent = () => {
   const insets = useSafeAreaInsets();
-  const dispatch = useDispatch();
   const profile = useSelector(
     (state: IRootState) => state.account.profile,
   ) as Account | null;
-  const [isLoading, , hideIsLoading] = useShow(true);
   const [isLoadingFetchData, showIsLoadingFetchData, hideIsLoadingFetchData] =
     useShow();
   const [content, setContent] = useState<string>("");
@@ -68,58 +64,6 @@ export const ScanScreen: FunctionComponent = () => {
     setContent(value);
     getShipmentOnType(value);
   };
-
-  const authenticate = async (): Promise<void> => {
-    const accessToken = await AsyncStorage.getItem(
-      CONSTANT.TOKEN_STORAGE_KEY.ACCESS_TOKEN,
-    );
-
-    if (accessToken) {
-      dispatch(
-        AccountAction.userInfo(
-          {},
-          {
-            onSuccess: () => {
-              hideIsLoading();
-            },
-            onFinish: () => {
-              hideIsLoading();
-            },
-            onFailure: () => {
-              hideIsLoading();
-            },
-          },
-        ),
-      );
-      return;
-    } else {
-      hideIsLoading();
-    }
-  };
-
-  useEffect(() => {
-    authenticate();
-  }, []);
-
-  if (isLoading) {
-    return (
-      <View
-        style={[
-          styles.container,
-          {
-            paddingTop: insets.top,
-          },
-        ]}
-      >
-        <Header title="Check and scan" />
-        <View
-          style={{ justifyContent: "center", alignItems: "center", flex: 1 }}
-        >
-          <ActivityIndicator />
-        </View>
-      </View>
-    );
-  }
 
   const onFocus = () => {
     hideQrCode();

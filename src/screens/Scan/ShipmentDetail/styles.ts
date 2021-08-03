@@ -60,4 +60,9 @@ export default StyleSheet.create({
   indicatorStyle: {
     backgroundColor: Themes.colors.white,
   },
+  scene: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });

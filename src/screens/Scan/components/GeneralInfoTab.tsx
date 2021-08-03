@@ -199,14 +199,13 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
           ListHeaderComponent={<HeaderComponent />}
           contentContainerStyle={{ paddingBottom: insets.bottom }}
         />
+        <ServiceModal
+          isShowModal={isShowServiceModal}
+          closeModal={hideServiceModal}
+          onSelectService={setSelectedService}
+          services={listService || []}
+        />
       </KeyboardAvoidingView>
-
-      <ServiceModal
-        isShowModal={isShowServiceModal}
-        closeModal={hideServiceModal}
-        onSelectService={setSelectedService}
-        services={listService || []}
-      />
     </View>
   );
 };

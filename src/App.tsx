@@ -29,6 +29,7 @@ import {
 } from "react-native";
 import DropdownAlert from "react-native-dropdownalert";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import SplashScreen from "react-native-splash-screen";
 
 const App = () => {
   const [isAllowUpdate, setIsAllowUpdate] = useState<boolean>(true);
@@ -47,6 +48,7 @@ const App = () => {
   }, [isAllowUpdate]);
 
   useEffect(() => {
+    SplashScreen.hide();
     AppState.addEventListener("change", handleAppStateChange);
     DeviceEventEmitter.addListener(
       CONSTANT.EVENT_KEY.UPLOAD_IMAGES,

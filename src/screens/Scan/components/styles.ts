@@ -166,4 +166,9 @@ export default StyleSheet.create({
   bottomModal: {
     marginBottom: ScreenUtils.calculatorHeight(20),
   },
+  loadingView: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+  },
 });
