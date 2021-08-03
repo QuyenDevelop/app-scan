@@ -1,12 +1,13 @@
 import { Header } from "@components";
 import { SCREENS } from "@configs";
+import { hasAndroidPermission } from "@helpers";
 import { useToggle } from "@hooks";
 import { goToPhotoLibrary, ShipmentStackParamsList } from "@navigation";
 import CameraRoll from "@react-native-community/cameraroll";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { Themes } from "@themes";
 import React, { FunctionComponent, useRef, useState } from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, Platform, Text, TouchableOpacity, View } from "react-native";
 import { RNCamera } from "react-native-camera";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from "./styles";
@@ -25,14 +26,18 @@ export const UploadScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const route = useRoute<NavigationRoute>();
   const { shipment, service } = route?.params;
-  const cameraRef = useRef(null);
+  const cameraRef = useRef<RNCamera>(null);
   const [uri, setUri] = useState<string>();
   const [isFlashMode, toggleFlashMode] = useToggle();
+
   const takePicture = async () => {
     if (cameraRef.current) {
       const options = { quality: 0.5, imageType: "" };
       const data = await cameraRef.current?.takePictureAsync(options);
       setUri(data.uri);
+      if (Platform.OS === "android" && !(await hasAndroidPermission())) {
+        return;
+      }
       CameraRoll.save(data.uri)
         .then(() => {
           console.log("save success");

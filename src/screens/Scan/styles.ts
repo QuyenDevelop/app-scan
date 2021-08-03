@@ -56,4 +56,9 @@ export default StyleSheet.create({
     height: "50%",
     backgroundColor: "rgba(52, 52, 52, 0.8)",
   },
+  loadingView: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+  },
 });

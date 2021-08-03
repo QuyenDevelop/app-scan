@@ -30,7 +30,7 @@ export const ScanScreen: FunctionComponent = () => {
   const profile = useSelector(
     (state: IRootState) => state.account.profile,
   ) as Account | null;
-  const [isLoading, showIsLoading, hideIsLoading] = useShow(true);
+  const [isLoading, , hideIsLoading] = useShow(true);
   const [isLoadingFetchData, showIsLoadingFetchData, hideIsLoadingFetchData] =
     useShow();
   const [content, setContent] = useState<string>("");
@@ -43,7 +43,12 @@ export const ScanScreen: FunctionComponent = () => {
   };
 
   const getShipment = (value: string) => {
-    showIsLoadingFetchData;
+    if (value === "") {
+      setShipments([]);
+      return;
+    }
+
+    showIsLoadingFetchData();
     console.log("🚀🚀🚀 => fetchData => value", value);
     shipmentApi
       .scanShipment(value)
@@ -166,13 +171,7 @@ export const ScanScreen: FunctionComponent = () => {
             </View>
           </TouchableWithoutFeedback>
           {isLoadingFetchData ? (
-            <View
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                flex: 1,
-              }}
-            >
+            <View style={styles.loadingView}>
               <ActivityIndicator />
             </View>
           ) : isShowQrCode ? (

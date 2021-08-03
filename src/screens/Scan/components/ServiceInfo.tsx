@@ -1,5 +1,5 @@
+import { useShow } from "@hooks";
 import { AddServiceShipmentResponse } from "@models";
-import { goToUpload } from "@navigation";
 import { Checkbox, Icon } from "@shared";
 import { FontFamily, Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { PhotoModal } from "./PhotoModal";
 import styles from "./styles";
 interface Props {
   item: AddServiceShipmentResponse;
@@ -19,9 +20,8 @@ interface Props {
 }
 export const ServiceInfo: FunctionComponent<Props> = props => {
   const { item, isSelected, onSelect, shipment, isHandled } = props;
-  const goToUploadImage = () => {
-    goToUpload({ shipment: shipment, service: item.Code });
-  };
+  const [isShowPhotoModal, showPhotoModal, hidePhotoModal] = useShow();
+
   return (
     <TouchableWithoutFeedback onPress={onSelect}>
       <View style={styles.serviceInfoContainer}>
@@ -49,7 +49,7 @@ export const ServiceInfo: FunctionComponent<Props> = props => {
               <TouchableOpacity
                 style={styles.button}
                 hitSlop={styles.hitSlop}
-                onPress={goToUploadImage}
+                onPress={showPhotoModal}
               >
                 <Icon
                   name="ic_camera-retro"
@@ -70,6 +70,12 @@ export const ServiceInfo: FunctionComponent<Props> = props => {
             </>
           )}
         </View>
+        <PhotoModal
+          shipment={shipment}
+          service={item.Code}
+          isShowModal={isShowPhotoModal}
+          closeModal={hidePhotoModal}
+        />
       </View>
     </TouchableWithoutFeedback>
   );

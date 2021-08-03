@@ -50,11 +50,11 @@ export const autoUpload = async (
       await shipmentApi
         .uploadImage(imageForm)
         ?.then(async () => {
-          removeImage(name);
+          await removeImage(name);
         })
         .catch(() => {
           console.log("🚀🚀🚀 => listImages.map => upload fail", item.name);
         });
     }
-  }, 30000);
+  }, 100000);
 };

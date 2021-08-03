@@ -17,6 +17,10 @@ class ShipmentApi extends BaseApi {
   updateShipmentInformation(request: ShipmentInfoRequest) {
     return this.post("update-shipment-by-service-on-mobile", request, {});
   }
+
+  updateAddService(request: UpdateAddServiceRequest) {
+    return this.post("upload-cargoraddservices", request, {});
+  }
 }
 
 export default new ShipmentApi("shipment");

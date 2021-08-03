@@ -1,5 +1,6 @@
 import { addServiceApi } from "@api";
 import { ShipmentAddServiceResponse } from "@models";
+import { Button, translate } from "@shared";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
 import { AddServiceShipmentResponse } from "src/models/Response/ServiceResponse";
@@ -79,6 +80,12 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
         data={listService}
         keyExtractor={item => item.Id}
         renderItem={renderItem}
+        ListFooterComponent={
+          <Button
+            title={translate("button.addService")}
+            buttonStyle={styles.addServiceBtn}
+          />
+        }
       />
     </View>
   );

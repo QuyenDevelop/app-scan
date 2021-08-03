@@ -13,3 +13,14 @@ export interface SubShipmentsInfoRequest {
   width: number;
   length: number;
 }
+
+export interface UpdateAddServiceRequest {
+  shipmentId: string;
+  shipmentNumber: string;
+  shipmentCargoAddServiceViewModels: Array<AddServiceInfo>;
+}
+
+export interface AddServiceInfo {
+  shipmentCargorAddServiceId: string;
+  shipmentCargorAddServiceCode: string;
+}

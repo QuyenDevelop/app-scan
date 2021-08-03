@@ -25,7 +25,7 @@ export const ServiceModal: FunctionComponent<Props> = props => {
   };
   return (
     <BaseBottomSheet isShowModal={isShowModal} onCloseModal={closeModal}>
-      <View>
+      <View style={styles.bottomModal}>
         {services &&
           services.map(service => (
             <Service service={service} key={service.Id} />

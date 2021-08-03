@@ -33,6 +33,7 @@ interface Props {
   service: string;
   subShipments: Array<SubShipment>;
 }
+
 export const GeneralInfoTab: FunctionComponent<Props> = props => {
   const insets = useSafeAreaInsets();
   const {

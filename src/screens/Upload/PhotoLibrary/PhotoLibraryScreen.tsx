@@ -1,6 +1,11 @@
 import { Header } from "@components";
 import { CONSTANT, SCREENS } from "@configs";
-import { Alert, getAsyncItem, setAsyncItem } from "@helpers";
+import {
+  Alert,
+  getAsyncItem,
+  hasAndroidPermission,
+  setAsyncItem,
+} from "@helpers";
 import { StorageImages } from "@models";
 import { ShipmentStackParamsList } from "@navigation";
 import CameraRoll, {
@@ -8,7 +13,7 @@ import CameraRoll, {
 } from "@react-native-community/cameraroll";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { DeviceEventEmitter, FlatList, View } from "react-native";
+import { DeviceEventEmitter, FlatList, Platform, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ImageItem } from "./ImageItem";
 import styles from "./styles";
@@ -31,7 +36,10 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
   const [photosSelected, setPhotosSelected] = useState<Array<string>>([]);
   const [after, setAfter] = useState<string>();
   const [hasNextPage, setHasNextPage] = useState(false);
-  const getAllPhotos = () => {
+  const getAllPhotos = async () => {
+    if (Platform.OS === "android" && !(await hasAndroidPermission())) {
+      return;
+    }
     CameraRoll.getPhotos({
       first: 40,
       assetType: "Photos",
@@ -44,7 +52,6 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
       })
       .catch(err => {
         console.log("🚀🚀🚀 => getAllPhotos => err", err);
-        //Error Loading Images
       });
   };
 
