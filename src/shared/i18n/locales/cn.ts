@@ -1,5 +1,21 @@
 export default {
   label: {
+    tab: {
+      home: "主页",
+      listScan: "Dach sách",
+      scan: "Quét",
+      cod: "COD",
+      menu: "Menu",
+      generalInfoTab: "Thông tin",
+      contentInfoTab: "Nội dung",
+      addServicesTab: "Dịch vụ",
+
+      order: "命令",
+      package: "包裹",
+      notification: "通知",
+      account: "个人的",
+    },
+    footerCopyright: "- Ezbuy股份公司版权所有 - Ezbuy.vn",
     mostView: "最受关注",
     helpCenterTab: "支持中心",
     faqTab: "经常问的问题",
@@ -45,13 +61,7 @@ export default {
     information: "个人信息",
     changePassword: "更改密码",
     resetPassword: "重设密码",
-    tab: {
-      home: "主页",
-      order: "命令",
-      package: "包裹",
-      notification: "通知",
-      account: "个人的",
-    },
+
     email: "电子邮件",
     password: "密码",
     oldPassword: "旧密码",

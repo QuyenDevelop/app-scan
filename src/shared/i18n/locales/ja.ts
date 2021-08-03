@@ -1,5 +1,21 @@
 export default {
   label: {
+    tab: {
+      home: "ホームホーム",
+      listScan: "Dach sách",
+      scan: "Quét",
+      cod: "COD",
+      menu: "Menu",
+      generalInfoTab: "Thông tin",
+      contentInfoTab: "Nội dung",
+      addServicesTab: "Dịch vụ",
+
+      order: "注文",
+      package: "パッケージ",
+      notification: "通知",
+      account: "私のエズバイ",
+    },
+    footerCopyright: "- Ezbuy株式会社の著作権 - Ezbuy.vn",
     mostView: "最も見られました",
     helpCenterTab: "ヘルプセンター",
     faqTab: "よくある質問",
@@ -45,13 +61,7 @@ export default {
     information: "個人情報",
     changePassword: "パスワードを変更する",
     resetPassword: "パスワードを再設定する",
-    tab: {
-      home: "ホームホーム",
-      order: "注文",
-      package: "パッケージ",
-      notification: "通知",
-      account: "私のエズバイ",
-    },
+
     email: "あなたのメール",
     password: "パスワード",
     oldPassword: "以前のパスワード",
