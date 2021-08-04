@@ -171,4 +171,27 @@ export default StyleSheet.create({
     alignItems: "center",
     flex: 1,
   },
+  spaceBetween: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingRight: ScreenUtils.calculatorWidth(10),
+  },
+  addMorePiece: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    marginHorizontal: ScreenUtils.calculatorWidth(10),
+    paddingVertical: ScreenUtils.calculatorHeight(10),
+    borderRadius: 10,
+    borderColor: Themes.colors.collGray40,
+    borderStyle: "dashed",
+  },
+  addMorePieceText: {
+    ...Themes.font.medium,
+    fontSize: 14,
+    color: Themes.colors.primary,
+    marginLeft: ScreenUtils.calculatorWidth(10),
+  },
 });

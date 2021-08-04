@@ -33,7 +33,22 @@ const languageCodes = [
   { code: "tw", tag: "zh-TW" },
 ];
 
+const shipmentMode = [
+  {
+    Code: 1,
+    Name: "Hàng không",
+  },
+  {
+    Code: 2,
+    Name: "Đường biển",
+  },
+  {
+    Code: 3,
+    Name: "Đường bộ",
+  },
+];
 export const DATA_CONSTANT = {
   SHIPMENT_SERVICE: shipmentService,
   LANGUAGE_CODE: languageCodes,
+  SHIPMENT_MODE: shipmentMode,
 };

@@ -1,9 +1,9 @@
 import { serviceApi, shipmentApi } from "@api";
 import { DATA_CONSTANT } from "@configs";
 import { Alert, ScreenUtils } from "@helpers";
-import { useShow } from "@hooks";
+import { useShow, useToggle } from "@hooks";
 import { SubShipment } from "@models";
-import { Button, Icon } from "@shared";
+import { Button, Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
 import React, {
   FunctionComponent,
@@ -20,7 +20,12 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ServiceShipmentResponse } from "src/models/Response/ServiceResponse";
+import { Switch } from "react-native-switch";
+import {
+  ModeShipmentResponse,
+  ServiceShipmentResponse,
+} from "src/models/Response/ServiceResponse";
+import { ModeModal } from "./ModeModal";
 import { ServiceModal } from "./ServiceModal";
 import styles from "./styles";
 import { SubShipmentItem } from "./SubShipmentItem";
@@ -32,6 +37,7 @@ interface Props {
   cnee: string;
   service: string;
   subShipments: Array<SubShipment>;
+  mode: number;
 }
 
 export const GeneralInfoTab: FunctionComponent<Props> = props => {
@@ -44,15 +50,20 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
     cnee,
     service,
     subShipments: sShipments,
+    mode,
   } = props;
   const [subShipments, setSubShipments] =
     useState<Array<SubShipment>>(sShipments);
   const [selectedService, setSelectedService] =
     useState<ServiceShipmentResponse>(DATA_CONSTANT.SHIPMENT_SERVICE[0]);
   const [isShowServiceModal, showServiceModal, hideServiceModal] = useShow();
+  const [isShowModeModal, showModeModal, hideModeModal] = useShow();
   const [isLoadingUpdate, showLoadingUpdate, hideLoadingUpdate] = useShow();
+  const [shipmentStatus, toggle] = useToggle();
   const [listService, setListService] =
     useState<Array<ServiceShipmentResponse>>();
+  const [listMode, setListMode] = useState<Array<ModeShipmentResponse>>([]);
+  const [selectedMode, setSelectedMode] = useState<ModeShipmentResponse>();
   const fetchShipmentService = () => {
     serviceApi.getAll()?.then(response => {
       setListService(response?.data || []);
@@ -63,8 +74,19 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
     });
   };
 
+  const fetchMode = () => {
+    serviceApi.getModes()?.then(response => {
+      setListMode(response?.data || []);
+      const findMode = response?.data.filter(s => s.Code === mode);
+      if (findMode) {
+        setSelectedMode(findMode[0]);
+      }
+    });
+  };
+
   useEffect(() => {
     fetchShipmentService();
+    fetchMode();
   }, []);
 
   const updateInfoSubShipment = useCallback((subShipment: SubShipment) => {
@@ -98,6 +120,10 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
   );
 
   const updateShipmentInformation = () => {
+    if (!selectedService) {
+      Alert.warning("label.notChooseService");
+      return;
+    }
     showLoadingUpdate();
     const subShipmentRequest = subShipments.map((subShipment: SubShipment) => {
       return {
@@ -112,16 +138,17 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
     shipmentApi
       .updateShipmentInformation({
         id: shipmentId,
+        shipmentNumber: shipment,
         cargoSPServiceId: selectedService.Id,
         cargoSPServiceCode: selectedService.Code,
         volumetricWeight: selectedService.VolumetricDivisor,
         subShipments: subShipmentRequest,
       })
       ?.then(() => {
-        Alert.success("Cập nhật thành công", true);
+        Alert.success("success.updateSuccess");
       })
       .catch(() => {
-        Alert.error("Đã có lỗi xảy ra. Vui lòng thử lại!", true);
+        Alert.error("error.errorServer");
       })
       .finally(() => {
         hideLoadingUpdate();
@@ -165,7 +192,7 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
                 { marginRight: ScreenUtils.calculatorWidth(5) },
               ]}
             >
-              {selectedService?.Name}
+              {selectedService?.Name || translate("label.selectService")}
             </Text>
             <Icon
               name="ic_arrow_down"
@@ -173,6 +200,51 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
               color={Themes.colors.black}
             />
           </TouchableOpacity>
+        </View>
+        <View style={styles.spaceBetween}>
+          <View style={styles.generalInfoRow}>
+            <Text style={styles.labelInfo}>Mode:</Text>
+            <TouchableOpacity
+              style={styles.serviceButton}
+              onPress={showModeModal}
+            >
+              <Text
+                style={[
+                  styles.labelInfo,
+                  { marginRight: ScreenUtils.calculatorWidth(5) },
+                ]}
+              >
+                {selectedMode?.Name || translate("label.selectMode")}
+              </Text>
+              <Icon
+                name="ic_arrow_down"
+                size={Metrics.icons.smallSmall}
+                color={Themes.colors.black}
+              />
+            </TouchableOpacity>
+          </View>
+          <Switch
+            value={shipmentStatus}
+            onValueChange={() => toggle()}
+            disabled={false}
+            activeText={translate("button.go")}
+            inActiveText={translate("button.hold")}
+            circleSize={30}
+            barHeight={35}
+            circleBorderWidth={0}
+            backgroundActive={Themes.colors.green22}
+            backgroundInactive={Themes.colors.red0722}
+            circleActiveColor={Themes.colors.white}
+            circleInActiveColor={Themes.colors.white}
+            renderActiveText={true}
+            renderInActiveText={true}
+            switchLeftPx={2.2}
+            switchRightPx={2.2}
+            switchWidthMultiplier={3}
+            switchBorderRadius={30}
+            circleBorderActiveColor={Themes.colors.green22}
+            circleBorderInactiveColor={Themes.colors.green22}
+          />
         </View>
         <View style={[styles.generalInfoRow, { justifyContent: "center" }]}>
           <Button
@@ -186,6 +258,20 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
     );
   };
 
+  const FooterComponent = () => {
+    return (
+      <TouchableOpacity style={styles.addMorePiece}>
+        <Icon
+          name="ic_plus"
+          size={Metrics.icons.medium}
+          color={Themes.colors.primary}
+        />
+        <Text style={styles.addMorePieceText}>
+          {translate("button.addMorePiece")}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
   return (
     <View style={styles.generalTab}>
       <KeyboardAvoidingView
@@ -197,6 +283,7 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
           keyExtractor={keyExtractor}
           renderItem={renderItem}
           ListHeaderComponent={<HeaderComponent />}
+          ListFooterComponent={<FooterComponent />}
           contentContainerStyle={{ paddingBottom: insets.bottom }}
         />
         <ServiceModal
@@ -204,6 +291,12 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
           closeModal={hideServiceModal}
           onSelectService={setSelectedService}
           services={listService || []}
+        />
+        <ModeModal
+          isShowModal={isShowModeModal}
+          closeModal={hideModeModal}
+          onSelectMode={setSelectedMode}
+          modes={listMode || []}
         />
       </KeyboardAvoidingView>
     </View>

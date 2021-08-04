@@ -1,5 +1,6 @@
 export interface ShipmentInfoRequest {
   id: string;
+  shipmentNumber: string;
   cargoSPServiceId: string;
   cargoSPServiceCode: string;
   volumetricWeight: number;

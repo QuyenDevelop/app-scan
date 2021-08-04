@@ -1,4 +1,8 @@
-import { ScanShipmentResponse, ShipmentInfoRequest } from "@models";
+import {
+  ScanShipmentResponse,
+  ShipmentInfoRequest,
+  UpdateAddServiceRequest,
+} from "@models";
 import { store } from "@redux";
 import { IRootState } from "../redux/reducers";
 import { BaseApi } from "./base-api";

@@ -22,6 +22,7 @@ export interface AddServiceShipmentResponse {
   PostOfficeMasterDatas: Array<PostOfficeMasterData>;
   Id: string;
   EntityCacheKey: string;
+  IsProcessed?: boolean;
 }
 
 export interface PostOfficeMasterData {
@@ -38,3 +39,11 @@ export interface ListShipmentServiceResponse
 
 export interface ListAddShipmentServiceResponse
   extends BaseResponseEntity<Array<AddServiceShipmentResponse>> {}
+
+export interface ModeShipmentResponse {
+  Code: number;
+  Name: string;
+}
+
+export interface ListShipmentModeResponse
+  extends BaseResponseEntity<Array<ModeShipmentResponse>> {}

@@ -1,6 +1,7 @@
 import { BaseResponseEntity } from "@models";
 
 export interface ShipmentResponse {
+  ShipmentId: string;
   ShipmentNumber: string;
   ReferenceNumber: string;
   DispatchBagId: null;

@@ -1,5 +1,6 @@
 import { shipmentApi } from "@api";
 import { Header } from "@components";
+import { Alert } from "@helpers";
 import { useShow } from "@hooks";
 import { Account, ShipmentResponse } from "@models";
 import { IRootState } from "@redux";
@@ -50,7 +51,15 @@ export const ScanScreen: FunctionComponent = () => {
       .scanShipment(value)
       ?.then(shipment => {
         setShipments(shipment?.data || []);
-        hideQrCode();
+        if (shipment?.success) {
+          hideQrCode();
+        } else {
+          Alert.warning(shipment?.message || "", true);
+        }
+      })
+      .catch(err => {
+        console.log("🚀🚀🚀 => getShipment => err", err);
+        Alert.error(err, true);
       })
       .finally(() => {
         Keyboard.dismiss();

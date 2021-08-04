@@ -45,7 +45,7 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.subShipmentContainer}>
-        <Text style={styles.labelInfo}>Piece: {index}</Text>
+        <Text style={styles.labelInfo}>Piece {index + 1}:</Text>
         <View style={styles.generalInfoRow}>
           <Text style={styles.labelInfo}>GW:</Text>
           <TextInput

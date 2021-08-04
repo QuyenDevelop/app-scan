@@ -47,12 +47,13 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
           return (
             <GeneralInfoTab
               shipment={item.ShipmentNumber}
-              shipmentId={item.SubShipments[0].ShipmentId}
+              shipmentId={item.ShipmentId}
               reference={item.ReferenceNumber}
               subShipments={item.SubShipments}
               customer={item.CustomerName}
               cnee={item.ConsigneeName}
               service={item.CargoSPServiceId}
+              mode={item.CargoShippingMethod}
             />
           );
         case "ContentInfoTab":
@@ -61,7 +62,8 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
           return (
             <AddServicesTab
               addServices={item.ShipmentCargoAddServices}
-              shipment={item.ShipmentNumber}
+              shipmentNumber={item.ShipmentNumber}
+              shipmentId={item.ShipmentId}
             />
           );
         default:
