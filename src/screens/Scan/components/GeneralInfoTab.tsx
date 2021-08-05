@@ -1,5 +1,4 @@
 import { serviceApi, shipmentApi } from "@api";
-import { DATA_CONSTANT } from "@configs";
 import { Alert, ScreenUtils } from "@helpers";
 import { useShow, useToggle } from "@hooks";
 import { SubShipment } from "@models";
@@ -12,6 +11,7 @@ import React, {
   useState,
 } from "react";
 import {
+  Alert as RNAlert,
   FlatList,
   KeyboardAvoidingView,
   Platform,
@@ -38,6 +38,7 @@ interface Props {
   service: string;
   subShipments: Array<SubShipment>;
   mode: number;
+  isDirectShipment: boolean;
 }
 
 export const GeneralInfoTab: FunctionComponent<Props> = props => {
@@ -51,19 +52,26 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
     service,
     subShipments: sShipments,
     mode,
+    isDirectShipment,
   } = props;
-  const [subShipments, setSubShipments] =
-    useState<Array<SubShipment>>(sShipments);
+  const [subShipments, setSubShipments] = useState<Array<SubShipment>>(
+    sShipments.length > 0
+      ? sShipments
+      : [{ Length: 0, Width: 0, Height: 0, TotalGrossWeight: 0 }],
+  );
   const [selectedService, setSelectedService] =
-    useState<ServiceShipmentResponse>(DATA_CONSTANT.SHIPMENT_SERVICE[0]);
+    useState<ServiceShipmentResponse>();
   const [isShowServiceModal, showServiceModal, hideServiceModal] = useShow();
   const [isShowModeModal, showModeModal, hideModeModal] = useShow();
   const [isLoadingUpdate, showLoadingUpdate, hideLoadingUpdate] = useShow();
-  const [shipmentStatus, toggle] = useToggle();
+  const [shipmentStatus, toggleShipmentStatus] = useToggle(
+    isDirectShipment || false,
+  );
   const [listService, setListService] =
     useState<Array<ServiceShipmentResponse>>();
   const [listMode, setListMode] = useState<Array<ModeShipmentResponse>>([]);
   const [selectedMode, setSelectedMode] = useState<ModeShipmentResponse>();
+
   const fetchShipmentService = () => {
     serviceApi.getAll()?.then(response => {
       setListService(response?.data || []);
@@ -89,17 +97,80 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
     fetchMode();
   }, []);
 
-  const updateInfoSubShipment = useCallback((subShipment: SubShipment) => {
-    console.log("🚀🚀🚀 => updateInfoSubShipment => subShipment", subShipment);
-    setSubShipments(listSub =>
-      listSub.map(s => {
-        if (s.Id === subShipment.Id) {
-          return subShipment;
+  const updateInfoSubShipment = useCallback(
+    (subShipment: SubShipment, index: number) => {
+      const newSub = [...subShipments];
+      newSub[index] = subShipment;
+      setSubShipments(newSub);
+    },
+    [subShipments],
+  );
+
+  const addMoreSubShipment = () => {
+    setSubShipments(subS => [
+      ...subS,
+      { Length: 0, Width: 0, Height: 0, TotalGrossWeight: 0 },
+    ]);
+  };
+
+  const deleteSubShipment = useCallback(
+    (index: number) => {
+      RNAlert.alert(
+        "",
+        translate("alert.deleteConfirmation", { index: index + 1 }),
+        [
+          {
+            text: translate("button.cancel"),
+            onPress: () => {},
+            style: "cancel",
+          },
+          {
+            text: translate("button.confirm"),
+            onPress: () => {
+              const newSub = [...subShipments];
+              if (newSub[index].Id) {
+                shipmentApi
+                  .deleteSubShipment({
+                    ShipmentId: shipmentId,
+                    SubShipmentId: newSub[index].Id!,
+                  })
+                  ?.then(response => {
+                    if (response?.success) {
+                      newSub.splice(index, 1);
+                      setSubShipments(newSub);
+                    } else {
+                      Alert.error(response.message, true);
+                    }
+                  })
+                  .catch(error => {
+                    Alert.error(error, true);
+                  });
+              } else {
+                newSub.splice(index, 1);
+                setSubShipments(newSub);
+              }
+            },
+          },
+        ],
+      );
+    },
+    [shipmentId, subShipments],
+  );
+
+  const updateDirectShipment = (value: boolean) => {
+    shipmentApi
+      .updateDirectShipment({ ShipmentId: shipmentId, IsDirectShipment: value })
+      ?.then(response => {
+        if (response.success) {
+          toggleShipmentStatus();
+        } else {
+          Alert.error(response.message, true);
         }
-        return s;
-      }),
-    );
-  }, []);
+      })
+      .catch(error => {
+        Alert.error(error, true);
+      });
+  };
 
   const keyExtractor = useCallback(
     (item: SubShipment, index: number) => `${item.ShipmentId}_${index}`,
@@ -113,10 +184,12 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
           subShipment={item}
           index={index}
           updateSubShipment={updateInfoSubShipment}
+          deleteSubShipment={deleteSubShipment}
+          totalSubShipments={subShipments.length}
         />
       );
     },
-    [updateInfoSubShipment],
+    [deleteSubShipment, subShipments.length, updateInfoSubShipment],
   );
 
   const updateShipmentInformation = () => {
@@ -128,7 +201,7 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
     const subShipmentRequest = subShipments.map((subShipment: SubShipment) => {
       return {
         id: subShipment.Id,
-        totalGrossWeight: subShipment.TotalGrossWeight,
+        totalGrossWeight: subShipment.TotalGrossWeight * 1000,
         height: subShipment.Height,
         width: subShipment.Width,
         length: subShipment.Length,
@@ -225,7 +298,7 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
           </View>
           <Switch
             value={shipmentStatus}
-            onValueChange={() => toggle()}
+            onValueChange={updateDirectShipment}
             disabled={false}
             activeText={translate("button.go")}
             inActiveText={translate("button.hold")}
@@ -246,32 +319,36 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
             circleBorderInactiveColor={Themes.colors.green22}
           />
         </View>
-        <View style={[styles.generalInfoRow, { justifyContent: "center" }]}>
-          <Button
-            title="Update"
-            onPress={updateShipmentInformation}
-            isLoading={isLoadingUpdate}
-            buttonChildStyle={styles.updateButton}
-          />
-        </View>
       </View>
     );
   };
 
   const FooterComponent = () => {
     return (
-      <TouchableOpacity style={styles.addMorePiece}>
-        <Icon
-          name="ic_plus"
-          size={Metrics.icons.medium}
-          color={Themes.colors.primary}
+      <View>
+        <TouchableOpacity
+          style={styles.addMorePiece}
+          onPress={addMoreSubShipment}
+        >
+          <Icon
+            name="ic_plus"
+            size={Metrics.icons.medium}
+            color={Themes.colors.primary}
+          />
+          <Text style={styles.addMorePieceText}>
+            {translate("button.addMorePiece")}
+          </Text>
+        </TouchableOpacity>
+        <Button
+          title="Update"
+          onPress={updateShipmentInformation}
+          isLoading={isLoadingUpdate}
+          buttonChildStyle={styles.updateButton}
         />
-        <Text style={styles.addMorePieceText}>
-          {translate("button.addMorePiece")}
-        </Text>
-      </TouchableOpacity>
+      </View>
     );
   };
+
   return (
     <View style={styles.generalTab}>
       <KeyboardAvoidingView

@@ -159,6 +159,7 @@ export default StyleSheet.create({
   },
   updateButton: {
     minWidth: ScreenUtils.calculatorWidth(100),
+    marginVertical: ScreenUtils.calculatorHeight(20),
   },
   addServiceBtn: {
     marginVertical: ScreenUtils.calculatorHeight(20),

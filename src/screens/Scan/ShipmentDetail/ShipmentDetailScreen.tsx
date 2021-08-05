@@ -54,6 +54,7 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
               cnee={item.ConsigneeName}
               service={item.CargoSPServiceId}
               mode={item.CargoShippingMethod}
+              isDirectShipment={item.IsDirectShipment}
             />
           );
         case "ContentInfoTab":
@@ -72,10 +73,12 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
     },
     [
       item.CargoSPServiceId,
+      item.CargoShippingMethod,
       item.ConsigneeName,
       item.CustomerName,
       item.ReferenceNumber,
       item.ShipmentCargoAddServices,
+      item.ShipmentId,
       item.ShipmentItems,
       item.ShipmentNumber,
       item.SubShipments,

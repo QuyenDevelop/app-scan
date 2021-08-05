@@ -1,3 +1,3 @@
 import AccountAction from "./AccountAction";
-
-export { AccountAction };
+import UploadImageAction from "./UploadImageAction";
+export { AccountAction, UploadImageAction };

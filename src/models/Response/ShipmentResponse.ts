@@ -151,23 +151,22 @@ export interface ShipmentResponse {
 }
 
 export interface SubShipment {
-  ShipmentId: string;
-  WarehouseLocationId: null;
+  ShipmentId?: string;
+  WarehouseLocationId?: null;
   Length: number;
   Width: number;
   Height: number;
   TotalGrossWeight: number;
-  Status: number;
-  CreatedDate: string;
-  CreatedBy: string;
-  SubShipmentNumber: string;
-  ReferenceNumber: string;
-  OrderNumber: null;
-  LocationName: null;
-  TotalChargeableWeight: number;
-  TotalChargeableWeightRound: null;
-  Id: string;
-  CustomProperties: any;
+  Status?: number;
+  CreatedDate?: string;
+  CreatedBy?: string;
+  SubShipmentNumber?: string;
+  ReferenceNumber?: string;
+  OrderNumber?: string;
+  LocationName?: string;
+  TotalChargeableWeight?: number;
+  TotalChargeableWeightRound?: number;
+  Id?: string;
 }
 
 export interface ShipmentItemResponse {

@@ -8,7 +8,7 @@ export interface ShipmentInfoRequest {
 }
 
 export interface SubShipmentsInfoRequest {
-  id: string;
+  id?: string;
   totalGrossWeight: number;
   height: number;
   width: number;
@@ -24,4 +24,21 @@ export interface UpdateAddServiceRequest {
 export interface AddServiceInfo {
   shipmentCargorAddServiceId: string;
   shipmentCargorAddServiceCode: string;
+}
+
+export interface DeleteSubShipmentRequest {
+  SubShipmentId: string;
+  ShipmentId: string;
+}
+
+export interface CompleteAddServiceRequest {
+  shipmentId: string;
+  shipmentNumber: string;
+  cargorAddServiceId: string;
+  cargorAddServiceCode: string;
+}
+
+export interface UpdateDirectShipmentRequest {
+  ShipmentId: string;
+  IsDirectShipment: boolean;
 }

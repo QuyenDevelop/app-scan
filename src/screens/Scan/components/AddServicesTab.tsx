@@ -1,10 +1,18 @@
 import { addServiceApi, shipmentApi } from "@api";
+import { Alert } from "@helpers";
 import { useShow } from "@hooks";
 import { AddServiceInfo, ShipmentAddServiceResponse } from "@models";
-import { Button, translate } from "@shared";
+import { IRootState, SavePhoto } from "@redux";
+import { Button, ImagesModal, translate } from "@shared";
 import { Themes } from "@themes";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
+import { useSelector } from "react-redux";
 import { AddServiceShipmentResponse } from "src/models/Response/ServiceResponse";
 import { ServiceInfo } from "./ServiceInfo";
 import styles from "./styles";
@@ -15,6 +23,11 @@ interface Props {
 }
 export const AddServicesTab: FunctionComponent<Props> = props => {
   const { addServices, shipmentNumber, shipmentId } = props;
+  const imagesReducer = useSelector(
+    (state: IRootState) => state.uploadImage.images,
+  ) as Array<SavePhoto> | [];
+  const [imageShow, setImageShow] = useState<Array<string>>([]);
+  const [isShowImagesModal, showImageModal, hideImagesModal] = useShow();
   const [isLoading, showLoading, hideLoading] = useShow();
   const [isLoadingAddService, showLoadingAddService, hideLoadingAddService] =
     useShow();
@@ -144,6 +157,21 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
     );
   };
 
+  const viewImage = useCallback(
+    (shipment: string, serviceCode: string) => {
+      const images = imagesReducer.filter(image =>
+        image.name.includes(`${shipment}_${serviceCode}`),
+      );
+
+      if (images.length === 0) {
+        Alert.warning("warning.noPhotos");
+      } else {
+        setImageShow(images.map(image => image.uri));
+        showImageModal();
+      }
+    },
+    [imagesReducer, showImageModal],
+  );
   const renderItem = ({ item }: { item: AddServiceShipmentResponse }) => {
     const isSelected = isSelectedService(item.Id);
     return (
@@ -152,10 +180,13 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
         isSelected={isSelected}
         onSelect={selectedService}
         shipment={shipmentNumber}
+        shipmentId={shipmentId}
         updateIsProcess={updateIsProcess}
+        viewImage={viewImage}
       />
     );
   };
+
   return (
     <View style={styles.tabContainer}>
       {isLoading ? (
@@ -184,6 +215,13 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
           }
         />
       )}
+      <ImagesModal
+        images={imageShow}
+        isVisible={isShowImagesModal}
+        closeModal={hideImagesModal}
+        index={0}
+        isLocalImage={true}
+      />
     </View>
   );
 };

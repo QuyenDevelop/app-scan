@@ -1,7 +1,10 @@
 import {
+  CompleteAddServiceRequest,
+  DeleteSubShipmentRequest,
   ScanShipmentResponse,
   ShipmentInfoRequest,
   UpdateAddServiceRequest,
+  UpdateDirectShipmentRequest,
 } from "@models";
 import { store } from "@redux";
 import { IRootState } from "../redux/reducers";
@@ -24,6 +27,18 @@ class ShipmentApi extends BaseApi {
 
   updateAddService(request: UpdateAddServiceRequest) {
     return this.post("upload-cargoraddservices", request, {});
+  }
+
+  deleteSubShipment(request: DeleteSubShipmentRequest) {
+    return this.post("delete-subshipment-mobile", {}, request);
+  }
+
+  completeProcessAddService(request: CompleteAddServiceRequest) {
+    return this.post("upload-item-cargoraddservice", request, {});
+  }
+
+  updateDirectShipment(request: UpdateDirectShipmentRequest) {
+    return this.post("upload-isdirectshipment-mobile", {}, request);
   }
 }
 

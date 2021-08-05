@@ -1,10 +1,12 @@
 import { SubShipment } from "@models";
-import { Themes } from "@themes";
-import React, { FunctionComponent, useRef } from "react";
+import { Icon } from "@shared";
+import { Metrics, Themes } from "@themes";
+import React, { FunctionComponent } from "react";
 import {
   Keyboard,
   Text,
   TextInput,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
@@ -12,40 +14,55 @@ import styles from "./styles";
 interface Props {
   subShipment: SubShipment;
   index: number;
-  updateSubShipment: (shipment: SubShipment) => void;
+  updateSubShipment: (shipment: SubShipment, index: number) => void;
+  deleteSubShipment: (index: number) => void;
+  totalSubShipments: number;
 }
 export const SubShipmentItem: FunctionComponent<Props> = props => {
-  const { subShipment, index, updateSubShipment } = props;
-  const weightRef = useRef<number>(subShipment.TotalGrossWeight * 1000 || 0);
-  const lengthRef = useRef<number>(subShipment.Length || 0);
-  const widthRef = useRef<number>(subShipment.Width || 0);
-  const heightRef = useRef<number>(subShipment.Height || 0);
+  const {
+    subShipment,
+    index,
+    updateSubShipment,
+    deleteSubShipment,
+    totalSubShipments,
+  } = props;
 
   const updateWeight = (value: string) => {
-    const newWeight = parseFloat(value) || 0;
-    weightRef.current = newWeight;
-    updateSubShipment({ ...subShipment, TotalGrossWeight: newWeight });
+    const newWeight = (parseFloat(value) || 0) / 1000;
+    updateSubShipment({ ...subShipment, TotalGrossWeight: newWeight }, index);
   };
   const updateLength = (value: string) => {
     const newLength = parseFloat(value) || 0;
-    lengthRef.current = newLength;
-    updateSubShipment({ ...subShipment, Length: newLength });
+    updateSubShipment({ ...subShipment, Length: newLength }, index);
   };
   const updateWidth = (value: string) => {
     const newWidth = parseFloat(value) || 0;
-    widthRef.current = newWidth;
-    updateSubShipment({ ...subShipment, Width: newWidth });
+    updateSubShipment({ ...subShipment, Width: newWidth }, index);
   };
   const updateHeight = (value: string) => {
     const newHeight = parseFloat(value) || 0;
-    heightRef.current = newHeight;
-    updateSubShipment({ ...subShipment, Height: newHeight });
+    updateSubShipment({ ...subShipment, Height: newHeight }, index);
+  };
+
+  const onDelete = () => {
+    deleteSubShipment(index);
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.subShipmentContainer}>
-        <Text style={styles.labelInfo}>Piece {index + 1}:</Text>
+        <View style={[styles.spaceBetween, { paddingRight: 0 }]}>
+          <Text style={styles.labelInfo}>Piece {index + 1}:</Text>
+          {totalSubShipments > 1 && (
+            <TouchableOpacity onPress={onDelete}>
+              <Icon
+                name="ic_close_circle"
+                size={Metrics.icons.small}
+                color={Themes.colors.black}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
         <View style={styles.generalInfoRow}>
           <Text style={styles.labelInfo}>GW:</Text>
           <TextInput
@@ -54,7 +71,7 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
             keyboardType="number-pad"
             contextMenuHidden={true}
             placeholderTextColor={Themes.colors.collGray40}
-            defaultValue={weightRef.current.toString()}
+            value={((subShipment.TotalGrossWeight || 0) * 1000).toString()}
             onChangeText={updateWeight}
           />
           <Text style={styles.contentInfo}>gram</Text>
@@ -67,7 +84,7 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
             keyboardType="number-pad"
             contextMenuHidden={true}
             placeholderTextColor={Themes.colors.collGray40}
-            defaultValue={lengthRef.current.toString()}
+            value={subShipment.Length?.toString() || "0"}
             onChangeText={updateLength}
           />
           <Text style={styles.contentInfo}>x</Text>
@@ -77,7 +94,7 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
             keyboardType="number-pad"
             contextMenuHidden={true}
             placeholderTextColor={Themes.colors.collGray40}
-            defaultValue={widthRef.current.toString()}
+            value={subShipment.Width?.toString() || "0"}
             onChangeText={updateWidth}
           />
           <Text style={styles.contentInfo}>x</Text>
@@ -87,7 +104,7 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
             keyboardType="number-pad"
             contextMenuHidden={true}
             placeholderTextColor={Themes.colors.collGray40}
-            defaultValue={heightRef.current.toString()}
+            value={subShipment.Height?.toString() || "0"}
             onChangeText={updateHeight}
           />
           <Text style={styles.contentInfo}>cm</Text>

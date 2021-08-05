@@ -1,10 +1,12 @@
+import { shipmentApi } from "@api";
+import { Alert } from "@helpers";
 import { useShow } from "@hooks";
 import { AddServiceShipmentResponse } from "@models";
 import { Checkbox, Icon, translate } from "@shared";
 import { FontFamily, Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
 import {
-  Alert,
+  Alert as RNAlert,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -17,10 +19,20 @@ interface Props {
   isSelected: boolean;
   onSelect: (serviceSelect: AddServiceShipmentResponse) => void;
   shipment: string;
+  shipmentId: string;
   updateIsProcess: (serviceId: string, value: boolean) => void;
+  viewImage: (shipment: string, serviceCode: string) => void;
 }
 export const ServiceInfo: FunctionComponent<Props> = props => {
-  const { item, isSelected, onSelect, shipment, updateIsProcess } = props;
+  const {
+    item,
+    isSelected,
+    onSelect,
+    shipment,
+    updateIsProcess,
+    shipmentId,
+    viewImage,
+  } = props;
   const [isShowPhotoModal, showPhotoModal, hidePhotoModal] = useShow();
 
   const selectService = () => {
@@ -33,23 +45,52 @@ export const ServiceInfo: FunctionComponent<Props> = props => {
     }
 
     if (item.IsProcessed === false) {
-      Alert.alert("", `[${item.Code}] ${item.Name}\n Xác nhận hoàn thành`, [
-        {
-          text: translate("button.cancel"),
-          onPress: () => {},
-          style: "cancel",
-        },
-        {
-          text: translate("button.confirm"),
-          onPress: () => {
-            updateIsProcess(item.Id, true);
+      RNAlert.alert(
+        "",
+        translate("alert.completeConfirm", {
+          code: item.Code,
+          name: item.Name,
+        }),
+        [
+          {
+            text: translate("button.cancel"),
+            onPress: () => {},
+            style: "cancel",
           },
-        },
-      ]);
+          {
+            text: translate("button.confirm"),
+            onPress: () => {
+              shipmentApi
+                .completeProcessAddService({
+                  shipmentId: shipmentId,
+                  shipmentNumber: shipment,
+                  cargorAddServiceId: item.Id,
+                  cargorAddServiceCode: item.Code,
+                })
+                ?.then(response => {
+                  console.log("🚀🚀🚀 => selectService => response", response);
+                  if (response.success) {
+                    updateIsProcess(item.Id, true);
+                  } else {
+                    Alert.error(response.message, true);
+                  }
+                })
+                .catch(error => {
+                  Alert.error(error, true);
+                });
+            },
+          },
+        ],
+      );
     }
 
     onSelect(item);
   };
+
+  const onViewImage = () => {
+    viewImage(shipment, item.Code);
+  };
+
   return (
     <TouchableWithoutFeedback onPress={selectService}>
       <View style={styles.serviceInfoContainer}>
@@ -94,7 +135,7 @@ export const ServiceInfo: FunctionComponent<Props> = props => {
                   color={Themes.colors.black}
                 />
               </TouchableOpacity>
-              <TouchableOpacity hitSlop={styles.hitSlop}>
+              <TouchableOpacity hitSlop={styles.hitSlop} onPress={onViewImage}>
                 <Text
                   style={[
                     styles.contentInfo,

@@ -79,6 +79,7 @@ export const LaunchScreen: FunctionComponent<Props> = () => {
     }
 
     if (accessToken) {
+      console.log("🚀🚀🚀 => authenticate => accessToken", accessToken);
       dispatch(
         AccountAction.userInfo(
           {},

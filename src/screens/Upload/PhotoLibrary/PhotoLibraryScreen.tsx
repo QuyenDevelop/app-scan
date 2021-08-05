@@ -12,15 +12,17 @@ import CameraRoll, {
   PhotoIdentifier,
 } from "@react-native-community/cameraroll";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { IRootState, SavePhoto, UploadImageAction } from "@redux";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { DeviceEventEmitter, FlatList, Platform, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useDispatch, useSelector } from "react-redux";
 import { ImageItem } from "./ImageItem";
 import styles from "./styles";
 
 type NavigationRoute = RouteProp<
   ShipmentStackParamsList,
-  SCREENS.UPLOAD_SCREEN
+  SCREENS.PHOTO_LIBRARY_SCREEN
 >;
 export interface PhotoLibraryScreenParams {
   shipment: string;
@@ -30,6 +32,10 @@ export interface PhotoLibraryScreenParams {
 export const PhotoLibraryScreen: FunctionComponent = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const imagesReducer = useSelector(
+    (state: IRootState) => state.uploadImage.images,
+  ) as Array<SavePhoto> | [];
   const route = useRoute<NavigationRoute>();
   const { shipment, service } = route?.params;
   const [photos, setPhotos] = useState<Array<PhotoIdentifier>>([]);
@@ -89,6 +95,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
         uri: image,
       };
     });
+
     let listPush: Array<StorageImages> = [];
     if (listImages) {
       listPush = [...listImages, ...savePhotos];
@@ -102,6 +109,9 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
     );
 
     if (storage) {
+      dispatch(
+        UploadImageAction.updateImages([...imagesReducer, ...savePhotos]),
+      );
       DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
       setPhotosSelected([]);
       Alert.success("Ảnh đang được upload tự động", true);

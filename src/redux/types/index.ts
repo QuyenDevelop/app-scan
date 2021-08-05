@@ -1,3 +1,3 @@
 import { AccountActionType } from "./AccountActionType";
-
-export { AccountActionType };
+import { UploadImageType } from "./UploadImageActionType";
+export { AccountActionType, UploadImageType };
