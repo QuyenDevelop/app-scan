@@ -68,7 +68,6 @@ export const ServiceInfo: FunctionComponent<Props> = props => {
                   cargorAddServiceCode: item.Code,
                 })
                 ?.then(response => {
-                  console.log("🚀🚀🚀 => selectService => response", response);
                   if (response.success) {
                     updateIsProcess(item.Id, true);
                   } else {
@@ -142,7 +141,7 @@ export const ServiceInfo: FunctionComponent<Props> = props => {
                     { textDecorationLine: "underline" },
                   ]}
                 >
-                  View
+                  {translate("label.viewImage")}
                 </Text>
               </TouchableOpacity>
             </>

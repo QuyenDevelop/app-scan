@@ -1,11 +1,11 @@
-import en from "./locales/en";
-import vi from "./locales/vi";
-import ja from "./locales/ja";
-import cn from "./locales/cn";
-import tw from "./locales/tw";
-import i18n from "i18n-js";
 import { CONSTANT } from "@configs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import i18n from "i18n-js";
+import cn from "./locales/cn";
+import en from "./locales/en";
+import ja from "./locales/ja";
+import tw from "./locales/tw";
+import vi from "./locales/vi";
 
 i18n.defaultLocale = CONSTANT.LANGUAGES.EN;
 i18n.locale = CONSTANT.LANGUAGES.EN;

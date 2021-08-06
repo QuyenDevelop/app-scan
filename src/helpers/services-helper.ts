@@ -18,7 +18,6 @@ export const autoUpload = async (
   allowUpdate: boolean,
   updateUploadState: (value: boolean) => void,
 ) => {
-  console.log("🚀🚀🚀 => allowUpdate", allowUpdate);
   // Is Uploading
   if (!allowUpdate) {
     return;
@@ -27,7 +26,6 @@ export const autoUpload = async (
   updateUploadState(false);
   // Start upload
   BackgroundTimer.runBackgroundTimer(async () => {
-    console.log("🚀🚀🚀 => runBackgroundTimer");
     const listImages = await getAsyncItem(
       CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
     );
@@ -52,9 +50,7 @@ export const autoUpload = async (
         ?.then(async () => {
           await removeImage(name);
         })
-        .catch(() => {
-          console.log("🚀🚀🚀 => listImages.map => upload fail", item.name);
-        });
+        .catch(() => {});
     }
   }, 100000);
 };

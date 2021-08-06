@@ -9,7 +9,6 @@ export const getAsyncItem = async (key: string) => {
 
     return null;
   } catch (e) {
-    console.log("🚀🚀🚀 => getAsyncItem => e", e);
     return null;
   }
 };
@@ -20,7 +19,6 @@ export const setAsyncItem = async (key: string, value: any) => {
     await AsyncStorage.setItem(key, jsonValue);
     return true;
   } catch (e) {
-    console.log("🚀🚀🚀 => setAsyncItem => e", e);
     return false;
   }
 };

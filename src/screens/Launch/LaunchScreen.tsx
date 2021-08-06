@@ -10,6 +10,7 @@ import {
 } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AccountAction } from "@redux";
+import { translate } from "@shared";
 import { Loader } from "@themes";
 import LottieView from "lottie-react-native";
 import React, { FunctionComponent, useCallback, useState } from "react";
@@ -30,7 +31,6 @@ export const LaunchScreen: FunctionComponent<Props> = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
   useStatusBar("dark-content");
   const insets = useSafeAreaInsets();
-
   const [currencyCodes] = useState({
     currencyCode: RNLocalize.getCurrencies(),
   });
@@ -39,6 +39,7 @@ export const LaunchScreen: FunctionComponent<Props> = () => {
     locates: RNLocalize.getLocales(),
   });
 
+  translate("");
   const checkIsFirstLaunch = async (): Promise<boolean> => {
     return false;
   };

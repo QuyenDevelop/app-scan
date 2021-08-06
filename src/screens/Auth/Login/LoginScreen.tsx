@@ -1,4 +1,3 @@
-import { customerApi } from "@api";
 import { Header } from "@components";
 import { SCREENS } from "@configs";
 import { Alert, ScreenUtils, Utils } from "@helpers";
@@ -64,7 +63,6 @@ export const LoginScreen: FunctionComponent = () => {
         { email: email, password: password },
         {
           onFailure: (err: any) => {
-            console.log("🚀🚀🚀 => loginWithEmail => err", err);
             if (err && err.locked) {
               navigation.navigate(SCREENS.LOCKED_SCREEN, {
                 countDown: err.error_description || "0",
@@ -78,12 +76,11 @@ export const LoginScreen: FunctionComponent = () => {
             setIsLoading(false);
           },
           onSuccess: () => {
-            console.log("🚀🚀🚀 => loginWithEmail => onSuccess");
             setIsLoading(false);
-            navigation.goBack();
-            if (deviceId) {
-              customerApi.updateDeviceId(deviceId);
-            }
+            // navigation.goBack();
+            // if (deviceId) {
+            //   customerApi.updateDeviceId(deviceId);
+            // }
             getUserInformation();
           },
         },
@@ -125,12 +122,7 @@ export const LoginScreen: FunctionComponent = () => {
   const loginWithApple = () => {};
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
-      <Header
-        title={translate("screens.loginScreen")}
-        iconLeftName={["ic_arrow_left"]}
-        iconLeftOnPress={[() => navigation.goBack()]}
-        isCenterTitle
-      />
+      <Header isGoBack isEnableChangeLanguage />
       <KeyboardAvoidingView
         enabled={Platform.OS === "ios"}
         behavior={Platform.OS === "ios" ? "padding" : undefined}

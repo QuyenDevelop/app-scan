@@ -172,6 +172,7 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
     },
     [imagesReducer, showImageModal],
   );
+
   const renderItem = ({ item }: { item: AddServiceShipmentResponse }) => {
     const isSelected = isSelectedService(item.Id);
     return (

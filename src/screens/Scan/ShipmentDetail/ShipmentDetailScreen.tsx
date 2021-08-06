@@ -1,11 +1,17 @@
+import { shipmentApi } from "@api";
 import { Header } from "@components";
 import { SCREENS } from "@configs";
-import { ShipmentResponse } from "@models";
+import { ShipmentAddServiceResponse, ShipmentResponse } from "@models";
 import { ShipmentStackParamsList } from "@navigation";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { translate } from "@shared";
 import { Themes } from "@themes";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import {
   ActivityIndicator,
   Text,
@@ -35,11 +41,33 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
   const { item } = routeNavigation?.params;
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
+  const [addServices, setAddServices] = useState<
+    Array<ShipmentAddServiceResponse>
+  >([]);
+
   const [routes] = useState([
     { key: "GeneralInfoTab", title: translate("label.tab.generalInfoTab") },
     { key: "ContentInfoTab", title: translate("label.tab.contentInfoTab") },
     { key: "AddServicesTab", title: translate("label.tab.addServicesTab") },
   ]);
+
+  const getShipmentAddServices = useCallback(() => {
+    shipmentApi
+      .getDetailShipment({
+        shipmentId: item.ShipmentId,
+        option: 1,
+      })
+      ?.then(response => {
+        if (response && response.success) {
+          setAddServices(response.data.ShipmentCargoAddServices || []);
+        }
+      });
+  }, [item.ShipmentId]);
+
+  useEffect(() => {
+    getShipmentAddServices();
+  }, [getShipmentAddServices]);
+
   const renderScene = useCallback(
     ({ route }: { route: any }) => {
       switch (route.key) {
@@ -49,7 +77,6 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
               shipment={item.ShipmentNumber}
               shipmentId={item.ShipmentId}
               reference={item.ReferenceNumber}
-              subShipments={item.SubShipments}
               customer={item.CustomerName}
               cnee={item.ConsigneeName}
               service={item.CargoSPServiceId}
@@ -58,11 +85,11 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
             />
           );
         case "ContentInfoTab":
-          return <ContentInfoTab shipmentItems={item.ShipmentItems} />;
+          return <ContentInfoTab shipmentId={item.ShipmentId} />;
         case "AddServicesTab":
           return (
             <AddServicesTab
-              addServices={item.ShipmentCargoAddServices}
+              addServices={addServices}
               shipmentNumber={item.ShipmentNumber}
               shipmentId={item.ShipmentId}
             />
@@ -72,16 +99,15 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
       }
     },
     [
+      addServices,
       item.CargoSPServiceId,
       item.CargoShippingMethod,
       item.ConsigneeName,
       item.CustomerName,
+      item.IsDirectShipment,
       item.ReferenceNumber,
-      item.ShipmentCargoAddServices,
       item.ShipmentId,
-      item.ShipmentItems,
       item.ShipmentNumber,
-      item.SubShipments,
     ],
   );
 
@@ -94,7 +120,7 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <Header
-        title="Shipment detail"
+        title={translate("screens.shipmentDetail")}
         iconLeftName={["ic_arrow_left"]}
         iconLeftOnPress={[() => navigation.goBack()]}
         isCenterTitle

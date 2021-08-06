@@ -5,9 +5,10 @@ import { useToggle } from "@hooks";
 import { goToPhotoLibrary, ShipmentStackParamsList } from "@navigation";
 import CameraRoll from "@react-native-community/cameraroll";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { Themes } from "@themes";
+import { Icon, translate } from "@shared";
+import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent, useRef, useState } from "react";
-import { Image, Platform, Text, TouchableOpacity, View } from "react-native";
+import { Image, Platform, TouchableOpacity, View } from "react-native";
 import { RNCamera } from "react-native-camera";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from "./styles";
@@ -59,7 +60,7 @@ export const UploadScreen: FunctionComponent = () => {
       ]}
     >
       <Header
-        title="Upload Image"
+        title={translate("screens.uploadImageScreen")}
         iconLeftName={["ic_arrow_left"]}
         iconLeftOnPress={[() => navigation.goBack()]}
         isCenterTitle
@@ -106,7 +107,11 @@ export const UploadScreen: FunctionComponent = () => {
           />
         </View>
         <TouchableOpacity style={styles.flashButton} onPress={toggleFlashMode}>
-          <Text style={styles.flashText}>Flash</Text>
+          <Icon
+            name="ic_flash"
+            size={Metrics.icons.medium}
+            color={isFlashMode ? Themes.colors.warning50 : Themes.colors.white}
+          />
         </TouchableOpacity>
       </View>
     </View>

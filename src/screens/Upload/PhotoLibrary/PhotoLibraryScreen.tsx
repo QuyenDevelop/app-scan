@@ -13,6 +13,7 @@ import CameraRoll, {
 } from "@react-native-community/cameraroll";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { IRootState, SavePhoto, UploadImageAction } from "@redux";
+import { translate } from "@shared";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { DeviceEventEmitter, FlatList, Platform, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -57,7 +58,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
         setHasNextPage(r.page_info.has_next_page);
       })
       .catch(err => {
-        console.log("🚀🚀🚀 => getAllPhotos => err", err);
+        Alert.error(err, true);
       });
   };
 
@@ -114,9 +115,9 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
       );
       DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
       setPhotosSelected([]);
-      Alert.success("Ảnh đang được upload tự động", true);
+      Alert.success(translate("success.autoUploadImage"));
     } else {
-      Alert.error("Đã có lỗi xảy ra, vui lòng thử lại", true);
+      Alert.error(translate("error.errorServer"));
     }
   };
 
@@ -139,7 +140,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
       ]}
     >
       <Header
-        title="Photo library"
+        title={translate("screens.photoLibraryScreen")}
         iconLeftName={["ic_arrow_left"]}
         iconLeftOnPress={[() => navigation.goBack()]}
         isCenterTitle

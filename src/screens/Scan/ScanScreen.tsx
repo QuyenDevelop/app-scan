@@ -4,7 +4,7 @@ import { Alert } from "@helpers";
 import { useShow } from "@hooks";
 import { Account, ShipmentResponse } from "@models";
 import { IRootState } from "@redux";
-import { Icon } from "@shared";
+import { Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
 import debounce from "lodash/debounce";
 import React, { FunctionComponent, useRef, useState } from "react";
@@ -44,9 +44,7 @@ export const ScanScreen: FunctionComponent = () => {
       setShipments([]);
       return;
     }
-
     showIsLoadingFetchData();
-    console.log("🚀🚀🚀 => fetchData => value", value);
     shipmentApi
       .scanShipment(value)
       ?.then(shipment => {
@@ -58,7 +56,6 @@ export const ScanScreen: FunctionComponent = () => {
         }
       })
       .catch(err => {
-        console.log("🚀🚀🚀 => getShipment => err", err);
         Alert.error(err, true);
       })
       .finally(() => {
@@ -84,15 +81,15 @@ export const ScanScreen: FunctionComponent = () => {
   };
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
-      <Header title="Check and scan" />
+      <Header title={translate("screens.checkAndScan")} />
       {profile ? (
         <>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.header}>
-              <Text>Scan or type shipment/reference no</Text>
+              <Text>{translate("label.scanOrTypeShipment")}</Text>
               <View style={styles.input}>
                 <TextInput
-                  placeholder="Scan or type"
+                  placeholder={translate("placeholder.scanOrType")}
                   style={styles.inputCode}
                   defaultValue={content}
                   onChangeText={searchShipments}
@@ -108,18 +105,11 @@ export const ScanScreen: FunctionComponent = () => {
                   }}
                 >
                   <Icon
-                    name="ic_scanner"
+                    name="qr_code"
                     size={Metrics.icons.medium}
                     color={Themes.colors.black}
                   />
                 </TouchableOpacity>
-                {/* <TouchableOpacity style={styles.scanButton}>
-                  <Icon
-                    name="ic_arrow_right"
-                    size={Metrics.icons.medium}
-                    color={Themes.colors.black}
-                  />
-                </TouchableOpacity> */}
               </View>
             </View>
           </TouchableWithoutFeedback>
@@ -134,8 +124,7 @@ export const ScanScreen: FunctionComponent = () => {
               reactivateTimeout={2000}
               showMarker
               fadeIn={true}
-              cameraStyle={{ width: "100%", height: "100%" }}
-              // customMarker={<View style={styles.markerView} />}
+              cameraStyle={styles.camera}
             />
           ) : (
             <ListShipment shipments={shipments} />

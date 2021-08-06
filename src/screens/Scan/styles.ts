@@ -61,4 +61,5 @@ export default StyleSheet.create({
     alignItems: "center",
     flex: 1,
   },
+  camera: { width: "100%", height: "100%" },
 });

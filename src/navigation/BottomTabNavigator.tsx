@@ -1,7 +1,7 @@
 import { SCREENS } from "@configs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { HomeScreen, ScanScreen } from "@screens";
+import { HomeScreen, MenuScreen, ScanScreen } from "@screens";
 import { Icon, translate } from "@shared";
 import { Images, Themes } from "@themes";
 import LottieView from "lottie-react-native";
@@ -51,9 +51,14 @@ export type HomeParamsList = {
 export type ScanParamsList = {
   [SCREENS.SCAN_SCREEN]: undefined;
 };
+
+export type MenuParamsList = {
+  [SCREENS.MENU_SCREEN]: undefined;
+};
 const Tab = createBottomTabNavigator();
 const HomeStackNavigator = createStackNavigator<HomeParamsList>();
 const ScanStackNavigator = createStackNavigator<ScanParamsList>();
+const MenuStackNavigator = createStackNavigator<MenuParamsList>();
 function HomeStack() {
   return (
     <HomeStackNavigator.Navigator initialRouteName={SCREENS.HOME_SCREEN}>
@@ -79,6 +84,20 @@ function ScanStack() {
         }}
       />
     </ScanStackNavigator.Navigator>
+  );
+}
+
+function MenuStack() {
+  return (
+    <MenuStackNavigator.Navigator initialRouteName={SCREENS.MENU_SCREEN}>
+      <MenuStackNavigator.Screen
+        name={SCREENS.MENU_SCREEN}
+        component={MenuScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </MenuStackNavigator.Navigator>
   );
 }
 
@@ -131,7 +150,7 @@ export function BottomTabNavigator() {
       />
       <Tab.Screen
         name={SCREENS.MENU_STACK}
-        component={HomeStack}
+        component={MenuStack}
         options={{
           tabBarIcon: ({ focused }) =>
             getTabBarIcon("ic_menu", translate("label.tab.menu"), focused),

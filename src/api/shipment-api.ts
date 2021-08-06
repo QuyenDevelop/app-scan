@@ -2,6 +2,7 @@ import {
   CompleteAddServiceRequest,
   DeleteSubShipmentRequest,
   ScanShipmentResponse,
+  ShipmentDetailResponse,
   ShipmentInfoRequest,
   UpdateAddServiceRequest,
   UpdateDirectShipmentRequest,
@@ -39,6 +40,19 @@ class ShipmentApi extends BaseApi {
 
   updateDirectShipment(request: UpdateDirectShipmentRequest) {
     return this.post("upload-isdirectshipment-mobile", {}, request);
+  }
+
+  getDetailShipment({
+    shipmentId,
+    option,
+  }: {
+    shipmentId: string;
+    option: number;
+  }) {
+    return this.get<ShipmentDetailResponse>("get-detail-part-of-shipment", {
+      ShipmentId: shipmentId,
+      Option: option, // option: 1.  ShipmentCargoAddServices, 2. SubShipments, 3. ShipmentItems
+    });
   }
 }
 

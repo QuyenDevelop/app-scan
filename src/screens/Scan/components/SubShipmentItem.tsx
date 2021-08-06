@@ -1,5 +1,5 @@
 import { SubShipment } from "@models";
-import { Icon } from "@shared";
+import { Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
 import {
@@ -52,7 +52,9 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.subShipmentContainer}>
         <View style={[styles.spaceBetween, { paddingRight: 0 }]}>
-          <Text style={styles.labelInfo}>Piece {index + 1}:</Text>
+          <Text style={styles.labelInfo}>
+            {translate("label.subShipment", { index: index + 1 })}{" "}
+          </Text>
           {totalSubShipments > 1 && (
             <TouchableOpacity onPress={onDelete}>
               <Icon
@@ -64,9 +66,11 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
           )}
         </View>
         <View style={styles.generalInfoRow}>
-          <Text style={styles.labelInfo}>GW:</Text>
+          <Text style={styles.labelInfo}>
+            {translate("label.subShipmentWeight")}
+          </Text>
           <TextInput
-            placeholder="Nhập trọng lượng"
+            placeholder={translate("placeholder.enterWeight")}
             style={styles.inputInfo}
             keyboardType="number-pad"
             contextMenuHidden={true}
@@ -74,12 +78,12 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
             value={((subShipment.TotalGrossWeight || 0) * 1000).toString()}
             onChangeText={updateWeight}
           />
-          <Text style={styles.contentInfo}>gram</Text>
+          <Text style={styles.contentInfo}>{translate("label.gram")}</Text>
         </View>
         <View style={styles.generalInfoRow}>
-          <Text style={styles.labelInfo}>Dimensions:</Text>
+          <Text style={styles.labelInfo}>{translate("label.dimension")}</Text>
           <TextInput
-            placeholder="length"
+            placeholder={translate("placeholder.length")}
             style={styles.inputInfo}
             keyboardType="number-pad"
             contextMenuHidden={true}
@@ -89,7 +93,7 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
           />
           <Text style={styles.contentInfo}>x</Text>
           <TextInput
-            placeholder="width"
+            placeholder={translate("placeholder.width")}
             style={styles.inputInfo}
             keyboardType="number-pad"
             contextMenuHidden={true}
@@ -99,7 +103,7 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
           />
           <Text style={styles.contentInfo}>x</Text>
           <TextInput
-            placeholder="height"
+            placeholder={translate("placeholder.height")}
             style={styles.inputInfo}
             keyboardType="number-pad"
             contextMenuHidden={true}
@@ -107,7 +111,7 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
             value={subShipment.Height?.toString() || "0"}
             onChangeText={updateHeight}
           />
-          <Text style={styles.contentInfo}>cm</Text>
+          <Text style={styles.contentInfo}>{translate("label.cm")}</Text>
         </View>
       </View>
     </TouchableWithoutFeedback>

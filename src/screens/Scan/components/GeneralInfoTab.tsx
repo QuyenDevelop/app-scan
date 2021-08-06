@@ -36,7 +36,7 @@ interface Props {
   customer: string;
   cnee: string;
   service: string;
-  subShipments: Array<SubShipment>;
+  // subShipments: Array<SubShipment>;
   mode: number;
   isDirectShipment: boolean;
 }
@@ -50,15 +50,13 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
     customer,
     cnee,
     service,
-    subShipments: sShipments,
+    // subShipments: sShipments,
     mode,
     isDirectShipment,
   } = props;
-  const [subShipments, setSubShipments] = useState<Array<SubShipment>>(
-    sShipments.length > 0
-      ? sShipments
-      : [{ Length: 0, Width: 0, Height: 0, TotalGrossWeight: 0 }],
-  );
+  const [subShipments, setSubShipments] = useState<Array<SubShipment>>([
+    { Length: 0, Width: 0, Height: 0, TotalGrossWeight: 0 },
+  ]);
   const [selectedService, setSelectedService] =
     useState<ServiceShipmentResponse>();
   const [isShowServiceModal, showServiceModal, hideServiceModal] = useShow();
@@ -71,6 +69,23 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
     useState<Array<ServiceShipmentResponse>>();
   const [listMode, setListMode] = useState<Array<ModeShipmentResponse>>([]);
   const [selectedMode, setSelectedMode] = useState<ModeShipmentResponse>();
+
+  const getSubShipments = () => {
+    shipmentApi
+      .getDetailShipment({
+        shipmentId: shipmentId,
+        option: 2,
+      })
+      ?.then(response => {
+        if (
+          response &&
+          response.success &&
+          response.data.SubShipments.length > 0
+        ) {
+          setSubShipments(response.data.SubShipments);
+        }
+      });
+  };
 
   const fetchShipmentService = () => {
     serviceApi.getAll()?.then(response => {
@@ -93,6 +108,7 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
   };
 
   useEffect(() => {
+    getSubShipments();
     fetchShipmentService();
     fetchMode();
   }, []);
@@ -197,6 +213,12 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
       Alert.warning("label.notChooseService");
       return;
     }
+
+    if (!selectedMode) {
+      Alert.warning("label.notMode");
+      return;
+    }
+
     showLoadingUpdate();
     const subShipmentRequest = subShipments.map((subShipment: SubShipment) => {
       return {
@@ -215,6 +237,8 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
         cargoSPServiceId: selectedService.Id,
         cargoSPServiceCode: selectedService.Code,
         volumetricWeight: selectedService.VolumetricDivisor,
+        cargoShippingMethod: selectedMode.Code,
+        cargoShippingMethodText: selectedMode.Name,
         subShipments: subShipmentRequest,
       })
       ?.then(() => {
@@ -232,19 +256,23 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
     return (
       <View style={styles.generalInfo}>
         <View style={styles.generalInfoRow}>
-          <Text style={styles.labelInfo}>Shipment:</Text>
+          <Text style={styles.labelInfo}>
+            {translate("label.shipmentNumber")}
+          </Text>
           <Text style={styles.contentInfo}>{shipment}</Text>
         </View>
         <View style={styles.generalInfoRow}>
-          <Text style={styles.labelInfo}>Ref:</Text>
+          <Text style={styles.labelInfo}>{translate("label.refNumber")}</Text>
           <Text style={styles.contentInfo}>{reference}</Text>
         </View>
         <View style={styles.generalInfoRow}>
-          <Text style={styles.labelInfo}>Customer:</Text>
+          <Text style={styles.labelInfo}>{translate("label.customer")}</Text>
           <Text style={styles.contentInfo}>{customer}</Text>
         </View>
         <View style={styles.generalInfoRow}>
-          <Text style={styles.labelInfo}>Cnee:</Text>
+          <Text style={styles.labelInfo}>
+            {translate("label.consigneeName")}
+          </Text>
           <TouchableOpacity>
             <Text
               style={[styles.contentInfo, { textDecorationLine: "underline" }]}
@@ -253,30 +281,12 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.generalInfoRow}>
-          <Text style={styles.labelInfo}>Service:</Text>
-          <TouchableOpacity
-            style={styles.serviceButton}
-            onPress={showServiceModal}
-          >
-            <Text
-              style={[
-                styles.labelInfo,
-                { marginRight: ScreenUtils.calculatorWidth(5) },
-              ]}
-            >
-              {selectedService?.Name || translate("label.selectService")}
-            </Text>
-            <Icon
-              name="ic_arrow_down"
-              size={Metrics.icons.smallSmall}
-              color={Themes.colors.black}
-            />
-          </TouchableOpacity>
-        </View>
+
         <View style={styles.spaceBetween}>
           <View style={styles.generalInfoRow}>
-            <Text style={styles.labelInfo}>Mode:</Text>
+            <Text style={styles.labelInfo}>
+              {translate("label.shippingMode")}
+            </Text>
             <TouchableOpacity
               style={styles.serviceButton}
               onPress={showModeModal}
@@ -318,6 +328,27 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
             circleBorderActiveColor={Themes.colors.green22}
             circleBorderInactiveColor={Themes.colors.green22}
           />
+        </View>
+        <View style={styles.generalInfoRow}>
+          <Text style={styles.labelInfo}>{translate("label.service")}</Text>
+          <TouchableOpacity
+            style={styles.serviceButton}
+            onPress={showServiceModal}
+          >
+            <Text
+              style={[
+                styles.labelInfo,
+                { marginRight: ScreenUtils.calculatorWidth(5) },
+              ]}
+            >
+              {selectedService?.Name || translate("label.selectService")}
+            </Text>
+            <Icon
+              name="ic_arrow_down"
+              size={Metrics.icons.smallSmall}
+              color={Themes.colors.black}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     );

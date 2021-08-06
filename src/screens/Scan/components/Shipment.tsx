@@ -1,5 +1,7 @@
 import { ShipmentResponse } from "@models";
 import { goToShipmentDetail } from "@navigation";
+import { translate } from "@shared";
+import { Themes } from "@themes";
 import React, { FunctionComponent } from "react";
 import { Text, TouchableWithoutFeedback, View } from "react-native";
 import styles from "./styles";
@@ -14,9 +16,22 @@ export const Shipment: FunctionComponent<Props> = props => {
   return (
     <TouchableWithoutFeedback onPress={goToDetails}>
       <View style={styles.shipmentContainer}>
-        <Text>Shipment: {item.ShipmentNumber}</Text>
-        <Text>ReferenceNumber: {item.ReferenceNumber}</Text>
-        <Text>Người nhận: {item.ConsigneeName}</Text>
+        <View style={styles.shipment}>
+          <Text>
+            {translate("label.shipmentNumber")} {item.ShipmentNumber}{" "}
+          </Text>
+          {item.WaitingProcessed && (
+            <Text style={{ color: Themes.colors.red0033 }}>*</Text>
+          )}
+        </View>
+
+        <Text>
+          {translate("label.customer")} {item.CustomerName}
+        </Text>
+        <Text>
+          {translate("label.shipmentWeight")} {item.TotalGrossWeight}{" "}
+          {translate("label.gram")}
+        </Text>
       </View>
     </TouchableWithoutFeedback>
   );

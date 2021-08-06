@@ -75,7 +75,6 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "stretch",
     borderWidth: 1,
-    paddingHorizontal: ScreenUtils.calculatorWidth(10),
     paddingVertical: ScreenUtils.calculatorHeight(10),
     marginHorizontal: ScreenUtils.calculatorWidth(10),
     marginVertical: ScreenUtils.calculatorHeight(10),
@@ -194,5 +193,9 @@ export default StyleSheet.create({
     fontSize: 14,
     color: Themes.colors.primary,
     marginLeft: ScreenUtils.calculatorWidth(10),
+  },
+  shipment: {
+    flexDirection: "row",
+    alignItems: "center",
   },
 });

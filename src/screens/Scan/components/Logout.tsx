@@ -6,7 +6,7 @@ import styles from "./styles";
 export const Logout: FunctionComponent = () => {
   return (
     <View style={styles.logoutContainer}>
-      <Text style={styles.logoutTitle}>Vui lòng đăng nhập để sử dụng </Text>
+      <Text style={styles.logoutTitle}>{translate("label.requireLogin")}</Text>
       <Button onPress={() => goToLogin()} title={translate("button.login")} />
     </View>
   );

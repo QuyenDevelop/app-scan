@@ -22,7 +22,6 @@ const {
 class AuthApi extends BaseApi {
   login(email?: string, password?: string) {
     let url = `${IDENTITY_HOST}/connect/token`;
-    console.log("🚀🚀🚀 => login => url", url);
     return this.postUrlEncoded(
       url,
       {

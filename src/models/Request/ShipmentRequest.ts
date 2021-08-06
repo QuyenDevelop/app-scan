@@ -4,6 +4,8 @@ export interface ShipmentInfoRequest {
   cargoSPServiceId: string;
   cargoSPServiceCode: string;
   volumetricWeight: number;
+  cargoShippingMethod: number;
+  cargoShippingMethodText: string;
   subShipments: Array<SubShipmentsInfoRequest>;
 }
 
