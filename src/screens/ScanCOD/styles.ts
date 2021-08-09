@@ -5,6 +5,7 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Themes.colors.white,
   },
   centerText: {
     flex: 1,
@@ -28,7 +29,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: ScreenUtils.calculatorWidth(30),
-    marginTop: ScreenUtils.calculatorHeight(10),
+    marginVertical: ScreenUtils.calculatorHeight(10),
   },
   inputCode: {
     flex: 1,
@@ -43,25 +44,22 @@ export default StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: ScreenUtils.calculatorHeight(30),
+    marginTop: ScreenUtils.calculatorHeight(10),
   },
   scanButton: {
     marginHorizontal: ScreenUtils.calculatorWidth(5),
   },
-  tabBar: {
-    backgroundColor: Themes.colors.bP60,
+  markerView: {
+    borderWidth: 1,
+    borderColor: Themes.colors.green22,
+    width: "50%",
+    height: "50%",
+    backgroundColor: "rgba(52, 52, 52, 0.8)",
   },
-  labelStyle: {
-    ...Themes.font.bold,
-    fontSize: 14,
-    color: Themes.colors.white,
-  },
-  indicatorStyle: {
-    backgroundColor: Themes.colors.white,
-  },
-  scene: {
-    flex: 1,
-    alignItems: "center",
+  loadingView: {
     justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
   },
+  camera: { width: "100%", height: "100%" },
 });

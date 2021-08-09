@@ -1,3 +1,4 @@
+export * from "./AppText";
 export * from "./BaseBottomSheet/BaseBottomSheet";
 export * from "./BottomSheet/BottomSheet";
 export * from "./Button/Button";

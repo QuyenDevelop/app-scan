@@ -5,6 +5,7 @@ import {
   PhotoLibraryScreenParams,
   ShipmentDetailScreen,
   ShipmentDetailScreenParams,
+  UpdateCODScreen,
   UploadScreen,
   UploadScreenParams,
 } from "@screens";
@@ -14,6 +15,7 @@ export type ShipmentStackParamsList = {
   [SCREENS.SHIPMENT_DETAIL_SCREEN]: ShipmentDetailScreenParams;
   [SCREENS.UPLOAD_SCREEN]: UploadScreenParams;
   [SCREENS.PHOTO_LIBRARY_SCREEN]: PhotoLibraryScreenParams;
+  [SCREENS.UPDATE_COD_SCREEN]: undefined;
 };
 
 const ShipmentStackNavigator = createStackNavigator<ShipmentStackParamsList>();
@@ -40,6 +42,13 @@ export function ShipmentStackNavigation() {
       <ShipmentStackNavigator.Screen
         name={SCREENS.PHOTO_LIBRARY_SCREEN}
         component={PhotoLibraryScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <ShipmentStackNavigator.Screen
+        name={SCREENS.UPDATE_COD_SCREEN}
+        component={UpdateCODScreen}
         options={{
           headerShown: false,
         }}

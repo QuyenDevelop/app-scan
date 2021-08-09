@@ -42,7 +42,6 @@
     "react-native-gesture-handler": "^1.10.3",
     "react-native-image-crop-picker": "^0.36.2",
     "react-native-image-progress": "^1.1.1",
-    "react-native-keyboard-aware-scroll-view": "^0.9.4",
     "react-native-localize": "^2.1.1",
     "react-native-modal": "^12.0.2",
     "react-native-pager-view": "^5.4.0",

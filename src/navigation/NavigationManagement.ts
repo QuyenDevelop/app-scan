@@ -40,3 +40,9 @@ export const goToPhotoLibrary = (routeParams: PhotoLibraryScreenParams) => {
     params: routeParams,
   });
 };
+
+export const goToUpdateCodScreen = () => {
+  NavigationUtils.navigate(SCREENS.SHIPMENT_STACK, {
+    screen: SCREENS.UPDATE_COD_SCREEN,
+  });
+};

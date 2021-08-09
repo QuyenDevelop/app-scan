@@ -2,7 +2,7 @@ import { Header } from "@components";
 import { SCREENS } from "@configs";
 import { Alert, ScreenUtils, Utils } from "@helpers";
 import { useNavigation } from "@react-navigation/native";
-import { AccountAction, IRootState } from "@redux";
+import { AccountAction } from "@redux";
 import { Button, Checkbox, Icon, TextInput, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent, useState } from "react";
@@ -15,7 +15,7 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styles from "./styles";
 
 export interface LoginRouteParams {
@@ -33,9 +33,9 @@ export const LoginScreen: FunctionComponent = () => {
   const [isRemember, setIsRemember] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isButtonClickSubmit, setIsButtonClickSubmit] = useState(false);
-  const deviceId = useSelector(
-    (state: IRootState) => state.account.deviceId,
-  ) as string;
+  // const deviceId = useSelector(
+  //   (state: IRootState) => state.account.deviceId,
+  // ) as string;
   const getUserInformation = () => {
     dispatch(
       AccountAction.userInfo(
