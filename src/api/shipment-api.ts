@@ -1,6 +1,7 @@
 import {
   CompleteAddServiceRequest,
   DeleteSubShipmentRequest,
+  ScanShipmentCODResponse,
   ScanShipmentResponse,
   ShipmentDetailResponse,
   ShipmentInfoRequest,
@@ -52,6 +53,12 @@ class ShipmentApi extends BaseApi {
     return this.get<ShipmentDetailResponse>("get-detail-part-of-shipment", {
       ShipmentId: shipmentId,
       Option: option, // option: 1.  ShipmentCargoAddServices, 2. SubShipments, 3. ShipmentItems
+    });
+  }
+
+  scanShipmentCOD(value: string) {
+    return this.get<ScanShipmentCODResponse>("scan-shipment-by-cod", {
+      keyword: value,
     });
   }
 }

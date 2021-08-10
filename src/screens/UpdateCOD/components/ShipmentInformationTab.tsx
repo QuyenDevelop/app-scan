@@ -1,6 +1,7 @@
+import { shipmentApi } from "@api";
 import { ShipmentResponse } from "@models";
 import { Text, translate } from "@shared";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { View } from "react-native";
 import { ListShipment } from "./ListShipment";
 import styles from "./styles";
@@ -8,7 +9,16 @@ interface Props {}
 
 export const ShipmentInformationTab: FunctionComponent<Props> = props => {
   const {} = props;
-  const shipments: Array<ShipmentResponse> = [];
+  const [shipments, setShipments] = useState<Array<ShipmentResponse>>([]);
+  const getShipment = () => {
+    shipmentApi.scanShipment("1")?.then(shipment => {
+      setShipments(shipment?.data || []);
+    });
+  };
+
+  useEffect(() => {
+    getShipment();
+  }, []);
   return (
     <View style={styles.generalTab}>
       <View style={styles.generalInfoRow}>

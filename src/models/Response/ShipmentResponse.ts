@@ -132,3 +132,50 @@ export interface ShipmentDetail {
 
 export interface ShipmentDetailResponse
   extends BaseResponseEntity<ShipmentDetail> {}
+
+export interface ShipmentCODResponse {
+  Id: string;
+  CustomerId: string;
+  CustomerCode: string;
+  CustomerName: string;
+  CurrencyId: string;
+  CurrencyCode: string;
+  COD: false;
+  CODAmount: number;
+  CODAmountPay: number;
+  shipments: Array<ShipmentItemCodResponse>;
+}
+
+export interface ShipmentItemCodResponse {
+  ShipmentId: string;
+  ShipmentNumber: string;
+  ReferenceNumber: string;
+  CustomerId: string;
+  CustomerCode: string;
+  CustomerName: string;
+  CurrencyId: string;
+  CurrencyCode: string;
+  ShipperName: string;
+  ConsigneeName: string;
+  ConsigneeAddress1: string;
+  ConsigneeAddress2: string;
+  ConsigneeCountryText: string;
+  ConsigneeDistrictText: string;
+  ConsigneePhoneNumber: string;
+  ConsigneeWardText: string;
+  CargoSPServiceId: string;
+  CargoSPServiceCode: string;
+  CargoShippingMethod: number;
+  CargoShippingMethodText: string;
+  Status: number;
+  IsDirectShipment: boolean;
+  WaitingProcessed: boolean;
+  TotalGrossWeight: number;
+  TotalVolumetricWeight: number;
+  TotalChargeableWeight: number;
+  COD: boolean;
+  CODAmount: number;
+  CODAmoutPay: number;
+}
+export interface ScanShipmentCODResponse
+  extends BaseResponseEntity<ShipmentCODResponse> {}

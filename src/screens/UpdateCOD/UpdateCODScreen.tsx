@@ -1,5 +1,8 @@
 import { Header } from "@components";
-import { useNavigation } from "@react-navigation/native";
+import { SCREENS } from "@configs";
+import { ShipmentCODResponse } from "@models";
+import { ShipmentStackParamsList } from "@navigation";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { translate } from "@shared";
 import { Themes } from "@themes";
 import React, { FunctionComponent, useCallback, useState } from "react";
@@ -10,24 +13,28 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { NavigationState, TabBar, TabView } from "react-native-tab-view";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { TabBar, TabView } from "react-native-tab-view";
 import { ProcessCodTab } from "./components/ProcessCodTab";
 import { ShipmentInformationTab } from "./components/ShipmentInformationTab";
 import styles from "./styles";
 
 const PROCESS_COD_TAB = "ProcessCodTab";
 const SHIPMENT_INFO_TAB = "ShipmentInfoTab";
-type Route = {
-  key: string;
-  icon: React.ComponentProps<typeof Ionicons>["name"];
-};
 
-type State = NavigationState<Route>;
+type NavigationRoute = RouteProp<
+  ShipmentStackParamsList,
+  SCREENS.UPDATE_COD_SCREEN
+>;
+
+export interface UpdateCODScreenParams {
+  item: ShipmentCODResponse;
+}
 
 export const UpdateCODScreen: FunctionComponent = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
+  const routeNavigation = useRoute<NavigationRoute>();
+  const { item } = routeNavigation.params || {};
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
   const [routes] = useState([
@@ -38,7 +45,7 @@ export const UpdateCODScreen: FunctionComponent = () => {
   const renderScene = useCallback(({ route }: { route: any }) => {
     switch (route.key) {
       case PROCESS_COD_TAB:
-        return <ProcessCodTab />;
+        return <ProcessCodTab item={item} />;
       case SHIPMENT_INFO_TAB:
         return <ShipmentInformationTab />;
       default:

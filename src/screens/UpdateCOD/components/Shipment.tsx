@@ -1,7 +1,6 @@
 import { ShipmentResponse } from "@models";
-import { goToUpdateCodScreen } from "@navigation";
+import { goToShipmentDetailCODScreen } from "@navigation";
 import { translate } from "@shared";
-import { Themes } from "@themes";
 import React, { FunctionComponent } from "react";
 import { Text, TouchableWithoutFeedback, View } from "react-native";
 import styles from "./styles";
@@ -11,7 +10,7 @@ interface Props {
 export const Shipment: FunctionComponent<Props> = props => {
   const { item } = props;
   const goToDetails = () => {
-    goToUpdateCodScreen();
+    goToShipmentDetailCODScreen({ item });
   };
   return (
     <TouchableWithoutFeedback onPress={goToDetails}>
@@ -20,9 +19,6 @@ export const Shipment: FunctionComponent<Props> = props => {
           <Text>
             {translate("label.shipmentNumber")} {item.ShipmentNumber}{" "}
           </Text>
-          {item.WaitingProcessed && (
-            <Text style={{ color: Themes.colors.red0033 }}>*</Text>
-          )}
         </View>
 
         <Text>

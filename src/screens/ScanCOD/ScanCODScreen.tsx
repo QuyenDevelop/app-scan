@@ -2,7 +2,8 @@ import { shipmentApi } from "@api";
 import { Header, RequireLogin } from "@components";
 import { Alert } from "@helpers";
 import { useShow } from "@hooks";
-import { Account, ShipmentResponse } from "@models";
+import { Account, ShipmentCODResponse } from "@models";
+import { goToUpdateCodScreen } from "@navigation";
 import { IRootState } from "@redux";
 import { Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
@@ -20,7 +21,6 @@ import {
 import QRCodeScanner from "react-native-qrcode-scanner";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
-import { ListShipment } from "./components/ListShipment";
 import styles from "./styles";
 
 export const ScanCODScreen: FunctionComponent = () => {
@@ -32,7 +32,7 @@ export const ScanCODScreen: FunctionComponent = () => {
     useShow();
   const [content, setContent] = useState<string>("");
   const [isShowQrCode, showQrCode, hideQrCode] = useShow(true);
-  const [shipments, setShipments] = useState<Array<ShipmentResponse>>([]);
+  const [shipments, setShipments] = useState<ShipmentCODResponse>();
 
   const onRead = (e: any) => {
     setContent(e.data);
@@ -41,16 +41,16 @@ export const ScanCODScreen: FunctionComponent = () => {
 
   const getShipment = (value: string) => {
     if (value === "") {
-      setShipments([]);
+      setShipments(undefined);
       return;
     }
     showIsLoadingFetchData();
     shipmentApi
-      .scanShipment(value)
+      .scanShipmentCOD(value)
       ?.then(shipment => {
-        setShipments(shipment?.data || []);
         if (shipment?.success) {
-          hideQrCode();
+          setContent("");
+          goToUpdateCodScreen({ item: shipment?.data });
         } else {
           Alert.warning(shipment?.message || "", true);
         }
@@ -75,7 +75,7 @@ export const ScanCODScreen: FunctionComponent = () => {
     hideQrCode();
   };
   const onBlur = () => {
-    if (content === "" && shipments.length === 0) {
+    if (content === "" && !shipments) {
       showQrCode();
     }
   };
@@ -126,9 +126,7 @@ export const ScanCODScreen: FunctionComponent = () => {
               fadeIn={true}
               cameraStyle={styles.camera}
             />
-          ) : (
-            <ListShipment shipments={shipments} />
-          )}
+          ) : null}
         </>
       ) : (
         <RequireLogin />

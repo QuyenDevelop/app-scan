@@ -3,9 +3,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 import {
   PhotoLibraryScreen,
   PhotoLibraryScreenParams,
+  ShipmentDetailCODScreen,
+  ShipmentDetailCODScreenParams,
   ShipmentDetailScreen,
   ShipmentDetailScreenParams,
   UpdateCODScreen,
+  UpdateCODScreenParams,
   UploadScreen,
   UploadScreenParams,
 } from "@screens";
@@ -15,7 +18,8 @@ export type ShipmentStackParamsList = {
   [SCREENS.SHIPMENT_DETAIL_SCREEN]: ShipmentDetailScreenParams;
   [SCREENS.UPLOAD_SCREEN]: UploadScreenParams;
   [SCREENS.PHOTO_LIBRARY_SCREEN]: PhotoLibraryScreenParams;
-  [SCREENS.UPDATE_COD_SCREEN]: undefined;
+  [SCREENS.UPDATE_COD_SCREEN]: UpdateCODScreenParams;
+  [SCREENS.SHIPMENT_DETAIL_COD_SCREEN]: ShipmentDetailCODScreenParams;
 };
 
 const ShipmentStackNavigator = createStackNavigator<ShipmentStackParamsList>();
@@ -49,6 +53,13 @@ export function ShipmentStackNavigation() {
       <ShipmentStackNavigator.Screen
         name={SCREENS.UPDATE_COD_SCREEN}
         component={UpdateCODScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <ShipmentStackNavigator.Screen
+        name={SCREENS.SHIPMENT_DETAIL_COD_SCREEN}
+        component={ShipmentDetailCODScreen}
         options={{
           headerShown: false,
         }}

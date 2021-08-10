@@ -5,6 +5,11 @@ import {
   IUserState,
 } from "./AccountReducer";
 import {
+  defaultState as shipmentInfoDefaultState,
+  IShipmentInfo,
+  shipmentInfoReducer,
+} from "./ShipmentInfoReducer";
+import {
   defaultState as uploadImageDefaultState,
   IUploadImage,
   uploadImageReducer,
@@ -13,16 +18,19 @@ import {
 export interface IRootState {
   account: IUserState;
   uploadImage: IUploadImage;
+  shipmentInfo: IShipmentInfo;
 }
 
 export const RootStateDefault: IRootState = {
   account: accountDefaultState,
   uploadImage: uploadImageDefaultState,
+  shipmentInfo: shipmentInfoDefaultState,
 };
 
 const reducers = combineReducers<IRootState>({
   account: accountReducer,
   uploadImage: uploadImageReducer,
+  shipmentInfo: shipmentInfoReducer,
 });
 
 export default reducers;
