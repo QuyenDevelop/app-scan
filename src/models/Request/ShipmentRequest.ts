@@ -44,3 +44,8 @@ export interface UpdateDirectShipmentRequest {
   ShipmentId: string;
   IsDirectShipment: boolean;
 }
+
+export interface UpdateCodShipmentRequest {
+  ShipmentId: string;
+  CODAmountPay: number;
+}

@@ -134,14 +134,21 @@ export const Utils = {
     }
     return html.replace(/<[^>]*>?/gm, "");
   },
-  formatMoney: (money: string | number | null, replace?: string) => {
-    if (money === null || money === "") {
+  formatMoney: (
+    money: string | number | null | undefined,
+    replace?: string,
+  ) => {
+    if (money === null || money === "" || money === undefined) {
       return "0";
     }
+    const moneyArray = money.toString().split(".");
     let moneyString = "";
-    moneyString = money
+    moneyString = moneyArray[0]
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, replace ? replace : ",");
+    if (moneyArray[1]) {
+      moneyString += "." + moneyArray[1];
+    }
     return moneyString;
   },
   // getLogo: (refType: string) => {
@@ -208,6 +215,14 @@ export const Utils = {
   //   }
   // },
   convertMoneyTextToNumber: (money: string) => {
-    return parseInt(money.replace(/\D/g, ""), 10) || 0;
+    return (
+      Number(
+        money
+          .replace(/[^0-9.]/g, "")
+          .replace(".", "x")
+          .replace(/\./g, "")
+          .replace("x", "."),
+      ) || 0
+    );
   },
 };

@@ -6,6 +6,7 @@ import {
   ShipmentDetailResponse,
   ShipmentInfoRequest,
   UpdateAddServiceRequest,
+  UpdateCodShipmentRequest,
   UpdateDirectShipmentRequest,
 } from "@models";
 import { store } from "@redux";
@@ -60,6 +61,10 @@ class ShipmentApi extends BaseApi {
     return this.get<ScanShipmentCODResponse>("scan-shipment-by-cod", {
       keyword: value,
     });
+  }
+
+  updateCodShipment(request: UpdateCodShipmentRequest) {
+    return this.post("update-cod-by-shipmentid", {}, request);
   }
 }
 

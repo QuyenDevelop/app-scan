@@ -53,10 +53,9 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: Themes.colors.blue008,
-    paddingVertical: ScreenUtils.calculatorHeight(10),
     marginTop: ScreenUtils.calculatorHeight(10),
     borderRadius: ScreenUtils.calculatorHeight(5),
-    marginHorizontal: ScreenUtils.calculatorWidth(50),
+    minWidth: ScreenUtils.calculatorWidth(250),
   },
   confirmPaymentText: {
     ...Themes.font.medium,

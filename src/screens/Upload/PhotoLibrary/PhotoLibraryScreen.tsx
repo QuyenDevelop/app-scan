@@ -57,8 +57,8 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
         setAfter(r.page_info.end_cursor);
         setHasNextPage(r.page_info.has_next_page);
       })
-      .catch(err => {
-        Alert.error(err, true);
+      .catch(() => {
+        Alert.error("error.errorServer");
       });
   };
 

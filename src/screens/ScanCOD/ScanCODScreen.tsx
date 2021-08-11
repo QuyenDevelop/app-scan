@@ -55,8 +55,8 @@ export const ScanCODScreen: FunctionComponent = () => {
           Alert.warning(shipment?.message || "", true);
         }
       })
-      .catch(err => {
-        Alert.error(err, true);
+      .catch(() => {
+        Alert.error("error.errorServer");
       })
       .finally(() => {
         Keyboard.dismiss();
@@ -96,6 +96,11 @@ export const ScanCODScreen: FunctionComponent = () => {
                   placeholderTextColor={Themes.colors.collGray40}
                   onFocus={onFocus}
                   onBlur={onBlur}
+                  returnKeyType="search"
+                  returnKeyLabel={translate("button.search")}
+                  onSubmitEditing={value =>
+                    searchShipments(value.nativeEvent.text)
+                  }
                 />
                 <TouchableOpacity
                   style={styles.scanButton}
@@ -115,7 +120,7 @@ export const ScanCODScreen: FunctionComponent = () => {
           </TouchableWithoutFeedback>
           {isLoadingFetchData ? (
             <View style={styles.loadingView}>
-              <ActivityIndicator />
+              <ActivityIndicator color={Themes.colors.collGray40} />
             </View>
           ) : isShowQrCode ? (
             <QRCodeScanner

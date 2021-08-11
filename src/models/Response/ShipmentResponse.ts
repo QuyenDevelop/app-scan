@@ -4,6 +4,8 @@ export interface ShipmentResponse {
   ShipmentId: string;
   ShipmentNumber: string;
   ReferenceNumber: string;
+  CustomerId: string;
+  CustomerCode: string;
   CustomerName: string;
   ShipperName: string;
   ConsigneeName: string;
@@ -24,6 +26,10 @@ export interface ShipmentResponse {
   TotalGrossWeight: number;
   TotalVolumetricWeight: number;
   TotalChargeableWeight: number;
+  CurrencyId: string;
+  CurrencyCode: string;
+  CODAmount: number;
+  CODAmoutPay: number;
 }
 
 export interface SubShipment {

@@ -55,7 +55,6 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
   const [subShipments, setSubShipments] = useState<Array<SubShipment>>([]);
   const [selectedService, setSelectedService] =
     useState<ServiceShipmentResponse>();
-  // const [isLoadingUpdate, showLoadingUpdate, hideLoadingUpdate] = useShow();
   const [shipmentStatus, toggleShipmentStatus] = useToggle(
     isDirectShipment || false,
   );
@@ -69,6 +68,7 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
         option: 2,
       })
       ?.then(response => {
+        console.log("🚀🚀🚀 => getSubShipments => response", response);
         if (
           response &&
           response.success &&

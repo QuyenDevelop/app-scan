@@ -47,7 +47,7 @@ export const UpdateCODScreen: FunctionComponent = () => {
       case PROCESS_COD_TAB:
         return <ProcessCodTab item={item} />;
       case SHIPMENT_INFO_TAB:
-        return <ShipmentInformationTab />;
+        return <ShipmentInformationTab item={item} />;
       default:
         return null;
     }

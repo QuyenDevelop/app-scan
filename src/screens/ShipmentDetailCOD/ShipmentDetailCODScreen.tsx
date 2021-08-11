@@ -1,17 +1,11 @@
-import { shipmentApi } from "@api";
 import { Header } from "@components";
 import { SCREENS } from "@configs";
-import { ShipmentAddServiceResponse, ShipmentResponse } from "@models";
+import { ShipmentResponse } from "@models";
 import { ShipmentStackParamsList } from "@navigation";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { translate } from "@shared";
 import { Themes } from "@themes";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import {
   ActivityIndicator,
   Text,
@@ -41,32 +35,12 @@ export const ShipmentDetailCODScreen: FunctionComponent = () => {
   const { item } = routeNavigation?.params || {};
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
-  const [addServices, setAddServices] = useState<
-    Array<ShipmentAddServiceResponse>
-  >([]);
 
   const [routes] = useState([
     { key: "GeneralInfoTab", title: translate("label.tab.generalInfoTab") },
     { key: "ContentInfoTab", title: translate("label.tab.contentInfoTab") },
     { key: "CodDetailTab", title: translate("label.tab.codDetailTab") },
   ]);
-
-  const getShipmentAddServices = useCallback(() => {
-    shipmentApi
-      .getDetailShipment({
-        shipmentId: item.ShipmentId,
-        option: 1,
-      })
-      ?.then(response => {
-        if (response && response.success) {
-          setAddServices(response.data.ShipmentCargoAddServices || []);
-        }
-      });
-  }, [item.ShipmentId]);
-
-  useEffect(() => {
-    getShipmentAddServices();
-  }, [getShipmentAddServices]);
 
   const renderScene = useCallback(
     ({ route }: { route: any }) => {
@@ -87,7 +61,7 @@ export const ShipmentDetailCODScreen: FunctionComponent = () => {
         case "ContentInfoTab":
           return <ContentInfoTab shipmentId={item.ShipmentId} />;
         case "CodDetailTab":
-          return <CodDetailTab />;
+          return <CodDetailTab shipment={item} />;
         default:
           return null;
       }

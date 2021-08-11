@@ -55,8 +55,8 @@ export const ScanScreen: FunctionComponent = () => {
           Alert.warning(shipment?.message || "", true);
         }
       })
-      .catch(err => {
-        Alert.error(err, true);
+      .catch(() => {
+        Alert.error("error.errorServer");
       })
       .finally(() => {
         Keyboard.dismiss();
@@ -96,6 +96,11 @@ export const ScanScreen: FunctionComponent = () => {
                   placeholderTextColor={Themes.colors.collGray40}
                   onFocus={onFocus}
                   onBlur={onBlur}
+                  returnKeyType="search"
+                  returnKeyLabel={translate("button.search")}
+                  onSubmitEditing={value =>
+                    searchShipments(value.nativeEvent.text)
+                  }
                 />
                 <TouchableOpacity
                   style={styles.scanButton}
