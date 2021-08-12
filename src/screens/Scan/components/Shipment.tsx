@@ -1,3 +1,4 @@
+import { Utils } from "@helpers";
 import { ShipmentResponse } from "@models";
 import { goToShipmentDetail } from "@navigation";
 import { translate } from "@shared";
@@ -29,8 +30,8 @@ export const Shipment: FunctionComponent<Props> = props => {
           {translate("label.customer")} {item.CustomerName}
         </Text>
         <Text>
-          {translate("label.shipmentWeight")} {item.TotalGrossWeight}{" "}
-          {translate("label.gram")}
+          {translate("label.shipmentWeight")}{" "}
+          {Utils.formatMoney(item.TotalGrossWeight)} {translate("label.gram")}
         </Text>
       </View>
     </TouchableWithoutFeedback>

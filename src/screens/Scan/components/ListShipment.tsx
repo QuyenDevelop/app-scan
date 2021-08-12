@@ -18,6 +18,7 @@ export const ListShipment: FunctionComponent<Props> = props => {
       data={shipments}
       keyExtractor={keyExtractor}
       renderItem={renderItem}
+      keyboardShouldPersistTaps="handled"
     />
   );
 };

@@ -97,4 +97,30 @@ export default StyleSheet.create({
   bottomModal: {
     marginBottom: ScreenUtils.calculatorHeight(20),
   },
+  shipmentConfirm: {
+    borderWidth: 1,
+    marginHorizontal: ScreenUtils.calculatorWidth(15),
+    marginTop: ScreenUtils.calculatorHeight(20),
+    paddingHorizontal: ScreenUtils.calculatorWidth(10),
+    paddingVertical: ScreenUtils.calculatorHeight(10),
+    borderColor: Themes.colors.collGray40,
+    borderRadius: ScreenUtils.calculatorWidth(10),
+  },
+  codView: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    marginTop: ScreenUtils.calculatorHeight(10),
+  },
+  totalCOD: {
+    marginLeft: ScreenUtils.calculatorWidth(15),
+    ...Themes.font.bold,
+    fontSize: 18,
+  },
+  modal: {
+    flex: 1,
+    backgroundColor: Themes.colors.white,
+    flexDirection: "column",
+    justifyContent: "flex-end",
+  },
 });

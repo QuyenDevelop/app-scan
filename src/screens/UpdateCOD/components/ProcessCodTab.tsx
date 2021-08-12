@@ -19,6 +19,7 @@ import {
   View,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { ConfirmPaymentModal } from "./ConfirmPaymentModal";
 import { CurrencyModal } from "./CurrencyModal";
 import { CustomerModal } from "./CustomerModal";
 import styles from "./styles";
@@ -29,7 +30,6 @@ interface Props {
 
 export const ProcessCodTab: FunctionComponent<Props> = props => {
   const { item } = props;
-  console.log("🚀🚀🚀 => item", item);
   const dispatch = useDispatch();
   const shipmentCustomers = useSelector(
     (state: IRootState) => state.shipmentInfo.shipmentCustomers,
@@ -45,7 +45,16 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
   const [codAmountPay, setCodAmountPay] = useState<number>(item.CODAmountPay);
   const [isConfirmed, setIsConfirmed] = useState<boolean>(item.COD);
   const [isLoadingConfirm, showLoadingConfirm, hideLoadingConfirm] = useShow();
+  const [isShowConfirmModal, showConfirmModal, hideConfirmModal] = useShow();
+
   useEffect(() => {
+    setCodAmount(item.CODAmount);
+    setCodAmountPay(item.CODAmountPay);
+    setIsConfirmed(item.COD);
+  }, [item.COD, item.CODAmount, item.CODAmountPay]);
+
+  useEffect(() => {
+    // Get list customer
     if (shipmentCustomers.length === 0) {
       dispatch(ShipmentInfoAction.getAllCustomer());
     }
@@ -56,6 +65,7 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
   }, [dispatch, shipmentCurrencies.length, shipmentCustomers.length]);
 
   useEffect(() => {
+    // Get info customer
     const defaultCustomer = shipmentCustomers.find(
       c => (c.Id = item.CustomerId),
     );
@@ -64,6 +74,7 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
   }, [item.CustomerId, shipmentCustomers]);
 
   useEffect(() => {
+    // Get list currency
     const defaultCurrency = shipmentCurrencies.find(
       c => (c.CurrencyCode = item.CurrencyCode),
     );
@@ -86,49 +97,52 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
       return;
     }
 
-    RNAlert.alert("", translate("alert.confirmPayment"), [
-      {
-        text: translate("button.cancel"),
-        onPress: () => {},
-        style: "cancel",
-      },
-      {
-        text: translate("button.confirm"),
-        onPress: () => {
-          showLoadingConfirm();
-          payCodApi
-            .updateAmountPay({
-              customerId: customer.Id,
-              customerCode: customer.Code,
-              trackingNumber: item.Id,
-              currencyCode: currency.CurrencyCode,
-              amountLocal: item.CODAmount,
-              rate: currency?.Rate || 0,
-              amountPay: codAmount,
-            })
-            ?.then(response => {
-              console.log("🚀🚀🚀 => onConfirmPayment => response", response);
-              if (response.success) {
-                setCodAmountPay(codAmount);
-                setIsConfirmed(true);
-                Alert.success("success.confirmPaymentSuccess");
-              } else {
-                if (response.message) {
-                  Alert.error(response.message, true);
-                } else {
-                  Alert.error("error.errorServer");
-                }
-              }
-            })
-            .catch(() => {
-              Alert.error("error.errorServer");
-            })
-            .finally(() => {
-              hideLoadingConfirm();
-            });
+    if (item.shipments.length > 1) {
+      RNAlert.alert("", translate("alert.confirmPayment"), [
+        {
+          text: translate("button.cancel"),
+          onPress: () => {},
+          style: "cancel",
         },
-      },
-    ]);
+        {
+          text: translate("button.confirm"),
+          onPress: () => {
+            showLoadingConfirm();
+            payCodApi
+              .updateAmountPay({
+                customerId: customer.Id,
+                customerCode: customer.Code,
+                trackingNumber: item.Id,
+                currencyCode: currency.CurrencyCode,
+                amountLocal: item.CODAmount,
+                rate: currency?.Rate || 0,
+                amountPay: codAmount,
+              })
+              ?.then(response => {
+                if (response.success) {
+                  setCodAmountPay(codAmount);
+                  setIsConfirmed(true);
+                  Alert.success("success.confirmPaymentSuccess");
+                } else {
+                  if (response.message) {
+                    Alert.error(response.message, true);
+                  } else {
+                    Alert.error("error.errorServer");
+                  }
+                }
+              })
+              .catch(() => {
+                Alert.error("error.errorServer");
+              })
+              .finally(() => {
+                hideLoadingConfirm();
+              });
+          },
+        },
+      ]);
+    } else {
+      showConfirmModal();
+    }
   };
 
   return (
@@ -172,15 +186,16 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
             style={[
               styles.inputInfo,
               {
-                color: isConfirmed
-                  ? Themes.colors.collGray40
-                  : Themes.colors.textPrimary,
+                color:
+                  isConfirmed || !!codAmountPay
+                    ? Themes.colors.collGray40
+                    : Themes.colors.textPrimary,
               },
             ]}
             keyboardType="numeric"
             contextMenuHidden={true}
             placeholderTextColor={Themes.colors.collGray40}
-            editable={!isConfirmed}
+            editable={!isConfirmed && !codAmountPay}
             defaultValue={Utils.formatMoney(codAmount)}
             onChangeText={onChangeCodAmount}
           />
@@ -254,14 +269,15 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
           buttonChildStyle={[
             styles.confirmPaymentBtn,
             {
-              backgroundColor: isConfirmed
-                ? Themes.colors.collGray40
-                : Themes.colors.primary,
+              backgroundColor:
+                isConfirmed || !!codAmountPay
+                  ? Themes.colors.collGray40
+                  : Themes.colors.primary,
             },
           ]}
           isLoading={isLoadingConfirm}
           onPress={onConfirmPayment}
-          isDisable={isConfirmed}
+          isDisable={isConfirmed || !!codAmountPay}
         />
         <CustomerModal
           isShowModal={isShowCustomers}
@@ -275,6 +291,15 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
           currencies={shipmentCurrencies}
           onSelect={setCurrency}
         />
+        {isShowConfirmModal && (
+          <ConfirmPaymentModal
+            isShowModal={isShowConfirmModal}
+            closeModal={hideConfirmModal}
+            shipments={item.shipments}
+            totalCOD={codAmount}
+            currencyCode={item.CurrencyCode}
+          />
+        )}
       </View>
     </TouchableWithoutFeedback>
   );

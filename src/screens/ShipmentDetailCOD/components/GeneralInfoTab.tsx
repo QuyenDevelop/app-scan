@@ -1,5 +1,5 @@
 import { serviceApi, shipmentApi } from "@api";
-import { Alert, ScreenUtils } from "@helpers";
+import { Alert, ScreenUtils, Utils } from "@helpers";
 import { useToggle } from "@hooks";
 import { SubShipment } from "@models";
 import { translate } from "@shared";
@@ -68,7 +68,6 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
         option: 2,
       })
       ?.then(response => {
-        console.log("🚀🚀🚀 => getSubShipments => response", response);
         if (
           response &&
           response.success &&
@@ -76,6 +75,9 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
         ) {
           setSubShipments(response.data.SubShipments);
         }
+      })
+      .catch(error => {
+        console.log("🚀🚀🚀 => getSubShipments => error", error);
       });
   };
 
@@ -364,7 +366,9 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
                 {translate("label.subShipmentWeight")}
               </Text>
               <Text style={styles.contentInfo}>
-                {(subShipments[0].TotalGrossWeight || 0) * 1000}{" "}
+                {Utils.formatMoney(
+                  (subShipments[0].TotalGrossWeight || 0) * 1000,
+                )}{" "}
               </Text>
               <Text style={styles.contentInfo}>{translate("label.gram")}</Text>
             </View>

@@ -1,11 +1,25 @@
+import { shipmentApi } from "@api";
 import { Header } from "@components";
 import { SCREENS } from "@configs";
+import { Alert } from "@helpers";
+import { useIsMounted } from "@hooks";
 import { ShipmentCODResponse } from "@models";
 import { ShipmentStackParamsList } from "@navigation";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import {
+  RouteProp,
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { translate } from "@shared";
 import { Themes } from "@themes";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   ActivityIndicator,
   Text,
@@ -41,17 +55,48 @@ export const UpdateCODScreen: FunctionComponent = () => {
     { key: PROCESS_COD_TAB, title: translate("label.tab.processCodTab") },
     { key: SHIPMENT_INFO_TAB, title: translate("label.tab.shipmentInfoTab") },
   ]);
+  const isFirstFocus = useRef<boolean>(true);
+  const isMounted = useIsMounted();
 
-  const renderScene = useCallback(({ route }: { route: any }) => {
-    switch (route.key) {
-      case PROCESS_COD_TAB:
-        return <ProcessCodTab item={item} />;
-      case SHIPMENT_INFO_TAB:
-        return <ShipmentInformationTab item={item} />;
-      default:
-        return null;
-    }
+  useFocusEffect(
+    useCallback(() => {
+      if (!isFirstFocus.current) {
+        shipmentApi
+          .scanShipmentCOD(item.Id)
+          ?.then(shipment => {
+            if (shipment?.success) {
+              if (isMounted) {
+                navigation.setParams({ item: shipment.data });
+              }
+            } else {
+              Alert.warning(shipment?.message || "", true);
+            }
+          })
+          .catch(() => {
+            Alert.error("error.errorServer");
+          })
+          .finally(() => {});
+      }
+    }, [isMounted, item.Id, navigation]),
+  );
+
+  useEffect(() => {
+    isFirstFocus.current = false;
   }, []);
+
+  const renderScene = useCallback(
+    ({ route }: { route: any }) => {
+      switch (route.key) {
+        case PROCESS_COD_TAB:
+          return <ProcessCodTab item={item} />;
+        case SHIPMENT_INFO_TAB:
+          return <ShipmentInformationTab item={item} />;
+        default:
+          return null;
+      }
+    },
+    [item],
+  );
 
   const renderLazyPlaceholder = () => (
     <View style={styles.scene}>

@@ -209,6 +209,7 @@ export default StyleSheet.create({
     marginTop: ScreenUtils.calculatorHeight(10),
     borderRadius: ScreenUtils.calculatorHeight(5),
     marginHorizontal: ScreenUtils.calculatorWidth(50),
+    minWidth: ScreenUtils.calculatorWidth(250),
   },
   confirmPaymentText: {
     ...Themes.font.medium,

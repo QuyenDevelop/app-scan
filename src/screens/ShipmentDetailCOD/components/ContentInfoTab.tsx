@@ -24,6 +24,10 @@ export const ContentInfoTab: FunctionComponent<Props> = props => {
         option: 3,
       })
       ?.then(response => {
+        console.log(
+          "🚀🚀🚀 => getShipmentItems => response",
+          JSON.stringify(response),
+        );
         if (response && response.success) {
           setShipmentItems(response.data.ShipmentItems || []);
         }

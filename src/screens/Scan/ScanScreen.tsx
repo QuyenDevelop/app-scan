@@ -3,6 +3,7 @@ import { Header } from "@components";
 import { Alert } from "@helpers";
 import { useShow } from "@hooks";
 import { Account, ShipmentResponse } from "@models";
+import { useIsFocused } from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
@@ -25,6 +26,7 @@ import { Logout } from "./components/Logout";
 import styles from "./styles";
 export const ScanScreen: FunctionComponent = () => {
   const insets = useSafeAreaInsets();
+  const isFocused = useIsFocused();
   const profile = useSelector(
     (state: IRootState) => state.account.profile,
   ) as Account | null;
@@ -122,7 +124,7 @@ export const ScanScreen: FunctionComponent = () => {
             <View style={styles.loadingView}>
               <ActivityIndicator />
             </View>
-          ) : isShowQrCode ? (
+          ) : isShowQrCode && isFocused ? (
             <QRCodeScanner
               onRead={onRead}
               reactivate={true}

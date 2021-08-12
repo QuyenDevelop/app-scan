@@ -28,6 +28,9 @@ export const CodDetailTab: FunctionComponent<Props> = props => {
   ) as Array<CurrencyResponse>;
   const [isConfirmed, setIsConfirmed] = useState<boolean>(shipment.COD);
   const [codAmount, setCodAmount] = useState<number>(shipment.CODAmount);
+  const [codAmountPay, setCodAmountPay] = useState<number>(
+    shipment.CODAmoutPay,
+  );
   const [currency, setCurrency] = useState<CurrencyResponse>();
   const [isLoadingConfirm, showLoadingConfirm, hideLoadingConfirm] = useShow();
   const [isShowCurrencies, showCurrencies, hideCurrencies] = useShow();
@@ -41,6 +44,7 @@ export const CodDetailTab: FunctionComponent<Props> = props => {
   }, [shipment.CurrencyCode, shipmentCurrencies]);
 
   const onChangeCodAmount = (value: string) => {
+    shipment.CODAmount = Utils.convertMoneyTextToNumber(value);
     setCodAmount(Utils.convertMoneyTextToNumber(value));
   };
 
@@ -66,9 +70,9 @@ export const CodDetailTab: FunctionComponent<Props> = props => {
               CODAmountPay: codAmount,
             })
             ?.then(response => {
-              console.log("🚀🚀🚀 => onConfirmPayment => response", response);
               if (response.success) {
                 setIsConfirmed(true);
+                setCodAmountPay(codAmount);
                 Alert.success("success.confirmPaymentSuccess");
               } else {
                 if (response.message) {
@@ -140,6 +144,42 @@ export const CodDetailTab: FunctionComponent<Props> = props => {
             />
           </TouchableOpacity>
         </View>
+        {!!codAmountPay && (
+          <View style={styles.generalInfoRow}>
+            <Text style={styles.labelInfo}>{translate("label.newCOD")}</Text>
+            <TextInput
+              placeholder={translate("placeholder.enterCodAmount")}
+              style={[styles.inputInfo, { color: Themes.colors.collGray40 }]}
+              keyboardType="numeric"
+              contextMenuHidden={true}
+              placeholderTextColor={Themes.colors.collGray40}
+              editable={false}
+              defaultValue={Utils.formatMoney(codAmountPay)}
+            />
+            <TouchableOpacity
+              style={styles.serviceButton}
+              onPress={showCurrencies}
+              disabled={true}
+            >
+              <Text
+                style={[
+                  styles.labelInfo,
+                  {
+                    marginRight: ScreenUtils.calculatorWidth(5),
+                    color: Themes.colors.collGray40,
+                  },
+                ]}
+              >
+                {shipment.CurrencyCode}
+              </Text>
+              <Icon
+                name="ic_arrow_down"
+                size={Metrics.icons.smallSmall}
+                color={Themes.colors.collGray40}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
         <Button
           title={translate("button.confirmPayment")}
           buttonChildStyle={[

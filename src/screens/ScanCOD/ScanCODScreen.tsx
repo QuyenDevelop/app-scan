@@ -4,6 +4,7 @@ import { Alert } from "@helpers";
 import { useShow } from "@hooks";
 import { Account, ShipmentCODResponse } from "@models";
 import { goToUpdateCodScreen } from "@navigation";
+import { useIsFocused } from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
@@ -25,6 +26,7 @@ import styles from "./styles";
 
 export const ScanCODScreen: FunctionComponent = () => {
   const insets = useSafeAreaInsets();
+  const isFocused = useIsFocused();
   const profile = useSelector(
     (state: IRootState) => state.account.profile,
   ) as Account | null;
@@ -48,6 +50,7 @@ export const ScanCODScreen: FunctionComponent = () => {
     shipmentApi
       .scanShipmentCOD(value)
       ?.then(shipment => {
+        console.log("🚀🚀🚀 => getShipment => shipment", shipment);
         if (shipment?.success) {
           setContent("");
           goToUpdateCodScreen({ item: shipment?.data });
@@ -122,7 +125,7 @@ export const ScanCODScreen: FunctionComponent = () => {
             <View style={styles.loadingView}>
               <ActivityIndicator color={Themes.colors.collGray40} />
             </View>
-          ) : isShowQrCode ? (
+          ) : isShowQrCode && isFocused ? (
             <QRCodeScanner
               onRead={onRead}
               reactivate={true}

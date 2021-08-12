@@ -1,7 +1,7 @@
 import { CustomerResponse } from "@models";
 import { BaseBottomSheet } from "@shared";
 import React, { FunctionComponent } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Text, TouchableOpacity } from "react-native";
 import styles from "./styles";
 
 interface Props {
@@ -12,25 +12,25 @@ interface Props {
 }
 export const CustomerModal: FunctionComponent<Props> = props => {
   const { isShowModal, closeModal, onSelect, customers } = props;
-  const Customer = ({ customer }: { customer: CustomerResponse }) => {
+  const renderItem = ({ item }: { item: CustomerResponse }) => {
     const select = () => {
       closeModal();
-      onSelect(customer);
+      onSelect(item);
     };
     return (
       <TouchableOpacity style={styles.serviceSelect} onPress={select}>
-        <Text>{customer.Name}</Text>
+        <Text>{item.Name}</Text>
       </TouchableOpacity>
     );
   };
   return (
     <BaseBottomSheet isShowModal={isShowModal} onCloseModal={closeModal}>
-      <View style={styles.bottomModal}>
-        {customers &&
-          customers.map(customer => (
-            <Customer customer={customer} key={customer.Code} />
-          ))}
-      </View>
+      <FlatList
+        data={customers || []}
+        keyExtractor={item => item.Code}
+        renderItem={renderItem}
+        style={styles.bottomModal}
+      />
     </BaseBottomSheet>
   );
 };

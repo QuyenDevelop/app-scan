@@ -1,7 +1,7 @@
 import { ScreenUtils } from "@helpers";
 import { Metrics } from "@themes";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { KeyboardAvoidingView, ScrollView, View } from "react-native";
+import { KeyboardAvoidingView, Platform, View } from "react-native";
 import Modal from "react-native-modal";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from "./styles";
@@ -54,29 +54,28 @@ export const BaseBottomSheet: FunctionComponent<IProps> = props => {
       onBackButtonPress={() => hideModal()}
       onSwipeComplete={() => hideModal()}
       onModalHide={onModalHide ? () => onModalHide() : () => {}}
-      swipeDirection="down"
+      // swipeDirection="down"
       style={styles.modalContainer}
       isVisible={isShowModalState}
       hideModalContentWhileAnimating={true}
       backdropTransitionOutTiming={0}
     >
-      <KeyboardAvoidingView behavior="position" enabled>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         <View
           style={{
             maxHeight:
               Metrics.screenHeight -
               insets.top -
-              ScreenUtils.calculatorHeight(Metrics.baseMargin * 20),
+              ScreenUtils.calculatorHeight(Metrics.baseMargin * 40),
           }}
         >
           <View style={styles.headerContainer} />
-
           <View
             style={[styles.contentContainer, { paddingBottom: insets.bottom }]}
           >
-            <ScrollView showsVerticalScrollIndicator={false}>
-              {children}
-            </ScrollView>
+            {children}
           </View>
         </View>
       </KeyboardAvoidingView>
