@@ -15,6 +15,7 @@ interface Props {
   totalCOD: number;
   currencyCode: string;
 }
+
 export const ConfirmPaymentModal: FunctionComponent<Props> = props => {
   const { closeModal, shipments, totalCOD, currencyCode } = props;
 
@@ -37,28 +38,22 @@ export const ConfirmPaymentModal: FunctionComponent<Props> = props => {
     );
   };
 
-  const renderItem = ({
-    item,
-    index,
-  }: {
-    item: ShipmentItemCodResponse;
-    index: number;
-  }) => {
-    const onChangeCodAmount = (value: string) => {
-      const newArr = [...listShipment];
-      newArr[index].CODAmount = Utils.convertMoneyTextToNumber(value);
-      // setListShipment(newArr);
+  const renderItem = ({ item }: { item: ShipmentItemCodResponse }) => {
+    const onChangeCodAmount = (value: number) => {
+      const newArr = listShipment.map(shipment => {
+        if (shipment.ShipmentId === item.ShipmentId) {
+          return { ...shipment, CODAmount: value };
+        }
+        return shipment;
+      });
+      setListShipment(newArr);
       const total = getTotalCOD(newArr);
       setTotalCod(total);
     };
-    return (
-      <ConfirmItem
-        item={item}
-        index={index}
-        onChangeCodAmount={onChangeCodAmount}
-      />
-    );
+    return <ConfirmItem item={item} onChangeCodAmount={onChangeCodAmount} />;
   };
+
+  const confirmPayment = () => {};
 
   return (
     <BaseBottomSheet isShowModal={true} onCloseModal={closeModal}>
@@ -78,14 +73,15 @@ export const ConfirmPaymentModal: FunctionComponent<Props> = props => {
             buttonChildStyle={[
               styles.confirmPaymentBtn,
               {
-                backgroundColor: false
-                  ? Themes.colors.collGray40
-                  : Themes.colors.primary,
+                backgroundColor:
+                  totalCOD !== getTotalCOD(listShipment)
+                    ? Themes.colors.collGray40
+                    : Themes.colors.primary,
               },
             ]}
             isLoading={isLoadingConfirm}
-            isDisable={false}
-            onPress={closeModal}
+            isDisable={totalCOD !== getTotalCOD(listShipment)}
+            onPress={confirmPayment}
           />
         }
       />

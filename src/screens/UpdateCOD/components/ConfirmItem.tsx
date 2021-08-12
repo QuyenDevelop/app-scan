@@ -8,13 +8,12 @@ import styles from "./styles";
 
 interface Props {
   item: ShipmentItemCodResponse;
-  index: number;
-  onChangeCodAmount: (value: string, index: number) => void;
+  onChangeCodAmount: (value: number) => void;
 }
 export const ConfirmItem: FunctionComponent<Props> = props => {
-  const { item, index, onChangeCodAmount } = props;
+  const { item, onChangeCodAmount } = props;
   const onChangeText = (value: string) => {
-    onChangeCodAmount(value, index);
+    onChangeCodAmount(Utils.convertMoneyTextToNumber(value));
   };
   return (
     <View style={styles.shipmentConfirm}>
