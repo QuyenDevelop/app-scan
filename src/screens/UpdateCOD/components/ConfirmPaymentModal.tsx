@@ -56,14 +56,16 @@ export const ConfirmPaymentModal: FunctionComponent<Props> = props => {
     );
   };
 
-  const renderItem = ({ item }: { item: ShipmentItemCodResponse }) => {
+  const renderItem = ({
+    item,
+    index,
+  }: {
+    item: ShipmentItemCodResponse;
+    index: number;
+  }) => {
     const onChangeCodAmount = (value: number) => {
-      const newArr = listShipment.map(shipment => {
-        if (shipment.ShipmentId === item.ShipmentId) {
-          return { ...shipment, CODAmount: value };
-        }
-        return shipment;
-      });
+      const newArr = [...listShipment];
+      newArr[index] = { ...newArr[index], CODAmount: value };
       setListShipment(newArr);
       const total = getTotalCOD(newArr);
       setTotalCod(total);
