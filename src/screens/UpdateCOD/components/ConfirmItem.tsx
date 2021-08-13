@@ -36,17 +36,21 @@ export const ConfirmItem: FunctionComponent<Props> = props => {
           style={[
             styles.inputInfo,
             {
-              color: item.COD
-                ? Themes.colors.collGray40
-                : Themes.colors.textPrimary,
+              color:
+                item.COD || !!item.CODAmoutPay
+                  ? Themes.colors.collGray40
+                  : Themes.colors.textPrimary,
             },
           ]}
-          value={Utils.formatMoney(item.CODAmount)}
+          value={Utils.formatMoney(
+            item.CODAmoutPay ? item.CODAmoutPay : item.CODAmount,
+          )}
           onChangeText={onChangeText}
           maxLength={20}
           keyboardType="number-pad"
           contextMenuHidden={true}
           placeholderTextColor={Themes.colors.collGray40}
+          editable={!item.COD && !item.CODAmoutPay}
         />
         <Text
           style={[

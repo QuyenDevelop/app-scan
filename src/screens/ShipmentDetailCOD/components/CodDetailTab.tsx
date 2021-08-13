@@ -19,10 +19,11 @@ import styles from "./styles";
 
 interface Props {
   shipment: ShipmentResponse;
+  refId: string;
 }
 
 export const CodDetailTab: FunctionComponent<Props> = props => {
-  const { shipment } = props;
+  const { shipment, refId } = props;
   const shipmentCurrencies = useSelector(
     (state: IRootState) => state.shipmentInfo.shipmentCurrencies,
   ) as Array<CurrencyResponse>;
@@ -68,6 +69,7 @@ export const CodDetailTab: FunctionComponent<Props> = props => {
             .updateCodShipment({
               ShipmentId: shipment.ShipmentId,
               CODAmountPay: codAmount,
+              RefId: refId,
             })
             ?.then(response => {
               if (response.success) {

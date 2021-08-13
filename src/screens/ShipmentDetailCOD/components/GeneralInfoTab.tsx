@@ -11,7 +11,6 @@ import React, {
   useState,
 } from "react";
 import {
-  Alert as RNAlert,
   FlatList,
   KeyboardAvoidingView,
   Platform,
@@ -105,66 +104,6 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
     fetchMode();
   }, []);
 
-  const updateInfoSubShipment = useCallback(
-    (subShipment: SubShipment, index: number) => {
-      const newSub = [...subShipments];
-      newSub[index] = subShipment;
-      setSubShipments(newSub);
-    },
-    [subShipments],
-  );
-
-  // const addMoreSubShipment = () => {
-  //   setSubShipments(subS => [
-  //     ...subS,
-  //     { Length: 0, Width: 0, Height: 0, TotalGrossWeight: 0 },
-  //   ]);
-  // };
-
-  const deleteSubShipment = useCallback(
-    (index: number) => {
-      RNAlert.alert(
-        "",
-        translate("alert.deleteConfirmation", { index: index + 1 }),
-        [
-          {
-            text: translate("button.cancel"),
-            onPress: () => {},
-            style: "cancel",
-          },
-          {
-            text: translate("button.confirm"),
-            onPress: () => {
-              const newSub = [...subShipments];
-              if (newSub[index].Id) {
-                shipmentApi
-                  .deleteSubShipment({
-                    ShipmentId: shipmentId,
-                    SubShipmentId: newSub[index].Id!,
-                  })
-                  ?.then(response => {
-                    if (response?.success) {
-                      newSub.splice(index, 1);
-                      setSubShipments(newSub);
-                    } else {
-                      Alert.error(response.message, true);
-                    }
-                  })
-                  .catch(error => {
-                    Alert.error(error, true);
-                  });
-              } else {
-                newSub.splice(index, 1);
-                setSubShipments(newSub);
-              }
-            },
-          },
-        ],
-      );
-    },
-    [shipmentId, subShipments],
-  );
-
   const updateDirectShipment = (value: boolean) => {
     shipmentApi
       .updateDirectShipment({ ShipmentId: shipmentId, IsDirectShipment: value })
@@ -187,62 +126,10 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
 
   const renderItem = useCallback(
     ({ item, index }: { item: SubShipment; index: number }) => {
-      return (
-        <SubShipmentItem
-          subShipment={item}
-          index={index}
-          updateSubShipment={updateInfoSubShipment}
-          deleteSubShipment={deleteSubShipment}
-          totalSubShipments={subShipments.length}
-        />
-      );
+      return <SubShipmentItem subShipment={item} index={index} />;
     },
-    [deleteSubShipment, subShipments.length, updateInfoSubShipment],
+    [],
   );
-
-  // const updateShipmentInformation = () => {
-  //   if (!selectedService) {
-  //     Alert.warning("label.notChooseService");
-  //     return;
-  //   }
-
-  //   if (!selectedMode) {
-  //     Alert.warning("label.notMode");
-  //     return;
-  //   }
-
-  //   showLoadingUpdate();
-  //   const subShipmentRequest = subShipments.map((subShipment: SubShipment) => {
-  //     return {
-  //       id: subShipment.Id,
-  //       totalGrossWeight: subShipment.TotalGrossWeight * 1000,
-  //       height: subShipment.Height,
-  //       width: subShipment.Width,
-  //       length: subShipment.Length,
-  //     };
-  //   });
-
-  //   shipmentApi
-  //     .updateShipmentInformation({
-  //       id: shipmentId,
-  //       shipmentNumber: shipment,
-  //       cargoSPServiceId: selectedService.Id,
-  //       cargoSPServiceCode: selectedService.Code,
-  //       volumetricWeight: selectedService.VolumetricDivisor,
-  //       cargoShippingMethod: selectedMode.Code,
-  //       cargoShippingMethodText: selectedMode.Name,
-  //       subShipments: subShipmentRequest,
-  //     })
-  //     ?.then(() => {
-  //       Alert.success("success.updateSuccess");
-  //     })
-  //     .catch(() => {
-  //       Alert.error("error.errorServer");
-  //     })
-  //     .finally(() => {
-  //       hideLoadingUpdate();
-  //     });
-  // };
 
   const HeaderComponent = () => {
     return (
@@ -326,32 +213,6 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
     );
   };
 
-  // const FooterComponent = () => {
-  //   return (
-  //     <View>
-  //       <TouchableOpacity
-  //         style={styles.addMorePiece}
-  //         onPress={addMoreSubShipment}
-  //       >
-  //         <Icon
-  //           name="ic_plus"
-  //           size={Metrics.icons.medium}
-  //           color={Themes.colors.primary}
-  //         />
-  //         <Text style={styles.addMorePieceText}>
-  //           {translate("button.addMorePiece")}
-  //         </Text>
-  //       </TouchableOpacity>
-  //       <Button
-  //         title="Update"
-  //         onPress={updateShipmentInformation}
-  //         isLoading={isLoadingUpdate}
-  //         buttonChildStyle={styles.updateButton}
-  //       />
-  //     </View>
-  //   );
-  // };
-
   return (
     <View style={styles.generalTab}>
       <KeyboardAvoidingView
@@ -391,7 +252,6 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
             keyExtractor={keyExtractor}
             renderItem={renderItem}
             ListHeaderComponent={<HeaderComponent />}
-            // ListFooterComponent={<FooterComponent />}
             contentContainerStyle={{ paddingBottom: insets.bottom }}
           />
         )}

@@ -1,6 +1,6 @@
 import { ScreenUtils } from "@helpers";
 import { Themes } from "@themes";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
@@ -35,10 +35,17 @@ export default StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     paddingHorizontal: ScreenUtils.calculatorWidth(15),
-    paddingVertical: ScreenUtils.calculatorHeight(10),
     borderColor: Themes.colors.collGray40,
     borderRadius: ScreenUtils.calculatorWidth(10),
     marginRight: ScreenUtils.calculatorWidth(15),
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    ...Platform.select({
+      ios: {
+        paddingVertical: ScreenUtils.calculatorHeight(10),
+      },
+    }),
   },
   header: {
     flexDirection: "column",
@@ -62,4 +69,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   camera: { width: "100%", height: "100%" },
+  flex1: {
+    flex: 1,
+  },
 });

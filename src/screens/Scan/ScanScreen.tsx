@@ -1,14 +1,20 @@
 import { shipmentApi } from "@api";
 import { Header } from "@components";
+import { SCREENS } from "@configs";
 import { Alert } from "@helpers";
 import { useShow } from "@hooks";
 import { Account, ShipmentResponse } from "@models";
-import { useIsFocused } from "@react-navigation/native";
+import { goToShipmentDetail, ScanParamsList } from "@navigation";
+import {
+  RouteProp,
+  useFocusEffect,
+  useIsFocused,
+  useRoute,
+} from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
-import debounce from "lodash/debounce";
-import React, { FunctionComponent, useRef, useState } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import {
   ActivityIndicator,
   Keyboard,
@@ -24,9 +30,19 @@ import { useSelector } from "react-redux";
 import { ListShipment } from "./components/ListShipment";
 import { Logout } from "./components/Logout";
 import styles from "./styles";
+
+type NavigationRoute = RouteProp<ScanParamsList, SCREENS.SCAN_SCREEN>;
+
+export interface ScanScreenParams {
+  searchContent?: string;
+}
+
 export const ScanScreen: FunctionComponent = () => {
   const insets = useSafeAreaInsets();
   const isFocused = useIsFocused();
+  const routeNavigation = useRoute<NavigationRoute>();
+  const { searchContent } = routeNavigation?.params || {};
+
   const profile = useSelector(
     (state: IRootState) => state.account.profile,
   ) as Account | null;
@@ -35,6 +51,29 @@ export const ScanScreen: FunctionComponent = () => {
   const [content, setContent] = useState<string>("");
   const [isShowQrCode, showQrCode, hideQrCode] = useShow(true);
   const [shipments, setShipments] = useState<Array<ShipmentResponse>>([]);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (!searchContent || searchContent === "") {
+        setShipments([]);
+        return;
+      }
+      showIsLoadingFetchData();
+      shipmentApi
+        .scanShipment(searchContent)
+        ?.then(shipment => {
+          setShipments(shipment?.data || []);
+        })
+        .catch(() => {
+          setShipments([]);
+          Alert.error("error.errorServer");
+        })
+        .finally(() => {
+          Keyboard.dismiss();
+          hideIsLoadingFetchData();
+        });
+    }, [hideIsLoadingFetchData, searchContent, showIsLoadingFetchData]),
+  );
 
   const onRead = (e: any) => {
     setContent(e.data);
@@ -53,6 +92,11 @@ export const ScanScreen: FunctionComponent = () => {
         setShipments(shipment?.data || []);
         if (shipment?.success) {
           hideQrCode();
+          if (shipment?.data && shipment.data.length === 1) {
+            goToShipmentDetail({
+              item: shipment.data[0],
+            });
+          }
         } else {
           Alert.warning(shipment?.message || "", true);
         }
@@ -66,11 +110,11 @@ export const ScanScreen: FunctionComponent = () => {
       });
   };
 
-  const getShipmentOnType = useRef(debounce(getShipment, 500)).current;
+  // const getShipmentOnType = useRef(debounce(getShipment, 500)).current;
 
   const searchShipments = (value: string) => {
     setContent(value);
-    getShipmentOnType(value);
+    // getShipmentOnType(value);
   };
 
   const onFocus = () => {
@@ -90,20 +134,37 @@ export const ScanScreen: FunctionComponent = () => {
             <View style={styles.header}>
               <Text>{translate("label.scanOrTypeShipment")}</Text>
               <View style={styles.input}>
-                <TextInput
-                  placeholder={translate("placeholder.scanOrType")}
-                  style={styles.inputCode}
-                  defaultValue={content}
-                  onChangeText={searchShipments}
-                  placeholderTextColor={Themes.colors.collGray40}
-                  onFocus={onFocus}
-                  onBlur={onBlur}
-                  returnKeyType="search"
-                  returnKeyLabel={translate("button.search")}
-                  onSubmitEditing={value =>
-                    searchShipments(value.nativeEvent.text)
-                  }
-                />
+                <View style={styles.inputCode}>
+                  <TextInput
+                    placeholder={translate("placeholder.scanOrType")}
+                    style={styles.flex1}
+                    defaultValue={content}
+                    onChangeText={searchShipments}
+                    placeholderTextColor={Themes.colors.collGray40}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                    returnKeyType="search"
+                    returnKeyLabel={translate("button.search")}
+                    onSubmitEditing={value => {
+                      searchShipments(value.nativeEvent.text);
+                      getShipment(value.nativeEvent.text);
+                    }}
+                  />
+                  <TouchableOpacity
+                    style={styles.scanButton}
+                    onPress={() => {
+                      Keyboard.dismiss();
+                      getShipment(content);
+                    }}
+                  >
+                    <Icon
+                      name="ic_search"
+                      size={Metrics.icons.small}
+                      color={Themes.colors.black}
+                    />
+                  </TouchableOpacity>
+                </View>
+
                 <TouchableOpacity
                   style={styles.scanButton}
                   onPress={() => {
@@ -122,7 +183,7 @@ export const ScanScreen: FunctionComponent = () => {
           </TouchableWithoutFeedback>
           {isLoadingFetchData ? (
             <View style={styles.loadingView}>
-              <ActivityIndicator />
+              <ActivityIndicator color={Themes.colors.collGray40} />
             </View>
           ) : isShowQrCode && isFocused ? (
             <QRCodeScanner

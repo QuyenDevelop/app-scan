@@ -4,7 +4,12 @@ import { hasAndroidPermission } from "@helpers";
 import { useToggle } from "@hooks";
 import { goToPhotoLibrary, ShipmentStackParamsList } from "@navigation";
 import CameraRoll from "@react-native-community/cameraroll";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import {
+  RouteProp,
+  useIsFocused,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent, useRef, useState } from "react";
@@ -25,6 +30,7 @@ export interface UploadScreenParams {
 export const UploadScreen: FunctionComponent = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
   const route = useRoute<NavigationRoute>();
   const { shipment, service } = route?.params;
   const cameraRef = useRef<RNCamera>(null);
@@ -65,24 +71,26 @@ export const UploadScreen: FunctionComponent = () => {
         iconLeftOnPress={[() => navigation.goBack()]}
         isCenterTitle
       />
-      <View style={{ flex: 1 }}>
-        <RNCamera
-          ref={cameraRef}
-          style={styles.preview}
-          type={RNCamera.Constants.Type.back}
-          flashMode={
-            isFlashMode
-              ? RNCamera.Constants.FlashMode.on
-              : RNCamera.Constants.FlashMode.off
-          }
-          androidCameraPermissionOptions={{
-            title: "Permission to use camera",
-            message: "We need your permission to use your camera",
-            buttonPositive: "Ok",
-            buttonNegative: "Cancel",
-          }}
-          captureAudio={false}
-        />
+      <View style={styles.flex1}>
+        {isFocused && (
+          <RNCamera
+            ref={cameraRef}
+            style={styles.preview}
+            type={RNCamera.Constants.Type.back}
+            flashMode={
+              isFlashMode
+                ? RNCamera.Constants.FlashMode.on
+                : RNCamera.Constants.FlashMode.off
+            }
+            androidCameraPermissionOptions={{
+              title: "Permission to use camera",
+              message: "Need camera access for upload images",
+              buttonPositive: "Ok",
+              buttonNegative: "Cancel",
+            }}
+            captureAudio={false}
+          />
+        )}
 
         <View style={styles.bottomCamera}>
           <TouchableOpacity onPress={goToLibrary}>

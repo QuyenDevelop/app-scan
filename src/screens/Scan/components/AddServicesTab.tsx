@@ -1,5 +1,5 @@
 import { addServiceApi, shipmentApi } from "@api";
-import { Alert } from "@helpers";
+import { Alert, ScreenUtils } from "@helpers";
 import { useShow } from "@hooks";
 import { AddServiceInfo, ShipmentAddServiceResponse } from "@models";
 import { IRootState, SavePhoto } from "@redux";
@@ -208,6 +208,7 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
                   selectService.length === 0
                     ? Themes.colors.collGray40
                     : Themes.colors.primary,
+                minWidth: ScreenUtils.calculatorWidth(250),
               }}
               onPress={onAddServices}
               isDisable={selectService.length === 0}

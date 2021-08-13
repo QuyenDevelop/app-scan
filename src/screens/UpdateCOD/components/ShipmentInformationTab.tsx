@@ -17,7 +17,7 @@ export const ShipmentInformationTab: FunctionComponent<Props> = props => {
         <Text style={styles.labelInfo}>{translate("label.refNumber")}</Text>
         <Text style={styles.contentInfo}>{item.Id}</Text>
       </View>
-      <ListShipment shipments={item.shipments} />
+      <ListShipment shipments={item.shipments} refId={item.Id} />
     </View>
   );
 };

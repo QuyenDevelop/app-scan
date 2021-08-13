@@ -1,4 +1,4 @@
-import { payCodApi } from "@api";
+import { payCodApi, shipmentApi } from "@api";
 import { Alert, ScreenUtils, Utils } from "@helpers";
 import { useShow } from "@hooks";
 import {
@@ -6,6 +6,7 @@ import {
   CustomerResponse,
   ShipmentCODResponse,
 } from "@models";
+import { useNavigation } from "@react-navigation/native";
 import { IRootState, ShipmentInfoAction } from "@redux";
 import { Button, Icon, Text, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
@@ -31,6 +32,7 @@ interface Props {
 export const ProcessCodTab: FunctionComponent<Props> = props => {
   const { item } = props;
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const shipmentCustomers = useSelector(
     (state: IRootState) => state.shipmentInfo.shipmentCustomers,
   ) as Array<CustomerResponse>;
@@ -86,6 +88,16 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
     setCodAmount(Utils.convertMoneyTextToNumber(value));
   };
 
+  const updateStatus = (value: number) => {
+    setCodAmountPay(value);
+    setIsConfirmed(true);
+    shipmentApi.scanShipmentCOD(item.Id)?.then(shipment => {
+      if (shipment?.success) {
+        navigation.setParams({ item: shipment.data });
+      }
+    });
+  };
+
   const onConfirmPayment = () => {
     if (!customer) {
       Alert.warning("warning.noCustomer");
@@ -97,7 +109,7 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
       return;
     }
 
-    if (item.shipments.length > 1) {
+    if (item.shipments.length <= 1) {
       RNAlert.alert("", translate("alert.confirmPayment"), [
         {
           text: translate("button.cancel"),
@@ -117,11 +129,11 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
                 amountLocal: item.CODAmount,
                 rate: currency?.Rate || 0,
                 amountPay: codAmount,
+                shipments: [],
               })
               ?.then(response => {
                 if (response.success) {
-                  setCodAmountPay(codAmount);
-                  setIsConfirmed(true);
+                  updateStatus(codAmount);
                   Alert.success("success.confirmPaymentSuccess");
                 } else {
                   if (response.message) {
@@ -297,7 +309,11 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
             closeModal={hideConfirmModal}
             shipments={item.shipments}
             totalCOD={codAmount}
-            currencyCode={item.CurrencyCode}
+            customer={customer!}
+            currency={currency!}
+            updateStatus={updateStatus}
+            trackingNumber={item.Id}
+            amountLocal={item.CODAmount}
           />
         )}
       </View>

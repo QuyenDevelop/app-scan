@@ -26,13 +26,14 @@ type NavigationRoute = RouteProp<
 
 export interface ShipmentDetailCODScreenParams {
   item: ShipmentResponse;
+  refId: string;
 }
 
 export const ShipmentDetailCODScreen: FunctionComponent = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const routeNavigation = useRoute<NavigationRoute>();
-  const { item } = routeNavigation?.params || {};
+  const { item, refId } = routeNavigation?.params || {};
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
 
@@ -61,21 +62,12 @@ export const ShipmentDetailCODScreen: FunctionComponent = () => {
         case "ContentInfoTab":
           return <ContentInfoTab shipmentId={item.ShipmentId} />;
         case "CodDetailTab":
-          return <CodDetailTab shipment={item} />;
+          return <CodDetailTab shipment={item} refId={refId} />;
         default:
           return null;
       }
     },
-    [
-      item.CargoSPServiceId,
-      item.CargoShippingMethod,
-      item.ConsigneeName,
-      item.CustomerName,
-      item.IsDirectShipment,
-      item.ReferenceNumber,
-      item.ShipmentId,
-      item.ShipmentNumber,
-    ],
+    [item, refId],
   );
 
   const renderLazyPlaceholder = () => (

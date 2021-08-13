@@ -117,12 +117,20 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
     </View>
   );
 
+  const goBack = () =>
+    navigation.navigate(SCREENS.SCAN_STACK, {
+      screen: SCREENS.SCAN_SCREEN,
+      params: {
+        searchContent: item.ReferenceNumber,
+      },
+    });
+
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <Header
         title={translate("screens.shipmentDetail")}
         iconLeftName={["ic_arrow_left"]}
-        iconLeftOnPress={[() => navigation.goBack()]}
+        iconLeftOnPress={[goBack]}
         isCenterTitle
       />
       <TabView

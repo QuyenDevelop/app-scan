@@ -5,12 +5,13 @@ import { Shipment } from "./Shipment";
 
 interface Props {
   shipments: Array<ShipmentResponse>;
+  refId: string;
 }
 export const ListShipment: FunctionComponent<Props> = props => {
-  const { shipments } = props;
+  const { shipments, refId } = props;
   const keyExtractor = useCallback(item => item.ShipmentNumber, []);
   const renderItem = useCallback(
-    ({ item }: { item: any }) => <Shipment item={item} />,
+    ({ item }: { item: any }) => <Shipment item={item} refId={refId} />,
     [],
   );
   return (

@@ -39,4 +39,7 @@ export default StyleSheet.create({
     ...Themes.font.medium,
     color: Themes.colors.white,
   },
+  flex1: {
+    flex: 1,
+  },
 });

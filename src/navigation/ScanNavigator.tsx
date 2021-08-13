@@ -1,10 +1,10 @@
 import { SCREENS } from "@configs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { ScanScreen } from "@screens";
+import { ScanScreen, ScanScreenParams } from "@screens";
 import React from "react";
 
 export type ScanParamsList = {
-  [SCREENS.SCAN_SCREEN]: undefined;
+  [SCREENS.SCAN_SCREEN]: ScanScreenParams;
 };
 
 const ScanStackNavigator = createStackNavigator<ScanParamsList>();

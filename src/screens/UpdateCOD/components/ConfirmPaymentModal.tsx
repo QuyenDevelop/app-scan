@@ -1,6 +1,11 @@
-import { Utils } from "@helpers";
+import { payCodApi } from "@api";
+import { Alert, Utils } from "@helpers";
 import { useShow } from "@hooks";
-import { ShipmentItemCodResponse } from "@models";
+import {
+  CurrencyResponse,
+  CustomerResponse,
+  ShipmentItemCodResponse,
+} from "@models";
 import { BaseBottomSheet, Button, Text, translate } from "@shared";
 import { Themes } from "@themes";
 import React, { FunctionComponent, useState } from "react";
@@ -13,16 +18,29 @@ interface Props {
   closeModal: () => void;
   shipments: Array<ShipmentItemCodResponse>;
   totalCOD: number;
-  currencyCode: string;
+  currency: CurrencyResponse;
+  customer: CustomerResponse;
+  updateStatus: (value: number) => void;
+  trackingNumber: string;
+  amountLocal: number;
 }
 
 export const ConfirmPaymentModal: FunctionComponent<Props> = props => {
-  const { closeModal, shipments, totalCOD, currencyCode } = props;
+  const {
+    closeModal,
+    shipments,
+    totalCOD,
+    currency,
+    customer,
+    updateStatus,
+    trackingNumber,
+    amountLocal,
+  } = props;
 
   const [totalCod, setTotalCod] = useState<number>(totalCOD);
   const [listShipment, setListShipment] =
     useState<Array<ShipmentItemCodResponse>>(shipments);
-  const [isLoadingConfirm] = useShow();
+  const [isLoadingConfirm, showLoadingConfirm, hideLoadingConfirm] = useShow();
 
   const getTotalCOD = (
     arrayShipment: Array<ShipmentItemCodResponse>,
@@ -53,7 +71,45 @@ export const ConfirmPaymentModal: FunctionComponent<Props> = props => {
     return <ConfirmItem item={item} onChangeCodAmount={onChangeCodAmount} />;
   };
 
-  const confirmPayment = () => {};
+  const confirmPayment = () => {
+    const shipmentsCod = listShipment.map(shipment => ({
+      shipmentId: shipment.ShipmentId,
+      codAmountPay: shipment.CODAmoutPay
+        ? shipment.CODAmoutPay
+        : shipment.CODAmount,
+    }));
+    showLoadingConfirm();
+    payCodApi
+      .updateAmountPay({
+        customerId: customer.Id,
+        customerCode: customer.Code,
+        trackingNumber: trackingNumber,
+        currencyCode: currency.CurrencyCode,
+        amountLocal: amountLocal,
+        rate: currency?.Rate || 0,
+        amountPay: totalCod,
+        shipments: shipmentsCod,
+      })
+      ?.then(response => {
+        if (response.success) {
+          closeModal();
+          updateStatus(totalCod);
+          Alert.success("success.confirmPaymentSuccess");
+        } else {
+          if (response.message) {
+            Alert.error(response.message, true);
+          } else {
+            Alert.error("error.errorServer");
+          }
+        }
+      })
+      .catch(() => {
+        Alert.error("error.errorServer");
+      })
+      .finally(() => {
+        hideLoadingConfirm();
+      });
+  };
 
   return (
     <BaseBottomSheet isShowModal={true} onCloseModal={closeModal}>
@@ -64,7 +120,8 @@ export const ConfirmPaymentModal: FunctionComponent<Props> = props => {
         style={styles.bottomModal}
         ListHeaderComponent={
           <Text style={styles.totalCOD}>
-            Tổng COD: {Utils.formatMoney(totalCod)} {currencyCode}
+            {translate("label.totalCod")} {Utils.formatMoney(totalCod)}{" "}
+            {currency.CurrencyCode}
           </Text>
         }
         ListFooterComponent={
@@ -74,13 +131,13 @@ export const ConfirmPaymentModal: FunctionComponent<Props> = props => {
               styles.confirmPaymentBtn,
               {
                 backgroundColor:
-                  totalCOD !== getTotalCOD(listShipment)
+                  totalCod !== getTotalCOD(listShipment)
                     ? Themes.colors.collGray40
                     : Themes.colors.primary,
               },
             ]}
             isLoading={isLoadingConfirm}
-            isDisable={totalCOD !== getTotalCOD(listShipment)}
+            isDisable={totalCod !== getTotalCOD(listShipment)}
             onPress={confirmPayment}
           />
         }

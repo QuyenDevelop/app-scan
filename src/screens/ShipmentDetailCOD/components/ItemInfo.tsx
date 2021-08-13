@@ -1,14 +1,17 @@
 import { Utils } from "@helpers";
+import { useShow } from "@hooks";
 import { ShipmentItemResponse } from "@models";
-import { translate } from "@shared";
+import { ImageViewModal, Text, translate } from "@shared";
 import React, { FunctionComponent } from "react";
-import { Text, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import styles from "./styles";
 interface Props {
   item?: ShipmentItemResponse;
 }
 export const ItemInfo: FunctionComponent<Props> = props => {
   const { item } = props;
+  const images = item?.Images.map(image => image.Url);
+  const [isShowImages, showImages, hideImages] = useShow();
   return (
     <View style={styles.itemInfoContainer}>
       <View style={styles.infoItem}>
@@ -28,8 +31,18 @@ export const ItemInfo: FunctionComponent<Props> = props => {
           {translate("label.value", { currency: item?.CurrencyCode })} ¥
           {Utils.formatMoney(item?.Price || 0)} {}
         </Text>
+        <TouchableOpacity style={styles.viewImage} onPress={showImages}>
+          <Text style={styles.viewImageText}>
+            {translate("button.lookPhoto")}
+          </Text>
+        </TouchableOpacity>
       </View>
       <View />
+      <ImageViewModal
+        images={images || []}
+        isVisible={isShowImages}
+        closeModal={hideImages}
+      />
     </View>
   );
 };

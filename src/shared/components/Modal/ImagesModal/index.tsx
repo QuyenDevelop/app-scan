@@ -1,9 +1,8 @@
 import { FastImageLoading, Icon } from "@shared";
 import { Images, Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
-import { Image, TouchableOpacity, View, ViewStyle } from "react-native";
+import { Image, Modal, TouchableOpacity, View, ViewStyle } from "react-native";
 import FastImage, { ImageStyle } from "react-native-fast-image";
-import Modal from "react-native-modal";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Swiper from "react-native-swiper";
 import styles from "./styles";
@@ -34,17 +33,10 @@ export const ImagesModal: FunctionComponent<Props> = props => {
   return (
     <Modal
       style={[styles.container, style]}
-      useNativeDriverForBackdrop
-      propagateSwipe={true}
-      hardwareAccelerated={false}
-      isVisible={isVisible}
-      onBackdropPress={closeModal}
-      onBackButtonPress={closeModal}
-      onSwipeComplete={closeModal}
-      animationIn="fadeInUpBig"
-      animationOut="fadeOutDownBig"
-      useNativeDriver
-      hideModalContentWhileAnimating
+      animationType="slide"
+      visible={isVisible}
+      onRequestClose={closeModal}
+      statusBarTranslucent={true}
     >
       <Swiper
         loop={false}

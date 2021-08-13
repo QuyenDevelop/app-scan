@@ -216,4 +216,13 @@ export default StyleSheet.create({
     color: Themes.colors.white,
     fontSize: 14,
   },
+  viewImage: {
+    backgroundColor: Themes.colors.primary,
+    padding: ScreenUtils.calculatorWidth(5),
+    marginTop: ScreenUtils.calculatorHeight(5),
+    borderRadius: ScreenUtils.calculatorWidth(5),
+  },
+  viewImageText: {
+    color: Themes.colors.white,
+  },
 });

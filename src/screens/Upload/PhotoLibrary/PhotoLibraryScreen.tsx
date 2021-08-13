@@ -85,6 +85,10 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
   };
 
   const uploadImages = async () => {
+    if (photosSelected.length === 0) {
+      Alert.warning("warning.noPhotoSelected");
+      return;
+    }
     const listImages = await getAsyncItem(
       CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
     );
@@ -115,7 +119,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
       );
       DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
       setPhotosSelected([]);
-      Alert.success(translate("success.autoUploadImage"));
+      Alert.success("success.autoUploadImage");
     } else {
       Alert.error(translate("error.errorServer"));
     }
@@ -144,7 +148,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
         iconLeftName={["ic_arrow_left"]}
         iconLeftOnPress={[() => navigation.goBack()]}
         isCenterTitle
-        iconRightName={["ic_arrow_up"]}
+        iconRightName={["ic_upload"]}
         iconRightOnPress={[uploadImages]}
       />
       <FlatList

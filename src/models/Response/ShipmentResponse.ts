@@ -102,11 +102,19 @@ export interface ShipmentItemResponse {
   MeasureWeight: null;
   Currency: null;
   QuantityUnit: null;
-  Images: [];
+  Images: Array<ShipmentImages>;
   Id: string;
   CustomProperties: {};
 }
 
+export interface ShipmentImages {
+  RefId: string;
+  Name: string;
+  OriginSize: string;
+  Url: string;
+  Id: string;
+  EntityCacheKey: string;
+}
 export interface ShipmentAddServiceResponse {
   ShipmentId: string;
   ShipmentNumber: string;

@@ -8,8 +8,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
-import debounce from "lodash/debounce";
-import React, { FunctionComponent, useRef, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import {
   ActivityIndicator,
   Keyboard,
@@ -67,11 +66,11 @@ export const ScanCODScreen: FunctionComponent = () => {
       });
   };
 
-  const getShipmentOnType = useRef(debounce(getShipment, 500)).current;
+  // const getShipmentOnType = useRef(debounce(getShipment, 500)).current;
 
   const searchShipments = (value: string) => {
     setContent(value);
-    getShipmentOnType(value);
+    // getShipmentOnType(value);
   };
 
   const onFocus = () => {
@@ -91,20 +90,37 @@ export const ScanCODScreen: FunctionComponent = () => {
             <View style={styles.header}>
               <Text>{translate("label.scanOrTypeShipment")}</Text>
               <View style={styles.input}>
-                <TextInput
-                  placeholder={translate("placeholder.scanOrType")}
-                  style={styles.inputCode}
-                  defaultValue={content}
-                  onChangeText={searchShipments}
-                  placeholderTextColor={Themes.colors.collGray40}
-                  onFocus={onFocus}
-                  onBlur={onBlur}
-                  returnKeyType="search"
-                  returnKeyLabel={translate("button.search")}
-                  onSubmitEditing={value =>
-                    searchShipments(value.nativeEvent.text)
-                  }
-                />
+                <View style={styles.inputCode}>
+                  <TextInput
+                    placeholder={translate("placeholder.scanOrType")}
+                    style={styles.flex1}
+                    defaultValue={content}
+                    onChangeText={searchShipments}
+                    placeholderTextColor={Themes.colors.collGray40}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                    returnKeyType="search"
+                    returnKeyLabel={translate("button.search")}
+                    onSubmitEditing={value => {
+                      searchShipments(value.nativeEvent.text);
+                      getShipment(value.nativeEvent.text);
+                    }}
+                  />
+                  <TouchableOpacity
+                    style={styles.scanButton}
+                    onPress={() => {
+                      Keyboard.dismiss();
+                      getShipment(content);
+                    }}
+                  >
+                    <Icon
+                      name="ic_search"
+                      size={Metrics.icons.small}
+                      color={Themes.colors.black}
+                    />
+                  </TouchableOpacity>
+                </View>
+
                 <TouchableOpacity
                   style={styles.scanButton}
                   onPress={() => {
