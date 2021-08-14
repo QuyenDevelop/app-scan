@@ -11,12 +11,12 @@ import {
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AccountAction } from "@redux";
 import { translate } from "@shared";
-import { Loader } from "@themes";
+import { Images, Loader } from "@themes";
 import LottieView from "lottie-react-native";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { Alert, View } from "react-native";
+import { Alert, ImageBackground } from "react-native";
+import FastImage from "react-native-fast-image";
 import * as RNLocalize from "react-native-localize";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDispatch } from "react-redux";
 import styles from "./styles";
 
@@ -30,7 +30,6 @@ export const LaunchScreen: FunctionComponent<Props> = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation<StackNavigationProp<any>>();
   useStatusBar("dark-content");
-  const insets = useSafeAreaInsets();
   const [currencyCodes] = useState({
     currencyCode: RNLocalize.getCurrencies(),
   });
@@ -108,7 +107,7 @@ export const LaunchScreen: FunctionComponent<Props> = () => {
   };
 
   const onContinueFlow = () => {
-    navigation.navigate(SCREENS.BOTTOM_TAB_NAVIGATION);
+    navigation.navigate(SCREENS.HOME_STACK);
   };
 
   const checkConnectivity = (): void => {
@@ -137,18 +136,17 @@ export const LaunchScreen: FunctionComponent<Props> = () => {
   );
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
-      {/* <FastImage
-        source={Images.splash}
-        style={styles.backgroundImg}
-        resizeMode={FastImage.resizeMode.cover}
-      /> */}
+    <ImageBackground
+      source={Images.splashImage}
+      resizeMode={FastImage.resizeMode.contain}
+      style={styles.container}
+    >
       <LottieView
         style={styles.loadingView}
         autoPlay={true}
         loop={true}
         source={Loader.launchLoader}
       />
-    </View>
+    </ImageBackground>
   );
 };

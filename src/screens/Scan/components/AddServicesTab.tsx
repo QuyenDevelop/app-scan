@@ -73,6 +73,32 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
   };
 
   useEffect(() => {
+    const headService: Array<AddServiceShipmentResponse> = [];
+    const footerService: Array<AddServiceShipmentResponse> = [];
+    setListService(services => {
+      services.forEach(service => {
+        const isAdded = addServices.findIndex(
+          s => s.CargoAddServiceId === service.Id,
+        );
+        if (isAdded > -1) {
+          headService.push({
+            ...service,
+            IsProcessed: addServices[isAdded].IsProcessed,
+          });
+        } else {
+          footerService.push(service);
+        }
+        return service;
+      });
+
+      headService.sort(a => {
+        return a.IsProcessed ? -1 : 1;
+      });
+      return [...headService, ...footerService];
+    });
+  }, [addServices]);
+
+  useEffect(() => {
     fetchShipmentService();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -199,6 +225,7 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
           data={listService}
           keyExtractor={item => item.Id}
           renderItem={renderItem}
+          showsVerticalScrollIndicator={false}
           ListFooterComponent={
             <Button
               title={translate("button.addService")}

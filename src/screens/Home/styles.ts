@@ -1,3 +1,4 @@
+import { ScreenUtils } from "@helpers";
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
@@ -6,5 +7,9 @@ export default StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  headerImage: {
+    width: "100%",
+    height: ScreenUtils.calculatorHeight(213),
   },
 });

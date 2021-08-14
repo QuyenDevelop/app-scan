@@ -10,7 +10,7 @@ interface Props {
 }
 export const ItemInfo: FunctionComponent<Props> = props => {
   const { item } = props;
-  const images = item?.Images.map(image => image.Url);
+  const images = item?.Images && item.Images.map(image => image.Url);
   const [isShowImages, showImages, hideImages] = useShow();
   return (
     <View style={styles.itemInfoContainer}>
@@ -31,11 +31,13 @@ export const ItemInfo: FunctionComponent<Props> = props => {
           {translate("label.value", { currency: item?.CurrencyCode })} ¥
           {Utils.formatMoney(item?.Price || 0)} {}
         </Text>
-        <TouchableOpacity style={styles.viewImage} onPress={showImages}>
-          <Text style={styles.viewImageText}>
-            {translate("button.lookPhoto")}
-          </Text>
-        </TouchableOpacity>
+        {images && (
+          <TouchableOpacity style={styles.viewImage} onPress={showImages}>
+            <Text style={styles.viewImageText}>
+              {translate("button.lookPhoto")}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
       <View />
       <ImageViewModal

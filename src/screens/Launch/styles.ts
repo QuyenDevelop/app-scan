@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Themes.colors.white,
+    backgroundColor: Themes.colors.bg,
     // paddingHorizontal: ScreenUtils.calculatorWidth(20)
   },
   banner: {

@@ -64,6 +64,7 @@ export const Themes = {
     yellow: "#FFD858",
     yellow279: "#FFE279",
     black: "#000000",
+    bg: "#00194F",
   },
   font: {
     bold: {

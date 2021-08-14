@@ -2,6 +2,7 @@ import { SCREENS } from "@configs";
 import {
   AuthStackNavigation,
   BottomTabNavigator,
+  HomeStackNavigation,
   ShipmentStackNavigation,
 } from "@navigation";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -15,6 +16,7 @@ export type RootParamList = {
   [SCREENS.BOTTOM_TAB_NAVIGATION]: undefined;
   [SCREENS.AUTH_STACK]: undefined;
   [SCREENS.SHIPMENT_STACK]: undefined;
+  [SCREENS.HOME_STACK]: undefined;
 };
 
 export function RootNavigator() {
@@ -28,6 +30,10 @@ export function RootNavigator() {
       }}
     >
       <RootStack.Screen name={SCREENS.LAUNCH_SCREEN} component={LaunchScreen} />
+      <RootStack.Screen
+        name={SCREENS.HOME_STACK}
+        component={HomeStackNavigation}
+      />
       <RootStack.Screen
         name={SCREENS.BOTTOM_TAB_NAVIGATION}
         component={BottomTabNavigator}

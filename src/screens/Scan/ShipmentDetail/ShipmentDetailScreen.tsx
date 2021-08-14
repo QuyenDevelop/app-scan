@@ -46,9 +46,9 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
   >([]);
 
   const [routes] = useState([
+    { key: "AddServicesTab", title: translate("label.tab.addServicesTab") },
     { key: "GeneralInfoTab", title: translate("label.tab.generalInfoTab") },
     { key: "ContentInfoTab", title: translate("label.tab.contentInfoTab") },
-    { key: "AddServicesTab", title: translate("label.tab.addServicesTab") },
   ]);
 
   const getShipmentAddServices = useCallback(() => {
