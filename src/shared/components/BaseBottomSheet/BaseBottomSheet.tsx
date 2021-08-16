@@ -26,10 +26,19 @@ interface IProps {
   onCloseModal: Function;
   onModalHide?: () => void;
   children: JSX.Element;
+  keyboardAvoidingViewAndroid?: "height" | "position" | "padding" | undefined;
+  keyboardAvoidingViewIOS?: "height" | "position" | "padding" | undefined;
 }
 
 export const BaseBottomSheet: FunctionComponent<IProps> = props => {
-  const { onCloseModal, isShowModal, onModalHide, children } = props;
+  const {
+    onCloseModal,
+    isShowModal,
+    onModalHide,
+    children,
+    keyboardAvoidingViewAndroid,
+    keyboardAvoidingViewIOS,
+  } = props;
   const [isShowModalState, setIsShowModalState] = useState(isShowModal);
   const insets = useSafeAreaInsets();
   const hideModal = function () {
@@ -61,7 +70,11 @@ export const BaseBottomSheet: FunctionComponent<IProps> = props => {
       backdropTransitionOutTiming={0}
     >
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        behavior={
+          Platform.OS === "ios"
+            ? keyboardAvoidingViewIOS ?? "padding"
+            : keyboardAvoidingViewAndroid ?? "height"
+        }
       >
         <View
           style={{

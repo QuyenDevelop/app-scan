@@ -2,8 +2,8 @@ import { shipmentApi } from "@api";
 import { Header } from "@components";
 import { SCREENS } from "@configs";
 import { ShipmentAddServiceResponse, ShipmentResponse } from "@models";
-import { ShipmentStackParamsList } from "@navigation";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { goToCheckAndScanScreen, ShipmentStackParamsList } from "@navigation";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { translate } from "@shared";
 import { Themes } from "@themes";
 import React, {
@@ -36,7 +36,6 @@ export interface ShipmentDetailScreenParams {
 
 export const ShipmentDetailScreen: FunctionComponent = () => {
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation();
   const routeNavigation = useRoute<NavigationRoute>();
   const { item } = routeNavigation?.params;
   const layout = useWindowDimensions();
@@ -117,20 +116,12 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
     </View>
   );
 
-  const goBack = () =>
-    navigation.navigate(SCREENS.SCAN_STACK, {
-      screen: SCREENS.SCAN_SCREEN,
-      params: {
-        searchContent: item.ReferenceNumber,
-      },
-    });
-
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <Header
         title={translate("screens.shipmentDetail")}
         iconLeftName={["ic_arrow_left"]}
-        iconLeftOnPress={[goBack]}
+        iconLeftOnPress={[goToCheckAndScanScreen]}
         isCenterTitle
       />
       <TabView

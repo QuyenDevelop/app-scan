@@ -2,7 +2,9 @@ import { SCREENS } from "@configs";
 import {
   AuthStackNavigation,
   BottomTabNavigator,
+  CheckAndScanStackNavigation,
   HomeStackNavigation,
+  ScanCodStackNavigation,
   ShipmentStackNavigation,
 } from "@navigation";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -17,6 +19,8 @@ export type RootParamList = {
   [SCREENS.AUTH_STACK]: undefined;
   [SCREENS.SHIPMENT_STACK]: undefined;
   [SCREENS.HOME_STACK]: undefined;
+  [SCREENS.CHECK_AND_SCAN_STACK]: undefined;
+  [SCREENS.SCAN_COD_STACK]: undefined;
 };
 
 export function RootNavigator() {
@@ -33,6 +37,17 @@ export function RootNavigator() {
       <RootStack.Screen
         name={SCREENS.HOME_STACK}
         component={HomeStackNavigation}
+        options={{
+          gestureEnabled: false,
+        }}
+      />
+      <RootStack.Screen
+        name={SCREENS.CHECK_AND_SCAN_STACK}
+        component={CheckAndScanStackNavigation}
+      />
+      <RootStack.Screen
+        name={SCREENS.SCAN_COD_STACK}
+        component={ScanCodStackNavigation}
       />
       <RootStack.Screen
         name={SCREENS.BOTTOM_TAB_NAVIGATION}

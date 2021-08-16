@@ -198,4 +198,22 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  enterCode: {
+    borderBottomWidth: 1,
+    marginHorizontal: ScreenUtils.calculatorWidth(20),
+    marginBottom: ScreenUtils.calculatorHeight(33),
+    paddingVertical: ScreenUtils.calculatorHeight(12),
+    borderColor: Themes.colors.colGray20,
+  },
+  qrUserManual: {
+    fontSize: 18,
+    fontWeight: "600",
+  },
+  headerBottomSheet: {
+    paddingHorizontal: ScreenUtils.calculatorWidth(20),
+    paddingVertical: ScreenUtils.calculatorHeight(10),
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 });

@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: ScreenUtils.calculatorWidth(10),
     paddingVertical: ScreenUtils.calculatorHeight(10),
+    backgroundColor: Themes.colors.bg,
   },
   leftContainer: {
     flexDirection: "row",

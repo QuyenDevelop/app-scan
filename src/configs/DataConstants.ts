@@ -1,3 +1,10 @@
+import {
+  goToCheckAndScanScreen,
+  goToHomeScreen,
+  goToScanCodScreen,
+} from "@navigation";
+import { Images } from "@themes";
+
 const shipmentService = [
   {
     Active: true,
@@ -47,8 +54,87 @@ const shipmentMode = [
     Name: "Đường bộ",
   },
 ];
+
+const homeItems = [
+  {
+    id: 0,
+    title: "label.homeItems.checkAndScan.title",
+    content: "label.homeItems.checkAndScan.content",
+    icon: Images.checkAndScan,
+    onPress: goToCheckAndScanScreen,
+  },
+  {
+    id: 1,
+    title: "label.homeItems.cod.title",
+    content: "label.homeItems.cod.content",
+    icon: Images.cod,
+    onPress: goToScanCodScreen,
+  },
+  {
+    id: 2,
+    title: "label.homeItems.shipmentManagement.title",
+    content: "label.homeItems.shipmentManagement.content",
+    icon: Images.shipmentManagement,
+    onPress: () => {},
+  },
+  {
+    id: 3,
+    title: "label.homeItems.claimAndInquiries.title",
+    content: "label.homeItems.claimAndInquiries.content",
+    icon: Images.claimAndInquiries,
+    onPress: () => {},
+  },
+];
+
+const menuItems = [
+  {
+    id: 0,
+    title: "label.menuItem.home",
+    icon: Images.icMenuHome,
+    onPress: goToHomeScreen,
+  },
+  {
+    id: 1,
+    title: "label.menuItem.checkAndScan",
+    icon: Images.icMenuScanAndCheck,
+    onPress: goToCheckAndScanScreen,
+  },
+  {
+    id: 2,
+    title: "label.menuItem.scanCod",
+    icon: Images.icMenuScanCod,
+    onPress: goToScanCodScreen,
+  },
+  {
+    id: 3,
+    title: "label.menuItem.shipmentManagement",
+    icon: Images.icMenuShipmentManage,
+    onPress: () => {},
+  },
+  {
+    id: 4,
+    title: "label.menuItem.claimAndInquiries",
+    icon: Images.icMenuClaim,
+    onPress: () => {},
+  },
+  {
+    id: 5,
+    title: "label.menuItem.setting",
+    icon: Images.icMenuSetting,
+    onPress: () => {},
+  },
+  {
+    id: 6,
+    title: "label.menuItem.userInfo",
+    icon: Images.icMenuUser,
+    onPress: () => {},
+  },
+];
+
 export const DATA_CONSTANT = {
   SHIPMENT_SERVICE: shipmentService,
   LANGUAGE_CODE: languageCodes,
   SHIPMENT_MODE: shipmentMode,
+  HOME_ITEMS: homeItems,
+  MENU_ITEMS: menuItems,
 };

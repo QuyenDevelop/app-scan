@@ -5,6 +5,7 @@ import {
   PhotoLibraryScreenParams,
   ShipmentDetailCODScreenParams,
   ShipmentDetailScreenParams,
+  ShipmentsScreenParams,
   UpdateCODScreenParams,
   UploadScreenParams,
 } from "@screens";
@@ -55,6 +56,37 @@ export const goToShipmentDetailCODScreen = (
 ) => {
   NavigationUtils.navigate(SCREENS.SHIPMENT_STACK, {
     screen: SCREENS.SHIPMENT_DETAIL_COD_SCREEN,
+    params: routeParams,
+  });
+};
+
+export const goToCheckAndScanScreen = () => {
+  NavigationUtils.navigate(SCREENS.CHECK_AND_SCAN_STACK, {
+    screen: SCREENS.SCAN_SCREEN,
+  });
+};
+
+export const goToScanCodScreen = () => {
+  NavigationUtils.navigate(SCREENS.SCAN_COD_STACK, {
+    screen: SCREENS.COD_SCAN_SCREEN,
+  });
+};
+
+export const goToMenuScreen = () => {
+  NavigationUtils.navigate(SCREENS.HOME_STACK, {
+    screen: SCREENS.MENU_SCREEN,
+  });
+};
+
+export const goToHomeScreen = () => {
+  NavigationUtils.navigate(SCREENS.HOME_STACK, {
+    screen: SCREENS.HOME_SCREEN,
+  });
+};
+
+export const goToShipmentsScreen = (routeParams: ShipmentsScreenParams) => {
+  NavigationUtils.navigate(SCREENS.CHECK_AND_SCAN_STACK, {
+    screen: SCREENS.SHIPMENTS_SCREEN,
     params: routeParams,
   });
 };

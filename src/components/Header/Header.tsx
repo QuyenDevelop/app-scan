@@ -1,5 +1,6 @@
 import { ScreenUtils } from "@helpers";
 import { useNavigation } from "@react-navigation/core";
+import { AccountAction } from "@redux";
 import { BottomSheet, Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent, useState } from "react";
@@ -11,6 +12,7 @@ import {
   View,
   ViewStyle,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDispatch } from "react-redux";
 import { styles } from "./styles";
 
@@ -84,7 +86,7 @@ export const Header: FunctionComponent<Props> = props => {
     colorIconGoBack,
     onGoBack,
   } = props;
-
+  const insets = useSafeAreaInsets();
   const [isShowChangeLanguageModal, setIsShowChangeLanguageModal] =
     useState(false);
   const dispatch = useDispatch();
@@ -129,7 +131,7 @@ export const Header: FunctionComponent<Props> = props => {
   ];
 
   const setLanguage = (value: any) => {
-    // dispatch(AccountAction.changeLanguageWithLaunch({ language: value }));
+    dispatch(AccountAction.changeLanguageWithLaunch({ language: value }));
   };
 
   const getIconWidth = () => {
@@ -292,7 +294,7 @@ export const Header: FunctionComponent<Props> = props => {
   };
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, { paddingTop: insets.top }, style]}>
       {isGoBack ? renderGoback() : renderLeftIcon()}
       {!isEnableSearch && title ? (
         <Text

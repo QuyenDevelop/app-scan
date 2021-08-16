@@ -1,5 +1,7 @@
 import { Dimensions, Platform, StatusBar } from "react-native";
 
+const { width, height } = Dimensions.get("screen");
+
 export const ScreenUtils = {
   calculatorWidth(width: number) {
     return Dimensions.get("screen").width / (375 / width);
@@ -30,4 +32,6 @@ export const ScreenUtils = {
       default: 0,
     });
   },
+  WIDTH: width,
+  HEIGHT: height,
 };
