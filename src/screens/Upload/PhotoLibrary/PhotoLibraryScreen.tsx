@@ -13,7 +13,7 @@ import CameraRoll, {
 } from "@react-native-community/cameraroll";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { IRootState, SavePhoto, UploadImageAction } from "@redux";
-import { translate } from "@shared";
+import { Text, translate } from "@shared";
 import { Themes } from "@themes";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { DeviceEventEmitter, FlatList, Platform, View } from "react-native";
@@ -152,10 +152,12 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
         data={photos}
         keyExtractor={(item, index) => `${item.node.image.uri}_${index}`}
         renderItem={renderItem}
-        numColumns={4}
+        numColumns={3}
         onEndReachedThreshold={0.8}
         onEndReached={onEndReached}
+        style={styles.content}
       />
+      <Text>Test</Text>
     </View>
   );
 };

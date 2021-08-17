@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { Icon } from "@shared";
 import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
@@ -22,16 +23,17 @@ export const ImageItem: FunctionComponent<Props> = props => {
             styles.imageLibrary,
             {
               borderWidth: isChecked ? 1 : 0,
-              borderColor: Themes.colors.primary,
+              borderColor: Themes.colors.success60,
             },
           ]}
           source={{ uri: uri }}
+          resizeMode="cover"
         />
         {isChecked && (
           <Icon
             name="ic_check-circle"
             size={Metrics.icons.smallSmall}
-            color={Themes.colors.primary}
+            color={Themes.colors.success60}
             styles={styles.iconCheck}
           />
         )}

@@ -40,9 +40,8 @@ export default StyleSheet.create({
     color: Themes.colors.white,
   },
   imageLibrary: {
-    width: "100%",
-    height: 80,
-    flex: 1,
+    width: (ScreenUtils.WIDTH - ScreenUtils.calculatorWidth(50)) / 3,
+    height: (ScreenUtils.WIDTH - ScreenUtils.calculatorWidth(47)) / 3,
   },
   iconCheck: {
     position: "absolute",
@@ -50,7 +49,13 @@ export default StyleSheet.create({
     right: 2,
   },
   imageView: {
-    flex: 0.25,
+    flex: 1 / 3,
+    justifyContent: "center",
+    alignItems: "center",
     padding: 2,
+  },
+  content: {
+    margin: ScreenUtils.calculatorWidth(20),
+    flex: 1,
   },
 });
