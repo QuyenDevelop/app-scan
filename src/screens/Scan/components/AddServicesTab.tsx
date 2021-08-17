@@ -234,7 +234,7 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
                 backgroundColor:
                   selectService.length === 0
                     ? Themes.colors.collGray40
-                    : Themes.colors.primary,
+                    : Themes.colors.bg,
                 minWidth: ScreenUtils.calculatorWidth(250),
               }}
               onPress={onAddServices}

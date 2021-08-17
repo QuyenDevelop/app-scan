@@ -1,33 +1,60 @@
 import { Utils } from "@helpers";
 import { ShipmentItemResponse } from "@models";
-import { translate } from "@shared";
+import { Icon, Text, translate } from "@shared";
+import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import styles from "./styles";
 interface Props {
+  index: number;
   item?: ShipmentItemResponse;
 }
 export const ItemInfo: FunctionComponent<Props> = props => {
-  const { item } = props;
+  const { index, item } = props;
+  console.log("🚀🚀🚀 => item", item);
   return (
     <View style={styles.itemInfoContainer}>
-      <View style={styles.infoItem}>
+      <View style={styles.contentInfoRow}>
         <Text>
-          {translate("label.itemName")} {item?.ProductName}
+          {index + 1}.<Text style={{ color: Themes.colors.brand60 }}>*</Text>{" "}
+          {item?.OriginDescription}
         </Text>
-        <Text>
-          {translate("label.commodity")} {item?.CommodityText}
+      </View>
+      <View style={styles.contentInfoRow}>
+        <Icon
+          name="ic_type"
+          size={Metrics.icons.small}
+          color={Themes.colors.brand60}
+        />
+        <Text style={styles.infoText}>{item?.OriginCommodityText}</Text>
+      </View>
+
+      <View style={styles.contentInfoRow}>
+        <Icon
+          name="ic_money"
+          size={Metrics.icons.smallSmall}
+          color={Themes.colors.brand60}
+        />
+        <Text style={styles.infoText}>
+          ¥ {Utils.formatMoney(item?.Price || 0)} {}
         </Text>
-        <Text>
-          {translate("label.quantity")} {item?.Quantity}
-        </Text>
-        <Text>
-          {translate("label.unit")} {item?.QuantityUnitCode}
-        </Text>
-        <Text>
-          {translate("label.value", { currency: item?.CurrencyCode })} ¥
-          {Utils.formatMoney(item?.Price || 0)} {}
-        </Text>
+      </View>
+      <View style={styles.bottomRow}>
+        <View style={styles.contentChild}>
+          <Icon
+            name="ic_quantity"
+            size={Metrics.icons.small}
+            color={Themes.colors.brand60}
+          />
+          <Text style={styles.infoText}>
+            {translate("label.quantity")} {item?.Quantity}
+          </Text>
+        </View>
+        <View style={styles.contentChild}>
+          <Text style={styles.infoText}>
+            {translate("label.unit")} {item?.QuantityUnitCode || "item"}
+          </Text>
+        </View>
       </View>
       <View />
     </View>

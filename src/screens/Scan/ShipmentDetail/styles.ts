@@ -49,15 +49,15 @@ export default StyleSheet.create({
     marginHorizontal: ScreenUtils.calculatorWidth(5),
   },
   tabBar: {
-    backgroundColor: Themes.colors.bP60,
+    backgroundColor: Themes.colors.white,
   },
   labelStyle: {
-    ...Themes.font.bold,
     fontSize: 14,
-    color: Themes.colors.white,
+    color: Themes.colors.coolGray100,
+    fontWeight: "600",
   },
   indicatorStyle: {
-    backgroundColor: Themes.colors.white,
+    backgroundColor: Themes.colors.brand60,
   },
   scene: {
     flex: 1,

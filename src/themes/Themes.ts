@@ -59,6 +59,7 @@ export const Themes = {
     backgroundOpacity: "rgba(255,255,255,0.54)",
     transparent: "#ffffff00",
     transparentBlack: "#00000050",
+    transparentBlack70: "#00000070",
     pinkHeart: "#FF99FF",
     red10: "#FF0000",
     red20: "rgba(255,7,34,0.8)",

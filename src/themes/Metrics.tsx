@@ -18,5 +18,6 @@ export const Metrics = {
     mediumLarge: Resize * 28,
     large: Resize * 30,
     xl: Resize * 40,
+    xxl: Resize * 48,
   },
 };

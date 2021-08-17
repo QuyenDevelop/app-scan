@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { FlatList } from "react-native";
 import { ItemInfo } from "./ItemInfo";
+import styles from "./styles";
 interface Props {
   shipmentId: string;
 }
@@ -34,8 +35,14 @@ export const ContentInfoTab: FunctionComponent<Props> = props => {
     getShipmentItems();
   }, [getShipmentItems]);
 
-  const renderItem = ({ item }: { item: ShipmentItemResponse }) => {
-    return <ItemInfo item={item} />;
+  const renderItem = ({
+    item,
+    index,
+  }: {
+    item: ShipmentItemResponse;
+    index: number;
+  }) => {
+    return <ItemInfo item={item} index={index} />;
   };
 
   return (
@@ -43,6 +50,7 @@ export const ContentInfoTab: FunctionComponent<Props> = props => {
       data={shipmentItems}
       keyExtractor={(item, index) => `$${item.ShipmentId}_${index}`}
       renderItem={renderItem}
+      style={styles.contentTab}
     />
   );
 };

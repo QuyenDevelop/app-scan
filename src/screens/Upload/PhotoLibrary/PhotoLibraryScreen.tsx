@@ -14,6 +14,7 @@ import CameraRoll, {
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { IRootState, SavePhoto, UploadImageAction } from "@redux";
 import { translate } from "@shared";
+import { Themes } from "@themes";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { DeviceEventEmitter, FlatList, Platform, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -137,12 +138,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
   };
 
   return (
-    <View
-      style={[
-        styles.container,
-        { paddingTop: insets.top, paddingBottom: insets.bottom },
-      ]}
-    >
+    <View style={styles.container}>
       <Header
         title={translate("screens.photoLibraryScreen")}
         iconLeftName={["ic_arrow_left"]}
@@ -150,6 +146,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
         isCenterTitle
         iconRightName={["ic_upload"]}
         iconRightOnPress={[uploadImages]}
+        titleColor={Themes.colors.white}
       />
       <FlatList
         data={photos}

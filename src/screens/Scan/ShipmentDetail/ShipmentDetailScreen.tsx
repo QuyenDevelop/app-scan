@@ -2,9 +2,9 @@ import { shipmentApi } from "@api";
 import { Header } from "@components";
 import { SCREENS } from "@configs";
 import { ShipmentAddServiceResponse, ShipmentResponse } from "@models";
-import { goToCheckAndScanScreen, ShipmentStackParamsList } from "@navigation";
-import { RouteProp, useRoute } from "@react-navigation/native";
-import { translate } from "@shared";
+import { ShipmentStackParamsList } from "@navigation";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { Text, translate } from "@shared";
 import { Themes } from "@themes";
 import React, {
   FunctionComponent,
@@ -12,13 +12,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import {
-  ActivityIndicator,
-  Text,
-  useWindowDimensions,
-  View,
-} from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ActivityIndicator, useWindowDimensions, View } from "react-native";
 import { TabBar, TabView } from "react-native-tab-view";
 import { AddServicesTab } from "../components/AddServicesTab";
 import { ContentInfoTab } from "../components/ContentInfoTab";
@@ -35,7 +29,7 @@ export interface ShipmentDetailScreenParams {
 }
 
 export const ShipmentDetailScreen: FunctionComponent = () => {
-  const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
   const routeNavigation = useRoute<NavigationRoute>();
   const { item } = routeNavigation?.params;
   const layout = useWindowDimensions();
@@ -117,15 +111,18 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
   );
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <View style={styles.container}>
       <Header
-        title={translate("screens.shipmentDetail")}
+        title={item.ShipmentNumber}
         iconLeftName={["ic_arrow_left"]}
-        iconLeftOnPress={[goToCheckAndScanScreen]}
+        iconLeftOnPress={[() => navigation.goBack()]}
         isCenterTitle
+        titleColor={Themes.colors.white}
       />
       <TabView
         lazy
+        lazyPreloadDistance={1}
+        keyboardDismissMode="auto"
         navigationState={{ index, routes }}
         renderScene={renderScene}
         onIndexChange={setIndex}
@@ -142,7 +139,9 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
                 style={[
                   styles.labelStyle,
                   {
-                    color: focused ? Themes.colors.white : Themes.colors.black,
+                    color: focused
+                      ? Themes.colors.coolGray100
+                      : Themes.colors.coolGray60,
                   },
                 ]}
               >

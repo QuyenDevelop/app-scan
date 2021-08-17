@@ -17,6 +17,7 @@ export const Images = {
   icMenuClaim: require("../assets/icons/ic_menu_claim.png"),
   icMenuSetting: require("../assets/icons/ic_menu_setting.png"),
   icMenuUser: require("../assets/icons/ic_menu_user.png"),
+  icTakePhoto: require("../assets/icons/ic_take_photo.png"),
 };
 
 export const Loader = {

@@ -6,6 +6,7 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { Themes } from "@themes";
 import React, { FunctionComponent } from "react";
 import { View } from "react-native";
+import { ListShipment } from "./components/ListShipment";
 import styles from "./styles";
 type NavigationRoute = RouteProp<
   CheckAndScanStackParamsList,
@@ -21,7 +22,6 @@ export const ShipmentsScreen: FunctionComponent = () => {
   const routeNavigation = useRoute<NavigationRoute>();
   const navigation = useNavigation();
   const { refNumber, shipments } = routeNavigation?.params;
-  console.log("🚀🚀🚀 => shipments", shipments);
   return (
     <View style={styles.container}>
       <Header
@@ -31,6 +31,7 @@ export const ShipmentsScreen: FunctionComponent = () => {
         isCenterTitle
         titleColor={Themes.colors.white}
       />
+      <ListShipment shipments={shipments} />
     </View>
   );
 };

@@ -11,16 +11,15 @@ import React, {
   useState,
 } from "react";
 import {
-  Alert as RNAlert,
   FlatList,
   KeyboardAvoidingView,
   Platform,
+  Switch,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Switch } from "react-native-switch";
 import {
   ModeShipmentResponse,
   ServiceShipmentResponse,
@@ -131,44 +130,28 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
 
   const deleteSubShipment = useCallback(
     (index: number) => {
-      RNAlert.alert(
-        "",
-        translate("alert.deleteConfirmation", { index: index + 1 }),
-        [
-          {
-            text: translate("button.cancel"),
-            onPress: () => {},
-            style: "cancel",
-          },
-          {
-            text: translate("button.confirm"),
-            onPress: () => {
-              const newSub = [...subShipments];
-              if (newSub[index].Id) {
-                shipmentApi
-                  .deleteSubShipment({
-                    ShipmentId: shipmentId,
-                    SubShipmentId: newSub[index].Id!,
-                  })
-                  ?.then(response => {
-                    if (response?.success) {
-                      newSub.splice(index, 1);
-                      setSubShipments(newSub);
-                    } else {
-                      Alert.error(response.message, true);
-                    }
-                  })
-                  .catch(error => {
-                    Alert.error(error, true);
-                  });
-              } else {
-                newSub.splice(index, 1);
-                setSubShipments(newSub);
-              }
-            },
-          },
-        ],
-      );
+      const newSub = [...subShipments];
+      if (newSub[index].Id) {
+        shipmentApi
+          .deleteSubShipment({
+            ShipmentId: shipmentId,
+            SubShipmentId: newSub[index].Id!,
+          })
+          ?.then(response => {
+            if (response?.success) {
+              newSub.splice(index, 1);
+              setSubShipments(newSub);
+            } else {
+              Alert.error(response.message, true);
+            }
+          })
+          .catch(error => {
+            Alert.error(error, true);
+          });
+      } else {
+        newSub.splice(index, 1);
+        setSubShipments(newSub);
+      }
     },
     [shipmentId, subShipments],
   );
@@ -259,7 +242,9 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
           <Text style={styles.labelInfo}>
             {translate("label.shipmentNumber")}
           </Text>
-          <Text style={styles.contentInfo}>{shipment}</Text>
+          <Text style={[styles.contentInfo, { color: Themes.colors.info60 }]}>
+            {shipment}
+          </Text>
         </View>
         <View style={styles.generalInfoRow}>
           <Text style={styles.labelInfo}>{translate("label.refNumber")}</Text>
@@ -273,63 +258,55 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
           <Text style={styles.labelInfo}>
             {translate("label.consigneeName")}
           </Text>
-          <TouchableOpacity>
-            <Text
-              style={[styles.contentInfo, { textDecorationLine: "underline" }]}
-            >
-              {cnee}
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.spaceBetween}>
-          <View style={styles.generalInfoRow}>
-            <Text style={styles.labelInfo}>
-              {translate("label.shippingMode")}
-            </Text>
-            <TouchableOpacity
-              style={styles.serviceButton}
-              onPress={showModeModal}
-            >
-              <Text
-                style={[
-                  styles.labelInfo,
-                  { marginRight: ScreenUtils.calculatorWidth(5) },
-                ]}
-              >
-                {selectedMode?.Name || translate("label.selectMode")}
-              </Text>
-              <Icon
-                name="ic_arrow_down"
-                size={Metrics.icons.smallSmall}
-                color={Themes.colors.black}
-              />
-            </TouchableOpacity>
-          </View>
-          <Switch
-            value={shipmentStatus}
-            onValueChange={updateDirectShipment}
-            disabled={false}
-            activeText={translate("button.go")}
-            inActiveText={translate("button.hold")}
-            circleSize={30}
-            barHeight={35}
-            circleBorderWidth={0}
-            backgroundActive={Themes.colors.green22}
-            backgroundInactive={Themes.colors.red0722}
-            circleActiveColor={Themes.colors.white}
-            circleInActiveColor={Themes.colors.white}
-            renderActiveText={true}
-            renderInActiveText={true}
-            switchLeftPx={2.2}
-            switchRightPx={2.2}
-            switchWidthMultiplier={3}
-            switchBorderRadius={30}
-            circleBorderActiveColor={Themes.colors.green22}
-            circleBorderInactiveColor={Themes.colors.green22}
-          />
+          <Text style={styles.contentInfo}>{cnee}</Text>
         </View>
         <View style={styles.generalInfoRow}>
+          <Text style={styles.labelInfo}>
+            {translate("label.shippingMode")}
+          </Text>
+          <View style={styles.switch}>
+            <Switch
+              trackColor={{
+                false: Themes.colors.red0722,
+                true: Themes.colors.green22,
+              }}
+              thumbColor={Themes.colors.white}
+              ios_backgroundColor={Themes.colors.red0722}
+              onValueChange={updateDirectShipment}
+              value={shipmentStatus}
+            />
+            <Text
+              style={[
+                styles.labelInfo,
+                { marginLeft: ScreenUtils.calculatorWidth(8) },
+              ]}
+            >
+              {shipmentStatus
+                ? translate("button.go")
+                : translate("button.hold")}
+            </Text>
+          </View>
+
+          <TouchableOpacity
+            style={styles.serviceButton}
+            onPress={showModeModal}
+          >
+            <Text
+              style={[
+                styles.labelInfo,
+                { marginRight: ScreenUtils.calculatorWidth(5) },
+              ]}
+            >
+              {selectedMode?.Name || translate("label.selectMode")}
+            </Text>
+            <Icon
+              name="ic_arrow_down"
+              size={Metrics.icons.smallSmall}
+              color={Themes.colors.black}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={[styles.generalInfoRow, { borderBottomWidth: 0 }]}>
           <Text style={styles.labelInfo}>{translate("label.service")}</Text>
           <TouchableOpacity
             style={styles.serviceButton}
@@ -362,9 +339,9 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
           onPress={addMoreSubShipment}
         >
           <Icon
-            name="ic_plus"
+            name="ic_plus_fill"
             size={Metrics.icons.medium}
-            color={Themes.colors.primary}
+            color={Themes.colors.brand60}
           />
           <Text style={styles.addMorePieceText}>
             {translate("button.addMorePiece")}
@@ -393,6 +370,7 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
           ListHeaderComponent={<HeaderComponent />}
           ListFooterComponent={<FooterComponent />}
           contentContainerStyle={{ paddingBottom: insets.bottom }}
+          showsVerticalScrollIndicator={false}
         />
         <ServiceModal
           isShowModal={isShowServiceModal}

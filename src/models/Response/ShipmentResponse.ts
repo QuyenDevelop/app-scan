@@ -8,6 +8,7 @@ export interface ShipmentResponse {
   CustomerCode: string;
   CustomerName: string;
   ShipperName: string;
+  LocationName: string;
   ConsigneeName: string;
   ConsigneeAddress1: string;
   ConsigneeAddress2: string;

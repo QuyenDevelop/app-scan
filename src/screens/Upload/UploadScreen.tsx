@@ -1,4 +1,3 @@
-import { Header } from "@components";
 import { SCREENS } from "@configs";
 import { hasAndroidPermission } from "@helpers";
 import { useToggle } from "@hooks";
@@ -10,11 +9,12 @@ import {
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
-import { Icon, translate } from "@shared";
-import { Metrics, Themes } from "@themes";
+import { Icon, Text, translate } from "@shared";
+import { Images, Metrics, Themes } from "@themes";
 import React, { FunctionComponent, useRef, useState } from "react";
 import { Image, Platform, TouchableOpacity, View } from "react-native";
 import { RNCamera } from "react-native-camera";
+import FastImage from "react-native-fast-image";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from "./styles";
 
@@ -36,12 +36,14 @@ export const UploadScreen: FunctionComponent = () => {
   const cameraRef = useRef<RNCamera>(null);
   const [uri, setUri] = useState<string>();
   const [isFlashMode, toggleFlashMode] = useToggle();
+  const [photos, setPhotos] = useState<Array<string>>([]);
 
   const takePicture = async () => {
     if (cameraRef.current) {
       const options = { quality: 0.5, imageType: "" };
       const data = await cameraRef.current?.takePictureAsync(options);
       setUri(data.uri);
+      setPhotos(p => [...p, data.uri]);
       if (Platform.OS === "android" && !(await hasAndroidPermission())) {
         return;
       }
@@ -59,18 +61,7 @@ export const UploadScreen: FunctionComponent = () => {
     goToPhotoLibrary({ shipment: shipment, service: service });
   };
   return (
-    <View
-      style={[
-        styles.container,
-        { paddingTop: insets.top, paddingBottom: insets.bottom },
-      ]}
-    >
-      <Header
-        title={translate("screens.uploadImageScreen")}
-        iconLeftName={["ic_arrow_left"]}
-        iconLeftOnPress={[() => navigation.goBack()]}
-        isCenterTitle
-      />
+    <View style={styles.container}>
       <View style={styles.flex1}>
         {isFocused && (
           <RNCamera
@@ -91,36 +82,68 @@ export const UploadScreen: FunctionComponent = () => {
             captureAudio={false}
           />
         )}
-
-        <View style={styles.bottomCamera}>
-          <TouchableOpacity onPress={goToLibrary}>
-            {uri ? (
-              <Image source={{ uri: uri }} style={styles.image} />
-            ) : (
-              <View
-                style={[
-                  styles.image,
-                  {
-                    backgroundColor: Themes.colors.black,
-                  },
-                ]}
-              />
+      </View>
+      <View style={styles.coverView}>
+        <View style={[styles.headerView, { marginTop: insets.top }]}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Icon
+              name="ic_close"
+              size={Metrics.icons.large}
+              color={
+                isFlashMode ? Themes.colors.warning50 : Themes.colors.white
+              }
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={toggleFlashMode}>
+            <Icon
+              name="ic_flash"
+              size={Metrics.icons.large}
+              color={
+                isFlashMode ? Themes.colors.warning50 : Themes.colors.white
+              }
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.flex1} />
+        <View
+          style={[styles.bottomCamera, { marginBottom: insets.bottom + 10 }]}
+        >
+          <View style={styles.imageThumbnail}>
+            <TouchableOpacity onPress={goToLibrary}>
+              {uri ? (
+                <Image source={{ uri: uri }} style={styles.image} />
+              ) : (
+                <View
+                  style={[
+                    styles.image,
+                    {
+                      backgroundColor: Themes.colors.black,
+                    },
+                  ]}
+                />
+              )}
+            </TouchableOpacity>
+            {photos.length > 0 && (
+              <Text style={styles.imageThumbnailText}>
+                {photos.length < 10 && (
+                  <Text style={styles.imageThumbnailText}>0</Text>
+                )}
+                {translate("label.countPhoto", { number: photos.length })}
+              </Text>
             )}
+          </View>
+
+          <TouchableOpacity onPress={takePicture}>
+            <FastImage source={Images.icTakePhoto} style={styles.takePicture} />
           </TouchableOpacity>
           <TouchableOpacity onPress={takePicture}>
-            <View style={styles.capture} />
+            <Icon
+              name="ic_upload_1"
+              size={Metrics.icons.xxl}
+              color={Themes.colors.transparentBlack70}
+            />
           </TouchableOpacity>
-          <View
-            style={[styles.capture, { backgroundColor: Themes.colors.white }]}
-          />
         </View>
-        <TouchableOpacity style={styles.flashButton} onPress={toggleFlashMode}>
-          <Icon
-            name="ic_flash"
-            size={Metrics.icons.medium}
-            color={isFlashMode ? Themes.colors.warning50 : Themes.colors.white}
-          />
-        </TouchableOpacity>
       </View>
     </View>
   );

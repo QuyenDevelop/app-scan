@@ -1,6 +1,7 @@
+import { Icon } from "@shared";
+import { Metrics, Themes } from "@themes";
 import * as React from "react";
 import { FunctionComponent } from "react";
-import styles from "./styles";
 import {
   StyleProp,
   Text,
@@ -9,8 +10,7 @@ import {
   View,
   ViewStyle,
 } from "react-native";
-import { Metrics, Themes } from "@themes";
-import { Icon } from "@shared";
+import styles from "./styles";
 
 interface OwnProps {
   checked?: boolean;
@@ -25,7 +25,7 @@ interface OwnProps {
 
 type Props = OwnProps;
 
-export const Checkbox: FunctionComponent<Props> = (props) => {
+export const Checkbox: FunctionComponent<Props> = props => {
   const {
     onChange,
     checked,

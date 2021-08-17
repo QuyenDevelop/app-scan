@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
-import { Themes } from "@themes";
 import { ScreenUtils } from "@helpers";
+import { Themes } from "@themes";
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
@@ -8,8 +8,8 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   childContainer: {
-    width: ScreenUtils.calculatorHeight(22),
-    height: ScreenUtils.calculatorHeight(22),
+    width: ScreenUtils.calculatorHeight(20),
+    height: ScreenUtils.calculatorHeight(20),
     borderColor: Themes.colors.collGray40,
     borderRadius: ScreenUtils.calculatorWidth(2),
     justifyContent: "center",

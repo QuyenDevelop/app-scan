@@ -1,4 +1,5 @@
-import { BaseBottomSheet } from "@shared";
+import { BaseBottomSheet, Icon, translate } from "@shared";
+import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { ServiceShipmentResponse } from "src/models/Response/ServiceResponse";
@@ -18,14 +19,27 @@ export const ServiceModal: FunctionComponent<Props> = props => {
       onSelectService(service);
     };
     return (
-      <TouchableOpacity style={styles.serviceSelect} onPress={selectService}>
-        <Text>{service.Name}</Text>
+      <TouchableOpacity onPress={selectService}>
+        <View style={styles.serviceSelect}>
+          <View style={styles.checkIcon} />
+          <Text>{service.Name}</Text>
+        </View>
       </TouchableOpacity>
     );
   };
   return (
     <BaseBottomSheet isShowModal={isShowModal} onCloseModal={closeModal}>
       <View style={styles.bottomModal}>
+        <View style={styles.headerBottomSheet}>
+          <Text style={styles.qrUserManual}>{translate("label.service")}</Text>
+          <TouchableOpacity onPress={closeModal}>
+            <Icon
+              name="ic_close"
+              size={Metrics.icons.large}
+              color={Themes.colors.coolGray60}
+            />
+          </TouchableOpacity>
+        </View>
         {services &&
           services.map(service => (
             <Service service={service} key={service.Id} />

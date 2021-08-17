@@ -49,7 +49,11 @@ export const EnterCodeModal: FunctionComponent<Props> = props => {
             onCheckCode(value.nativeEvent.text);
           }}
         />
-        <Button title={translate("button.checkCode")} onPress={onCheck} />
+        <Button
+          title={translate("button.checkCode")}
+          onPress={onCheck}
+          buttonChildStyle={{ backgroundColor: Themes.colors.bg }}
+        />
       </View>
     </BaseBottomSheet>
   );
