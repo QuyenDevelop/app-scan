@@ -1,27 +1,30 @@
 /* eslint-disable react-native/no-inline-styles */
-import { Icon } from "@shared";
-import { Metrics, Themes } from "@themes";
+import { FastImageLoading, Icon } from "@shared";
+import { Images, Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
-import { Image, TouchableWithoutFeedback, View } from "react-native";
+import { TouchableWithoutFeedback, View } from "react-native";
+import FastImage from "react-native-fast-image";
 import styles from "./styles";
 
 interface Props {
+  id: string;
   uri: string;
   isChecked: boolean;
-  onSelect: (url: string) => void;
+  onSelect: (id: string) => void;
 }
 export const ImageItem: FunctionComponent<Props> = props => {
-  const { uri, isChecked, onSelect } = props;
+  const { id, uri, isChecked, onSelect } = props;
   const onCheck = () => {
-    onSelect(uri);
+    onSelect(id);
   };
   return (
     <TouchableWithoutFeedback onPress={onCheck}>
       <View style={styles.imageView}>
-        <Image
+        <FastImageLoading
+          sourceLoading={Images.productDefault}
+          source={{ uri: uri || Images.productDefault }}
+          resizeMode={FastImage.resizeMode.cover}
           style={styles.imageLibrary}
-          source={{ uri: uri }}
-          resizeMode="cover"
         />
         {isChecked && (
           <Icon

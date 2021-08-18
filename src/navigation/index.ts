@@ -4,6 +4,7 @@ export * from "./CheckAndScanNavigator";
 export * from "./CODNavigator";
 export * from "./HomeNavigator";
 export * from "./NavigationManagement";
+export * from "./PhotosNavigator";
 export * from "./RootNavigator";
 export * from "./ScanCodNavigator";
 export * from "./ScanNavigator";

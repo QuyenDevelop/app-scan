@@ -31,6 +31,9 @@ export interface ShipmentResponse {
   CurrencyCode: string;
   CODAmount: number;
   CODAmoutPay: number;
+  ExpectedPieces: number;
+  ProcessedDate: string;
+  CreatedOnUtc: string;
 }
 
 export interface SubShipment {
@@ -134,8 +137,18 @@ export interface ShipmentAddServiceResponse {
   CargoAddService: null;
   Id: string;
   CustomProperties: {};
+  UpdatedByUserName: null;
+  UpdatedBy: null;
+  CreatedByUserName: null;
+  CreatedBy: string;
+  imagesCargoAddServices: Array<ImagesAddService>;
 }
 
+export interface ImagesAddService {
+  Id: string;
+  Name: string;
+  Url: string;
+}
 export interface ScanShipmentResponse
   extends BaseResponseEntity<Array<ShipmentResponse>> {}
 

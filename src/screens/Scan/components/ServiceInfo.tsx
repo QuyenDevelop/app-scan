@@ -84,21 +84,10 @@ export const ServiceInfo: FunctionComponent<Props> = props => {
           <Text style={styles.serviceLabel}>
             [{item.Code}] {item.Name}
           </Text>
-          {item.IsProcessed !== undefined && (
-            <Icon
-              name="ic_check-circle"
-              size={Metrics.icons.small}
-              color={
-                item.IsProcessed
-                  ? Themes.colors.success60
-                  : Themes.colors.brand60
-              }
-            />
-          )}
         </View>
         <View style={styles.hView}>
           {item?.IsRequiredImage && (
-            <>
+            <View style={styles.optionView}>
               <TouchableOpacity
                 style={styles.button}
                 hitSlop={styles.hitSlop}
@@ -120,7 +109,18 @@ export const ServiceInfo: FunctionComponent<Props> = props => {
                   {translate("label.viewImage")}
                 </Text>
               </TouchableOpacity>
-            </>
+            </View>
+          )}
+          {item.IsProcessed !== undefined && (
+            <Icon
+              name="ic_check-circle"
+              size={Metrics.icons.small}
+              color={
+                item.IsProcessed
+                  ? Themes.colors.success60
+                  : Themes.colors.brand60
+              }
+            />
           )}
         </View>
         <PhotoModal

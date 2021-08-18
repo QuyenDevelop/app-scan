@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    paddingHorizontal: ScreenUtils.calculatorWidth(10),
+    paddingHorizontal: ScreenUtils.calculatorWidth(20),
     paddingVertical: ScreenUtils.calculatorHeight(10),
     backgroundColor: Themes.colors.bg,
   },

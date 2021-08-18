@@ -286,4 +286,9 @@ export default StyleSheet.create({
   checkbox: {
     marginRight: ScreenUtils.calculatorWidth(8),
   },
+  optionView: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: ScreenUtils.calculatorWidth(8),
+  },
 });

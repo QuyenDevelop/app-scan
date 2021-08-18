@@ -138,7 +138,7 @@ export const LaunchScreen: FunctionComponent<Props> = () => {
   return (
     <ImageBackground
       source={Images.splashImage}
-      resizeMode={FastImage.resizeMode.contain}
+      resizeMode={FastImage.resizeMode.cover}
       style={styles.container}
     >
       <LottieView

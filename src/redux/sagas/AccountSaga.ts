@@ -1,4 +1,4 @@
-import { authApi } from "@api";
+import { authApi, axiosService, userPostOfficeApi } from "@api";
 import { CONSTANT } from "@configs";
 import { Utils } from "@helpers";
 import { Account } from "@models";
@@ -69,6 +69,15 @@ export function* takeGetUserInfo({
     {
       handler: async (): Promise<Account | undefined> => {
         const data = await authApi.getUserInfo();
+
+        if (data) {
+          const postOffice = await userPostOfficeApi.getPostOffice(data.sub);
+          axiosService.setAxiosInstance(
+            postOffice?.IChiba_PostOffice_Id || "",
+            postOffice?.IChiba_Currency_Code || "",
+          );
+        }
+
         return data;
       },
       key: type,

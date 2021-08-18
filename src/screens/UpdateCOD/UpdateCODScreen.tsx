@@ -26,7 +26,6 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { TabBar, TabView } from "react-native-tab-view";
 import { ProcessCodTab } from "./components/ProcessCodTab";
 import { ShipmentInformationTab } from "./components/ShipmentInformationTab";
@@ -45,7 +44,6 @@ export interface UpdateCODScreenParams {
 }
 
 export const UpdateCODScreen: FunctionComponent = () => {
-  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const routeNavigation = useRoute<NavigationRoute>();
   const { item } = routeNavigation.params || {};
@@ -105,7 +103,7 @@ export const UpdateCODScreen: FunctionComponent = () => {
   );
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <View style={styles.container}>
       <Header
         title={translate("screens.codScreen")}
         iconLeftName={["ic_arrow_left"]}

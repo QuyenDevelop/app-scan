@@ -7,6 +7,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   listShipment: {
+    flex: 1,
     marginTop: ScreenUtils.calculatorHeight(20),
     marginHorizontal: ScreenUtils.calculatorWidth(20),
   },

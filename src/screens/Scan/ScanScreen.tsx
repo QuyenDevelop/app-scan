@@ -2,7 +2,11 @@ import { shipmentApi } from "@api";
 import { SCREENS } from "@configs";
 import { Alert } from "@helpers";
 import { useShow } from "@hooks";
-import { goToShipmentsScreen, ScanParamsList } from "@navigation";
+import {
+  goToShipmentDetail,
+  goToShipmentsScreen,
+  ScanParamsList,
+} from "@navigation";
 import {
   RouteProp,
   useIsFocused,
@@ -39,29 +43,6 @@ export const ScanScreen: FunctionComponent = () => {
   const [isShowEnterCode, showEnterCode, hideEnterCode] = useShow();
   const [errorContent, setErrorContent] = useState<string>("");
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     if (!searchContent || searchContent === "") {
-  //       return;
-  //     }
-  //     showIsLoadingFetchData();
-  //     shipmentApi
-  //       .scanShipment(searchContent)
-  //       ?.then(shipment => {
-  //         setShipments(shipment?.data || []);
-  //       })
-  //       .catch(() => {
-  //         setShipments([]);
-  //         Alert.error("error.errorServer");
-  //       })
-  //       .finally(() => {
-  //         console.log("finally");
-  //         Keyboard.dismiss();
-  //         hideIsLoadingFetchData();
-  //       });
-  //   }, [hideIsLoadingFetchData, searchContent, showIsLoadingFetchData]),
-  // );
-
   const onRead = (e: any) => {
     setContent(e.data);
     getShipment(e.data);
@@ -76,20 +57,20 @@ export const ScanScreen: FunctionComponent = () => {
       .scanShipment(value)
       ?.then(shipment => {
         if (shipment?.success && shipment?.data) {
-          // if (shipment.data.length === 1) {
-          //   goToShipmentDetail({
-          //     item: shipment.data[0],
-          //   });
-          //   return;
-          // }
-
-          if (shipment.data.length === 1) {
-            goToShipmentsScreen({
-              refNumber: content,
-              shipments: shipment.data,
-            });
+          if (shipment.data.length === 0) {
+            setErrorContent(translate("error.noShipment"));
             return;
           }
+
+          if (shipment.data.length === 1) {
+            goToShipmentDetail({ item: shipment.data[0] });
+            return;
+          }
+
+          goToShipmentsScreen({
+            refNumber: content,
+            shipments: shipment.data,
+          });
         } else {
           setErrorContent(shipment?.message || "");
         }

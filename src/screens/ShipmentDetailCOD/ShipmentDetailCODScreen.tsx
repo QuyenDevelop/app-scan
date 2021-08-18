@@ -77,7 +77,7 @@ export const ShipmentDetailCODScreen: FunctionComponent = () => {
   );
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <View style={styles.container}>
       <Header
         title={translate("screens.shipmentDetail")}
         iconLeftName={["ic_arrow_left"]}

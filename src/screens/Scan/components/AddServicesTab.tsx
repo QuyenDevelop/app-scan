@@ -2,8 +2,8 @@ import { addServiceApi, shipmentApi } from "@api";
 import { Alert, ScreenUtils } from "@helpers";
 import { useShow } from "@hooks";
 import { AddServiceInfo, ShipmentAddServiceResponse } from "@models";
-import { IRootState, SavePhoto } from "@redux";
-import { Button, ImagesModal, translate } from "@shared";
+import { goToAddServicePhotosScreen } from "@navigation";
+import { Button, NoData, translate } from "@shared";
 import { Themes } from "@themes";
 import React, {
   FunctionComponent,
@@ -12,7 +12,6 @@ import React, {
   useState,
 } from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
-import { useSelector } from "react-redux";
 import { AddServiceShipmentResponse } from "src/models/Response/ServiceResponse";
 import { ServiceInfo } from "./ServiceInfo";
 import styles from "./styles";
@@ -23,11 +22,6 @@ interface Props {
 }
 export const AddServicesTab: FunctionComponent<Props> = props => {
   const { addServices, shipmentNumber, shipmentId } = props;
-  const imagesReducer = useSelector(
-    (state: IRootState) => state.uploadImage.images,
-  ) as Array<SavePhoto> | [];
-  const [imageShow, setImageShow] = useState<Array<string>>([]);
-  const [isShowImagesModal, showImageModal, hideImagesModal] = useShow();
   const [isLoading, showLoading, hideLoading] = useShow();
   const [isLoadingAddService, showLoadingAddService, hideLoadingAddService] =
     useShow();
@@ -54,6 +48,8 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
             headService.push({
               ...service,
               IsProcessed: addServices[isAdded].IsProcessed,
+              imagesCargoAddServices:
+                addServices[isAdded].imagesCargoAddServices,
             });
           } else {
             footerService.push(service);
@@ -84,6 +80,7 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
           headService.push({
             ...service,
             IsProcessed: addServices[isAdded].IsProcessed,
+            imagesCargoAddServices: addServices[isAdded].imagesCargoAddServices,
           });
         } else {
           footerService.push(service);
@@ -184,23 +181,32 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
   };
 
   const viewImage = useCallback(
-    (shipment: string, serviceCode: string) => {
-      const images = imagesReducer.filter(image =>
-        image.name.includes(`${shipment}_${serviceCode}`),
-      );
-
+    (shipment: string, serviceCode: string, index: number) => {
+      const images = listService[index].imagesCargoAddServices;
       if (images.length === 0) {
         Alert.warning("warning.noPhotos");
       } else {
-        setImageShow(images.map(image => image.uri));
-        showImageModal();
+        goToAddServicePhotosScreen({
+          shipment: shipment,
+          service: serviceCode,
+          photosService: images,
+        });
       }
     },
-    [imagesReducer, showImageModal],
+    [listService],
   );
 
-  const renderItem = ({ item }: { item: AddServiceShipmentResponse }) => {
+  const renderItem = ({
+    item,
+    index,
+  }: {
+    item: AddServiceShipmentResponse;
+    index: number;
+  }) => {
     const isSelected = isSelectedService(item.Id);
+    const onViewImage = () => {
+      viewImage(shipmentNumber, item.Code, index);
+    };
     return (
       <ServiceInfo
         item={item}
@@ -209,7 +215,7 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
         shipment={shipmentNumber}
         shipmentId={shipmentId}
         updateIsProcess={updateIsProcess}
-        viewImage={viewImage}
+        viewImage={onViewImage}
       />
     );
   };
@@ -218,7 +224,7 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
     <View style={styles.tabContainer}>
       {isLoading ? (
         <View style={styles.loadingView}>
-          <ActivityIndicator />
+          <ActivityIndicator color={Themes.colors.collGray40} />
         </View>
       ) : (
         <FlatList
@@ -226,6 +232,7 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
           keyExtractor={item => item.Id}
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
+          ListEmptyComponent={<NoData />}
           ListFooterComponent={
             <Button
               title={translate("button.addService")}
@@ -244,13 +251,6 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
           }
         />
       )}
-      <ImagesModal
-        images={imageShow}
-        isVisible={isShowImagesModal}
-        closeModal={hideImagesModal}
-        index={0}
-        isLocalImage={true}
-      />
     </View>
   );
 };

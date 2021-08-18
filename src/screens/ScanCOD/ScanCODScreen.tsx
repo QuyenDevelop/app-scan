@@ -82,7 +82,7 @@ export const ScanCODScreen: FunctionComponent = () => {
     }
   };
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <View style={styles.container}>
       <Header title={translate("screens.codScreen")} />
       {profile ? (
         <>

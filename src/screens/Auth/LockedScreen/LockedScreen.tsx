@@ -64,7 +64,7 @@ export const LockedScreen: FunctionComponent<Props> = props => {
   useStatusBar("dark-content");
   const insets = useSafeAreaInsets();
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <View style={styles.container}>
       <Header isGoBack isEnableChangeLanguage />
       <View style={styles.contentContainer}>
         <FastImage

@@ -6,7 +6,6 @@ import React, { FunctionComponent } from "react";
 import {
   ImageBackground,
   ScrollView,
-  StatusBar,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -18,7 +17,6 @@ export const HomeScreen: FunctionComponent = () => {
   const insets = useSafeAreaInsets();
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
       <ImageBackground
         source={Images.headerImage}
         resizeMode="cover"

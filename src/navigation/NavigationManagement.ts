@@ -1,6 +1,7 @@
 import { SCREENS } from "@configs";
 import { NavigationUtils } from "@helpers";
 import {
+  AddServicePhotosScreenParams,
   LoginRouteParams,
   PhotoLibraryScreenParams,
   ShipmentDetailCODScreenParams,
@@ -87,6 +88,15 @@ export const goToHomeScreen = () => {
 export const goToShipmentsScreen = (routeParams: ShipmentsScreenParams) => {
   NavigationUtils.navigate(SCREENS.CHECK_AND_SCAN_STACK, {
     screen: SCREENS.SHIPMENTS_SCREEN,
+    params: routeParams,
+  });
+};
+
+export const goToAddServicePhotosScreen = (
+  routeParams: AddServicePhotosScreenParams,
+) => {
+  NavigationUtils.navigate(SCREENS.SHIPMENT_STACK, {
+    screen: SCREENS.ADD_SERVICE_PHOTOS_SCREEN,
     params: routeParams,
   });
 };

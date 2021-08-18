@@ -35,7 +35,7 @@ export const VerificationScreen: FunctionComponent<Props> = () => {
   const [isLoading] = useState(false);
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <View style={styles.container}>
       <Header isGoBack />
       <ScrollView
         style={styles.childContainer}

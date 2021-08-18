@@ -1,6 +1,12 @@
-import { SCREENS } from "@configs";
-import { hasAndroidPermission } from "@helpers";
+import { CONSTANT, SCREENS } from "@configs";
+import {
+  Alert,
+  getAsyncItem,
+  hasAndroidPermission,
+  setAsyncItem,
+} from "@helpers";
 import { useToggle } from "@hooks";
+import { StorageImages } from "@models";
 import { goToPhotoLibrary, ShipmentStackParamsList } from "@navigation";
 import CameraRoll from "@react-native-community/cameraroll";
 import {
@@ -12,7 +18,13 @@ import {
 import { Icon, Text, translate } from "@shared";
 import { Images, Metrics, Themes } from "@themes";
 import React, { FunctionComponent, useRef, useState } from "react";
-import { Image, Platform, TouchableOpacity, View } from "react-native";
+import {
+  DeviceEventEmitter,
+  Image,
+  Platform,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { RNCamera } from "react-native-camera";
 import FastImage from "react-native-fast-image";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -59,6 +71,48 @@ export const UploadScreen: FunctionComponent = () => {
 
   const goToLibrary = () => {
     goToPhotoLibrary({ shipment: shipment, service: service });
+  };
+
+  const uploadPhoto = async () => {
+    if (photos.length === 0) {
+      Alert.warning("warning.noTakePhoto");
+      return;
+    }
+
+    const listImages = await getAsyncItem(
+      CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
+    );
+
+    const current = new Date().getTime();
+    const savePhotos = photos.map((image: string, index: number) => {
+      return {
+        name: `${shipment}_${service}_${current}_${index}.jpg`,
+        uri: image,
+      };
+    });
+
+    let listPush: Array<StorageImages> = [];
+    if (listImages) {
+      listPush = [...listImages, ...savePhotos];
+    } else {
+      listPush = [...savePhotos];
+    }
+
+    const storage = await setAsyncItem(
+      CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
+      listPush,
+    );
+
+    if (storage) {
+      DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
+      setPhotos([]);
+      Alert.success(
+        translate("success.autoUploadImage", { number: photos.length }),
+        true,
+      );
+    } else {
+      Alert.error(translate("error.errorServer"));
+    }
   };
   return (
     <View style={styles.container}>
@@ -136,7 +190,7 @@ export const UploadScreen: FunctionComponent = () => {
           <TouchableOpacity onPress={takePicture}>
             <FastImage source={Images.icTakePhoto} style={styles.takePicture} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={takePicture}>
+          <TouchableOpacity onPress={uploadPhoto}>
             <Icon
               name="ic_upload_1"
               size={Metrics.icons.xxl}

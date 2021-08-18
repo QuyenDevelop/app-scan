@@ -52,6 +52,32 @@ export const Shipment: FunctionComponent<Props> = props => {
         <View style={styles.shipmentInfo}>
           <View style={styles.iconShipment}>
             <Icon
+              name="ic_calendar"
+              size={Metrics.icons.smallSmall}
+              color={Themes.colors.black}
+            />
+          </View>
+          <Text style={styles.infoText}>
+            {translate("label.createDate")}:{" "}
+            {Utils.date.formatDate(item.CreatedOnUtc)}
+          </Text>
+        </View>
+        <View style={styles.shipmentInfo}>
+          <View style={styles.iconShipment}>
+            <Icon
+              name="ic_calendar"
+              size={Metrics.icons.smallSmall}
+              color={Themes.colors.black}
+            />
+          </View>
+          <Text style={styles.infoText}>
+            {translate("label.processDate")}:{" "}
+            {Utils.date.formatDate(item.ProcessedDate)}
+          </Text>
+        </View>
+        <View style={styles.shipmentInfo}>
+          <View style={styles.iconShipment}>
+            <Icon
               name="ic_weight"
               size={Metrics.icons.smallSmall}
               color={Themes.colors.black}
@@ -70,7 +96,6 @@ export const Shipment: FunctionComponent<Props> = props => {
               color={Themes.colors.black}
             />
           </View>
-
           <Text style={styles.infoText}>
             {translate("label.customer")}: {item.CustomerName}
           </Text>
@@ -83,9 +108,20 @@ export const Shipment: FunctionComponent<Props> = props => {
               color={Themes.colors.black}
             />
           </View>
-
           <Text style={styles.infoText}>
             {translate("label.location")}: {item.LocationName}
+          </Text>
+        </View>
+        <View style={styles.shipmentInfo}>
+          <View style={styles.iconShipment}>
+            <Icon
+              name="ic_status"
+              size={Metrics.icons.smallSmall}
+              color={Themes.colors.black}
+            />
+          </View>
+          <Text style={styles.infoText}>
+            {translate("label.status")}: {item.Status}
           </Text>
         </View>
       </View>

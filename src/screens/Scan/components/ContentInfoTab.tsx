@@ -1,5 +1,6 @@
 import { shipmentApi } from "@api";
 import { ShipmentItemResponse } from "@models";
+import { NoData } from "@shared";
 import React, {
   FunctionComponent,
   useCallback,
@@ -51,6 +52,7 @@ export const ContentInfoTab: FunctionComponent<Props> = props => {
       keyExtractor={(item, index) => `$${item.ShipmentId}_${index}`}
       renderItem={renderItem}
       style={styles.contentTab}
+      ListEmptyComponent={<NoData />}
     />
   );
 };

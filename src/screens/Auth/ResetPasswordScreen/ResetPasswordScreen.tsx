@@ -72,7 +72,7 @@ export const ResetPasswordScreen: FunctionComponent<Props> = () => {
   };
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <View style={styles.container}>
       <Header
         onGoBack={() => navigation.navigate(SCREENS.BOTTOM_TAB_NAVIGATION)}
         isGoBack

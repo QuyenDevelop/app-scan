@@ -123,6 +123,18 @@ class AxiosService {
     this.failedQueue = [];
   };
 
+  setAxiosInstance(ichibaPostOfficeId: string, ichibaCurrencyCode: string) {
+    this.axiosInstance?.interceptors.request.use(
+      async request => {
+        request.headers["IChiba-PostOffice-id"] = ichibaPostOfficeId;
+        request.headers["IChiba-Currency-Code"] = ichibaCurrencyCode;
+
+        return request;
+      },
+      error => Promise.reject(error),
+    );
+  }
+
   getAxiosInstance(): AxiosInstance | undefined {
     return this.axiosInstance;
   }

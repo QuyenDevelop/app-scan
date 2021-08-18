@@ -45,7 +45,7 @@ export const ForgotPasswordScreen: FunctionComponent = () => {
   };
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <View style={styles.container}>
       <Header isGoBack isEnableChangeLanguage />
       <KeyboardAvoidingView
         enabled={Platform.OS === "ios"}

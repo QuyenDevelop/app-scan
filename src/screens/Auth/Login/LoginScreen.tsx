@@ -14,7 +14,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDispatch } from "react-redux";
 import styles from "./styles";
 
@@ -24,7 +23,6 @@ export interface LoginRouteParams {
 }
 
 export const LoginScreen: FunctionComponent = () => {
-  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
@@ -121,7 +119,7 @@ export const LoginScreen: FunctionComponent = () => {
   const loginWithFacebook = () => {};
   const loginWithApple = () => {};
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <View style={styles.container}>
       <Header isGoBack isEnableChangeLanguage />
       <KeyboardAvoidingView
         enabled={Platform.OS === "ios"}

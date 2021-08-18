@@ -1,4 +1,5 @@
 import { ShipmentResponse } from "@models";
+import { NoData } from "@shared";
 import React, { FunctionComponent, useCallback } from "react";
 import { FlatList } from "react-native";
 import { Shipment } from "./Shipment";
@@ -20,6 +21,7 @@ export const ListShipment: FunctionComponent<Props> = props => {
       renderItem={renderItem}
       keyboardShouldPersistTaps="handled"
       style={styles.listShipment}
+      ListEmptyComponent={<NoData />}
     />
   );
 };

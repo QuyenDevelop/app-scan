@@ -1,6 +1,8 @@
 import { SCREENS } from "@configs";
 import { createStackNavigator } from "@react-navigation/stack";
 import {
+  AddServicePhotosScreen,
+  AddServicePhotosScreenParams,
   PhotoLibraryScreen,
   PhotoLibraryScreenParams,
   ShipmentDetailCODScreen,
@@ -20,6 +22,7 @@ export type ShipmentStackParamsList = {
   [SCREENS.PHOTO_LIBRARY_SCREEN]: PhotoLibraryScreenParams;
   [SCREENS.UPDATE_COD_SCREEN]: UpdateCODScreenParams;
   [SCREENS.SHIPMENT_DETAIL_COD_SCREEN]: ShipmentDetailCODScreenParams;
+  [SCREENS.ADD_SERVICE_PHOTOS_SCREEN]: AddServicePhotosScreenParams;
 };
 
 const ShipmentStackNavigator = createStackNavigator<ShipmentStackParamsList>();
@@ -60,6 +63,13 @@ export function ShipmentStackNavigation() {
       <ShipmentStackNavigator.Screen
         name={SCREENS.SHIPMENT_DETAIL_COD_SCREEN}
         component={ShipmentDetailCODScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <ShipmentStackNavigator.Screen
+        name={SCREENS.ADD_SERVICE_PHOTOS_SCREEN}
+        component={AddServicePhotosScreen}
         options={{
           headerShown: false,
         }}

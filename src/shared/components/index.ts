@@ -6,4 +6,5 @@ export * from "./Checkbox/Checkbox";
 export * from "./FastImage/FastImageLoading";
 export * from "./Icon";
 export * from "./Modal";
+export * from "./NoData";
 export * from "./TextInput/TextInput";

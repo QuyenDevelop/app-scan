@@ -66,6 +66,11 @@ class ShipmentApi extends BaseApi {
   updateCodShipment(request: UpdateCodShipmentRequest) {
     return this.post("update-cod-by-shipmentid", {}, request);
   }
+
+  deleteImagesAddService(ImagesIds: Array<string>) {
+    console.log("🚀🚀🚀 => deleteImagesAddService => ImagesIds", ImagesIds);
+    return this.post("update-cod-by-shipmentid", {}, { ImagesIds: ImagesIds });
+  }
 }
 
 export default new ShipmentApi("shipment");

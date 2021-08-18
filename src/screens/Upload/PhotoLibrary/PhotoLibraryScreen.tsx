@@ -6,19 +6,23 @@ import {
   hasAndroidPermission,
   setAsyncItem,
 } from "@helpers";
+import { useShow } from "@hooks";
 import { StorageImages } from "@models";
 import { ShipmentStackParamsList } from "@navigation";
 import CameraRoll, {
   PhotoIdentifier,
 } from "@react-native-community/cameraroll";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { IRootState, SavePhoto, UploadImageAction } from "@redux";
-import { Text, translate } from "@shared";
-import { Themes } from "@themes";
+import { DeleteModal, Icon, Text, translate } from "@shared";
+import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { DeviceEventEmitter, FlatList, Platform, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  DeviceEventEmitter,
+  FlatList,
+  Platform,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { ImageItem } from "./ImageItem";
 import styles from "./styles";
 
@@ -32,14 +36,10 @@ export interface PhotoLibraryScreenParams {
 }
 
 export const PhotoLibraryScreen: FunctionComponent = () => {
-  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-  const imagesReducer = useSelector(
-    (state: IRootState) => state.uploadImage.images,
-  ) as Array<SavePhoto> | [];
   const route = useRoute<NavigationRoute>();
   const { shipment, service } = route?.params;
+  const [isShowDelete, showDelete, hideDelete] = useShow();
   const [photos, setPhotos] = useState<Array<PhotoIdentifier>>([]);
   const [photosSelected, setPhotosSelected] = useState<Array<string>>([]);
   const [after, setAfter] = useState<string>();
@@ -115,12 +115,12 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
     );
 
     if (storage) {
-      dispatch(
-        UploadImageAction.updateImages([...imagesReducer, ...savePhotos]),
-      );
       DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
       setPhotosSelected([]);
-      Alert.success("success.autoUploadImage");
+      Alert.success(
+        translate("success.autoUploadImage", { number: photosSelected.length }),
+        true,
+      );
     } else {
       Alert.error(translate("error.errorServer"));
     }
@@ -137,6 +137,8 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
     );
   };
 
+  const deletePhotos = () => {};
+
   return (
     <View style={styles.container}>
       <Header
@@ -144,20 +146,62 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
         iconLeftName={["ic_arrow_left"]}
         iconLeftOnPress={[() => navigation.goBack()]}
         isCenterTitle
-        iconRightName={["ic_upload"]}
-        iconRightOnPress={[uploadImages]}
         titleColor={Themes.colors.white}
       />
-      <FlatList
-        data={photos}
-        keyExtractor={(item, index) => `${item.node.image.uri}_${index}`}
-        renderItem={renderItem}
-        numColumns={3}
-        onEndReachedThreshold={0.8}
-        onEndReached={onEndReached}
-        style={styles.content}
+      <View style={styles.content}>
+        <FlatList
+          data={photos}
+          keyExtractor={(item, index) => `${item.node.image.uri}_${index}`}
+          renderItem={renderItem}
+          numColumns={3}
+          onEndReachedThreshold={0.8}
+          onEndReached={onEndReached}
+        />
+        <View style={styles.bottomView}>
+          <TouchableOpacity
+            disabled={photosSelected.length === 0}
+            onPress={showDelete}
+          >
+            <Icon
+              name="ic_delete"
+              size={Metrics.icons.medium}
+              color={
+                photosSelected.length > 0
+                  ? Themes.colors.coolGray100
+                  : Themes.colors.collGray40
+              }
+            />
+          </TouchableOpacity>
+          <Text>
+            {translate("label.selectedNumber", {
+              number: photosSelected.length,
+            })}
+          </Text>
+          <TouchableOpacity
+            disabled={photosSelected.length === 0}
+            onPress={uploadImages}
+          >
+            <Icon
+              name="ic_upload_2"
+              size={Metrics.icons.medium}
+              color={
+                photosSelected.length > 0
+                  ? Themes.colors.coolGray100
+                  : Themes.colors.collGray40
+              }
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <DeleteModal
+        isVisible={isShowDelete}
+        closeModal={hideDelete}
+        message={translate("alert.deleteImages", {
+          number: photosSelected.length,
+        })}
+        confirmDelete={deletePhotos}
       />
-      <Text>Test</Text>
     </View>
   );
 };

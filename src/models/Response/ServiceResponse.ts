@@ -1,4 +1,4 @@
-import { BaseResponseEntity } from "@models";
+import { BaseResponseEntity, ImagesAddService } from "@models";
 
 export interface ServiceShipmentResponse {
   Code: string;
@@ -23,6 +23,7 @@ export interface AddServiceShipmentResponse {
   Id: string;
   EntityCacheKey: string;
   IsProcessed?: boolean;
+  imagesCargoAddServices: Array<ImagesAddService>;
 }
 
 export interface PostOfficeMasterData {
