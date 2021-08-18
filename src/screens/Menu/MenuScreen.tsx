@@ -1,4 +1,5 @@
 import { DATA_CONSTANT } from "@configs";
+import { useStatusBar } from "@hooks";
 import { goToHomeScreen } from "@navigation";
 import { AccountAction } from "@redux";
 import { Button, translate } from "@shared";
@@ -11,6 +12,7 @@ import MenuItem from "./components/MenuItem";
 import styles from "./styles";
 
 export const MenuScreen: FunctionComponent = () => {
+  useStatusBar("dark-content");
   const insets = useSafeAreaInsets();
   const dispatch = useDispatch();
   const onLogout = () => {

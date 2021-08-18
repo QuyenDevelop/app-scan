@@ -29,7 +29,7 @@ interface Props {}
 export const LaunchScreen: FunctionComponent<Props> = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation<StackNavigationProp<any>>();
-  useStatusBar("dark-content");
+  useStatusBar("light-content");
   const [currencyCodes] = useState({
     currencyCode: RNLocalize.getCurrencies(),
   });

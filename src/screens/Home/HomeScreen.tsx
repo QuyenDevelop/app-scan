@@ -1,4 +1,5 @@
 import { DATA_CONSTANT } from "@configs";
+import { useStatusBar } from "@hooks";
 import { goToMenuScreen } from "@navigation";
 import { Icon, translate } from "@shared";
 import { Images, Metrics, Themes } from "@themes";
@@ -15,6 +16,7 @@ import styles from "./styles";
 
 export const HomeScreen: FunctionComponent = () => {
   const insets = useSafeAreaInsets();
+  useStatusBar("light-content");
   return (
     <View style={styles.container}>
       <ImageBackground
