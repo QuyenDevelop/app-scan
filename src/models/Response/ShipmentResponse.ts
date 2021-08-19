@@ -207,3 +207,11 @@ export interface ShipmentItemCodResponse {
 }
 export interface ScanShipmentCODResponse
   extends BaseResponseEntity<ShipmentCODResponse> {}
+
+export interface ShipmentStatusResponse {
+  Code: number;
+  Name: string;
+  Id: string;
+}
+export interface AllShipmentStatusResponse
+  extends BaseResponseEntity<Array<ShipmentStatusResponse>> {}

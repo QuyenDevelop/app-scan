@@ -11,7 +11,7 @@ interface Props {
 }
 export const ItemInfo: FunctionComponent<Props> = props => {
   const { index, item } = props;
-  console.log("🚀🚀🚀 => item", item);
+
   return (
     <View style={styles.itemInfoContainer}>
       <View style={styles.contentInfoRow}>

@@ -5,6 +5,7 @@ import {
   CustomerResponse,
   ModeShipmentResponse,
   ServiceShipmentResponse,
+  ShipmentStatusResponse,
 } from "@models";
 import produce from "immer";
 import { Reducer } from "redux";
@@ -20,17 +21,22 @@ export interface IShipmentInfo {
   shipmentAddServices: Array<AddServiceShipmentResponse>;
   shipmentCustomers: Array<CustomerResponse>;
   shipmentCurrencies: Array<CurrencyResponse>;
+  shipmentStatus: Array<ShipmentStatusResponse>;
 }
 
-export const defaultState: IShipmentInfo = {
+export const defaultStateShipmentInfo: IShipmentInfo = {
   shipmentServices: [],
   shippingMethods: [],
   shipmentAddServices: [],
   shipmentCustomers: [],
   shipmentCurrencies: [],
+  shipmentStatus: [],
 };
 export const shipmentInfoReducer: Reducer<IShipmentInfo, UnfoldSagaActionType> =
-  (state = defaultState, action: UnfoldSagaActionType): IShipmentInfo => {
+  (
+    state = defaultStateShipmentInfo,
+    action: UnfoldSagaActionType,
+  ): IShipmentInfo => {
     const { type, payload } = action;
     return produce(state, (draftState: IShipmentInfo): void => {
       switch (type) {
@@ -54,6 +60,11 @@ export const shipmentInfoReducer: Reducer<IShipmentInfo, UnfoldSagaActionType> =
           break;
         case createActionTypeOnSuccess(ShipmentInfoActionType.GET_ALL_CURRENCY):
           draftState.shipmentCurrencies = payload;
+          break;
+        case createActionTypeOnSuccess(
+          ShipmentInfoActionType.GET_ALL_SHIPMENT_STATUS,
+        ):
+          draftState.shipmentStatus = payload;
           break;
         default:
           break;

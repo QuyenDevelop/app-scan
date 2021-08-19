@@ -5,23 +5,20 @@ export default StyleSheet.create({
   container: {
     flex: 1,
   },
+  tabBar: {
+    backgroundColor: Themes.colors.white,
+  },
+  labelStyle: {
+    fontSize: 14,
+    color: Themes.colors.coolGray100,
+    fontWeight: "600",
+  },
+  indicatorStyle: {
+    backgroundColor: Themes.colors.brand60,
+  },
   scene: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  tabBar: {
-    backgroundColor: Themes.colors.bP60,
-  },
-  labelStyle: {
-    ...Themes.font.bold,
-    fontSize: 14,
-    color: Themes.colors.white,
-  },
-  indicatorStyle: {
-    backgroundColor: Themes.colors.white,
-  },
-  indicator: {
-    backgroundColor: Themes.colors.white,
   },
 });

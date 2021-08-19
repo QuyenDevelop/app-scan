@@ -9,9 +9,10 @@ import { TouchableWithoutFeedback, View } from "react-native";
 import styles from "./styles";
 interface Props {
   item: ShipmentResponse;
+  statusName?: string;
 }
 export const Shipment: FunctionComponent<Props> = props => {
-  const { item } = props;
+  const { item, statusName } = props;
   const goToDetails = () => {
     goToShipmentDetail({ item });
   };
@@ -121,7 +122,7 @@ export const Shipment: FunctionComponent<Props> = props => {
             />
           </View>
           <Text style={styles.infoText}>
-            {translate("label.status")}: {item.Status}
+            {translate("label.status")}: {statusName || item.Status}
           </Text>
         </View>
       </View>

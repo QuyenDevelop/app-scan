@@ -1,3 +1,4 @@
+import { ScreenUtils } from "@helpers";
 import { Themes } from "@themes";
 import { StyleSheet } from "react-native";
 
@@ -8,9 +9,17 @@ export default StyleSheet.create({
     backgroundColor: Themes.colors.white,
   },
   imageLibrary: {
-    width: "100%",
-    height: 80,
+    width: (ScreenUtils.WIDTH - ScreenUtils.calculatorWidth(40)) / 3,
+    height: (ScreenUtils.WIDTH - ScreenUtils.calculatorWidth(37)) / 3,
+  },
+  content: {
+    margin: ScreenUtils.calculatorWidth(15),
     flex: 1,
-    margin: 2,
+  },
+  imageView: {
+    flex: 1 / 3,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 2,
   },
 });

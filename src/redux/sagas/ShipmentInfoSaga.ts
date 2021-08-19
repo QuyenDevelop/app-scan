@@ -1,10 +1,17 @@
-import { addServiceApi, currencyApi, serviceApi, spCustomerApi } from "@api";
+import {
+  addServiceApi,
+  currencyApi,
+  serviceApi,
+  shipmentApi,
+  spCustomerApi,
+} from "@api";
 import {
   AddServiceShipmentResponse,
   CurrencyResponse,
   CustomerResponse,
   ModeShipmentResponse,
   ServiceShipmentResponse,
+  ShipmentStatusResponse,
 } from "@models";
 import { SagaIterator } from "redux-saga";
 import { takeLatest } from "redux-saga/effects";
@@ -93,6 +100,22 @@ export function* takeGetAllCurrency({
   );
 }
 
+export function* takeGetAllShipmentStatus({
+  callbacks,
+  type,
+}: UnfoldSagaActionType): Iterable<SagaIterator> {
+  yield unfoldSaga(
+    {
+      handler: async (): Promise<Array<ShipmentStatusResponse> | []> => {
+        const data = await shipmentApi.getAllShipmentStatus();
+        return data?.data || [];
+      },
+      key: type,
+    },
+    callbacks,
+  );
+}
+
 export default function* shipmentInfoSaga(): SagaIterator {
   yield takeLatest(
     ShipmentInfoActionType.GET_ALL_SHIPMENT_SERVICE,
@@ -108,4 +131,8 @@ export default function* shipmentInfoSaga(): SagaIterator {
   );
   yield takeLatest(ShipmentInfoActionType.GET_ALL_CUSTOMER, takeGetAllCustomer);
   yield takeLatest(ShipmentInfoActionType.GET_ALL_CURRENCY, takeGetAllCurrency);
+  yield takeLatest(
+    ShipmentInfoActionType.GET_ALL_SHIPMENT_STATUS,
+    takeGetAllShipmentStatus,
+  );
 }

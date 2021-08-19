@@ -1,6 +1,7 @@
 import { Header } from "@components";
 import { useShow } from "@hooks";
 import { ImagesModal, translate } from "@shared";
+import { Themes } from "@themes";
 import React, { FunctionComponent, useState } from "react";
 import {
   FlatList,
@@ -9,8 +10,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-// import Modal from "react-native-modal";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from "./styles";
 interface OwnProps {
   images: Array<string>;
@@ -21,7 +20,6 @@ interface OwnProps {
 type Props = OwnProps;
 
 export const ImageViewModal: FunctionComponent<Props> = props => {
-  const insets = useSafeAreaInsets();
   const { images, isVisible, closeModal } = props;
   const [isShowImage, showImage, hideImage] = useShow();
   const [indexShowImage, setIndexShowImage] = useState<number>(0);
@@ -32,7 +30,13 @@ export const ImageViewModal: FunctionComponent<Props> = props => {
   const renderItem = ({ item, index }: { item: string; index: number }) => {
     return (
       <TouchableWithoutFeedback onPress={() => openView(index)}>
-        <Image style={styles.imageLibrary} source={{ uri: item }} />
+        <View style={styles.imageView}>
+          <Image
+            style={styles.imageLibrary}
+            source={{ uri: item }}
+            resizeMode="cover"
+          />
+        </View>
       </TouchableWithoutFeedback>
     );
   };
@@ -44,18 +48,20 @@ export const ImageViewModal: FunctionComponent<Props> = props => {
       onRequestClose={closeModal}
       statusBarTranslucent={true}
     >
-      <View style={[styles.container, { paddingTop: insets.top }]}>
+      <View style={styles.container}>
         <Header
           title={translate("label.photoModal")}
           iconLeftName={["ic_arrow_left"]}
           iconLeftOnPress={[closeModal]}
           isCenterTitle
+          titleColor={Themes.colors.white}
         />
         <FlatList
           data={images}
           keyExtractor={(item, index) => `${item}_${index}`}
           renderItem={renderItem}
-          numColumns={4}
+          numColumns={3}
+          style={styles.content}
         />
         <ImagesModal
           images={images}

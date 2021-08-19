@@ -48,7 +48,7 @@ export default StyleSheet.create({
     borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: ScreenUtils.calculatorWidth(99),
+    borderRadius: ScreenUtils.calculatorWidth(3),
     paddingHorizontal: ScreenUtils.calculatorWidth(6),
     paddingVertical: ScreenUtils.calculatorHeight(2),
   },

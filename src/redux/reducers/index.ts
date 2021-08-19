@@ -5,7 +5,7 @@ import {
   IUserState,
 } from "./AccountReducer";
 import {
-  defaultState as shipmentInfoDefaultState,
+  defaultStateShipmentInfo as shipmentInfoDefaultState,
   IShipmentInfo,
   shipmentInfoReducer,
 } from "./ShipmentInfoReducer";
@@ -34,4 +34,5 @@ const reducers = combineReducers<IRootState>({
 });
 
 export default reducers;
+export * from "./ShipmentInfoReducer";
 export * from "./UploadImageReducer";

@@ -12,9 +12,7 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { TabBar, TabView } from "react-native-tab-view";
-import { CodDetailTab } from "./components/CodDetailTab";
 import { ContentInfoTab } from "./components/ContentInfoTab";
 import { GeneralInfoTab } from "./components/GeneralInfoTab";
 import styles from "./styles";
@@ -30,7 +28,6 @@ export interface ShipmentDetailCODScreenParams {
 }
 
 export const ShipmentDetailCODScreen: FunctionComponent = () => {
-  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const routeNavigation = useRoute<NavigationRoute>();
   const { item, refId } = routeNavigation?.params || {};
@@ -40,7 +37,6 @@ export const ShipmentDetailCODScreen: FunctionComponent = () => {
   const [routes] = useState([
     { key: "GeneralInfoTab", title: translate("label.tab.generalInfoTab") },
     { key: "ContentInfoTab", title: translate("label.tab.contentInfoTab") },
-    { key: "CodDetailTab", title: translate("label.tab.codDetailTab") },
   ]);
 
   const renderScene = useCallback(
@@ -61,8 +57,7 @@ export const ShipmentDetailCODScreen: FunctionComponent = () => {
           );
         case "ContentInfoTab":
           return <ContentInfoTab shipmentId={item.ShipmentId} />;
-        case "CodDetailTab":
-          return <CodDetailTab shipment={item} refId={refId} />;
+
         default:
           return null;
       }
@@ -83,9 +78,9 @@ export const ShipmentDetailCODScreen: FunctionComponent = () => {
         iconLeftName={["ic_arrow_left"]}
         iconLeftOnPress={[() => navigation.goBack()]}
         isCenterTitle
+        titleColor={Themes.colors.white}
       />
       <TabView
-        lazy
         navigationState={{ index, routes }}
         renderScene={renderScene}
         onIndexChange={setIndex}
@@ -102,7 +97,9 @@ export const ShipmentDetailCODScreen: FunctionComponent = () => {
                 style={[
                   styles.labelStyle,
                   {
-                    color: focused ? Themes.colors.white : Themes.colors.black,
+                    color: focused
+                      ? Themes.colors.coolGray100
+                      : Themes.colors.coolGray60,
                   },
                 ]}
               >

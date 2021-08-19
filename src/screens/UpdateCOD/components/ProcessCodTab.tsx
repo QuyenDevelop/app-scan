@@ -8,11 +8,10 @@ import {
 } from "@models";
 import { useNavigation } from "@react-navigation/native";
 import { IRootState, ShipmentInfoAction } from "@redux";
-import { Button, Icon, Text, translate } from "@shared";
+import { Button, ConfirmModal, Icon, Text, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import {
-  Alert as RNAlert,
   Keyboard,
   TextInput,
   TouchableOpacity,
@@ -20,7 +19,6 @@ import {
   View,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { ConfirmPaymentModal } from "./ConfirmPaymentModal";
 import { CurrencyModal } from "./CurrencyModal";
 import { CustomerModal } from "./CustomerModal";
 import styles from "./styles";
@@ -108,62 +106,47 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
       Alert.warning("warning.noCurrency");
       return;
     }
-
-    if (item.shipments.length <= 1) {
-      RNAlert.alert("", translate("alert.confirmPayment"), [
-        {
-          text: translate("button.cancel"),
-          onPress: () => {},
-          style: "cancel",
-        },
-        {
-          text: translate("button.confirm"),
-          onPress: () => {
-            showLoadingConfirm();
-            payCodApi
-              .updateAmountPay({
-                customerId: customer.Id,
-                customerCode: customer.Code,
-                trackingNumber: item.Id,
-                currencyCode: currency.CurrencyCode,
-                amountLocal: item.CODAmount,
-                rate: currency?.Rate || 0,
-                amountPay: codAmount,
-                shipments: [],
-              })
-              ?.then(response => {
-                if (response.success) {
-                  updateStatus(codAmount);
-                  Alert.success("success.confirmPaymentSuccess");
-                } else {
-                  if (response.message) {
-                    Alert.error(response.message, true);
-                  } else {
-                    Alert.error("error.errorServer");
-                  }
-                }
-              })
-              .catch(() => {
-                Alert.error("error.errorServer");
-              })
-              .finally(() => {
-                hideLoadingConfirm();
-              });
-          },
-        },
-      ]);
-    } else {
-      showConfirmModal();
-    }
+    showConfirmModal();
   };
 
+  const onConfirm = () => {
+    showLoadingConfirm();
+    payCodApi
+      .updateAmountPay({
+        customerId: customer?.Id!,
+        customerCode: customer?.Code!,
+        trackingNumber: item.Id,
+        currencyCode: currency?.CurrencyCode!,
+        amountLocal: item.CODAmount,
+        rate: currency?.Rate || 0,
+        amountPay: codAmount,
+      })
+      ?.then(response => {
+        if (response.success) {
+          updateStatus(codAmount);
+          Alert.success("success.confirmPaymentSuccess");
+        } else {
+          if (response.message) {
+            Alert.error(response.message, true);
+          } else {
+            Alert.error("error.errorServer");
+          }
+        }
+      })
+      .catch(() => {
+        Alert.error("error.errorServer");
+      })
+      .finally(() => {
+        hideLoadingConfirm();
+      });
+  };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.generalTab}>
         <View style={styles.generalInfoRow}>
           <Text style={styles.labelInfo}>{translate("label.customer")}</Text>
           <TouchableOpacity
-            style={[styles.serviceButton, styles.flex1]}
+            style={styles.customerButton}
             onPress={showCustomers}
             disabled={!!item.CustomerCode}
           >
@@ -193,104 +176,131 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
         </View>
         <View style={styles.generalInfoRow}>
           <Text style={styles.labelInfo}>{translate("label.codAmount")}</Text>
-          <TextInput
-            placeholder={translate("placeholder.enterCodAmount")}
-            style={[
-              styles.inputInfo,
-              {
-                color:
+          <View style={styles.hView}>
+            <View style={styles.moneyIcon}>
+              <Icon
+                name="ic_money"
+                size={Metrics.icons.smallSmall}
+                color={
                   isConfirmed || !!codAmountPay
                     ? Themes.colors.collGray40
-                    : Themes.colors.textPrimary,
-              },
-            ]}
-            keyboardType="numeric"
-            contextMenuHidden={true}
-            placeholderTextColor={Themes.colors.collGray40}
-            editable={!isConfirmed && !codAmountPay}
-            defaultValue={Utils.formatMoney(codAmount)}
-            onChangeText={onChangeCodAmount}
-          />
-          <TouchableOpacity
-            style={styles.serviceButton}
-            onPress={showCurrencies}
-            disabled={!!item.CustomerCode}
-          >
-            <Text
-              style={[
-                styles.labelInfo,
-                {
-                  marginRight: ScreenUtils.calculatorWidth(5),
-                  color: item.CustomerCode
-                    ? Themes.colors.collGray40
-                    : Themes.colors.textPrimary,
-                },
-              ]}
-            >
-              {currency?.CurrencyCode || translate("label.selectCurrency")}
-            </Text>
-            <Icon
-              name="ic_arrow_down"
-              size={Metrics.icons.smallSmall}
-              color={
-                item.CustomerCode
-                  ? Themes.colors.collGray40
-                  : Themes.colors.textPrimary
-              }
-            />
-          </TouchableOpacity>
-        </View>
-        {!!codAmountPay && (
-          <View style={styles.generalInfoRow}>
-            <Text style={styles.labelInfo}>{translate("label.newCOD")}</Text>
+                    : Themes.colors.brand60
+                }
+              />
+            </View>
             <TextInput
               placeholder={translate("placeholder.enterCodAmount")}
-              style={[styles.inputInfo, { color: Themes.colors.collGray40 }]}
+              style={[
+                styles.inputInfo,
+                {
+                  color:
+                    isConfirmed || !!codAmountPay
+                      ? Themes.colors.collGray40
+                      : Themes.colors.textPrimary,
+                },
+              ]}
               keyboardType="numeric"
               contextMenuHidden={true}
               placeholderTextColor={Themes.colors.collGray40}
-              editable={false}
-              defaultValue={Utils.formatMoney(codAmountPay)}
+              editable={!isConfirmed && !codAmountPay}
+              defaultValue={Utils.formatMoney(codAmount)}
+              onChangeText={onChangeCodAmount}
             />
             <TouchableOpacity
-              style={styles.serviceButton}
+              style={styles.currencyButton}
               onPress={showCurrencies}
-              disabled={true}
+              disabled={!!item.CustomerCode}
             >
               <Text
                 style={[
                   styles.labelInfo,
                   {
                     marginRight: ScreenUtils.calculatorWidth(5),
-                    color: Themes.colors.collGray40,
+                    color: item.CustomerCode
+                      ? Themes.colors.collGray40
+                      : Themes.colors.textPrimary,
                   },
                 ]}
               >
-                {item?.CurrencyCode || translate("label.selectCurrency")}
+                {currency?.CurrencyCode || translate("label.selectCurrency")}
               </Text>
               <Icon
                 name="ic_arrow_down"
                 size={Metrics.icons.smallSmall}
-                color={Themes.colors.collGray40}
+                color={
+                  item.CustomerCode
+                    ? Themes.colors.collGray40
+                    : Themes.colors.textPrimary
+                }
               />
             </TouchableOpacity>
           </View>
+        </View>
+        {!!codAmountPay && (
+          <View style={styles.generalInfoRow}>
+            <Text style={styles.labelInfo}>{translate("label.newCOD")}</Text>
+            <View style={styles.hView}>
+              <View style={styles.moneyIcon}>
+                <Icon
+                  name="ic_money"
+                  size={Metrics.icons.smallSmall}
+                  color={Themes.colors.collGray40}
+                />
+              </View>
+              <TextInput
+                placeholder={translate("placeholder.enterCodAmount")}
+                style={[styles.inputInfo, { color: Themes.colors.collGray40 }]}
+                keyboardType="numeric"
+                contextMenuHidden={true}
+                placeholderTextColor={Themes.colors.collGray40}
+                editable={false}
+                defaultValue={Utils.formatMoney(codAmountPay)}
+              />
+              <TouchableOpacity
+                style={styles.currencyButton}
+                onPress={showCurrencies}
+                disabled={true}
+              >
+                <Text
+                  style={[
+                    styles.labelInfo,
+                    {
+                      marginRight: ScreenUtils.calculatorWidth(5),
+                      color: Themes.colors.collGray40,
+                    },
+                  ]}
+                >
+                  {item?.CurrencyCode || translate("label.selectCurrency")}
+                </Text>
+                <Icon
+                  name="ic_arrow_down"
+                  size={Metrics.icons.smallSmall}
+                  color={Themes.colors.collGray40}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
         )}
-        <Button
-          title={translate("button.confirmPayment")}
-          buttonChildStyle={[
-            styles.confirmPaymentBtn,
-            {
-              backgroundColor:
-                isConfirmed || !!codAmountPay
-                  ? Themes.colors.collGray40
-                  : Themes.colors.primary,
-            },
-          ]}
-          isLoading={isLoadingConfirm}
-          onPress={onConfirmPayment}
-          isDisable={isConfirmed || !!codAmountPay}
-        />
+        {!isConfirmed && !codAmountPay && (
+          <Button
+            title={translate("button.confirmPayment")}
+            buttonChildStyle={styles.confirmPaymentBtn}
+            isLoading={isLoadingConfirm}
+            onPress={onConfirmPayment}
+          />
+        )}
+        <View style={styles.optionView}>
+          <TouchableOpacity style={styles.cameraView}>
+            <Icon
+              name="ic_camera_fill"
+              size={Metrics.icons.medium}
+              color={Themes.colors.bg}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.viewDocumentButton}>
+            <Text>{translate("button.viewDocument")}</Text>
+          </TouchableOpacity>
+        </View>
         <CustomerModal
           isShowModal={isShowCustomers}
           closeModal={hideCustomers}
@@ -303,7 +313,13 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
           currencies={shipmentCurrencies}
           onSelect={setCurrency}
         />
-        {isShowConfirmModal && (
+        <ConfirmModal
+          isVisible={isShowConfirmModal}
+          closeModal={hideConfirmModal}
+          message={translate("alert.confirmPayment")}
+          onConfirm={onConfirm}
+        />
+        {/* {isShowConfirmModal && (
           <ConfirmPaymentModal
             isShowModal={isShowConfirmModal}
             closeModal={hideConfirmModal}
@@ -315,7 +331,7 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
             trackingNumber={item.Id}
             amountLocal={item.CODAmount}
           />
-        )}
+        )} */}
       </View>
     </TouchableWithoutFeedback>
   );

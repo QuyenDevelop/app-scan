@@ -98,7 +98,7 @@ export const UpdateCODScreen: FunctionComponent = () => {
 
   const renderLazyPlaceholder = () => (
     <View style={styles.scene}>
-      <ActivityIndicator />
+      <ActivityIndicator color={Themes.colors.collGray40} />
     </View>
   );
 
@@ -109,9 +109,9 @@ export const UpdateCODScreen: FunctionComponent = () => {
         iconLeftName={["ic_arrow_left"]}
         iconLeftOnPress={[() => navigation.goBack()]}
         isCenterTitle
+        titleColor={Themes.colors.white}
       />
       <TabView
-        lazy
         navigationState={{ index, routes }}
         renderScene={renderScene}
         onIndexChange={setIndex}
@@ -128,7 +128,9 @@ export const UpdateCODScreen: FunctionComponent = () => {
                 style={[
                   styles.labelStyle,
                   {
-                    color: focused ? Themes.colors.white : Themes.colors.black,
+                    color: focused
+                      ? Themes.colors.coolGray100
+                      : Themes.colors.coolGray60,
                   },
                 ]}
               >

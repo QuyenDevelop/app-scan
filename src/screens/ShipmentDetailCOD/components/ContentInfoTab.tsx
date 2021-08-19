@@ -1,5 +1,6 @@
 import { shipmentApi } from "@api";
 import { ShipmentItemResponse } from "@models";
+import { NoData } from "@shared";
 import React, {
   FunctionComponent,
   useCallback,
@@ -8,6 +9,7 @@ import React, {
 } from "react";
 import { FlatList } from "react-native";
 import { ItemInfo } from "./ItemInfo";
+import styles from "./styles";
 interface Props {
   shipmentId: string;
 }
@@ -24,10 +26,7 @@ export const ContentInfoTab: FunctionComponent<Props> = props => {
         option: 3,
       })
       ?.then(response => {
-        console.log(
-          "🚀🚀🚀 => getShipmentItems => response",
-          JSON.stringify(response),
-        );
+        console.log("🚀🚀🚀 => getShipmentItems => response", response);
         if (response && response.success) {
           setShipmentItems(response.data.ShipmentItems || []);
         }
@@ -38,8 +37,14 @@ export const ContentInfoTab: FunctionComponent<Props> = props => {
     getShipmentItems();
   }, [getShipmentItems]);
 
-  const renderItem = ({ item }: { item: ShipmentItemResponse }) => {
-    return <ItemInfo item={item} />;
+  const renderItem = ({
+    item,
+    index,
+  }: {
+    item: ShipmentItemResponse;
+    index: number;
+  }) => {
+    return <ItemInfo item={item} index={index} />;
   };
 
   return (
@@ -47,6 +52,8 @@ export const ContentInfoTab: FunctionComponent<Props> = props => {
       data={shipmentItems}
       keyExtractor={(item, index) => `$${item.ShipmentId}_${index}`}
       renderItem={renderItem}
+      style={styles.contentTab}
+      ListEmptyComponent={<NoData />}
     />
   );
 };

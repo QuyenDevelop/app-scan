@@ -2,7 +2,7 @@ import { shipmentApi } from "@api";
 import { Header } from "@components";
 import { SCREENS } from "@configs";
 import { Alert } from "@helpers";
-import { useShow } from "@hooks";
+import { useShipmentInfo, useShow } from "@hooks";
 import { ShipmentResponse } from "@models";
 import { CheckAndScanStackParamsList } from "@navigation";
 import {
@@ -33,6 +33,7 @@ export interface ShipmentsScreenParams {
 }
 
 export const ShipmentsScreen: FunctionComponent = () => {
+  useShipmentInfo();
   const routeNavigation = useRoute<NavigationRoute>();
   const navigation = useNavigation();
   const { refNumber, shipments } = routeNavigation?.params;

@@ -13,4 +13,7 @@ export default {
   ),
   getAllCustomer: createAction(ShipmentInfoActionType.GET_ALL_CUSTOMER),
   getAllCurrency: createAction(ShipmentInfoActionType.GET_ALL_CURRENCY),
+  getAllShipmentStatus: createAction(
+    ShipmentInfoActionType.GET_ALL_SHIPMENT_STATUS,
+  ),
 };

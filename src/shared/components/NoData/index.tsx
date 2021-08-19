@@ -18,7 +18,9 @@ export const NoData: FunctionComponent<Props> = props => {
         source={Images.noData}
         style={styles.image}
       />
-      <Text>{content || translate("label.noData")}</Text>
+      <Text style={styles.noDataTitle}>
+        {content || translate("label.noData")}
+      </Text>
     </View>
   );
 };

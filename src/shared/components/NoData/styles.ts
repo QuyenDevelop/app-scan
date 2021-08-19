@@ -1,4 +1,5 @@
 import { ScreenUtils } from "@helpers";
+import { Themes } from "@themes";
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
@@ -10,5 +11,10 @@ export default StyleSheet.create({
   image: {
     width: ScreenUtils.calculatorWidth(219),
     height: ScreenUtils.calculatorWidth(219),
+  },
+  noDataTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: Themes.colors.textPrimary,
   },
 });

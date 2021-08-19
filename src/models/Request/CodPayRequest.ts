@@ -6,7 +6,6 @@ export interface UpdateAmountCodRequest {
   amountLocal: number;
   rate: number;
   amountPay: number;
-  shipments: Array<ShipmentCodAmount>;
 }
 
 export interface ShipmentCodAmount {

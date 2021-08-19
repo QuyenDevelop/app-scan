@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   defaultStyle: {
     ...Themes.font.medium,
     fontSize: 14,
-    color: Themes.colors.coolGray100,
+    color: Themes.colors.textPrimary,
     fontWeight: "400",
   },
 });

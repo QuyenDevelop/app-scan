@@ -1,4 +1,5 @@
 import {
+  AllShipmentStatusResponse,
   CompleteAddServiceRequest,
   DeleteSubShipmentRequest,
   ScanShipmentCODResponse,
@@ -9,13 +10,9 @@ import {
   UpdateCodShipmentRequest,
   UpdateDirectShipmentRequest,
 } from "@models";
-import { store } from "@redux";
-import { IRootState } from "../redux/reducers";
 import { BaseApi } from "./base-api";
 
 class ShipmentApi extends BaseApi {
-  state = store.getState() as IRootState;
-  // region Amazo
   scanShipment(value: string) {
     return this.get<ScanShipmentResponse>("scan-shipment", { keyword: value });
   }
@@ -68,8 +65,11 @@ class ShipmentApi extends BaseApi {
   }
 
   deleteImagesAddService(ImagesIds: Array<string>) {
-    console.log("🚀🚀🚀 => deleteImagesAddService => ImagesIds", ImagesIds);
-    return this.post("update-cod-by-shipmentid", {}, { ImagesIds: ImagesIds });
+    return this.post("delete-images-by-cargoraddservice", ImagesIds, {});
+  }
+
+  getAllShipmentStatus() {
+    return this.get<AllShipmentStatusResponse>("get-status-shipment", {});
   }
 }
 
