@@ -14,4 +14,5 @@ export default {
   changeCurrencyWithLaunch: createAction(
     AccountActionType.CHANGE_CURRENCY_WITH_LAUNCH,
   ),
+  changeLanguage: createAction(AccountActionType.CHANGE_LANGUAGE),
 };

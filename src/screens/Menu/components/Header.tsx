@@ -47,24 +47,33 @@ const Header: FunctionComponent = () => {
         hideChangeLanguageModal();
       },
     },
-    {
-      title: language.China.label,
-      onPress: () => {
-        setLanguage(language.China.value);
-        hideChangeLanguageModal();
-      },
-    },
-    {
-      title: language.Taiwan.label,
-      onPress: () => {
-        setLanguage(language.Taiwan.value);
-        hideChangeLanguageModal();
-      },
-    },
+    // {
+    //   title: language.China.label,
+    //   onPress: () => {
+    //     setLanguage(language.China.value);
+    //     hideChangeLanguageModal();
+    //   },
+    // },
+    // {
+    //   title: language.Taiwan.label,
+    //   onPress: () => {
+    //     setLanguage(language.Taiwan.value);
+    //     hideChangeLanguageModal();
+    //   },
+    // },
   ];
 
   const setLanguage = (value: any) => {
-    dispatch(AccountAction.changeLanguageWithLaunch({ language: value }));
+    dispatch(
+      AccountAction.changeLanguage(
+        { language: value },
+        {
+          onSuccess: () => {},
+          onFailure: () => {},
+          onFinish: () => {},
+        },
+      ),
+    );
   };
 
   return (

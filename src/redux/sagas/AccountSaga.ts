@@ -3,7 +3,9 @@ import { CONSTANT } from "@configs";
 import { Utils } from "@helpers";
 import { Account } from "@models";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { onChangeLanguage } from "@shared";
 import { AuthorizeResult } from "@types";
+import CodePush from "react-native-code-push";
 import { SagaIterator } from "redux-saga";
 import { takeLatest } from "redux-saga/effects";
 import { unfoldSaga, UnfoldSagaActionType } from "redux-unfold-saga";
@@ -86,8 +88,48 @@ export function* takeGetUserInfo({
   );
 }
 
+export function* takeChangeLanguageWithLaunch({
+  callbacks,
+  type,
+  payload,
+}: UnfoldSagaActionType): Iterable<SagaIterator> {
+  yield unfoldSaga(
+    {
+      handler: async (): Promise<boolean> => {
+        await onChangeLanguage(payload?.language);
+        return payload?.language;
+      },
+      key: type,
+    },
+    callbacks,
+  );
+}
+
+export function* takeChangeLanguage({
+  callbacks,
+  type,
+  payload,
+}: UnfoldSagaActionType): Iterable<SagaIterator> {
+  yield unfoldSaga(
+    {
+      handler: async (): Promise<boolean> => {
+        await onChangeLanguage(payload?.language);
+        CodePush.restartApp();
+        return payload?.language;
+      },
+      key: type,
+    },
+    callbacks,
+  );
+}
+
 export default function* accountSaga(): SagaIterator {
   yield takeLatest(AccountActionType.LOGIN, takeLogin);
   yield takeLatest(AccountActionType.LOGOUT, takeLogout);
   yield takeLatest(AccountActionType.GET_USER_INFO, takeGetUserInfo);
+  yield takeLatest(
+    AccountActionType.CHANGE_LANGUAGE_WITH_LAUNCH,
+    takeChangeLanguageWithLaunch,
+  );
+  yield takeLatest(AccountActionType.CHANGE_LANGUAGE, takeChangeLanguage);
 }
