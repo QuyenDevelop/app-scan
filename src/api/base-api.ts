@@ -1,14 +1,12 @@
 import { currentLanguage, translate } from "@shared";
 import Config from "react-native-config";
 import AxiosService from "./axios.service";
-
 const { API_HOST, IDENTITY_HOST } = Config;
 
 export class BaseApi {
   baseUrl?: string;
   apiHostUrl = `${API_HOST}`;
   identityApiHostUrl = `${IDENTITY_HOST}`;
-
   constructor(baseUrl?: string) {
     this.baseUrl = baseUrl;
   }
