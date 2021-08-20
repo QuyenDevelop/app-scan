@@ -1,5 +1,6 @@
+/* eslint-disable react-native/no-inline-styles */
 import { shipmentApi } from "@api";
-import { Alert } from "@helpers";
+import { Alert, ScreenUtils } from "@helpers";
 import { useShow } from "@hooks";
 import { AddServiceShipmentResponse } from "@models";
 import { Checkbox, Icon, SuccessModal, Text, translate } from "@shared";
@@ -72,15 +73,25 @@ export const ServiceInfo: FunctionComponent<Props> = props => {
   return (
     <TouchableWithoutFeedback onPress={selectService}>
       <View style={styles.serviceInfoContainer}>
-        <View style={[styles.hView, { flex: 1 }]}>
-          {item.IsProcessed === undefined && (
+        <View style={[styles.hView, styles.flex1]}>
+          {item.IsProcessed !== undefined ? (
+            <Icon
+              name="ic_check-circle"
+              size={Metrics.icons.small}
+              styles={{ marginRight: ScreenUtils.calculatorWidth(4) }}
+              color={
+                item.IsProcessed
+                  ? Themes.colors.success60
+                  : Themes.colors.brand60
+              }
+            />
+          ) : item.IsRequiredImage ? null : (
             <Checkbox
               onChange={selectService}
               checked={item.IsProcessed !== undefined ? true : isSelected}
               style={styles.checkbox}
             />
           )}
-
           <Text style={styles.serviceLabel}>
             [{item.Code}] {item.Name}
           </Text>
@@ -94,33 +105,22 @@ export const ServiceInfo: FunctionComponent<Props> = props => {
                 onPress={showPhotoModal}
               >
                 <Icon
-                  name="ic_camera"
+                  name="ic_camera_fill"
                   size={Metrics.icons.small}
                   color={Themes.colors.black}
                 />
               </TouchableOpacity>
-              <TouchableOpacity hitSlop={styles.hitSlop} onPress={onViewImage}>
-                <Text
-                  style={[
-                    styles.contentInfo,
-                    { textDecorationLine: "underline" },
-                  ]}
-                >
-                  {translate("label.viewImage")}
-                </Text>
-              </TouchableOpacity>
+              {item.imagesCargoAddServices &&
+                item.imagesCargoAddServices.length > 0 && (
+                  <TouchableOpacity
+                    hitSlop={styles.hitSlop}
+                    onPress={onViewImage}
+                    style={styles.viewImage}
+                  >
+                    <Text>{translate("label.viewImage")}</Text>
+                  </TouchableOpacity>
+                )}
             </View>
-          )}
-          {item.IsProcessed !== undefined && (
-            <Icon
-              name="ic_check-circle"
-              size={Metrics.icons.small}
-              color={
-                item.IsProcessed
-                  ? Themes.colors.success60
-                  : Themes.colors.brand60
-              }
-            />
           )}
         </View>
         <PhotoModal

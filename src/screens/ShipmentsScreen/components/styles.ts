@@ -18,6 +18,7 @@ export default StyleSheet.create({
     backgroundColor: Themes.colors.white,
     borderRadius: ScreenUtils.calculatorWidth(15),
     padding: ScreenUtils.calculatorWidth(16),
+    marginBottom: ScreenUtils.calculatorHeight(12),
   },
   shipment: {
     flexDirection: "row",

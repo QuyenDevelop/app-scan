@@ -170,7 +170,6 @@ export default StyleSheet.create({
     borderRadius: ScreenUtils.calculatorWidth(24),
     justifyContent: "center",
     alignItems: "center",
-    marginRight: ScreenUtils.calculatorWidth(25),
   },
   viewDocumentButton: {
     borderWidth: 1,
@@ -180,6 +179,7 @@ export default StyleSheet.create({
     alignItems: "center",
     height: ScreenUtils.calculatorWidth(48),
     paddingHorizontal: ScreenUtils.calculatorWidth(20),
+    marginLeft: ScreenUtils.calculatorWidth(25),
   },
   shipments: {
     marginTop: ScreenUtils.calculatorHeight(20),

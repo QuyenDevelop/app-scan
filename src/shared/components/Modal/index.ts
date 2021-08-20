@@ -1,3 +1,4 @@
+export * from "./ChoosePhotoModal";
 export * from "./ConfirmModal";
 export * from "./CurrencyModal";
 export * from "./DeleteModal";

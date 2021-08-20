@@ -210,6 +210,7 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
         height: subShipment.Height,
         width: subShipment.Width,
         length: subShipment.Length,
+        locationName: subShipment.LocationName,
       };
     });
 
@@ -217,6 +218,7 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
       .updateShipmentInformation({
         id: shipmentId,
         shipmentNumber: shipment,
+        referenceNumber: reference,
         cargoSPServiceId: selectedService.Id,
         cargoSPServiceCode: selectedService.Code,
         volumetricWeight: selectedService.VolumetricDivisor,

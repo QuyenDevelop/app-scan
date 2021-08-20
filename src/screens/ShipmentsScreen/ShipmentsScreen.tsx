@@ -51,7 +51,6 @@ export const ShipmentsScreen: FunctionComponent = () => {
         shipmentApi
           .scanShipment(refNumber)
           ?.then(shipment => {
-            console.log("🚀🚀🚀 => useCallback => shipment", shipment);
             setListShipment(shipment?.data || []);
           })
           .catch(() => {

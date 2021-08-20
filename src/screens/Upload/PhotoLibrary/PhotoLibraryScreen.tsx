@@ -6,16 +6,21 @@ import {
   hasAndroidPermission,
   setAsyncItem,
 } from "@helpers";
-import { useShow } from "@hooks";
+import { useShow, useToggle } from "@hooks";
 import { StorageImages } from "@models";
 import { ShipmentStackParamsList } from "@navigation";
 import CameraRoll, {
   PhotoIdentifier,
 } from "@react-native-community/cameraroll";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { DeleteModal, Icon, Text, translate } from "@shared";
+import { Icon, ImagesModal, Text, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import {
   DeviceEventEmitter,
   FlatList,
@@ -31,20 +36,26 @@ type NavigationRoute = RouteProp<
   SCREENS.PHOTO_LIBRARY_SCREEN
 >;
 export interface PhotoLibraryScreenParams {
-  shipment: string;
-  service: string;
+  prefix: string;
+  suffix: string;
 }
 
 export const PhotoLibraryScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const route = useRoute<NavigationRoute>();
-  const { shipment, service } = route?.params;
-  const [isShowDelete, showDelete, hideDelete] = useShow();
+  const { prefix, suffix } = route?.params;
+  // const [isShowDelete, showDelete, hideDelete] = useShow();
   const [photos, setPhotos] = useState<Array<PhotoIdentifier>>([]);
+  const [photosShow, setPhotosShow] = useState<Array<string>>([]);
   const [photosSelected, setPhotosSelected] = useState<Array<string>>([]);
   const [after, setAfter] = useState<string>();
   const [hasNextPage, setHasNextPage] = useState(false);
-  const getAllPhotos = async () => {
+  const [isSelectMode, toggleMode] = useToggle();
+  const [isShowImage, showImage, hideImage] = useShow();
+  const [indexShowImage, setIndexShowImage] = useState<number>(0);
+
+  const getAllPhotos = useCallback(async () => {
+    console.log("🚀🚀🚀 => getAllPhotos => getAllPhotos");
     if (Platform.OS === "android" && !(await hasAndroidPermission())) {
       return;
     }
@@ -61,11 +72,15 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
       .catch(() => {
         Alert.error("error.errorServer");
       });
-  };
+  }, [after]);
 
   useEffect(() => {
     getAllPhotos();
   }, []);
+
+  useEffect(() => {
+    setPhotosShow(photos.map(photo => photo.node.image.uri));
+  }, [photos]);
 
   const onEndReached = () => {
     if (hasNextPage) {
@@ -77,7 +92,13 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
     return photosSelected.includes(uri);
   };
 
-  const onSelect = (uri: string) => {
+  const onSelect = (uri: string, index: number) => {
+    if (!isSelectMode) {
+      setIndexShowImage(index);
+      showImage();
+      return;
+    }
+
     if (isSelected(uri)) {
       setPhotosSelected(images => images.filter(image => image !== uri));
     } else {
@@ -97,7 +118,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
     const current = new Date().getTime();
     const savePhotos = photosSelected.map((image: string, index: number) => {
       return {
-        name: `${shipment}_${service}_${current}_${index}.jpg`,
+        name: `${prefix}_${current}_${index}_${suffix}.jpg`,
         uri: image,
       };
     });
@@ -116,6 +137,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
 
     if (storage) {
       DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
+      toggleMode();
       setPhotosSelected([]);
       Alert.success(
         translate("success.autoUploadImage", { number: photosSelected.length }),
@@ -126,18 +148,32 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
     }
   };
 
-  const renderItem = ({ item }: { item: any }) => {
+  const renderItem = ({ item, index }: { item: any; index: number }) => {
     const isCheck = isSelected(item.node.image.uri);
     return (
       <ImageItem
         uri={item.node.image.uri}
         isChecked={isCheck}
         onSelect={onSelect}
+        index={index}
       />
     );
   };
 
-  const deletePhotos = () => {};
+  const deletePhotos = () => {
+    CameraRoll.deletePhotos(photosSelected).then(() => {
+      Alert.success("success.deleteSuccess");
+      setPhotos(listPhoto =>
+        listPhoto.filter(p => !photosSelected.includes(p.node.image.uri)),
+      );
+      setPhotosSelected([]);
+    });
+  };
+
+  const changeMode = () => {
+    setPhotosSelected([]);
+    toggleMode();
+  };
 
   return (
     <View style={styles.container}>
@@ -147,6 +183,11 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
         iconLeftOnPress={[() => navigation.goBack()]}
         isCenterTitle
         titleColor={Themes.colors.white}
+        titleRight={
+          isSelectMode ? translate("button.cancel") : translate("button.choose")
+        }
+        titleRightStyle={styles.titleRight}
+        titleRightOnPress={changeMode}
       />
       <View style={styles.content}>
         <FlatList
@@ -157,50 +198,58 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
           onEndReachedThreshold={0.8}
           onEndReached={onEndReached}
         />
-        <View style={styles.bottomView}>
-          <TouchableOpacity
-            disabled={photosSelected.length === 0}
-            onPress={showDelete}
-          >
-            <Icon
-              name="ic_delete"
-              size={Metrics.icons.medium}
-              color={
-                photosSelected.length > 0
-                  ? Themes.colors.coolGray100
-                  : Themes.colors.collGray40
-              }
-            />
-          </TouchableOpacity>
-          <Text>
-            {translate("label.selectedNumber", {
-              number: photosSelected.length,
-            })}
-          </Text>
-          <TouchableOpacity
-            disabled={photosSelected.length === 0}
-            onPress={uploadImages}
-          >
-            <Icon
-              name="ic_upload_2"
-              size={Metrics.icons.medium}
-              color={
-                photosSelected.length > 0
-                  ? Themes.colors.coolGray100
-                  : Themes.colors.collGray40
-              }
-            />
-          </TouchableOpacity>
-        </View>
+        {isSelectMode && (
+          <View style={styles.bottomView}>
+            <TouchableOpacity
+              disabled={photosSelected.length === 0}
+              onPress={deletePhotos}
+            >
+              <Icon
+                name="ic_delete"
+                size={Metrics.icons.medium}
+                color={
+                  photosSelected.length > 0
+                    ? Themes.colors.coolGray100
+                    : Themes.colors.collGray40
+                }
+              />
+            </TouchableOpacity>
+            <Text>
+              {translate("label.selectedNumber", {
+                number: photosSelected.length,
+              })}
+            </Text>
+            <TouchableOpacity
+              disabled={photosSelected.length === 0}
+              onPress={uploadImages}
+            >
+              <Icon
+                name="ic_upload_2"
+                size={Metrics.icons.medium}
+                color={
+                  photosSelected.length > 0
+                    ? Themes.colors.coolGray100
+                    : Themes.colors.collGray40
+                }
+              />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
-
-      <DeleteModal
+      {/* <DeleteModal
         isVisible={isShowDelete}
         closeModal={hideDelete}
         message={translate("alert.deleteImages", {
           number: photosSelected.length,
         })}
         confirmDelete={deletePhotos}
+      /> */}
+      <ImagesModal
+        images={photosShow}
+        isVisible={isShowImage}
+        closeModal={hideImage}
+        index={indexShowImage}
+        isLocalImage={true}
       />
     </View>
   );

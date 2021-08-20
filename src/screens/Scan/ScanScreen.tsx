@@ -1,17 +1,8 @@
 import { shipmentApi } from "@api";
-import { SCREENS } from "@configs";
 import { Alert } from "@helpers";
 import { useShow } from "@hooks";
-import {
-  goToShipmentDetail,
-  goToShipmentsScreen,
-  ScanParamsList,
-} from "@navigation";
-import {
-  RouteProp,
-  useIsFocused,
-  useNavigation,
-} from "@react-navigation/native";
+import { goToShipmentDetail, goToShipmentsScreen } from "@navigation";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { Icon, Text, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent, useState } from "react";
@@ -25,8 +16,6 @@ import QRCodeScanner from "react-native-qrcode-scanner";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { EnterCodeModal } from "./components/EnterCodeModal";
 import styles from "./styles";
-
-type NavigationRoute = RouteProp<ScanParamsList, SCREENS.SCAN_SCREEN>;
 
 export interface ScanScreenParams {
   searchContent?: string;
@@ -49,6 +38,7 @@ export const ScanScreen: FunctionComponent = () => {
   };
 
   const getShipment = (value: string) => {
+    setErrorContent("");
     if (value === "") {
       return;
     }
@@ -80,6 +70,7 @@ export const ScanScreen: FunctionComponent = () => {
       })
       .finally(() => {
         Keyboard.dismiss();
+        setContent("");
         hideIsLoadingFetchData();
       });
   };

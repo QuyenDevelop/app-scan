@@ -6,6 +6,7 @@ import styles from "./styles";
 interface OwnProps {
   message: string;
   iconName?: string;
+  iconColor?: string;
   isVisible: boolean;
   closeModal: () => void;
   onConfirm: () => void;
@@ -14,7 +15,8 @@ interface OwnProps {
 type Props = OwnProps;
 
 export const ConfirmModal: FunctionComponent<Props> = props => {
-  const { isVisible, closeModal, message, onConfirm, iconName } = props;
+  const { isVisible, closeModal, message, onConfirm, iconName, iconColor } =
+    props;
 
   const pressConfirm = () => {
     closeModal();
@@ -33,8 +35,9 @@ export const ConfirmModal: FunctionComponent<Props> = props => {
           {!!iconName && (
             <Icon
               name={iconName}
-              size={Metrics.icons.small}
-              color={Themes.colors.brand60}
+              size={Metrics.icons.large}
+              color={iconColor ?? Themes.colors.brand60}
+              styles={styles.icon}
             />
           )}
           <Text style={styles.message}>{message}</Text>

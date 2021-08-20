@@ -31,11 +31,16 @@ export function useShipmentInfo() {
     if (shipmentInfo.shipmentStatus.length === 0) {
       dispatch(ShipmentInfoAction.getAllShipmentStatus());
     }
+
+    if (shipmentInfo.shipmentLocations.length === 0) {
+      dispatch(ShipmentInfoAction.getAllLocation());
+    }
   }, [
     dispatch,
     shipmentInfo.shipmentAddServices.length,
     shipmentInfo.shipmentCurrencies.length,
     shipmentInfo.shipmentCustomers.length,
+    shipmentInfo.shipmentLocations.length,
     shipmentInfo.shipmentServices.length,
     shipmentInfo.shipmentStatus.length,
     shipmentInfo.shippingMethods.length,

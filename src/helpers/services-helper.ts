@@ -1,5 +1,5 @@
-import { shipmentApi } from "@api";
-import { CONSTANT } from "@configs";
+import { payCodApi, shipmentApi } from "@api";
+import { CONSTANT, DATA_CONSTANT } from "@configs";
 import { getAsyncItem, setAsyncItem } from "@helpers";
 import BackgroundTimer from "react-native-background-timer";
 
@@ -45,12 +45,31 @@ export const autoUpload = async (
         name: name,
       });
 
-      await shipmentApi
-        .uploadImage(imageForm)
-        ?.then(async () => {
-          await removeImage(name);
-        })
-        .catch(() => {});
+      if (name.includes(DATA_CONSTANT.SUFFIX_IMAGE.shipmentAddServices)) {
+        await shipmentApi
+          .uploadImage(imageForm)
+          ?.then(async () => {
+            console.log(
+              "🚀🚀🚀 => BackgroundTimer.runBackgroundTimer => upload success: ",
+              name,
+            );
+            await removeImage(name);
+          })
+          .catch(() => {});
+      }
+
+      if (name.includes(DATA_CONSTANT.SUFFIX_IMAGE.shipmentCod)) {
+        await payCodApi
+          .uploadImage(imageForm)
+          ?.then(async () => {
+            console.log(
+              "🚀🚀🚀 => BackgroundTimer.runBackgroundTimer => upload success: ",
+              name,
+            );
+            await removeImage(name);
+          })
+          .catch(() => {});
+      }
     }
-  }, 100000);
+  }, 30000);
 };

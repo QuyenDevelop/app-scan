@@ -1,5 +1,5 @@
-import { Button, Text, translate } from "@shared";
-import { Themes } from "@themes";
+import { Button, Icon, Text, translate } from "@shared";
+import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
 import { Modal, View } from "react-native";
 import styles from "./styles";
@@ -29,6 +29,12 @@ export const DeleteModal: FunctionComponent<Props> = props => {
     >
       <View style={styles.container}>
         <View style={styles.content}>
+          <Icon
+            name="ic_delete"
+            size={Metrics.icons.large}
+            color={Themes.colors.brand60}
+            styles={styles.icon}
+          />
           <Text style={styles.message}>{message}</Text>
           <View style={styles.confirm}>
             <Button

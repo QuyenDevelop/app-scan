@@ -3,6 +3,7 @@ import {
   AddServiceShipmentResponse,
   CurrencyResponse,
   CustomerResponse,
+  LocationResponse,
   ModeShipmentResponse,
   ServiceShipmentResponse,
   ShipmentStatusResponse,
@@ -22,6 +23,7 @@ export interface IShipmentInfo {
   shipmentCustomers: Array<CustomerResponse>;
   shipmentCurrencies: Array<CurrencyResponse>;
   shipmentStatus: Array<ShipmentStatusResponse>;
+  shipmentLocations: Array<LocationResponse>;
 }
 
 export const defaultStateShipmentInfo: IShipmentInfo = {
@@ -31,6 +33,7 @@ export const defaultStateShipmentInfo: IShipmentInfo = {
   shipmentCustomers: [],
   shipmentCurrencies: [],
   shipmentStatus: [],
+  shipmentLocations: [],
 };
 export const shipmentInfoReducer: Reducer<IShipmentInfo, UnfoldSagaActionType> =
   (
@@ -65,6 +68,9 @@ export const shipmentInfoReducer: Reducer<IShipmentInfo, UnfoldSagaActionType> =
           ShipmentInfoActionType.GET_ALL_SHIPMENT_STATUS,
         ):
           draftState.shipmentStatus = payload;
+          break;
+        case createActionTypeOnSuccess(ShipmentInfoActionType.GET_ALL_LOCATION):
+          draftState.shipmentLocations = payload;
           break;
         default:
           break;

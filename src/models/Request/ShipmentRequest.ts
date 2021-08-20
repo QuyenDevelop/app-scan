@@ -1,6 +1,7 @@
 export interface ShipmentInfoRequest {
   id: string;
   shipmentNumber: string;
+  referenceNumber: string;
   cargoSPServiceId: string;
   cargoSPServiceCode: string;
   volumetricWeight: number;
@@ -15,6 +16,7 @@ export interface SubShipmentsInfoRequest {
   height: number;
   width: number;
   length: number;
+  locationName?: string;
 }
 
 export interface UpdateAddServiceRequest {

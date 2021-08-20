@@ -23,7 +23,7 @@ export default StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "stretch",
-    backgroundColor: Themes.colors.white,
+    paddingTop: ScreenUtils.calculatorHeight(20),
   },
   generalInfoRow: {
     flexDirection: "row",
@@ -90,11 +90,14 @@ export default StyleSheet.create({
     height: 100,
   },
   serviceInfoContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: ScreenUtils.calculatorWidth(20),
-    paddingVertical: ScreenUtils.calculatorHeight(12),
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    marginHorizontal: ScreenUtils.calculatorWidth(20),
+    padding: ScreenUtils.calculatorHeight(16),
+    backgroundColor: Themes.colors.white,
+    marginBottom: ScreenUtils.calculatorHeight(12),
+    borderRadius: ScreenUtils.calculatorHeight(15),
   },
   infoItem: {
     flexDirection: "column",
@@ -107,9 +110,17 @@ export default StyleSheet.create({
     fontSize: 13,
     color: Themes.colors.textPrimary,
     marginRight: ScreenUtils.calculatorWidth(8),
+    fontWeight: "700",
   },
   button: {
-    marginHorizontal: ScreenUtils.calculatorWidth(10),
+    width: ScreenUtils.calculatorWidth(40),
+    height: ScreenUtils.calculatorWidth(40),
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: Themes.colors.colGray20,
+    borderRadius: ScreenUtils.calculatorWidth(20),
+    marginRight: ScreenUtils.calculatorWidth(12),
   },
   hView: {
     flexDirection: "row",
@@ -177,7 +188,7 @@ export default StyleSheet.create({
     marginVertical: ScreenUtils.calculatorHeight(20),
   },
   bottomModal: {
-    marginBottom: ScreenUtils.calculatorHeight(20),
+    maxHeight: "100%",
   },
   loadingView: {
     justifyContent: "center",
@@ -289,6 +300,22 @@ export default StyleSheet.create({
   optionView: {
     flexDirection: "row",
     alignItems: "center",
-    marginRight: ScreenUtils.calculatorWidth(8),
+    marginTop: ScreenUtils.calculatorHeight(20),
+  },
+  flex1: {
+    flex: 1,
+  },
+  viewImage: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: Themes.colors.colGray20,
+    height: ScreenUtils.calculatorWidth(40),
+    paddingHorizontal: ScreenUtils.calculatorWidth(30),
+    borderRadius: ScreenUtils.calculatorHeight(99),
+  },
+  locationButton: {
+    flexDirection: "row",
+    alignItems: "center",
   },
 });

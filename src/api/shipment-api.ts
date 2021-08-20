@@ -2,6 +2,7 @@ import {
   AllShipmentStatusResponse,
   CompleteAddServiceRequest,
   DeleteSubShipmentRequest,
+  LocationsResponse,
   ScanShipmentCODResponse,
   ScanShipmentResponse,
   ShipmentDetailResponse,
@@ -70,6 +71,10 @@ class ShipmentApi extends BaseApi {
 
   getAllShipmentStatus() {
     return this.get<AllShipmentStatusResponse>("get-status-shipment", {});
+  }
+
+  getLocations() {
+    return this.get<LocationsResponse>("get-locations", {});
   }
 }
 

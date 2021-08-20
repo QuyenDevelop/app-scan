@@ -1,17 +1,12 @@
-import { shipmentApi } from "@api";
 import { Header } from "@components";
 import { SCREENS } from "@configs";
-import { ShipmentAddServiceResponse, ShipmentResponse } from "@models";
+import { useShipmentInfo } from "@hooks";
+import { ShipmentResponse } from "@models";
 import { ShipmentStackParamsList } from "@navigation";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { Text, translate } from "@shared";
 import { Themes } from "@themes";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { ActivityIndicator, useWindowDimensions, View } from "react-native";
 import { TabBar, TabView } from "react-native-tab-view";
 import { AddServicesTab } from "../components/AddServicesTab";
@@ -29,37 +24,18 @@ export interface ShipmentDetailScreenParams {
 }
 
 export const ShipmentDetailScreen: FunctionComponent = () => {
+  useShipmentInfo();
   const navigation = useNavigation();
   const routeNavigation = useRoute<NavigationRoute>();
   const { item } = routeNavigation?.params;
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
-  const [addServices, setAddServices] = useState<
-    Array<ShipmentAddServiceResponse>
-  >([]);
 
   const [routes] = useState([
     { key: "AddServicesTab", title: translate("label.tab.addServicesTab") },
     { key: "GeneralInfoTab", title: translate("label.tab.generalInfoTab") },
     { key: "ContentInfoTab", title: translate("label.tab.contentInfoTab") },
   ]);
-
-  const getShipmentAddServices = useCallback(() => {
-    shipmentApi
-      .getDetailShipment({
-        shipmentId: item.ShipmentId,
-        option: 1,
-      })
-      ?.then(response => {
-        if (response && response.success) {
-          setAddServices(response.data.ShipmentCargoAddServices || []);
-        }
-      });
-  }, [item.ShipmentId]);
-
-  useEffect(() => {
-    getShipmentAddServices();
-  }, [getShipmentAddServices]);
 
   const renderScene = useCallback(
     ({ route }: { route: any }) => {
@@ -82,7 +58,6 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
         case "AddServicesTab":
           return (
             <AddServicesTab
-              addServices={addServices}
               shipmentNumber={item.ShipmentNumber}
               shipmentId={item.ShipmentId}
             />
@@ -92,7 +67,6 @@ export const ShipmentDetailScreen: FunctionComponent = () => {
       }
     },
     [
-      addServices,
       item.CargoSPServiceId,
       item.CargoShippingMethod,
       item.ConsigneeName,

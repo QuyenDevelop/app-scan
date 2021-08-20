@@ -1,4 +1,5 @@
 import { payCodApi, shipmentApi } from "@api";
+import { DATA_CONSTANT } from "@configs";
 import { Alert, ScreenUtils, Utils } from "@helpers";
 import { useShow } from "@hooks";
 import {
@@ -8,7 +9,15 @@ import {
 } from "@models";
 import { useNavigation } from "@react-navigation/native";
 import { IRootState, ShipmentInfoAction } from "@redux";
-import { Button, ConfirmModal, Icon, Text, translate } from "@shared";
+import {
+  Button,
+  ChoosePhotoModal,
+  ConfirmModal,
+  Icon,
+  ImageViewModal,
+  Text,
+  translate,
+} from "@shared";
 import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import {
@@ -46,6 +55,9 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
   const [isConfirmed, setIsConfirmed] = useState<boolean>(item.COD);
   const [isLoadingConfirm, showLoadingConfirm, hideLoadingConfirm] = useShow();
   const [isShowConfirmModal, showConfirmModal, hideConfirmModal] = useShow();
+  const [isShowImages, showImages, hideImages] = useShow();
+  const [isChoosePhotoModal, showChoosePhotoModal, hideChoosePhotoModal] =
+    useShow();
 
   useEffect(() => {
     setCodAmount(item.CODAmount);
@@ -290,16 +302,24 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
           />
         )}
         <View style={styles.optionView}>
-          <TouchableOpacity style={styles.cameraView}>
+          <TouchableOpacity
+            style={styles.cameraView}
+            onPress={showChoosePhotoModal}
+          >
             <Icon
               name="ic_camera_fill"
               size={Metrics.icons.medium}
               color={Themes.colors.bg}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.viewDocumentButton}>
-            <Text>{translate("button.viewDocument")}</Text>
-          </TouchableOpacity>
+          {item.images && item.images.length > 0 && (
+            <TouchableOpacity
+              style={styles.viewDocumentButton}
+              onPress={showImages}
+            >
+              <Text>{translate("button.viewDocument")}</Text>
+            </TouchableOpacity>
+          )}
         </View>
         <CustomerModal
           isShowModal={isShowCustomers}
@@ -319,19 +339,17 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
           message={translate("alert.confirmPayment")}
           onConfirm={onConfirm}
         />
-        {/* {isShowConfirmModal && (
-          <ConfirmPaymentModal
-            isShowModal={isShowConfirmModal}
-            closeModal={hideConfirmModal}
-            shipments={item.shipments}
-            totalCOD={codAmount}
-            customer={customer!}
-            currency={currency!}
-            updateStatus={updateStatus}
-            trackingNumber={item.Id}
-            amountLocal={item.CODAmount}
-          />
-        )} */}
+        <ImageViewModal
+          images={item.images.map(image => image.Url) || []}
+          isVisible={isShowImages}
+          closeModal={hideImages}
+        />
+        <ChoosePhotoModal
+          isShowModal={isChoosePhotoModal}
+          closeModal={hideChoosePhotoModal}
+          prefix={item.Id}
+          suffix={DATA_CONSTANT.SUFFIX_IMAGE.shipmentCod}
+        />
       </View>
     </TouchableWithoutFeedback>
   );

@@ -44,4 +44,8 @@ export default StyleSheet.create({
     alignItems: "center",
     backgroundColor: Themes.colors.transparentBlack,
   },
+  titleRight: {
+    color: Themes.colors.white,
+    fontSize: 16,
+  },
 });

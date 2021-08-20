@@ -131,10 +131,16 @@ const menuItems = [
   },
 ];
 
+const suffixImage = {
+  shipmentAddServices: "shipment_add_service_suffix",
+  shipmentCod: "shipment_cod_suffix",
+};
+
 export const DATA_CONSTANT = {
   SHIPMENT_SERVICE: shipmentService,
   LANGUAGE_CODE: languageCodes,
   SHIPMENT_MODE: shipmentMode,
   HOME_ITEMS: homeItems,
   MENU_ITEMS: menuItems,
+  SUFFIX_IMAGE: suffixImage,
 };

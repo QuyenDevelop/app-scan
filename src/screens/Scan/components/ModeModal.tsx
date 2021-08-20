@@ -1,7 +1,8 @@
-import { BaseBottomSheet, Icon, translate } from "@shared";
+import { ScreenUtils } from "@helpers";
+import { BaseBottomSheet, Icon, Text, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { ModeShipmentResponse } from "src/models/Response/ServiceResponse";
 import styles from "./styles";
 
@@ -18,11 +19,43 @@ export const ModeModal: FunctionComponent<Props> = props => {
       closeModal();
       onSelectMode(mode);
     };
+
+    const getIconName = () => {
+      switch (mode.Code) {
+        case 1:
+          return "ic_plane";
+        case 2:
+          return "ic_ship";
+        case 3:
+          return "ic_truck";
+        default:
+          return "";
+      }
+    };
+
+    const getIconColor = () => {
+      switch (mode.Code) {
+        case 1:
+          return Themes.colors.info60;
+        case 2:
+          return Themes.colors.warningMain;
+        case 3:
+          return Themes.colors.success60;
+        default:
+          return Themes.colors.brand60;
+      }
+    };
     return (
       <TouchableOpacity onPress={selectMode}>
         <View style={styles.serviceSelect}>
-          <View style={styles.checkIcon} />
-          <Text>{mode.Name}</Text>
+          <Icon
+            name={getIconName()}
+            size={Metrics.icons.small}
+            color={getIconColor()}
+          />
+          <Text style={{ marginLeft: ScreenUtils.calculatorWidth(8) }}>
+            {mode.Name}
+          </Text>
         </View>
       </TouchableOpacity>
     );

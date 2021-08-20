@@ -9,6 +9,7 @@ import {
   AddServiceShipmentResponse,
   CurrencyResponse,
   CustomerResponse,
+  LocationResponse,
   ModeShipmentResponse,
   ServiceShipmentResponse,
   ShipmentStatusResponse,
@@ -116,6 +117,22 @@ export function* takeGetAllShipmentStatus({
   );
 }
 
+export function* takeGetAllShipmentLocations({
+  callbacks,
+  type,
+}: UnfoldSagaActionType): Iterable<SagaIterator> {
+  yield unfoldSaga(
+    {
+      handler: async (): Promise<Array<LocationResponse> | []> => {
+        const data = await shipmentApi.getLocations();
+        return data?.data || [];
+      },
+      key: type,
+    },
+    callbacks,
+  );
+}
+
 export default function* shipmentInfoSaga(): SagaIterator {
   yield takeLatest(
     ShipmentInfoActionType.GET_ALL_SHIPMENT_SERVICE,
@@ -134,5 +151,9 @@ export default function* shipmentInfoSaga(): SagaIterator {
   yield takeLatest(
     ShipmentInfoActionType.GET_ALL_SHIPMENT_STATUS,
     takeGetAllShipmentStatus,
+  );
+  yield takeLatest(
+    ShipmentInfoActionType.GET_ALL_LOCATION,
+    takeGetAllShipmentLocations,
   );
 }

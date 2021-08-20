@@ -1,6 +1,6 @@
 import { ScreenUtils } from "@helpers";
 import { useShow } from "@hooks";
-import { SubShipment } from "@models";
+import { LocationResponse, SubShipment } from "@models";
 import { DeleteModal, Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
@@ -12,6 +12,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { LocationModal } from "./LocationModal";
 import styles from "./styles";
 interface Props {
   subShipment: SubShipment;
@@ -30,6 +31,7 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
   } = props;
 
   const [isShowDelete, showDelete, hideDelete] = useShow();
+  const [isShowLocationModal, showLocationModal, hideLocationModal] = useShow();
   const updateWeight = (value: string) => {
     const newWeight = (parseFloat(value) || 0) / 1000;
     updateSubShipment({ ...subShipment, TotalGrossWeight: newWeight }, index);
@@ -51,6 +53,10 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
     deleteSubShipment(index);
   };
 
+  const onSelectLocation = (location: LocationResponse) => {
+    updateSubShipment({ ...subShipment, LocationName: location.Name }, index);
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.subShipmentContainer}>
@@ -59,7 +65,25 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
         </Text>
         <View style={styles.generalInfoRow}>
           <Text style={styles.labelInfo}>{translate("label.location")}</Text>
-          <Text style={styles.contentInfo}>{subShipment.LocationName}</Text>
+          <TouchableOpacity
+            style={styles.locationButton}
+            hitSlop={styles.hitSlop}
+            onPress={showLocationModal}
+          >
+            <Text
+              style={[
+                styles.labelInfo,
+                { marginRight: ScreenUtils.calculatorWidth(8) },
+              ]}
+            >
+              {subShipment.LocationName || translate("label.location")}
+            </Text>
+            <Icon
+              name="ic_arrow_down"
+              size={Metrics.icons.smallSmall}
+              color={Themes.colors.coolGray100}
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.generalInfoRow}>
           <Text style={styles.labelInfo}>
@@ -139,6 +163,11 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
           closeModal={hideDelete}
           message={translate("alert.deleteConfirmation", { index: index + 1 })}
           confirmDelete={onDelete}
+        />
+        <LocationModal
+          isShowModal={isShowLocationModal}
+          closeModal={hideLocationModal}
+          onSelectLocation={onSelectLocation}
         />
       </View>
     </TouchableWithoutFeedback>

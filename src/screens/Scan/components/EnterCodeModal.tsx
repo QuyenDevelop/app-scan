@@ -38,6 +38,7 @@ export const EnterCodeModal: FunctionComponent<Props> = props => {
           </TouchableOpacity>
         </View>
         <TextInput
+          autoFocus={true}
           style={styles.enterCode}
           placeholder={translate("placeholder.scanOrType")}
           placeholderTextColor={Themes.colors.collGray40}

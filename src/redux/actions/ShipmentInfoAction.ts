@@ -16,4 +16,5 @@ export default {
   getAllShipmentStatus: createAction(
     ShipmentInfoActionType.GET_ALL_SHIPMENT_STATUS,
   ),
+  getAllLocation: createAction(ShipmentInfoActionType.GET_ALL_LOCATION),
 };

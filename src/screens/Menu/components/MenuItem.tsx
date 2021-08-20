@@ -2,7 +2,6 @@ import { Icon, Text } from "@shared";
 import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
 import { TouchableOpacity, View } from "react-native";
-import FastImage from "react-native-fast-image";
 import styles from "./styles";
 interface Props {
   title: string;
@@ -16,11 +15,11 @@ const MenuItem: FunctionComponent<Props> = props => {
     <TouchableOpacity onPress={onPress}>
       <View style={styles.menuItem}>
         <View style={styles.leftMenuItem}>
-          <FastImage
+          {/* <FastImage
             source={icon}
             style={styles.iconMenuItem}
             resizeMode={FastImage.resizeMode.cover}
-          />
+          /> */}
           <Text style={styles.titleMenuItem}>{title}</Text>
         </View>
 

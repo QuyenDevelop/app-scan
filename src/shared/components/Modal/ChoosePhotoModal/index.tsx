@@ -1,4 +1,3 @@
-import { DATA_CONSTANT } from "@configs";
 import { goToPhotoLibrary, goToUpload } from "@navigation";
 import { BaseBottomSheet, translate } from "@shared";
 import React, { FunctionComponent } from "react";
@@ -8,34 +7,34 @@ import styles from "./styles";
 interface Props {
   isShowModal: boolean;
   closeModal: () => void;
-  shipment: string;
-  service: string;
+  prefix: string;
+  suffix: string;
 }
-export const PhotoModal: FunctionComponent<Props> = props => {
-  const { isShowModal, closeModal, shipment, service } = props;
+export const ChoosePhotoModal: FunctionComponent<Props> = props => {
+  const { isShowModal, closeModal, prefix, suffix } = props;
   const goToTakePhoto = () => {
     closeModal();
     goToUpload({
-      prefix: `${shipment}_${service}`,
-      suffix: DATA_CONSTANT.SUFFIX_IMAGE.shipmentAddServices,
+      prefix: prefix,
+      suffix: suffix,
     });
   };
 
   const goToLibrary = () => {
     closeModal();
     goToPhotoLibrary({
-      prefix: `${shipment}_${service}`,
-      suffix: DATA_CONSTANT.SUFFIX_IMAGE.shipmentAddServices,
+      prefix: prefix,
+      suffix: suffix,
     });
   };
 
   return (
     <BaseBottomSheet isShowModal={isShowModal} onCloseModal={closeModal}>
       <View style={styles.bottomModal}>
-        <TouchableOpacity style={styles.serviceSelect} onPress={goToTakePhoto}>
+        <TouchableOpacity style={styles.itemSelect} onPress={goToTakePhoto}>
           <Text>{translate("button.takePhoto")}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.serviceSelect} onPress={goToLibrary}>
+        <TouchableOpacity style={styles.itemSelect} onPress={goToLibrary}>
           <Text>{translate("button.chooseLibrary")}</Text>
         </TouchableOpacity>
       </View>

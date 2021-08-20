@@ -35,8 +35,8 @@ type NavigationRoute = RouteProp<
   SCREENS.UPLOAD_SCREEN
 >;
 export interface UploadScreenParams {
-  shipment: string;
-  service: string;
+  prefix: string;
+  suffix: string;
 }
 
 export const UploadScreen: FunctionComponent = () => {
@@ -44,7 +44,7 @@ export const UploadScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const route = useRoute<NavigationRoute>();
-  const { shipment, service } = route?.params;
+  const { prefix, suffix } = route?.params;
   const cameraRef = useRef<RNCamera>(null);
   const [uri, setUri] = useState<string>();
   const [isFlashMode, toggleFlashMode] = useToggle();
@@ -70,7 +70,7 @@ export const UploadScreen: FunctionComponent = () => {
   };
 
   const goToLibrary = () => {
-    goToPhotoLibrary({ shipment: shipment, service: service });
+    goToPhotoLibrary({ prefix: prefix, suffix: suffix });
   };
 
   const uploadPhoto = async () => {
@@ -86,7 +86,7 @@ export const UploadScreen: FunctionComponent = () => {
     const current = new Date().getTime();
     const savePhotos = photos.map((image: string, index: number) => {
       return {
-        name: `${shipment}_${service}_${current}_${index}.jpg`,
+        name: `${prefix}_${current}_${index}_${suffix}.jpg`,
         uri: image,
       };
     });

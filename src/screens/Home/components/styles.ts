@@ -14,8 +14,8 @@ export default StyleSheet.create({
     marginBottom: ScreenUtils.calculatorHeight(8),
   },
   iconHomeItem: {
-    width: ScreenUtils.calculatorWidth(76),
-    height: ScreenUtils.calculatorWidth(76),
+    width: ScreenUtils.calculatorWidth(60),
+    height: ScreenUtils.calculatorWidth(60),
     marginRight: ScreenUtils.calculatorWidth(16),
   },
   contentHomeItem: {

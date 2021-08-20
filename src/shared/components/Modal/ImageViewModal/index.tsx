@@ -1,15 +1,10 @@
 import { Header } from "@components";
 import { useShow } from "@hooks";
-import { ImagesModal, translate } from "@shared";
-import { Themes } from "@themes";
+import { FastImageLoading, ImagesModal, translate } from "@shared";
+import { Images, Themes } from "@themes";
 import React, { FunctionComponent, useState } from "react";
-import {
-  FlatList,
-  Image,
-  Modal,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
+import { FlatList, Modal, TouchableWithoutFeedback, View } from "react-native";
+import FastImage from "react-native-fast-image";
 import styles from "./styles";
 interface OwnProps {
   images: Array<string>;
@@ -31,10 +26,11 @@ export const ImageViewModal: FunctionComponent<Props> = props => {
     return (
       <TouchableWithoutFeedback onPress={() => openView(index)}>
         <View style={styles.imageView}>
-          <Image
+          <FastImageLoading
+            sourceLoading={Images.productDefault}
+            source={{ uri: item || Images.productDefault }}
+            resizeMode={FastImage.resizeMode.cover}
             style={styles.imageLibrary}
-            source={{ uri: item }}
-            resizeMode="cover"
           />
         </View>
       </TouchableWithoutFeedback>

@@ -34,4 +34,8 @@ export default StyleSheet.create({
     width: "95%",
     backgroundColor: Themes.colors.bg,
   },
+  icon: {
+    alignSelf: "center",
+    marginVertical: ScreenUtils.calculatorHeight(12),
+  },
 });

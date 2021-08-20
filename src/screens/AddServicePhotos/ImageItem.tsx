@@ -10,12 +10,13 @@ interface Props {
   id: string;
   uri: string;
   isChecked: boolean;
-  onSelect: (id: string) => void;
+  onSelect: (id: string, index: number) => void;
+  index: number;
 }
 export const ImageItem: FunctionComponent<Props> = props => {
-  const { id, uri, isChecked, onSelect } = props;
+  const { id, uri, isChecked, onSelect, index } = props;
   const onCheck = () => {
-    onSelect(id);
+    onSelect(id, index);
   };
   return (
     <TouchableWithoutFeedback onPress={onCheck}>

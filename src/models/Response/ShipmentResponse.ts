@@ -172,8 +172,14 @@ export interface ShipmentCODResponse {
   CODAmount: number;
   CODAmountPay: number;
   shipments: Array<ShipmentItemCodResponse>;
+  images: Array<ShipmentCodImage>;
 }
 
+export interface ShipmentCodImage {
+  Id: string;
+  Name: string;
+  Url: string;
+}
 export interface ShipmentItemCodResponse {
   ShipmentId: string;
   ShipmentNumber: string;
@@ -215,3 +221,11 @@ export interface ShipmentStatusResponse {
 }
 export interface AllShipmentStatusResponse
   extends BaseResponseEntity<Array<ShipmentStatusResponse>> {}
+
+export interface LocationResponse {
+  Code: number;
+  Name: string;
+  Id: string;
+}
+export interface LocationsResponse
+  extends BaseResponseEntity<Array<LocationResponse>> {}

@@ -8,12 +8,13 @@ import styles from "./styles";
 interface Props {
   uri: string;
   isChecked: boolean;
-  onSelect: (url: string) => void;
+  onSelect: (url: string, index: number) => void;
+  index: number;
 }
 export const ImageItem: FunctionComponent<Props> = props => {
-  const { uri, isChecked, onSelect } = props;
+  const { uri, isChecked, onSelect, index } = props;
   const onCheck = () => {
-    onSelect(uri);
+    onSelect(uri, index);
   };
   return (
     <TouchableWithoutFeedback onPress={onCheck}>

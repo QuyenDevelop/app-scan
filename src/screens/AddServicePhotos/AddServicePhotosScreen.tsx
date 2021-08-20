@@ -1,14 +1,14 @@
 import { shipmentApi } from "@api";
 import { Header } from "@components";
-import { SCREENS } from "@configs";
+import { DATA_CONSTANT, SCREENS } from "@configs";
 import { Alert } from "@helpers";
-import { useShow } from "@hooks";
+import { useShow, useToggle } from "@hooks";
 import { ImagesAddService } from "@models";
 import { goToPhotoLibrary, ShipmentStackParamsList } from "@navigation";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { DeleteModal, Icon, Text, translate } from "@shared";
+import { DeleteModal, Icon, ImagesModal, Text, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -37,13 +37,27 @@ export const AddServicePhotosScreen: FunctionComponent = () => {
   const [photos, setPhotos] = useState<Array<ImagesAddService>>(
     photosService || [],
   );
+  const [photosShow, setPhotosShow] = useState<Array<string>>([]);
   const [photosSelected, setPhotosSelected] = useState<Array<string>>([]);
+  const [isSelectMode, toggleMode] = useToggle();
+  const [isShowImage, showImage, hideImage] = useShow();
+  const [indexShowImage, setIndexShowImage] = useState<number>(0);
+
+  useEffect(() => {
+    setPhotosShow(photos.map(photo => photo.Url));
+  }, [photos]);
 
   const isSelected = (id: string) => {
     return photosSelected.includes(id);
   };
 
-  const onSelect = (id: string) => {
+  const onSelect = (id: string, index: number) => {
+    if (!isSelectMode) {
+      setIndexShowImage(index);
+      showImage();
+      return;
+    }
+
     if (isSelected(id)) {
       setPhotosSelected(images => images.filter(image => image !== id));
     } else {
@@ -51,7 +65,13 @@ export const AddServicePhotosScreen: FunctionComponent = () => {
     }
   };
 
-  const renderItem = ({ item }: { item: ImagesAddService }) => {
+  const renderItem = ({
+    item,
+    index,
+  }: {
+    item: ImagesAddService;
+    index: number;
+  }) => {
     const isCheck = isSelected(item.Id);
     return (
       <ImageItem
@@ -59,12 +79,16 @@ export const AddServicePhotosScreen: FunctionComponent = () => {
         uri={item.Url}
         isChecked={isCheck}
         onSelect={onSelect}
+        index={index}
       />
     );
   };
 
   const goToLibrary = () => {
-    goToPhotoLibrary({ shipment: shipment, service: service });
+    goToPhotoLibrary({
+      prefix: `${shipment}_${service}`,
+      suffix: DATA_CONSTANT.SUFFIX_IMAGE.shipmentAddServices,
+    });
   };
 
   const deletePhotos = () => {
@@ -91,6 +115,11 @@ export const AddServicePhotosScreen: FunctionComponent = () => {
       });
   };
 
+  const changeMode = () => {
+    setPhotosSelected([]);
+    toggleMode();
+  };
+
   return (
     <View style={styles.container}>
       <Header
@@ -99,6 +128,11 @@ export const AddServicePhotosScreen: FunctionComponent = () => {
         iconLeftOnPress={[() => navigation.goBack()]}
         isCenterTitle
         titleColor={Themes.colors.white}
+        titleRight={
+          isSelectMode ? translate("button.cancel") : translate("button.choose")
+        }
+        titleRightStyle={styles.titleRight}
+        titleRightOnPress={changeMode}
       />
       <View style={styles.content}>
         <FlatList
@@ -107,34 +141,37 @@ export const AddServicePhotosScreen: FunctionComponent = () => {
           renderItem={renderItem}
           numColumns={3}
         />
-        <View style={styles.bottomView}>
-          <TouchableOpacity onPress={goToLibrary}>
-            <Icon
-              name="ic_library"
-              size={Metrics.icons.medium}
-              color={Themes.colors.coolGray100}
-            />
-          </TouchableOpacity>
-          <Text>
-            {translate("label.selectedNumber", {
-              number: photosSelected.length,
-            })}
-          </Text>
-          <TouchableOpacity
-            disabled={photosSelected.length === 0}
-            onPress={showDelete}
-          >
-            <Icon
-              name="ic_delete"
-              size={Metrics.icons.medium}
-              color={
-                photosSelected.length > 0
-                  ? Themes.colors.coolGray100
-                  : Themes.colors.collGray40
-              }
-            />
-          </TouchableOpacity>
-        </View>
+        {isSelectMode && (
+          <View style={styles.bottomView}>
+            <TouchableOpacity onPress={goToLibrary}>
+              <Icon
+                name="ic_library"
+                size={Metrics.icons.medium}
+                color={Themes.colors.coolGray100}
+              />
+            </TouchableOpacity>
+            <Text>
+              {translate("label.selectedNumber", {
+                number: photosSelected.length,
+              })}
+            </Text>
+            <TouchableOpacity
+              disabled={photosSelected.length === 0}
+              onPress={showDelete}
+            >
+              <Icon
+                name="ic_delete"
+                size={Metrics.icons.medium}
+                color={
+                  photosSelected.length > 0
+                    ? Themes.colors.coolGray100
+                    : Themes.colors.collGray40
+                }
+              />
+            </TouchableOpacity>
+          </View>
+        )}
+
         {isLoading && (
           <View style={styles.loadingView}>
             <ActivityIndicator color={Themes.colors.white} />
@@ -148,6 +185,13 @@ export const AddServicePhotosScreen: FunctionComponent = () => {
           number: photosSelected.length,
         })}
         confirmDelete={deletePhotos}
+      />
+      <ImagesModal
+        images={photosShow}
+        isVisible={isShowImage}
+        closeModal={hideImage}
+        index={indexShowImage}
+        isLocalImage={true}
       />
     </View>
   );
