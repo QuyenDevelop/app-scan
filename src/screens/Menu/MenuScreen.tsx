@@ -1,6 +1,6 @@
-import { DATA_CONSTANT } from "@configs";
+import { DATA_CONSTANT, SCREENS } from "@configs";
 import { useStatusBar } from "@hooks";
-import { goToHomeScreen } from "@navigation";
+import { useNavigation } from "@react-navigation/native";
 import { AccountAction } from "@redux";
 import { Button, translate } from "@shared";
 import React, { FunctionComponent } from "react";
@@ -14,6 +14,7 @@ import styles from "./styles";
 export const MenuScreen: FunctionComponent = () => {
   useStatusBar("dark-content");
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const onLogout = () => {
     dispatch(
@@ -22,7 +23,12 @@ export const MenuScreen: FunctionComponent = () => {
         {
           onBeginning: () => {},
           onFailure: () => {},
-          onSuccess: goToHomeScreen,
+          onSuccess: () => {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: SCREENS.AUTH_STACK }],
+            });
+          },
         },
       ),
     );

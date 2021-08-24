@@ -1,6 +1,6 @@
 import { ScreenUtils } from "@helpers";
 import { Themes } from "@themes";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
@@ -28,6 +28,11 @@ export default StyleSheet.create({
   searchInput: {
     flex: 1,
     marginLeft: ScreenUtils.calculatorWidth(8),
+    ...Platform.select({
+      android: {
+        paddingVertical: 0,
+      },
+    }),
   },
   customers: {
     marginTop: ScreenUtils.calculatorHeight(24),

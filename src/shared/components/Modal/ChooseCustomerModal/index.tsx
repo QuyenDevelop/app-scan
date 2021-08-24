@@ -47,7 +47,11 @@ export const ChooseCustomerModal: FunctionComponent<Props> = props => {
     return <Item item={item} isSelected={isSelected} onPress={onPress} />;
   };
   return (
-    <Modal visible={isVisible} animationType="slide">
+    <Modal
+      visible={isVisible}
+      animationType="slide"
+      statusBarTranslucent={true}
+    >
       <View style={styles.container}>
         <Header
           title={translate("label.customer")}

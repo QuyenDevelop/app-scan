@@ -8,6 +8,7 @@ export function navigate<T extends object>(name?: string, params?: T) {
     navigationRef.current.navigate(name || "", params);
   }
 }
+
 export function goBack() {
   if (navigationRef?.current?.canGoBack()) {
     navigationRef.current.goBack();

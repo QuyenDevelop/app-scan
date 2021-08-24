@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     height: 48,
     minWidth: ScreenUtils.calculatorWidth(42),
     paddingHorizontal: ScreenUtils.calculatorWidth(27),
-    backgroundColor: Themes.colors.primary,
+    backgroundColor: Themes.colors.bg,
     borderRadius: ScreenUtils.calculatorHeight(24),
   },
 });

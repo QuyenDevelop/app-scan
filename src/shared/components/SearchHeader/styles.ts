@@ -1,6 +1,6 @@
 import { ScreenUtils } from "@helpers";
 import { Themes } from "@themes";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
@@ -19,10 +19,17 @@ export default StyleSheet.create({
     alignItems: "center",
     borderRadius: ScreenUtils.calculatorWidth(20),
     paddingHorizontal: ScreenUtils.calculatorWidth(16),
+    marginVertical: ScreenUtils.calculatorHeight(10),
   },
   searchInput: {
     ...Themes.font.medium,
     flex: 1,
     paddingHorizontal: ScreenUtils.calculatorWidth(8),
+    alignItems: "center",
+    ...Platform.select({
+      android: {
+        paddingVertical: 0,
+      },
+    }),
   },
 });

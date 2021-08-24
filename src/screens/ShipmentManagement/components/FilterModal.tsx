@@ -83,7 +83,11 @@ export const FilterModal: FunctionComponent<Props> = props => {
     closeModal();
   };
   return (
-    <Modal visible={isVisible} animationType="slide">
+    <Modal
+      visible={isVisible}
+      animationType="slide"
+      statusBarTranslucent={true}
+    >
       <View style={[styles.container, { paddingTop: insets.top }]}>
         <View style={styles.headerFilter}>
           <TouchableOpacity onPress={closeModal} style={styles.edgeHeaderItem}>

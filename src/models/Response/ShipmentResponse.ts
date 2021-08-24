@@ -239,7 +239,7 @@ export interface DashboardResponse {
   data: Array<ShipmentItemDashboardResponse>;
 }
 
-export interface ShipmentItemDashboardResponse {
+export interface ShipmentItemDashboardResponse extends ShipmentResponse {
   Id: string;
   ShipmentNumber: string;
   ReferenceNumber: string;

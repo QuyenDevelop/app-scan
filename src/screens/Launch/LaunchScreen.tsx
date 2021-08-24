@@ -49,6 +49,10 @@ export const LaunchScreen: FunctionComponent<Props> = () => {
       AsyncStorage.getItem(CONSTANT.TOKEN_STORAGE_KEY.LANGUAGE),
     ]);
 
+    console.log("🚀🚀🚀 => authenticate => accessToken", accessToken);
+    console.log("🚀🚀🚀 => authenticate => language", language);
+    console.log("🚀🚀🚀 => authenticate => currency", currency);
+
     dispatch(AccountAction.commonConfig());
 
     if (language != null) {
@@ -79,7 +83,6 @@ export const LaunchScreen: FunctionComponent<Props> = () => {
     }
 
     if (accessToken) {
-      console.log("🚀🚀🚀 => authenticate => accessToken", accessToken);
       dispatch(
         AccountAction.userInfo(
           {},
@@ -91,7 +94,7 @@ export const LaunchScreen: FunctionComponent<Props> = () => {
               onContinueFlow();
             },
             onFailure: () => {
-              onContinueFlow();
+              navigation.navigate(SCREENS.AUTH_STACK);
             },
           },
         ),
@@ -101,7 +104,8 @@ export const LaunchScreen: FunctionComponent<Props> = () => {
       if (await checkIsFirstLaunch()) {
         // navigation.navigate(SCREENS.ON_BOARDING);
       } else {
-        onContinueFlow();
+        // onContinueFlow();
+        navigation.navigate(SCREENS.AUTH_STACK);
       }
     }
   };

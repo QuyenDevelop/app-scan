@@ -55,7 +55,6 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
   const [indexShowImage, setIndexShowImage] = useState<number>(0);
 
   const getAllPhotos = useCallback(async () => {
-    console.log("🚀🚀🚀 => getAllPhotos => getAllPhotos");
     if (Platform.OS === "android" && !(await hasAndroidPermission())) {
       return;
     }

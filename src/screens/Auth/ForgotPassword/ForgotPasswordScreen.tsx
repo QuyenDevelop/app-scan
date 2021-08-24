@@ -14,12 +14,10 @@ import {
   Text,
   View,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from "./styles";
 
 export const ForgotPasswordScreen: FunctionComponent = () => {
   useStatusBar("dark-content");
-  const insets = useSafeAreaInsets();
   const navigation = useNavigation<StackNavigationProp<any>>();
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -46,7 +44,7 @@ export const ForgotPasswordScreen: FunctionComponent = () => {
 
   return (
     <View style={styles.container}>
-      <Header isGoBack isEnableChangeLanguage />
+      <Header isGoBack style={styles.header} />
       <KeyboardAvoidingView
         enabled={Platform.OS === "ios"}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -85,7 +83,7 @@ export const ForgotPasswordScreen: FunctionComponent = () => {
             onPress={sendResetPasswordEmail}
             title={translate("button.confirm")}
             isLoading={isLoading}
-            buttonChildStyle={{ width: "100%" }}
+            buttonChildStyle={styles.confirmBtn}
             buttonStyle={styles.button}
           />
         </ScrollView>

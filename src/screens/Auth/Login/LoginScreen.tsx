@@ -1,10 +1,10 @@
-import { Header } from "@components";
+import { Footer } from "@components";
 import { SCREENS } from "@configs";
-import { Alert, ScreenUtils, Utils } from "@helpers";
+import { Alert, Utils } from "@helpers";
 import { useNavigation } from "@react-navigation/native";
 import { AccountAction } from "@redux";
-import { Button, Checkbox, Icon, TextInput, translate } from "@shared";
-import { Metrics, Themes } from "@themes";
+import { Button, Checkbox, TextInput, translate } from "@shared";
+import { Metrics } from "@themes";
 import React, { FunctionComponent, useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -15,6 +15,7 @@ import {
   View,
 } from "react-native";
 import { useDispatch } from "react-redux";
+import Header from "./components/Header";
 import styles from "./styles";
 
 export interface LoginRouteParams {
@@ -46,7 +47,11 @@ export const LoginScreen: FunctionComponent = () => {
             setEmail("");
             setPassword("");
             setIsButtonClickSubmit(false);
-            navigation.goBack();
+            // navigation.goBack();
+            navigation.reset({
+              index: 0,
+              routes: [{ name: SCREENS.HOME_STACK }],
+            });
           },
         },
       ),
@@ -115,12 +120,13 @@ export const LoginScreen: FunctionComponent = () => {
     //   );
     // }
   };
-  const loginWithGoogle = () => {};
-  const loginWithFacebook = () => {};
-  const loginWithApple = () => {};
+  // const loginWithGoogle = () => {};
+  // const loginWithFacebook = () => {};
+  // const loginWithApple = () => {};
   return (
     <View style={styles.container}>
-      <Header isGoBack isEnableChangeLanguage />
+      {/* <Header isGoBack isEnableChangeLanguage /> */}
+      <Header />
       <KeyboardAvoidingView
         enabled={Platform.OS === "ios"}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -131,8 +137,8 @@ export const LoginScreen: FunctionComponent = () => {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <Text style={styles.title}>{translate("label.login")}</Text>
-          <View style={styles.noAccountContainer}>
+          {/* <Text style={styles.title}>{translate("label.login")}</Text> */}
+          {/* <View style={styles.noAccountContainer}>
             <Text style={styles.noAccount}>{translate("label.noAccount")}</Text>
             <TouchableOpacity
               onPress={() => navigation.navigate(SCREENS.REGISTER_SCREEN)}
@@ -141,7 +147,7 @@ export const LoginScreen: FunctionComponent = () => {
                 {translate("button.createAccount")}
               </Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
           <TextInput
             editable={!isLoading}
             label={translate("label.email")}
@@ -202,15 +208,15 @@ export const LoginScreen: FunctionComponent = () => {
             onPress={loginWithEmail}
             title={translate("button.login")}
             isLoading={isLoading}
-            buttonChildStyle={{ width: "100%" }}
+            buttonChildStyle={styles.loginBtn}
             buttonStyle={styles.button}
           />
-          <View style={styles.loginSocialContainer}>
+          {/* <View style={styles.loginSocialContainer}>
             <View style={styles.line} />
             <Text style={styles.orLogin}>{translate("label.orLogin")}</Text>
             <View style={styles.line} />
-          </View>
-          <View style={styles.loginSocialContainer}>
+          </View> */}
+          {/* <View style={styles.loginSocialContainer}>
             <TouchableOpacity
               style={[
                 styles.buttonSocial,
@@ -261,9 +267,10 @@ export const LoginScreen: FunctionComponent = () => {
                 />
               </TouchableOpacity>
             ) : null}
-          </View>
+          </View> */}
         </ScrollView>
       </KeyboardAvoidingView>
+      <Footer />
     </View>
   );
 };

@@ -9,7 +9,7 @@ export default StyleSheet.create({
   },
   childContainer: {
     paddingTop: ScreenUtils.calculatorHeight(18),
-    paddingHorizontal: ScreenUtils.calculatorWidth(10),
+    paddingHorizontal: ScreenUtils.calculatorWidth(20),
   },
   title: {
     ...Themes.font.bold,
@@ -74,5 +74,9 @@ export default StyleSheet.create({
     height: ScreenUtils.calculatorWidth(38),
     borderRadius: ScreenUtils.calculatorWidth(38),
     borderWidth: 2,
+  },
+  loginBtn: {
+    width: "100%",
+    backgroundColor: Themes.colors.bg,
   },
 });
