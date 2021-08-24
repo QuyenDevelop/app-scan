@@ -20,4 +20,6 @@ export interface Account {
   base64_picture?: any;
   city: string;
   country: string;
+  postOfficeId: string;
+  currencyCode: string;
 }

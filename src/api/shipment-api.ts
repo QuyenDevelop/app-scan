@@ -1,7 +1,9 @@
 import {
   AllShipmentStatusResponse,
   CompleteAddServiceRequest,
+  DashboardsResponse,
   DeleteSubShipmentRequest,
+  GetDashboardsRequest,
   LocationsResponse,
   ScanShipmentCODResponse,
   ScanShipmentResponse,
@@ -75,6 +77,10 @@ class ShipmentApi extends BaseApi {
 
   getLocations() {
     return this.get<LocationsResponse>("get-locations", {});
+  }
+
+  getDashboards(request: GetDashboardsRequest) {
+    return this.get<DashboardsResponse>("gets-dashboard-mobile", request);
   }
 }
 

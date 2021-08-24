@@ -1,4 +1,7 @@
+export * from "./ChooseCustomerModal";
 export * from "./ChoosePhotoModal";
+export * from "./ChooseStatusModal";
+export * from "./ChooseTimeModal";
 export * from "./ConfirmModal";
 export * from "./CurrencyModal";
 export * from "./DeleteModal";

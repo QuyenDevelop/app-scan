@@ -7,4 +7,5 @@ export * from "./FastImage/FastImageLoading";
 export * from "./Icon";
 export * from "./Modal";
 export * from "./NoData";
+export * from "./SearchHeader";
 export * from "./TextInput/TextInput";

@@ -8,4 +8,5 @@ export * from "./PhotosNavigator";
 export * from "./RootNavigator";
 export * from "./ScanCodNavigator";
 export * from "./ScanNavigator";
+export * from "./ShipmentManagementNavigator";
 export * from "./ShipmentNavigator";

@@ -100,3 +100,9 @@ export const goToAddServicePhotosScreen = (
     params: routeParams,
   });
 };
+
+export const goToShipmentManagementScreen = () => {
+  NavigationUtils.navigate(SCREENS.SHIPMENT_MANAGEMENT_STACK, {
+    screen: SCREENS.SHIPMENT_MANAGEMENT_SCREEN,
+  });
+};

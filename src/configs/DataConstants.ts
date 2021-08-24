@@ -2,6 +2,7 @@ import {
   goToCheckAndScanScreen,
   goToHomeScreen,
   goToScanCodScreen,
+  goToShipmentManagementScreen,
 } from "@navigation";
 import { Images } from "@themes";
 
@@ -75,7 +76,7 @@ const homeItems = [
     title: "label.homeItems.shipmentManagement.title",
     content: "label.homeItems.shipmentManagement.content",
     icon: Images.shipmentManagement,
-    onPress: () => {},
+    onPress: goToShipmentManagementScreen,
   },
   {
     id: 3,

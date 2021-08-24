@@ -52,3 +52,15 @@ export interface UpdateCodShipmentRequest {
   CODAmountPay: number;
   RefId: string;
 }
+
+export interface GetDashboardsRequest {
+  startDate?: string;
+  endDate?: string;
+  pendingShipment: boolean;
+  status: number;
+  keywords: string;
+  pageIndex: number;
+  pageSize: number;
+  postOfficeToSendId: string;
+  customerId: string;
+}

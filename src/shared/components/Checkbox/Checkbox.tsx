@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { Icon } from "@shared";
 import { Metrics, Themes } from "@themes";
 import * as React from "react";
@@ -21,6 +22,7 @@ interface OwnProps {
   containerStyles?: ViewStyle;
   numberLine?: number;
   isDisable?: boolean;
+  backgroundCheckColor?: string;
 }
 
 type Props = OwnProps;
@@ -35,6 +37,7 @@ export const Checkbox: FunctionComponent<Props> = props => {
     containerStyles,
     numberLine,
     isDisable,
+    backgroundCheckColor,
   } = props;
 
   return (
@@ -47,7 +50,7 @@ export const Checkbox: FunctionComponent<Props> = props => {
           style,
           {
             backgroundColor: checked
-              ? Themes.colors.primary
+              ? backgroundCheckColor ?? Themes.colors.primary
               : Themes.colors.white,
             borderWidth: checked ? 0 : 1,
           },

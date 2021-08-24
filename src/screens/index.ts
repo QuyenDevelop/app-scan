@@ -6,6 +6,7 @@ export * from "./Menu";
 export * from "./Scan";
 export * from "./ScanCOD";
 export * from "./ShipmentDetailCOD";
+export * from "./ShipmentManagement";
 export * from "./ShipmentsScreen";
 export * from "./UpdateCOD";
 export * from "./Upload";

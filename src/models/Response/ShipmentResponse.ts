@@ -229,3 +229,35 @@ export interface LocationResponse {
 }
 export interface LocationsResponse
   extends BaseResponseEntity<Array<LocationResponse>> {}
+
+export interface DashboardsResponse
+  extends BaseResponseEntity<DashboardResponse> {}
+
+export interface DashboardResponse {
+  totalCount: number;
+  groupCount: number;
+  data: Array<ShipmentItemDashboardResponse>;
+}
+
+export interface ShipmentItemDashboardResponse {
+  Id: string;
+  ShipmentNumber: string;
+  ReferenceNumber: string;
+  CustomerName: string;
+  ShipperName: string;
+  ConsigneeName: string;
+  CargoSPServiceId: string;
+  CargoSPServiceCode: string;
+  Status: number;
+  LocationName: string;
+  ExpectedPieces: number;
+  PendingCOD: true;
+  PendingCargoAddService: true;
+  PendingUnknow: false;
+  PendingShipment: true;
+  TotalGrossWeight: number;
+  TotalVolumetricWeight: number;
+  TotalChargeableWeight: number;
+  CreatedOnUtc: string;
+  ProcessedDate: string;
+}

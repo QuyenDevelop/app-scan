@@ -4,7 +4,7 @@ import {
   BottomTabNavigator,
   CheckAndScanStackNavigation,
   HomeStackNavigation,
-  ScanCodStackNavigation,
+  ShipmentManagementStackNavigation,
   ShipmentStackNavigation,
 } from "@navigation";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -21,6 +21,7 @@ export type RootParamList = {
   [SCREENS.HOME_STACK]: undefined;
   [SCREENS.CHECK_AND_SCAN_STACK]: undefined;
   [SCREENS.SCAN_COD_STACK]: undefined;
+  [SCREENS.SHIPMENT_MANAGEMENT_STACK]: undefined;
 };
 
 export function RootNavigator() {
@@ -47,7 +48,7 @@ export function RootNavigator() {
       />
       <RootStack.Screen
         name={SCREENS.SCAN_COD_STACK}
-        component={ScanCodStackNavigation}
+        component={ShipmentManagementStackNavigation}
       />
       <RootStack.Screen
         name={SCREENS.BOTTOM_TAB_NAVIGATION}
@@ -66,6 +67,10 @@ export function RootNavigator() {
       <RootStack.Screen
         name={SCREENS.SHIPMENT_STACK}
         component={ShipmentStackNavigation}
+      />
+      <RootStack.Screen
+        name={SCREENS.SHIPMENT_MANAGEMENT_STACK}
+        component={ShipmentManagementStackNavigation}
       />
     </RootStack.Navigator>
   );

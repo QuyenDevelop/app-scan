@@ -74,6 +74,8 @@ export function* takeGetUserInfo({
 
         if (data) {
           const postOffice = await userPostOfficeApi.getPostOffice(data.sub);
+          data.postOfficeId = postOffice?.IChiba_PostOffice_Id || "";
+          data.currencyCode = postOffice?.IChiba_Currency_Code || "";
           axiosService.setAxiosInstance(
             postOffice?.IChiba_PostOffice_Id || "",
             postOffice?.IChiba_Currency_Code || "",
