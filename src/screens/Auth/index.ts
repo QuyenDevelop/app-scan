@@ -1,3 +1,4 @@
+export * from "./ChangePassword";
 export * from "./ForgotPassword/ForgotPasswordScreen";
 export * from "./ForgotPasswordNotification/ForgotPasswordNotificationScreen";
 export * from "./LockedScreen/LockedScreen";

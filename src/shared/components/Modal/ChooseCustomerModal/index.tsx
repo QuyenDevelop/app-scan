@@ -58,6 +58,7 @@ export const ChooseCustomerModal: FunctionComponent<Props> = props => {
           iconLeftName={["ic_arrow_left"]}
           iconLeftOnPress={[closeModal]}
           isCenterTitle
+          iconLeftColor={[Themes.colors.coolGray100]}
           style={{ backgroundColor: Themes.colors.white }}
         />
         <View style={styles.content}>

@@ -10,3 +10,4 @@ export * from "./ShipmentManagement";
 export * from "./ShipmentsScreen";
 export * from "./UpdateCOD";
 export * from "./Upload";
+export * from "./User";

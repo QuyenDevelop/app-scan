@@ -31,7 +31,7 @@ export const ChooseTimeModal: FunctionComponent<Props> = props => {
       date={date}
       locale={language || "vi-VN"}
       modalStyleIOS={styles.modalIOS}
-      isHeaderVisibleIOS={true}
+      // isHeaderVisibleIOS={true}
       customHeaderIOS={() => (
         <View style={styles.headerBottomSheet}>
           <Text style={styles.qrUserManual}>

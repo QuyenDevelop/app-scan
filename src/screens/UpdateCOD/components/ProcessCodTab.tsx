@@ -79,7 +79,7 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
   useEffect(() => {
     // Get info customer
     const defaultCustomer = shipmentCustomers.find(
-      c => (c.Id = item.CustomerId),
+      c => c.Id === item.CustomerId,
     );
 
     setCustomer(defaultCustomer);
@@ -88,7 +88,7 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
   useEffect(() => {
     // Get list currency
     const defaultCurrency = shipmentCurrencies.find(
-      c => (c.CurrencyCode = item.CurrencyCode),
+      c => c.CurrencyCode === item.CurrencyCode,
     );
 
     setCurrency(defaultCurrency);

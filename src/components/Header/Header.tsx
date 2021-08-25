@@ -151,7 +151,7 @@ export const Header: FunctionComponent<Props> = props => {
     if (iconLeftColor && iconLeftColor[index]) {
       return iconLeftColor[index];
     }
-    return Themes.colors.coolGray;
+    return Themes.colors.white;
   };
 
   const renderLeftIcon = function () {

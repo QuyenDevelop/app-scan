@@ -6,14 +6,7 @@ import { AccountAction } from "@redux";
 import { Button, Checkbox, TextInput, translate } from "@shared";
 import { Metrics } from "@themes";
 import React, { FunctionComponent, useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 import { useDispatch } from "react-redux";
 import Header from "./components/Header";
 import styles from "./styles";
@@ -193,7 +186,7 @@ export const LoginScreen: FunctionComponent = () => {
               }}
               title={translate("button.remember")}
             />
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.forgotPasswordContainer}
               onPress={() =>
                 navigation.navigate(SCREENS.FORGOT_PASSWORD_SCREEN)
@@ -202,7 +195,7 @@ export const LoginScreen: FunctionComponent = () => {
               <Text style={styles.forgotPassword}>
                 {translate("button.forgotPassword")}
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <Button
             onPress={loginWithEmail}

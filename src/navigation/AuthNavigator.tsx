@@ -1,6 +1,7 @@
 import { SCREENS } from "@configs";
 import { createStackNavigator } from "@react-navigation/stack";
 import {
+  ChangePasswordScreen,
   ForgotPasswordNotificationRouteParams,
   ForgotPasswordNotificationScreen,
   ForgotPasswordScreen,
@@ -24,6 +25,7 @@ export type AuthStackParamList = {
   [SCREENS.VERIFICATION_SCREEN]: VerificationRouteParams;
   [SCREENS.FORGOT_PASSWORD_NOTIFICATION_SCREEN]: ForgotPasswordNotificationRouteParams;
   [SCREENS.RESET_PASSWORD_SCREEN]: ResetPasswordRouteParams;
+  [SCREENS.CHANGE_PASSWORD_SCREEN]: undefined;
 };
 const AuthStack = createStackNavigator<AuthStackParamList>();
 
@@ -56,6 +58,10 @@ export function AuthStackNavigation() {
       <AuthStack.Screen
         name={SCREENS.RESET_PASSWORD_SCREEN}
         component={ResetPasswordScreen}
+      />
+      <AuthStack.Screen
+        name={SCREENS.CHANGE_PASSWORD_SCREEN}
+        component={ChangePasswordScreen}
       />
     </AuthStack.Navigator>
   );

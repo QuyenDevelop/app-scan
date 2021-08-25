@@ -32,20 +32,14 @@ class AccountApi extends BaseApi {
     return this.post(url, {}, { email }, true);
   }
 
-  changePassword(
-    email: string,
-    password: string,
-    newPassword: string,
-    confirmPassword: string,
-  ) {
-    let url = `${IDENTITY_HOST}/api/Account/ChangePassword`;
+  changePassword(oldPassword: string, newPassword: string) {
+    let url = `${IDENTITY_HOST}/api/Profile/ChangePassword`;
+    console.log("🚀🚀🚀 => changePassword => url", url);
     return this.post(
       url,
       {
-        email: email,
-        password: password,
+        oldPassword: oldPassword,
         newPassword: newPassword,
-        confirmPassword: confirmPassword,
       },
       {},
       true,
@@ -98,12 +92,12 @@ class AccountApi extends BaseApi {
   }
 
   forgotPassword(email: string) {
-    let url = `${IDENTITY_HOST}/api/Account/ForgotPassword/forgotPassword`;
+    let url = `${IDENTITY_HOST}/Account/ForgotPassword`;
     return this.post(url, { email: email }, {}, true);
   }
 
   resetPassword(newPassword: string, email: string, code: string) {
-    let url = `${IDENTITY_HOST}/api/Account/ResetPassword/resetPassword`;
+    let url = `${IDENTITY_HOST}/Account/ResetPassword`;
     return this.post(
       url,
       { email: email, code: code, password: newPassword },

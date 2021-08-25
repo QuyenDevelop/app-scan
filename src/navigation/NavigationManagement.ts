@@ -106,3 +106,21 @@ export const goToShipmentManagementScreen = () => {
     screen: SCREENS.SHIPMENT_MANAGEMENT_SCREEN,
   });
 };
+
+export const goToUserInformationScreen = () => {
+  NavigationUtils.navigate(SCREENS.HOME_STACK, {
+    screen: SCREENS.USER_INFORMATION_SCREEN,
+  });
+};
+
+export const goToChangePasswordScreen = () => {
+  NavigationUtils.navigate(SCREENS.AUTH_STACK, {
+    screen: SCREENS.CHANGE_PASSWORD_SCREEN,
+  });
+};
+
+export const goToForgotPasswordScreen = () => {
+  NavigationUtils.navigate(SCREENS.AUTH_STACK, {
+    screen: SCREENS.FORGOT_PASSWORD_SCREEN,
+  });
+};

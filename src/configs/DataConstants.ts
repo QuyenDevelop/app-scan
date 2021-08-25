@@ -3,6 +3,7 @@ import {
   goToHomeScreen,
   goToScanCodScreen,
   goToShipmentManagementScreen,
+  goToUserInformationScreen,
 } from "@navigation";
 import { Images } from "@themes";
 
@@ -110,7 +111,7 @@ const menuItems = [
     id: 3,
     title: "label.menuItem.shipmentManagement",
     icon: Images.icMenuShipmentManage,
-    onPress: () => {},
+    onPress: goToShipmentManagementScreen,
   },
   {
     id: 4,
@@ -128,7 +129,7 @@ const menuItems = [
     id: 6,
     title: "label.menuItem.userInfo",
     icon: Images.icMenuUser,
-    onPress: () => {},
+    onPress: goToUserInformationScreen,
   },
 ];
 

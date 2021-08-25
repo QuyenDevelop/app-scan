@@ -217,7 +217,7 @@ export interface ScanShipmentCODResponse
 export interface ShipmentStatusResponse {
   Code: number;
   Name: string;
-  Id: string;
+  Id: string | null;
 }
 export interface AllShipmentStatusResponse
   extends BaseResponseEntity<Array<ShipmentStatusResponse>> {}

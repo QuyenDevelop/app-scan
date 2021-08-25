@@ -1,6 +1,6 @@
 import { authApi } from "@api";
-import { CONSTANT } from "@configs";
-import { Utils } from "@helpers";
+import { CONSTANT, SCREENS } from "@configs";
+import { NavigationUtils, Utils } from "@helpers";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios, { AxiosInstance } from "axios";
 import i18n from "i18n-js";
@@ -70,6 +70,7 @@ class AxiosService {
                   resolve(self.axiosInstance?.(originalRequest));
                 })
                 .catch(err => {
+                  NavigationUtils.navigate(SCREENS.AUTH_STACK);
                   this.processQueue(err);
                   reject(err);
                 })
@@ -78,6 +79,7 @@ class AxiosService {
                 });
             });
           }
+          NavigationUtils.navigate(SCREENS.AUTH_STACK);
           return Promise.reject(error);
         }
         return Promise.reject(error);

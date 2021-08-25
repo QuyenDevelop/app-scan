@@ -1,11 +1,12 @@
 import { SCREENS } from "@configs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { HomeScreen, MenuScreen } from "@screens";
+import { HomeScreen, MenuScreen, UserInformationScreen } from "@screens";
 import React from "react";
 
 export type HomeStackParamsList = {
   [SCREENS.HOME_SCREEN]: undefined;
   [SCREENS.MENU_SCREEN]: undefined;
+  [SCREENS.USER_INFORMATION_SCREEN]: undefined;
 };
 
 const HomeStackNavigator = createStackNavigator<HomeStackParamsList>();
@@ -17,7 +18,6 @@ export function HomeStackNavigation() {
       screenOptions={{
         headerShown: false,
       }}
-      mode="modal"
     >
       <HomeStackNavigator.Screen
         name={SCREENS.HOME_SCREEN}
@@ -26,6 +26,10 @@ export function HomeStackNavigation() {
       <HomeStackNavigator.Screen
         name={SCREENS.MENU_SCREEN}
         component={MenuScreen}
+      />
+      <HomeStackNavigator.Screen
+        name={SCREENS.USER_INFORMATION_SCREEN}
+        component={UserInformationScreen}
       />
     </HomeStackNavigator.Navigator>
   );

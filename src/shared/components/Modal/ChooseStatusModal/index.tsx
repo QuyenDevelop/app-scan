@@ -22,7 +22,7 @@ export const ChooseStatusModal: FunctionComponent<Props> = props => {
   const { isVisible, status, closeModal, selectStatus } = props;
   const allStatus = useSelector(
     (state: IRootState) => state.shipmentInfo.shipmentStatus,
-  ) as Array<ShipmentStatusResponse>;
+  );
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [itemFilter, setItemsFilter] = useState<Array<ShipmentStatusResponse>>(
@@ -40,7 +40,7 @@ export const ChooseStatusModal: FunctionComponent<Props> = props => {
   }, [allStatus, searchValue]);
 
   const customerKeyExtractor = (item: ShipmentStatusResponse) =>
-    item.Code.toString();
+    `${item.Code}_${item.Name}`;
   const renderItem = ({ item }: { item: ShipmentStatusResponse }) => {
     const isSelected = item.Code === status?.Code;
     const onPress = (customerSelected: ShipmentStatusResponse) => {
@@ -61,6 +61,7 @@ export const ChooseStatusModal: FunctionComponent<Props> = props => {
           iconLeftName={["ic_arrow_left"]}
           iconLeftOnPress={[closeModal]}
           isCenterTitle
+          iconLeftColor={[Themes.colors.coolGray100]}
           style={{ backgroundColor: Themes.colors.white }}
         />
         <View style={styles.content}>

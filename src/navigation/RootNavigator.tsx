@@ -4,6 +4,7 @@ import {
   BottomTabNavigator,
   CheckAndScanStackNavigation,
   HomeStackNavigation,
+  ScanCodStackNavigation,
   ShipmentManagementStackNavigation,
   ShipmentStackNavigation,
 } from "@navigation";
@@ -48,7 +49,7 @@ export function RootNavigator() {
       />
       <RootStack.Screen
         name={SCREENS.SCAN_COD_STACK}
-        component={ShipmentManagementStackNavigation}
+        component={ScanCodStackNavigation}
       />
       <RootStack.Screen
         name={SCREENS.BOTTOM_TAB_NAVIGATION}

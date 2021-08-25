@@ -177,7 +177,7 @@ export const ShipmentManagementScreen: FunctionComponent = () => {
 
   const renderItem = useCallback(
     ({ item }: { item: ShipmentItemDashboardResponse }) => {
-      const status = allStatus.find(st => (st.Code = item.Status));
+      const status = allStatus.find(st => st.Code === item.Status);
       return <ShipmentItem item={item} statusName={status?.Name} />;
     },
     [allStatus],

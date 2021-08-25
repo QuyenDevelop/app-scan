@@ -1,44 +1,26 @@
+/* eslint-disable react-native/no-inline-styles */
 import { accountApi } from "@api";
 import { Header } from "@components";
 import { SCREENS } from "@configs";
 import { Alert, Utils } from "@helpers";
 import { useStatusBar } from "@hooks";
-import { AuthStackParamList } from "@navigation";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
+import { AccountAction } from "@redux";
 import { Button, TextInput, translate } from "@shared";
-import { Metrics } from "@themes";
+import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent, useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
+import { useDispatch } from "react-redux";
 import styles from "./styles";
-
-export interface ResetPasswordRouteParams {
-  code?: string;
-  email?: string;
-}
-
-interface OwnProps {}
-
-type Props = OwnProps;
-
-type NavigationRoute = RouteProp<
-  AuthStackParamList,
-  SCREENS.RESET_PASSWORD_SCREEN
->;
-
-export const ResetPasswordScreen: FunctionComponent<Props> = () => {
-  useStatusBar("dark-content");
-  const navigation = useNavigation<StackNavigationProp<any>>();
-  const route = useRoute<NavigationRoute>();
-
+export const ChangePasswordScreen: FunctionComponent = () => {
+  useStatusBar("light-content");
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [isButtonClickSubmit, setIsButtonClickSubmit] = useState(false);
+
+  const [oldPassword, setOldPassword] = useState("");
+  const [isPasswordSecure, setIsPasswordSecure] = useState(true);
 
   const [newPassword, setNewPassword] = useState("");
   const [isNewPasswordSecure, setIsNewPasswordSecure] = useState(true);
@@ -46,35 +28,55 @@ export const ResetPasswordScreen: FunctionComponent<Props> = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isConfirmPasswordSecure, setIsConfirmPasswordSecure] = useState(true);
 
-  const { email, code } = route?.params || {};
-
-  const resetPassword = () => {
+  const changePassword = () => {
     setIsButtonClickSubmit(true);
-    setIsLoading(true);
     if (
+      Utils.isValidPassword(oldPassword) &&
       Utils.isValidPassword(newPassword) &&
       Utils.isValidPassword(confirmPassword) &&
       Utils.isMatchPassword(newPassword, confirmPassword)
     ) {
-      email &&
-        code &&
-        accountApi
-          .resetPassword(confirmPassword, email, code)
-          ?.then(() => {
+      setIsLoading(true);
+      accountApi
+        .changePassword(oldPassword, newPassword)
+        ?.then(response => {
+          if (response.succeeded === true) {
             Alert.success("success.changePassword");
-            navigation.navigate(SCREENS.LOGIN_SCREEN);
-          })
-          .catch(err => Alert.error(err.detail, true))
-          .finally(() => setIsLoading(false));
+            dispatch(
+              AccountAction.logout(
+                {},
+                {
+                  onFailure: (err: any) => {
+                    Alert.error(err, true);
+                    setIsLoading(false);
+                  },
+                  onSuccess: () => {
+                    navigation.navigate(SCREENS.AUTH_STACK, {
+                      screen: SCREENS.LOGIN_SCREEN,
+                    });
+                  },
+                },
+              ),
+            );
+          } else {
+            Alert.error(response.error, true);
+          }
+        })
+        .catch(err => Alert.error(err.detail, true))
+        .finally(() => setIsLoading(false));
+    } else {
+      Alert.error("Lỗi", true);
     }
   };
 
   return (
     <View style={styles.container}>
       <Header
-        onGoBack={() => navigation.navigate(SCREENS.BOTTOM_TAB_NAVIGATION)}
-        isGoBack
-        isEnableChangeLanguage
+        title={translate("screens.changePassword")}
+        iconLeftName={["ic_arrow_left"]}
+        iconLeftOnPress={[() => navigation.goBack()]}
+        isCenterTitle
+        titleColor={Themes.colors.white}
       />
       <KeyboardAvoidingView
         enabled={Platform.OS === "ios"}
@@ -86,11 +88,29 @@ export const ResetPasswordScreen: FunctionComponent<Props> = () => {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <Text style={styles.title}>{translate("label.resetPassword")}</Text>
           <TextInput
             editable={!isLoading}
             label={translate("label.password")}
             placeholder={translate("placeholder.password")}
+            returnKeyType="next"
+            containerStyle={styles.input}
+            value={oldPassword}
+            onChangeText={(text: string) => setOldPassword(text)}
+            isRequired
+            secureTextEntry={isPasswordSecure}
+            iconRightName={isPasswordSecure ? "ic_eye" : "ic_eye_slash"}
+            iconRightSize={Metrics.icons.smallSmall}
+            onPressIconRight={() => setIsPasswordSecure(!isPasswordSecure)}
+            errorMessage={
+              isButtonClickSubmit && !Utils.isValidPassword(oldPassword)
+                ? translate("error.validation.password")
+                : ""
+            }
+          />
+          <TextInput
+            editable={!isLoading}
+            label={translate("label.newPassword")}
+            placeholder={translate("placeholder.newPassword")}
             returnKeyType="next"
             containerStyle={styles.input}
             value={newPassword}
@@ -110,8 +130,8 @@ export const ResetPasswordScreen: FunctionComponent<Props> = () => {
           />
           <TextInput
             editable={!isLoading}
-            label={translate("label.confirmPassword")}
-            placeholder={translate("placeholder.confirmPassword")}
+            label={translate("label.confirmNewPassword")}
+            placeholder={translate("placeholder.confirmNewPassword")}
             returnKeyType="next"
             containerStyle={styles.input}
             value={confirmPassword}
@@ -131,12 +151,20 @@ export const ResetPasswordScreen: FunctionComponent<Props> = () => {
           />
           <Button
             // onPress={signUp}
-            onPress={() => resetPassword()}
+            onPress={() => changePassword()}
             title={translate("button.confirm")}
             isLoading={isLoading}
             buttonChildStyle={{ width: "100%" }}
             buttonStyle={styles.button}
           />
+          {/* <TouchableOpacity
+            style={styles.forgotPasswordBtn}
+            onPress={goToForgotPasswordScreen}
+          >
+            <Text style={styles.forgotPasswordTextBtn}>
+              {translate("button.forgotPassword")}
+            </Text>
+          </TouchableOpacity> */}
         </ScrollView>
       </KeyboardAvoidingView>
     </View>
