@@ -14,7 +14,7 @@ import {
   createActionTypeOnSuccess,
   UnfoldSagaActionType,
 } from "redux-unfold-saga";
-import { ShipmentInfoActionType } from "../types";
+import { AccountActionType, ShipmentInfoActionType } from "../types";
 
 export interface IShipmentInfo {
   shipmentServices: Array<ServiceShipmentResponse>;
@@ -71,6 +71,9 @@ export const shipmentInfoReducer: Reducer<IShipmentInfo, UnfoldSagaActionType> =
           break;
         case createActionTypeOnSuccess(ShipmentInfoActionType.GET_ALL_LOCATION):
           draftState.shipmentLocations = payload;
+          break;
+        case createActionTypeOnSuccess(AccountActionType.LOGOUT):
+          draftState.shipmentLocations = [];
           break;
         default:
           break;

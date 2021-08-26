@@ -1,6 +1,6 @@
 import { authApi } from "@api";
 import { CONSTANT, SCREENS } from "@configs";
-import { NavigationUtils, Utils } from "@helpers";
+import { getAsyncItem, NavigationUtils, Utils } from "@helpers";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios, { AxiosInstance } from "axios";
 import i18n from "i18n-js";
@@ -94,6 +94,14 @@ class AxiosService {
           AsyncStorage.getItem(CONSTANT.TOKEN_STORAGE_KEY.ACCESS_TOKEN),
           AsyncStorage.getItem(CONSTANT.TOKEN_STORAGE_KEY.TOKEN_TYPE),
         ]);
+
+        const postoffice_id = await getAsyncItem(
+          CONSTANT.TOKEN_STORAGE_KEY.ICHIBA_POSTOFFICE_ID,
+        );
+        const currency_code = await getAsyncItem(
+          CONSTANT.TOKEN_STORAGE_KEY.ICHIBA_CURRENCY_CODE,
+        );
+
         if (access_token) {
           if (String(request.url).includes(CONSTANT.REVOKE_TOKEN_ENDPOINT)) {
             request.headers.Authorization = `Basic ${Base64.encode(
@@ -105,6 +113,8 @@ class AxiosService {
             } ${access_token}`;
           }
         }
+        request.headers["IChiba-PostOffice-id"] = postoffice_id || "";
+        request.headers["IChiba-Currency-Code"] = currency_code || "";
         return request;
       },
       error => Promise.reject(error),
@@ -124,18 +134,6 @@ class AxiosService {
     });
     this.failedQueue = [];
   };
-
-  setAxiosInstance(ichibaPostOfficeId: string, ichibaCurrencyCode: string) {
-    this.axiosInstance?.interceptors.request.use(
-      async request => {
-        request.headers["IChiba-PostOffice-id"] = ichibaPostOfficeId;
-        request.headers["IChiba-Currency-Code"] = ichibaCurrencyCode;
-
-        return request;
-      },
-      error => Promise.reject(error),
-    );
-  }
 
   getAxiosInstance(): AxiosInstance | undefined {
     return this.axiosInstance;

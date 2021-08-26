@@ -34,7 +34,6 @@ class AccountApi extends BaseApi {
 
   changePassword(oldPassword: string, newPassword: string) {
     let url = `${IDENTITY_HOST}/api/Profile/ChangePassword`;
-    console.log("🚀🚀🚀 => changePassword => url", url);
     return this.post(
       url,
       {

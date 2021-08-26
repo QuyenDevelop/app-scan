@@ -188,7 +188,7 @@ export default StyleSheet.create({
     marginVertical: ScreenUtils.calculatorHeight(20),
   },
   bottomModal: {
-    maxHeight: "100%",
+    height: "100%",
   },
   loadingView: {
     justifyContent: "center",

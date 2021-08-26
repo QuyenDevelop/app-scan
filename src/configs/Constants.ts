@@ -18,6 +18,8 @@ export const CONSTANT = {
     LANGUAGE: "language",
     ANONYMOUS_ID: "ANONYMOUS_ID",
     UPLOAD_IMAGES: "upload_images",
+    ICHIBA_POSTOFFICE_ID: "IChiba-PostOffice-id",
+    ICHIBA_CURRENCY_CODE: "IChiba-Currency-Code",
   },
   REVOKE_TOKEN_ENDPOINT: "revocation",
   EVENT_KEY: {

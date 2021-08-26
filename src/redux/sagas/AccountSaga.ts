@@ -1,6 +1,6 @@
-import { authApi, axiosService, userPostOfficeApi } from "@api";
+import { authApi, userPostOfficeApi } from "@api";
 import { CONSTANT } from "@configs";
-import { Utils } from "@helpers";
+import { setAsyncItem, Utils } from "@helpers";
 import { Account } from "@models";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { onChangeLanguage } from "@shared";
@@ -41,13 +41,26 @@ export function* takeLogout({
   yield unfoldSaga(
     {
       handler: async (): Promise<boolean> => {
-        const [accessToken] = await Promise.all([
+        const [accessToken, refreshToken] = await Promise.all([
           AsyncStorage.getItem(CONSTANT.TOKEN_STORAGE_KEY.ACCESS_TOKEN),
-          // AsyncStorage.getItem(CONSTANT.TOKEN_STORAGE_KEY.REFRESH_TOKEN),
+          AsyncStorage.getItem(CONSTANT.TOKEN_STORAGE_KEY.REFRESH_TOKEN),
         ]);
-        await authApi.revokeToken(accessToken);
 
-        await AsyncStorage.removeItem(CONSTANT.TOKEN_STORAGE_KEY.ACCESS_TOKEN);
+        await Promise.all([
+          authApi.revokeToken(accessToken),
+          authApi.revokeToken(refreshToken),
+        ]);
+
+        await Promise.all([
+          AsyncStorage.removeItem(CONSTANT.TOKEN_STORAGE_KEY.ACCESS_TOKEN),
+          AsyncStorage.removeItem(CONSTANT.TOKEN_STORAGE_KEY.REFRESH_TOKEN),
+          AsyncStorage.removeItem(
+            CONSTANT.TOKEN_STORAGE_KEY.ICHIBA_POSTOFFICE_ID,
+          ),
+          AsyncStorage.removeItem(
+            CONSTANT.TOKEN_STORAGE_KEY.ICHIBA_CURRENCY_CODE,
+          ),
+        ]);
 
         // GoogleSignin.configure({
         //   webClientId: GOOGLE_CLIENT_ID,
@@ -76,8 +89,12 @@ export function* takeGetUserInfo({
           const postOffice = await userPostOfficeApi.getPostOffice(data.sub);
           data.postOfficeId = postOffice?.IChiba_PostOffice_Id || "";
           data.currencyCode = postOffice?.IChiba_Currency_Code || "";
-          axiosService.setAxiosInstance(
+          await setAsyncItem(
+            CONSTANT.TOKEN_STORAGE_KEY.ICHIBA_POSTOFFICE_ID,
             postOffice?.IChiba_PostOffice_Id || "",
+          );
+          await setAsyncItem(
+            CONSTANT.TOKEN_STORAGE_KEY.ICHIBA_CURRENCY_CODE,
             postOffice?.IChiba_Currency_Code || "",
           );
         }

@@ -1,5 +1,5 @@
 import { DATA_CONSTANT, SCREENS } from "@configs";
-import { useStatusBar } from "@hooks";
+import { useShow, useStatusBar } from "@hooks";
 import { useNavigation } from "@react-navigation/native";
 import { AccountAction } from "@redux";
 import { Button, translate } from "@shared";
@@ -16,14 +16,20 @@ export const MenuScreen: FunctionComponent = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [isLoading, showLoading, hideLoading] = useShow();
+
   const onLogout = () => {
+    showLoading();
     dispatch(
       AccountAction.logout(
         {},
         {
           onBeginning: () => {},
-          onFailure: () => {},
+          onFailure: () => {
+            hideLoading();
+          },
           onSuccess: () => {
+            hideLoading();
             navigation.reset({
               index: 0,
               routes: [{ name: SCREENS.AUTH_STACK }],
@@ -53,6 +59,7 @@ export const MenuScreen: FunctionComponent = () => {
           onPress={onLogout}
           buttonChildStyle={styles.logoutButton}
           titleStyle={styles.logoutButtonTitle}
+          isLoading={isLoading}
         />
       </ScrollView>
     </View>

@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import { shipmentApi } from "@api";
 import { Alert, Utils } from "@helpers";
-import { useShow } from "@hooks";
+import { useShipmentInfo, useShow } from "@hooks";
 import { GetDashboardsRequest, ShipmentItemDashboardResponse } from "@models";
 import { IRootState } from "@redux";
 import { Checkbox, Icon, NoData, SearchHeader, Text, translate } from "@shared";
@@ -28,6 +28,7 @@ import { ShipmentItem } from "./components/ShipmentItem";
 import styles from "./styles";
 
 export const ShipmentManagementScreen: FunctionComponent = () => {
+  useShipmentInfo();
   const insets = useSafeAreaInsets();
   const [isShowFilter, showFilter, hideFilter] = useShow();
   const allStatus = useSelector(
@@ -242,7 +243,7 @@ export const ShipmentManagementScreen: FunctionComponent = () => {
             keyboardDismissMode="on-drag"
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
-            onEndReachedThreshold={0.8}
+            onEndReachedThreshold={0.6}
             onEndReached={loadMoreData}
             refreshControl={
               <RefreshControl refreshing={isReLoading} onRefresh={onRefresh} />

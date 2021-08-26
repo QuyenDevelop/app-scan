@@ -1,10 +1,10 @@
 import { Header } from "@components";
 import { useShipmentInfo } from "@hooks";
 import { ShipmentStatusResponse } from "@models";
-import { IRootState } from "@redux";
+import { selectorAllStatus } from "@redux";
 import { Icon, Text, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { FlatList, Modal, TextInput, View } from "react-native";
 import { useSelector } from "react-redux";
 import { Item } from "./Item";
@@ -20,24 +20,8 @@ interface Props {
 export const ChooseStatusModal: FunctionComponent<Props> = props => {
   useShipmentInfo();
   const { isVisible, status, closeModal, selectStatus } = props;
-  const allStatus = useSelector(
-    (state: IRootState) => state.shipmentInfo.shipmentStatus,
-  );
-
   const [searchValue, setSearchValue] = useState<string>("");
-  const [itemFilter, setItemsFilter] = useState<Array<ShipmentStatusResponse>>(
-    [],
-  );
-
-  useEffect(() => {
-    setItemsFilter(
-      allStatus.filter(item =>
-        item.Name.trim()
-          .toLowerCase()
-          .includes(searchValue.trim().toLowerCase()),
-      ),
-    );
-  }, [allStatus, searchValue]);
+  const allStatus = useSelector(selectorAllStatus(searchValue));
 
   const customerKeyExtractor = (item: ShipmentStatusResponse) =>
     `${item.Code}_${item.Name}`;
@@ -80,7 +64,7 @@ export const ChooseStatusModal: FunctionComponent<Props> = props => {
             />
           </View>
           <FlatList
-            data={itemFilter}
+            data={allStatus}
             keyExtractor={customerKeyExtractor}
             renderItem={renderItem}
             style={styles.customers}
