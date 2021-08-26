@@ -62,4 +62,28 @@ export default StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
   },
+  serviceSelect: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    paddingVertical: ScreenUtils.calculatorHeight(16),
+    borderBottomWidth: 1,
+    borderBottomColor: Themes.colors.colGray20,
+    marginHorizontal: ScreenUtils.calculatorWidth(20),
+  },
+  bottomModal: {
+    maxHeight: "100%",
+    paddingBottom: ScreenUtils.calculatorHeight(10),
+  },
+  qrUserManual: {
+    fontSize: 18,
+    fontWeight: "600",
+  },
+  headerBottomSheet: {
+    paddingHorizontal: ScreenUtils.calculatorWidth(20),
+    paddingVertical: ScreenUtils.calculatorHeight(10),
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 });

@@ -58,7 +58,7 @@ export const ShipmentItem: FunctionComponent<Props> = props => {
           <View style={styles.iconShipment}>
             <Icon
               name="ic_calendar"
-              size={Metrics.icons.small}
+              size={Metrics.icons.smallSmall}
               color={Themes.colors.coolGray60}
             />
           </View>
@@ -71,7 +71,7 @@ export const ShipmentItem: FunctionComponent<Props> = props => {
           <View style={styles.iconShipment}>
             <Icon
               name="ic_calendar"
-              size={Metrics.icons.small}
+              size={Metrics.icons.smallSmall}
               color={Themes.colors.coolGray60}
             />
           </View>
@@ -84,7 +84,7 @@ export const ShipmentItem: FunctionComponent<Props> = props => {
           <View style={styles.iconShipment}>
             <Icon
               name="ic_weight"
-              size={Metrics.icons.small}
+              size={Metrics.icons.smallSmall}
               color={Themes.colors.coolGray60}
             />
           </View>
@@ -97,7 +97,7 @@ export const ShipmentItem: FunctionComponent<Props> = props => {
           <View style={styles.iconShipment}>
             <Icon
               name="ic_customer"
-              size={Metrics.icons.small}
+              size={Metrics.icons.smallSmall}
               color={Themes.colors.coolGray60}
             />
           </View>
@@ -109,7 +109,7 @@ export const ShipmentItem: FunctionComponent<Props> = props => {
           <View style={styles.iconShipment}>
             <Icon
               name="ic_location_1"
-              size={Metrics.icons.small}
+              size={Metrics.icons.smallSmall}
               color={Themes.colors.coolGray60}
             />
           </View>
@@ -121,7 +121,7 @@ export const ShipmentItem: FunctionComponent<Props> = props => {
           <View style={styles.iconShipment}>
             <Icon
               name="ic_status"
-              size={Metrics.icons.small}
+              size={Metrics.icons.smallSmall}
               color={Themes.colors.coolGray60}
             />
           </View>

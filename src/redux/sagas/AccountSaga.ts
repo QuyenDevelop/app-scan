@@ -1,7 +1,7 @@
 import { authApi, userPostOfficeApi } from "@api";
 import { CONSTANT } from "@configs";
 import { setAsyncItem, Utils } from "@helpers";
-import { Account } from "@models";
+import { Account, PostOfficeItemResponse } from "@models";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { onChangeLanguage } from "@shared";
 import { AuthorizeResult } from "@types";
@@ -82,13 +82,17 @@ export function* takeGetUserInfo({
 }: UnfoldSagaActionType): Iterable<SagaIterator> {
   yield unfoldSaga(
     {
-      handler: async (): Promise<Account | undefined> => {
+      handler: async (): Promise<{
+        account: Account | undefined;
+        postOffices: Array<PostOfficeItemResponse>;
+      }> => {
         const data = await authApi.getUserInfo();
-
+        let postOffices: Array<PostOfficeItemResponse> = [];
         if (data) {
           const postOffice = await userPostOfficeApi.getPostOffice(data.sub);
           data.postOfficeId = postOffice?.IChiba_PostOffice_Id || "";
           data.currencyCode = postOffice?.IChiba_Currency_Code || "";
+          postOffices = postOffice?.data || [];
           await setAsyncItem(
             CONSTANT.TOKEN_STORAGE_KEY.ICHIBA_POSTOFFICE_ID,
             postOffice?.IChiba_PostOffice_Id || "",
@@ -99,7 +103,7 @@ export function* takeGetUserInfo({
           );
         }
 
-        return data;
+        return { account: data, postOffices: postOffices };
       },
       key: type,
     },

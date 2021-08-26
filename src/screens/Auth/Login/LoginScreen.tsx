@@ -52,66 +52,34 @@ export const LoginScreen: FunctionComponent = () => {
     // hideLoading();
   };
   const loginWithEmail = () => {
-    // setIsButtonClickSubmit(true);
-    setIsLoading(true);
-    dispatch(
-      AccountAction.login(
-        { email: email, password: password },
-        {
-          onFailure: (err: any) => {
-            if (err && err.locked) {
-              navigation.navigate(SCREENS.LOCKED_SCREEN, {
-                countDown: err.error_description || "0",
-              });
-            } else {
-              Alert.error(
-                err.error_description || translate("error.generic"),
-                true,
-              );
-            }
-            setIsLoading(false);
+    setIsButtonClickSubmit(true);
+    if (Utils.isValidPassword(password)) {
+      setIsLoading(true);
+      dispatch(
+        AccountAction.login(
+          { email: email, password: password },
+          {
+            onFailure: (err: any) => {
+              if (err && err.locked) {
+                navigation.navigate(SCREENS.LOCKED_SCREEN, {
+                  countDown: err.error_description || "0",
+                });
+              } else {
+                Alert.error(
+                  err.error_description || translate("error.generic"),
+                  true,
+                );
+              }
+              setIsLoading(false);
+            },
+            onSuccess: () => {
+              setIsLoading(false);
+              getUserInformation();
+            },
           },
-          onSuccess: () => {
-            setIsLoading(false);
-            // navigation.goBack();
-            // if (deviceId) {
-            //   customerApi.updateDeviceId(deviceId);
-            // }
-            getUserInformation();
-          },
-        },
-      ),
-    );
-    // if (Utils.isValidEmail(email) && Utils.isValidPassword(password)) {
-    //   setIsLoading(true);
-    //   dispatch(
-    //     AccountAction.login(
-    //       { email: email, password: password },
-    //       {
-    //         onFailure: (err: any) => {
-    //           if (err && err.locked) {
-    //             navigation.navigate(SCREENS.LOCKED_SCREEN, {
-    //               countDown: err.error_description || "0",
-    //             });
-    //           } else {
-    //             Alert.error(
-    //               err.error_description || translate("error.generic"),
-    //               true,
-    //             );
-    //           }
-    //           setIsLoading(false);
-    //         },
-    //         onSuccess: () => {
-    //           navigation.goBack();
-    //           if (deviceId) {
-    //             customerApi.updateDeviceId(deviceId);
-    //           }
-    //           getUserInformation();
-    //         },
-    //       },
-    //     ),
-    //   );
-    // }
+        ),
+      );
+    }
   };
   // const loginWithGoogle = () => {};
   // const loginWithFacebook = () => {};
@@ -143,7 +111,7 @@ export const LoginScreen: FunctionComponent = () => {
           </View> */}
           <TextInput
             editable={!isLoading}
-            label={translate("label.email")}
+            label="ID"
             placeholder={translate("placeholder.email")}
             textContentType="emailAddress"
             keyboardType="email-address"
@@ -153,11 +121,11 @@ export const LoginScreen: FunctionComponent = () => {
             value={email}
             onChangeText={(text: string) => setEmail(text)}
             isRequired
-            errorMessage={
-              isButtonClickSubmit && !Utils.isValidEmail(email)
-                ? translate("error.validation.email")
-                : ""
-            }
+            // errorMessage={
+            //   isButtonClickSubmit && !Utils.isValidEmail(email)
+            //     ? translate("error.validation.email")
+            //     : ""
+            // }
           />
           <TextInput
             editable={!isLoading}

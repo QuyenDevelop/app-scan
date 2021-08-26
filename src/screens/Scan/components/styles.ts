@@ -60,7 +60,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingVertical: ScreenUtils.calculatorHeight(12),
+    paddingVertical: ScreenUtils.calculatorHeight(16),
     borderBottomWidth: 1,
     borderBottomColor: Themes.colors.colGray20,
     marginHorizontal: ScreenUtils.calculatorWidth(20),

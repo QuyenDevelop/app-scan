@@ -20,4 +20,16 @@ export default StyleSheet.create({
   logoutButtonTitle: {
     color: Themes.colors.coolGray100,
   },
+  postOfficeBtn: {
+    alignSelf: "center",
+    borderWidth: 1,
+    borderColor: Themes.colors.colGray20,
+    paddingHorizontal: ScreenUtils.calculatorWidth(16),
+    paddingVertical: ScreenUtils.calculatorHeight(10),
+    marginBottom: ScreenUtils.calculatorHeight(10),
+    borderRadius: ScreenUtils.calculatorHeight(10),
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "50%",
+  },
 });

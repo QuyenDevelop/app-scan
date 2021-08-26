@@ -45,7 +45,7 @@ export const ShipmentManagementScreen: FunctionComponent = () => {
   const [items, setItems] = useState<Array<ShipmentItemDashboardResponse>>([]);
   const defaultFilter = useMemo(
     (): GetDashboardsRequest => ({
-      pendingShipment: false,
+      pendingShipment: true,
       status: -1,
       keywords: "",
       pageIndex: 1,

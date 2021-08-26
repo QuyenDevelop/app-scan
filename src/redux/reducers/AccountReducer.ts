@@ -1,5 +1,5 @@
 // import { DataConstant, dataWebsiteShoppingDefault } from "@configs";
-import { Account } from "@models";
+import { Account, PostOfficeItemResponse } from "@models";
 import produce from "immer";
 import { Reducer } from "redux";
 import {
@@ -22,6 +22,7 @@ export interface IUserState {
   numberFavoriteProduct: number;
   numberBidProduct: number;
   deviceId: string | null;
+  postOffices: Array<PostOfficeItemResponse>;
 }
 
 export const defaultState: IUserState = {
@@ -38,6 +39,7 @@ export const defaultState: IUserState = {
   numberFavoriteProduct: 0,
   numberBidProduct: 0,
   deviceId: null,
+  postOffices: [],
 };
 
 export const accountReducer: Reducer<IUserState, UnfoldSagaActionType> = (
@@ -48,7 +50,8 @@ export const accountReducer: Reducer<IUserState, UnfoldSagaActionType> = (
   return produce(state, (draftState: IUserState): void => {
     switch (type) {
       case createActionTypeOnSuccess(AccountActionType.GET_USER_INFO):
-        draftState.profile = payload;
+        draftState.profile = payload.account;
+        draftState.postOffices = payload.postOffices;
         break;
       case createActionTypeOnSuccess(AccountActionType.LOGOUT):
         draftState.profile = null;

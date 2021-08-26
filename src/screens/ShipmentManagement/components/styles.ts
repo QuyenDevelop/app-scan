@@ -35,7 +35,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    marginBottom: ScreenUtils.calculatorHeight(5),
+    marginBottom: ScreenUtils.calculatorHeight(8),
   },
   iconShipment: {
     flexDirection: "row",
@@ -44,8 +44,10 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   infoText: {
+    flex: 1,
     fontWeight: "400",
     color: Themes.colors.coolGray100,
+    marginLeft: ScreenUtils.calculatorWidth(4),
   },
   headerFilter: {
     flexDirection: "row",
