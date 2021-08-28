@@ -79,13 +79,13 @@ const homeItems = [
     icon: Images.shipmentManagement,
     onPress: goToShipmentManagementScreen,
   },
-  {
-    id: 3,
-    title: "label.homeItems.claimAndInquiries.title",
-    content: "label.homeItems.claimAndInquiries.content",
-    icon: Images.claimAndInquiries,
-    onPress: () => {},
-  },
+  // {
+  //   id: 3,
+  //   title: "label.homeItems.claimAndInquiries.title",
+  //   content: "label.homeItems.claimAndInquiries.content",
+  //   icon: Images.claimAndInquiries,
+  //   onPress: () => {},
+  // },
 ];
 
 const menuItems = [
@@ -113,18 +113,18 @@ const menuItems = [
     icon: Images.icMenuShipmentManage,
     onPress: goToShipmentManagementScreen,
   },
-  {
-    id: 4,
-    title: "label.menuItem.claimAndInquiries",
-    icon: Images.icMenuClaim,
-    onPress: () => {},
-  },
-  {
-    id: 5,
-    title: "label.menuItem.setting",
-    icon: Images.icMenuSetting,
-    onPress: () => {},
-  },
+  // {
+  //   id: 4,
+  //   title: "label.menuItem.claimAndInquiries",
+  //   icon: Images.icMenuClaim,
+  //   onPress: () => {},
+  // },
+  // {
+  //   id: 5,
+  //   title: "label.menuItem.setting",
+  //   icon: Images.icMenuSetting,
+  //   onPress: () => {},
+  // },
   {
     id: 6,
     title: "label.menuItem.userInfo",

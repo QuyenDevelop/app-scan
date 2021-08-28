@@ -21,4 +21,10 @@ export default StyleSheet.create({
     color: Themes.colors.textPrimary,
     marginLeft: ScreenUtils.calculatorWidth(8),
   },
+  hitSlop: {
+    top: 20,
+    bottom: 0,
+    left: 20,
+    right: 20,
+  },
 });

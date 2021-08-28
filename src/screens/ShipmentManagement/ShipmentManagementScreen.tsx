@@ -212,6 +212,7 @@ export const ShipmentManagementScreen: FunctionComponent = () => {
             checked={filterValue.pendingShipment}
             style={styles.checkbox}
             backgroundCheckColor={Themes.colors.brand60}
+            isDisable={isLoading}
           />
           <Text style={styles.checkText}>
             {translate("label.checkboxShipmentManage")}

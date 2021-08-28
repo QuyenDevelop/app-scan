@@ -60,7 +60,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingVertical: ScreenUtils.calculatorHeight(16),
+    paddingVertical: ScreenUtils.calculatorHeight(20),
     borderBottomWidth: 1,
     borderBottomColor: Themes.colors.colGray20,
     marginHorizontal: ScreenUtils.calculatorWidth(20),
@@ -318,5 +318,10 @@ export default StyleSheet.create({
   locationButton: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  noData: {
+    alignSelf: "center",
+    fontSize: 16,
+    fontWeight: "500",
   },
 });

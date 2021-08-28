@@ -55,6 +55,7 @@ export const Checkbox: FunctionComponent<Props> = props => {
             borderWidth: checked ? 0 : 1,
           },
         ]}
+        hitSlop={styles.hitSlop}
       >
         {checked ? (
           <Icon

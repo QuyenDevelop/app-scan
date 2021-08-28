@@ -60,6 +60,9 @@ export const LocationModal: FunctionComponent<Props> = props => {
           }
           renderItem={renderItem}
           style={styles.bottomModal}
+          ListEmptyComponent={
+            <Text style={styles.noData}>{translate("label.noData")}</Text>
+          }
         />
       </View>
     </BaseBottomSheet>
