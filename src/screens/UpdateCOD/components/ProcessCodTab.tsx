@@ -340,7 +340,7 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
           onConfirm={onConfirm}
         />
         <ImageViewModal
-          images={item.images.map(image => image.Url) || []}
+          images={item.images?.map(image => image.Url) || []}
           isVisible={isShowImages}
           closeModal={hideImages}
         />
