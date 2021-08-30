@@ -12,7 +12,7 @@ import App from "./src/App";
 LogBox.ignoreAllLogs(true);
 console.reportErrorsAsExceptions = false;
 
-const EfexMobileApp = () => {
+const EfexWarehouse = () => {
   return (
     <Provider store={store}>
       <App />
@@ -26,5 +26,5 @@ const codePushOptions = {
 };
 
 AppRegistry.registerComponent(appName, () =>
-  codePush(codePushOptions)(EfexMobileApp),
+  codePush(codePushOptions)(EfexWarehouse),
 );

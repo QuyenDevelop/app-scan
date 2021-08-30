@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface EfexMobileAppTests : XCTestCase
+@interface EfexWarehouseTests : XCTestCase
 
 @end
 
-@implementation EfexMobileAppTests
+@implementation EfexWarehouseTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL(^)(UIView *view))test
 {
