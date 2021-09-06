@@ -54,32 +54,37 @@ export const ShipmentItem: FunctionComponent<Props> = props => {
             </Text>
           </View>
         </View>
-        <View style={styles.shipmentInfo}>
-          <View style={styles.iconShipment}>
-            <Icon
-              name="ic_calendar"
-              size={Metrics.icons.smallSmall}
-              color={Themes.colors.coolGray60}
-            />
+        {!!item.CreatedOnUtc && (
+          <View style={styles.shipmentInfo}>
+            <View style={styles.iconShipment}>
+              <Icon
+                name="ic_calendar"
+                size={Metrics.icons.smallSmall}
+                color={Themes.colors.coolGray60}
+              />
+            </View>
+            <Text style={styles.infoText}>
+              {translate("label.createDate")}:{" "}
+              {Utils.date.formatDate(item.CreatedOnUtc)}
+            </Text>
           </View>
-          <Text style={styles.infoText}>
-            {translate("label.createDate")}:{" "}
-            {Utils.date.formatDate(item.CreatedOnUtc)}
-          </Text>
-        </View>
-        <View style={styles.shipmentInfo}>
-          <View style={styles.iconShipment}>
-            <Icon
-              name="ic_calendar"
-              size={Metrics.icons.smallSmall}
-              color={Themes.colors.coolGray60}
-            />
+        )}
+        {!!item.ProcessedDate && (
+          <View style={styles.shipmentInfo}>
+            <View style={styles.iconShipment}>
+              <Icon
+                name="ic_calendar"
+                size={Metrics.icons.smallSmall}
+                color={Themes.colors.coolGray60}
+              />
+            </View>
+            <Text style={styles.infoText}>
+              {translate("label.processDate")}:{" "}
+              {Utils.date.formatDate(item.ProcessedDate)}
+            </Text>
           </View>
-          <Text style={styles.infoText}>
-            {translate("label.processDate")}:{" "}
-            {Utils.date.formatDate(item.ProcessedDate)}
-          </Text>
-        </View>
+        )}
+
         <View style={styles.shipmentInfo}>
           <View style={styles.iconShipment}>
             <Icon
