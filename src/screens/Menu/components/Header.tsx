@@ -1,12 +1,12 @@
 import { useShow } from "@hooks";
 import { useNavigation } from "@react-navigation/native";
-import { AccountAction } from "@redux";
-import { BottomSheet, Icon, Text, translate } from "@shared";
+import { AccountAction, IRootState } from "@redux";
+import { BottomSheet, Icon, Text } from "@shared";
 import { Images, Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
 import { TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./styles";
 
 const language = {
@@ -20,6 +20,13 @@ const language = {
 const Header: FunctionComponent = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const languageSelected = useSelector(
+    (state: IRootState) => state.account.language,
+  );
+  const languageLabel = Object.values(language).find(
+    item => item.value === languageSelected,
+  )?.label;
+
   const [
     isShowChangeLanguageModal,
     showChangeLanguageModal,
@@ -103,7 +110,7 @@ const Header: FunctionComponent = () => {
           size={Metrics.icons.small}
           styles={styles.iconGoBack}
         />
-        <Text style={styles.language}>{translate("button.language")}</Text>
+        <Text style={styles.language}>{languageLabel}</Text>
         <Icon
           color={Themes.colors.coolGray60}
           name={"ic_arrow_down"}
