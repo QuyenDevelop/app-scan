@@ -13,10 +13,16 @@ import { AccountAction } from "@redux";
 import { translate } from "@shared";
 import { Images, Loader } from "@themes";
 import LottieView from "lottie-react-native";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { Alert, ImageBackground } from "react-native";
 import FastImage from "react-native-fast-image";
 import * as RNLocalize from "react-native-localize";
+import SplashScreen from "react-native-splash-screen";
 import { useDispatch } from "react-redux";
 import styles from "./styles";
 
@@ -39,6 +45,9 @@ export const LaunchScreen: FunctionComponent<Props> = () => {
   });
 
   translate("");
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
   const checkIsFirstLaunch = async (): Promise<boolean> => {
     return false;
   };

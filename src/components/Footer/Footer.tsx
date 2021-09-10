@@ -17,7 +17,9 @@ export const Footer: FunctionComponent<Props> = () => {
       activeOpacity={0.6}
       style={[
         styles.footer,
-        Platform.OS === "ios" && { paddingBottom: insets.bottom },
+        Platform.OS === "ios" && {
+          paddingBottom: insets.bottom > 0 ? insets.bottom : insets.bottom + 20,
+        },
       ]}
       onPress={() => {}}
     >

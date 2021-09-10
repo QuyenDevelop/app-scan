@@ -1,6 +1,7 @@
 import { Footer } from "@components";
 import { SCREENS } from "@configs";
 import { Alert, Utils } from "@helpers";
+import { useStatusBar } from "@hooks";
 import { useNavigation } from "@react-navigation/native";
 import { AccountAction } from "@redux";
 import { Button, Checkbox, TextInput, translate } from "@shared";
@@ -17,6 +18,7 @@ export interface LoginRouteParams {
 }
 
 export const LoginScreen: FunctionComponent = () => {
+  useStatusBar("dark-content");
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
