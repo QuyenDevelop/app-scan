@@ -835,6 +835,7 @@ export default {
     send: "Gửi",
   },
   error: {
+    errBarCode: "Mã không hợp lệ",
     noShipment:
       "Không tồn tại shipment hoặc shipment ở trạng thái không cho phép.",
     generic: "Đã có lỗi xảy ra",

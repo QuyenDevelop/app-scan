@@ -815,6 +815,7 @@ export default {
     send: "送信",
   },
   error: {
+    errBarCode: "無効なコード",
     noShipment: "出荷は存在しないか、出荷は不正な状態にあります。",
     generic: "何かがうまくいかなかった",
     validation: {

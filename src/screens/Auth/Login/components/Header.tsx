@@ -1,11 +1,11 @@
 import { useShow } from "@hooks";
-import { AccountAction } from "@redux";
+import { AccountAction, IRootState } from "@redux";
 import { BottomSheet, Icon, Text, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./styles";
 
 const language = {
@@ -24,6 +24,13 @@ const Header: FunctionComponent = () => {
     showChangeLanguageModal,
     hideChangeLanguageModal,
   ] = useShow();
+  const languageSelected = useSelector(
+    (state: IRootState) => state.account.language,
+  );
+
+  const languageLabel = Object.values(language).find(
+    item => item.value === languageSelected,
+  )?.label;
   const arrOptions = [
     {
       title: language.VietNam.label,
@@ -90,7 +97,7 @@ const Header: FunctionComponent = () => {
           size={Metrics.icons.small}
           styles={styles.iconGoBack}
         />
-        <Text style={styles.language}>{translate("button.language")}</Text>
+        <Text style={styles.language}>{languageLabel}</Text>
         <Icon
           color={Themes.colors.coolGray60}
           name={"ic_arrow_down"}

@@ -836,6 +836,7 @@ export default {
     send: "Send",
   },
   error: {
+    errBarCode: "Invalid code",
     noShipment:
       "No shipment exists or the shipment is in an unauthorized state.",
     generic: "Something went wrong",

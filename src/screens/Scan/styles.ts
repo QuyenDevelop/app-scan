@@ -75,7 +75,6 @@ export default StyleSheet.create({
   },
   topView: {
     flex: 0.3,
-    backgroundColor: Themes.colors.transparentBlack,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
@@ -92,7 +91,6 @@ export default StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: Themes.colors.transparentBlack,
     paddingTop: ScreenUtils.calculatorHeight(22),
   },
   qrUserManual: {
@@ -110,16 +108,6 @@ export default StyleSheet.create({
     paddingVertical: ScreenUtils.calculatorHeight(12),
     paddingHorizontal: ScreenUtils.calculatorWidth(60),
     marginTop: ScreenUtils.calculatorHeight(40),
-  },
-  centerLeftView: {
-    width: ScreenUtils.calculatorWidth(45),
-    backgroundColor: Themes.colors.transparentBlack,
-  },
-  centerCenterView: {
-    borderWidth: 1,
-    borderRadius: ScreenUtils.calculatorWidth(20),
-    borderColor: Themes.colors.white,
-    width: ScreenUtils.WIDTH - ScreenUtils.calculatorWidth(90),
   },
   errorContent: {
     fontSize: 16,

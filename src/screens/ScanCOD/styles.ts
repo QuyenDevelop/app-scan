@@ -35,7 +35,6 @@ export default StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     paddingHorizontal: ScreenUtils.calculatorWidth(15),
-
     borderColor: Themes.colors.collGray40,
     borderRadius: ScreenUtils.calculatorWidth(10),
     marginRight: ScreenUtils.calculatorWidth(15),
@@ -66,8 +65,8 @@ export default StyleSheet.create({
     right: 0,
   },
   loadingView: {
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "center",
     flex: 1,
   },
   camera: { width: "100%", height: "100%" },
@@ -76,7 +75,6 @@ export default StyleSheet.create({
   },
   topView: {
     flex: 0.3,
-    backgroundColor: Themes.colors.transparentBlack,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
@@ -88,28 +86,11 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "stretch",
   },
-  errorContent: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: Themes.colors.warningMain,
-    marginLeft: ScreenUtils.calculatorWidth(10),
-  },
-  centerLeftView: {
-    width: ScreenUtils.calculatorWidth(45),
-    backgroundColor: Themes.colors.transparentBlack,
-  },
-  centerCenterView: {
-    borderWidth: 1,
-    borderRadius: ScreenUtils.calculatorWidth(20),
-    borderColor: Themes.colors.white,
-    width: ScreenUtils.WIDTH - ScreenUtils.calculatorWidth(90),
-  },
   bottomView: {
     flex: 0.3,
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: Themes.colors.transparentBlack,
     paddingTop: ScreenUtils.calculatorHeight(22),
   },
   qrUserManual: {
@@ -127,5 +108,11 @@ export default StyleSheet.create({
     paddingVertical: ScreenUtils.calculatorHeight(12),
     paddingHorizontal: ScreenUtils.calculatorWidth(60),
     marginTop: ScreenUtils.calculatorHeight(40),
+  },
+  errorContent: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: Themes.colors.warningMain,
+    marginLeft: ScreenUtils.calculatorWidth(10),
   },
 });
