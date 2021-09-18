@@ -226,8 +226,12 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
         cargoShippingMethodText: selectedMode.Name,
         subShipments: subShipmentRequest,
       })
-      ?.then(() => {
-        Alert.success("success.updateSuccess");
+      ?.then(response => {
+        if (response?.success) {
+          Alert.success("success.updateSuccess");
+        } else {
+          Alert.error("error.errorServer");
+        }
       })
       .catch(() => {
         Alert.error("error.errorServer");
