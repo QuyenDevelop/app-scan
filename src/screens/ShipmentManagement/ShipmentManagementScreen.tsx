@@ -3,6 +3,7 @@ import { shipmentApi } from "@api";
 import { Alert, Utils } from "@helpers";
 import { useShipmentInfo, useShow } from "@hooks";
 import { GetDashboardsRequest, ShipmentItemDashboardResponse } from "@models";
+import { useFocusEffect } from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { Checkbox, Icon, NoData, SearchHeader, Text, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
@@ -10,7 +11,6 @@ import debounce from "lodash/debounce";
 import React, {
   FunctionComponent,
   useCallback,
-  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -40,7 +40,7 @@ export const ShipmentManagementScreen: FunctionComponent = () => {
     (state: IRootState) => state.account.profile?.postOfficeId,
   );
   const [isLoading, showLoading, hideLoading] = useShow();
-  const [isReLoading, showReLoading, hideReLoading] = useShow();
+  const [isReLoading] = useShow();
   const [isShowLoadMore, showLoadMore, hideLoadMore] = useShow();
   const [items, setItems] = useState<Array<ShipmentItemDashboardResponse>>([]);
   const defaultFilter = useMemo(
@@ -57,6 +57,7 @@ export const ShipmentManagementScreen: FunctionComponent = () => {
   );
   const [filterValue, setFilterValue] =
     useState<GetDashboardsRequest>(defaultFilter);
+  const [pageIndex, setPageIndex] = useState<number>(1);
 
   const fetchData = useCallback(
     (
@@ -70,46 +71,33 @@ export const ShipmentManagementScreen: FunctionComponent = () => {
     [],
   );
 
-  useEffect(() => {
-    const fetch = async () => {
-      const data = await fetchData(defaultFilter, showLoading, hideLoading);
-      if (data) {
-        if (data?.success) {
-          setItems(data.data.data);
-          setTotalOrder(data.data.totalCount);
-          setTotalPage(data.data.groupCount);
-        } else {
-          setItems([]);
-          setTotalOrder(0);
-          setTotalPage(0);
-          data?.message
-            ? Alert.error(data?.message, true)
-            : Alert.error("error.errorServer");
+  useFocusEffect(
+    useCallback(() => {
+      const fetch = async () => {
+        const data = await fetchData(filterValue, showLoading, hideLoading);
+        if (data) {
+          if (data?.success) {
+            setItems(data.data.data);
+            setTotalOrder(data.data.totalCount);
+            setTotalPage(data.data.groupCount);
+          } else {
+            setItems([]);
+            setTotalOrder(0);
+            setTotalPage(0);
+            data?.message
+              ? Alert.error(data?.message, true)
+              : Alert.error("error.errorServer");
+          }
         }
-      }
-    };
+      };
 
-    fetch();
-  }, [defaultFilter, fetchData, hideLoading, showLoading]);
+      fetch();
+    }, [fetchData, filterValue, hideLoading, showLoading]),
+  );
 
   const onRefresh = async () => {
     const filter = { ...filterValue, pageIndex: 1 };
     setFilterValue(filter);
-    const data = await fetchData(filter, showReLoading, hideReLoading);
-    if (data) {
-      if (data?.success) {
-        setItems(data.data.data);
-        setTotalOrder(data.data.totalCount);
-        setTotalPage(data.data.groupCount);
-      } else {
-        setItems([]);
-        setTotalOrder(0);
-        setTotalPage(0);
-        data?.message
-          ? Alert.error(data?.message, true)
-          : Alert.error("error.errorServer");
-      }
-    }
   };
 
   const loadMoreData = async () => {
@@ -123,7 +111,7 @@ export const ShipmentManagementScreen: FunctionComponent = () => {
 
     const filter = {
       ...filterValue,
-      pageIndex: filterValue.pageIndex + 1,
+      pageIndex: pageIndex + 1,
     };
 
     const data = await fetchData(filter, showLoadMore, hideLoadMore);
@@ -133,7 +121,7 @@ export const ShipmentManagementScreen: FunctionComponent = () => {
         data.data.data && setItems([...items, ...data.data.data]);
         setTotalOrder(data.data.totalCount);
         setTotalPage(data.data.groupCount);
-        setFilterValue(filter);
+        setPageIndex(pageIndex + 1);
       } else {
         setItems([]);
         setTotalOrder(0);
@@ -147,21 +135,21 @@ export const ShipmentManagementScreen: FunctionComponent = () => {
 
   const applyFilter = async (value: GetDashboardsRequest) => {
     setFilterValue(value);
-    const data = await fetchData(value, showLoading, hideLoading);
-    if (data) {
-      if (data?.success) {
-        setItems(data.data.data);
-        setTotalOrder(data.data.totalCount);
-        setTotalPage(data.data.groupCount);
-      } else {
-        setItems([]);
-        setTotalOrder(0);
-        setTotalPage(0);
-        data?.message
-          ? Alert.error(data?.message, true)
-          : Alert.error("error.errorServer");
-      }
-    }
+    // const data = await fetchData(value, showLoading, hideLoading);
+    // if (data) {
+    //   if (data?.success) {
+    //     setItems(data.data.data);
+    //     setTotalOrder(data.data.totalCount);
+    //     setTotalPage(data.data.groupCount);
+    //   } else {
+    //     setItems([]);
+    //     setTotalOrder(0);
+    //     setTotalPage(0);
+    //     data?.message
+    //       ? Alert.error(data?.message, true)
+    //       : Alert.error("error.errorServer");
+    //   }
+    // }
   };
 
   const searchShipment = debounce((value: string) => {
