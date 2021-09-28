@@ -105,7 +105,7 @@ export const UpdateCODScreen: FunctionComponent = () => {
   return (
     <View style={styles.container}>
       <Header
-        title={translate("screens.codScreen")}
+        title={item.Id || translate("screens.codScreen")}
         iconLeftName={["ic_arrow_left"]}
         iconLeftOnPress={[() => navigation.goBack()]}
         isCenterTitle

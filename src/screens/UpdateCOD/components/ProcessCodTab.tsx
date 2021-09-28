@@ -50,7 +50,9 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
   const [isShowCustomers, showCustomers, hideCustomers] = useShow();
   const [currency, setCurrency] = useState<CurrencyResponse>();
   const [isShowCurrencies, showCurrencies, hideCurrencies] = useShow();
-  const [codAmount, setCodAmount] = useState<number>(item.CODAmount);
+  const [codAmount, setCodAmount] = useState<string>(
+    item.CODAmount?.toString() || "",
+  );
   const [codAmountPay, setCodAmountPay] = useState<number>(item.CODAmountPay);
   const [isConfirmed, setIsConfirmed] = useState<boolean>(item.COD);
   const [isLoadingConfirm, showLoadingConfirm, hideLoadingConfirm] = useShow();
@@ -60,7 +62,7 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
     useShow();
 
   useEffect(() => {
-    setCodAmount(item.CODAmount);
+    setCodAmount(item.CODAmount?.toString() || "");
     setCodAmountPay(item.CODAmountPay);
     setIsConfirmed(item.COD);
   }, [item.COD, item.CODAmount, item.CODAmountPay]);
@@ -95,7 +97,7 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
   }, [item.CurrencyCode, shipmentCurrencies]);
 
   const onChangeCodAmount = (value: string) => {
-    setCodAmount(Utils.convertMoneyTextToNumber(value));
+    setCodAmount(Utils.convertDecimalText(value));
   };
 
   const updateStatus = (value: number) => {
@@ -131,11 +133,11 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
         currencyCode: currency?.CurrencyCode!,
         amountLocal: item.CODAmount,
         rate: currency?.Rate || 0,
-        amountPay: codAmount,
+        amountPay: Utils.convertMoneyTextToNumber(codAmount),
       })
       ?.then(response => {
         if (response.success) {
-          updateStatus(codAmount);
+          updateStatus(Utils.convertMoneyTextToNumber(codAmount));
           Alert.success("success.confirmPaymentSuccess");
         } else {
           if (response.message) {
@@ -215,7 +217,7 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
               contextMenuHidden={true}
               placeholderTextColor={Themes.colors.collGray40}
               editable={!isConfirmed && !codAmountPay}
-              defaultValue={Utils.formatMoney(codAmount)}
+              defaultValue={Utils.formatMoneyDecimal(codAmount)}
               onChangeText={onChangeCodAmount}
             />
             <TouchableOpacity

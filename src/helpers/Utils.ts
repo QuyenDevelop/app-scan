@@ -1,7 +1,16 @@
 // import { OrderStatus } from "@models";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import round from "lodash/round";
 import moment from "moment";
 import { Platform, StatusBar, StatusBarStyle } from "react-native";
+
+const formatDecimalText = (value: string): string => {
+  return value
+    .replace(/[^0-9.]/g, "")
+    .replace(".", "x")
+    .replace(/\./g, "")
+    .replace("x", ".");
+};
 
 export const Utils = {
   comparePrice: (minPrice: number, maxPrice: number) => {
@@ -151,78 +160,41 @@ export const Utils = {
     }
     return moneyString;
   },
-  // getLogo: (refType: string) => {
-  //   switch (refType) {
-  //     case CONSTANT.BRAND_PRODUCT_CONSTANT.MERCARI:
-  //       return Images.mercari;
-  //     case CONSTANT.BRAND_PRODUCT_CONSTANT.RAKUTEN:
-  //       return Images.rakuten;
-  //     case CONSTANT.BRAND_PRODUCT_CONSTANT.AMAZON:
-  //       return Images.amazon;
-  //     case CONSTANT.BRAND_PRODUCT_CONSTANT.YAHOO_AUCTION:
-  //       return Images.yAuction;
-  //   }
-  // },
+  formatMoneyDecimal: (money: string | number | null | undefined) => {
+    if (money === null || money === "" || money === undefined) {
+      return "0";
+    }
+    const moneyArray = money.toString().split(".");
+    let moneyString = "";
+    moneyString = moneyArray[0]
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    if (money.toString().includes(".")) {
+      moneyString += ".";
+    }
+    if (moneyArray[1]) {
+      moneyString += moneyArray[1];
+    }
+    return moneyString;
+  },
   getTextOverCount: (quantity: number) => {
     return quantity >= 100 ? "99+" : quantity.toString();
   },
-  step_bid: (p: number, t: number) => {
-    var step = 10;
-    if (p >= 1000 && p < 5000) {
-      step = 100;
-    }
-    if (p >= 5000 && p < 10000) {
-      step = 250;
-    }
-    if (p >= 10000 && p < 20000) {
-      step = 500;
-    }
-    if (p >= 20000) {
-      step = 1000;
-    }
-    if (t === 1) {
-      return p + step;
-    } else if (p - step < 0) {
-      return 0;
-    } else {
-      return p - step;
-    }
-  },
-  // genTextOrderStatus: (orderStatus: number) => {
-  //   switch (orderStatus) {
-  //     case OrderStatus.ChoTatToan:
-  //       return "orderStatus.ChoTatToan";
-  //     case OrderStatus.ChoXuLy:
-  //       return "orderStatus.ChoXuLy";
-  //     case OrderStatus.DaHuy:
-  //       return "orderStatus.DaHuy";
-  //     case OrderStatus.DaGiaoHang:
-  //       return "orderStatus.DaGiaoHang";
-  //     case OrderStatus.DaMuaHang:
-  //       return "orderStatus.DaMuaHang";
-  //     case OrderStatus.DangGiaoHang:
-  //       return "orderStatus.DangGiaoHang";
-  //     case OrderStatus.DangVanChuyen:
-  //       return "orderStatus.DangVanChuyen";
-  //     case OrderStatus.DaNhapKho:
-  //       return "orderStatus.DaNhapKho";
-  //     case OrderStatus.MuaHang:
-  //       return "orderStatus.MuaHang";
-  //     case OrderStatus.TamUng:
-  //       return "orderStatus.TamUng";
-  //     case OrderStatus.YeuCauHuy:
-  //       return "orderStatus.YeuCauHuy";
-  //   }
-  // },
   convertMoneyTextToNumber: (money: string) => {
-    return (
-      Number(
-        money
-          .replace(/[^0-9.]/g, "")
-          .replace(".", "x")
-          .replace(/\./g, "")
-          .replace("x", "."),
-      ) || 0
-    );
+    return round(Number(formatDecimalText(money)) || 0, 3);
+  },
+  convertDecimalText: (money: string) => {
+    const lastCharacter = money.charAt(money.length - 1);
+    let newMoney = money;
+
+    if (money.charAt(0) === "0") {
+      newMoney = money.substr(1);
+    }
+
+    if (isNaN(Number(lastCharacter))) {
+      newMoney = money.substring(0, money.length - 1) + ".";
+    }
+
+    return formatDecimalText(newMoney);
   },
 };
