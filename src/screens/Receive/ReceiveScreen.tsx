@@ -116,6 +116,7 @@ export const ReceiveScreen: FunctionComponent = () => {
     addNewCode(inputValue.current, true);
     inputRef.current?.clear();
   };
+
   return (
     <View style={styles.container}>
       <Header
@@ -151,6 +152,11 @@ export const ReceiveScreen: FunctionComponent = () => {
             contextMenuHidden={true}
             defaultValue={inputValue.current}
             onChangeText={text => (inputValue.current = text)}
+            onSubmitEditing={_e => {
+              onPressAddCode();
+            }}
+            returnKeyType="done"
+            returnKeyLabel="Add"
           />
           <TouchableOpacity style={styles.addCode} onPress={onPressAddCode}>
             <Icon
