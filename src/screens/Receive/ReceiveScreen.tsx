@@ -1,3 +1,4 @@
+import { shipmentApi } from "@api";
 import { Header } from "@components";
 import { Alert } from "@helpers";
 import { useShow } from "@hooks";
@@ -64,12 +65,26 @@ export const ReceiveScreen: FunctionComponent = () => {
 
   const receiverCode = () => {
     showLoadingReceive();
-    setCodes([]);
-    hideLoadingReceive();
-    Alert.success(
-      translate("success.receiveSuccess", { number: codes.length }),
-      true,
-    );
+    shipmentApi
+      .receiveCodes(codes)
+      ?.then(response => {
+        if (response?.success) {
+          setCodes([]);
+
+          Alert.success(
+            translate("success.receiveSuccess", { number: codes.length }),
+            true,
+          );
+        } else {
+          Alert.error("error.errorServer");
+        }
+      })
+      .catch(() => {
+        Alert.error("error.errorServer");
+      })
+      .finally(() => {
+        hideLoadingReceive();
+      });
   };
 
   const keyExtractor = useCallback((item: string) => `${item}`, []);

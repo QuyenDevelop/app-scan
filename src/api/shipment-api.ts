@@ -82,6 +82,10 @@ class ShipmentApi extends BaseApi {
   getDashboards(request: GetDashboardsRequest) {
     return this.get<DashboardsResponse>("gets-dashboard-mobile", request);
   }
+
+  receiveCodes(referenceNumbers: Array<string>) {
+    return this.post("receiving", { referenceNumbers }, {});
+  }
 }
 
 export default new ShipmentApi("shipment");
