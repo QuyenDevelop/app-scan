@@ -157,6 +157,7 @@ export const ReceiveScreen: FunctionComponent = () => {
             }}
             returnKeyType="done"
             returnKeyLabel="Add"
+            blurOnSubmit={false}
           />
           <TouchableOpacity style={styles.addCode} onPress={onPressAddCode}>
             <Icon
