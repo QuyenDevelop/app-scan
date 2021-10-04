@@ -11,6 +11,7 @@ export default {
     addServiceScreen: "Service photos",
     userInfoScreen: "User information",
     changePassword: "Change password",
+    receive: "Receive",
   },
   label: {
     newPassword: "New password",
@@ -59,6 +60,10 @@ export default {
       claimAndInquiries: {
         title: "Claim and inquiries",
         content: "See customer's request and complaint",
+      },
+      receive: {
+        title: "Receive",
+        content: "Receive orders",
       },
     },
     photoModal: "Photos",
@@ -701,6 +706,7 @@ export default {
     relatedProductSameSeller: "Related products from the same seller",
   },
   button: {
+    receive: "Receive",
     choose: "Choose",
     shipmentImages: "Photos of goods",
     viewDocument: "Document Viewer",
@@ -868,6 +874,7 @@ export default {
     unActiveFail: "Deactivation failed",
   },
   success: {
+    receiveSuccess: "Successful reception {{number}} code",
     autoUploadImage: "{{number}} images are being uploaded automatically",
     updateSuccess: "Update successful",
     verifyPhone:
@@ -895,6 +902,7 @@ export default {
     recheckCod: "Total amount COD is not true, please check again",
     noPhotoSelected: "No photos selected yet",
     noTakePhoto: "Please take a photo before uploading",
+    dataInvalid: "Invalid data",
   },
   placeholder: {
     newPassword: "Enter new password",
@@ -1231,5 +1239,7 @@ export default {
     confirmPayment: "You are sure payment",
     completeConfirm1: "Complete completion",
     deleteImages: "Are you sure deleting {{number}} photos?",
+    deleteReceive: "Are you sure to delete the {{number}} code?",
+    confirmReceive: "Are you sure to receive {{number}} code?",
   },
 };

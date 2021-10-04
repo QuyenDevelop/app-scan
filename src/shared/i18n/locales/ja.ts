@@ -11,6 +11,7 @@ export default {
     addServiceScreen: "サービスの写真",
     userInfoScreen: "ユーザー情報",
     changePassword: "パスワードの変更",
+    receive: "受け取る",
   },
   label: {
     newPassword: "新しいパスワード",
@@ -60,6 +61,10 @@ export default {
       claimAndInquiries: {
         title: "クレームとお問い合わせ",
         content: "顧客の要求と苦情を参照してください",
+      },
+      receive: {
+        title: "受け取る",
+        content: "注文を受け取る",
       },
     },
     photoModal: "写真",
@@ -684,9 +689,10 @@ export default {
     relatedProductSameSeller: "同じ売り手からの関連商品",
   },
   button: {
+    receive: "受け取る",
     choose: "選ぶ",
     shipmentImages: "商品の写真",
-    viewDocument: "Xem tài liệu",
+    viewDocument: "ドキュメントビューアー",
     checkCode: "コードを確認してください",
     enterCode: "手動でコードを入力してください",
     lookPhoto: "画像を見る",
@@ -842,6 +848,7 @@ export default {
     errorServer: "エラーが発生しました。 もう一度お試しください。",
   },
   success: {
+    receiveSuccess: "正常な受付{{Number}}コード",
     autoUploadImage: "{{number}}画像が自動的にアップロードされています",
     updateSuccess: "更新に成功",
     verifyPhone:
@@ -869,6 +876,7 @@ export default {
     recheckCod: "配達の総額現金が真実ではない、もう一度確認してください",
     noPhotoSelected: "まだ選択した写真はありません",
     noTakePhoto: "アップロードする前に写真を撮ってください",
+    dataInvalid: "無効なデータ",
   },
   placeholder: {
     newPassword: "新しいパスワードを入力してください",
@@ -1194,5 +1202,7 @@ export default {
     confirmPayment: "Bạn có chắc chắn thanh toán",
     completeConfirm1: "Xác nhận hoàn thành",
     deleteImages: "{{number}}枚の写真を削除してよろしいですか？",
+    deleteReceive: "{{number}}コードを削除してください。",
+    confirmReceive: "{{number}}コードを受け取ってよろしいですか？",
   },
 };

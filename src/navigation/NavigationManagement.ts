@@ -124,3 +124,9 @@ export const goToForgotPasswordScreen = () => {
     screen: SCREENS.FORGOT_PASSWORD_SCREEN,
   });
 };
+
+export const goToReceiveScreen = () => {
+  NavigationUtils.navigate(SCREENS.RECEIVE_STACK, {
+    screen: SCREENS.RECEIVE_SCREEN,
+  });
+};

@@ -3,6 +3,7 @@ export * from "./Auth";
 export * from "./Home";
 export * from "./Launch";
 export * from "./Menu";
+export * from "./Receive";
 export * from "./Scan";
 export * from "./ScanCOD";
 export * from "./ShipmentDetailCOD";

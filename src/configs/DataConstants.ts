@@ -1,6 +1,7 @@
 import {
   goToCheckAndScanScreen,
   goToHomeScreen,
+  goToReceiveScreen,
   goToScanCodScreen,
   goToShipmentManagementScreen,
   goToUserInformationScreen,
@@ -78,6 +79,13 @@ const homeItems = [
     content: "label.homeItems.shipmentManagement.content",
     icon: Images.shipmentManagement,
     onPress: goToShipmentManagementScreen,
+  },
+  {
+    id: 3,
+    title: "label.homeItems.receive.title",
+    content: "label.homeItems.receive.content",
+    icon: Images.claimAndInquiries,
+    onPress: goToReceiveScreen,
   },
   // {
   //   id: 3,

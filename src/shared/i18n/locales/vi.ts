@@ -11,6 +11,7 @@ export default {
     addServiceScreen: "Ảnh dịch vụ",
     userInfoScreen: "Thông tin người dùng",
     changePassword: "Đổi mật khẩu",
+    receive: "Tiếp nhận",
   },
   label: {
     newPassword: "Mật khẩu mới",
@@ -59,6 +60,10 @@ export default {
       claimAndInquiries: {
         title: "Yêu cầu và thắc mắc",
         content: "Xem yêu cầu và khiếu nại của khách hàng",
+      },
+      receive: {
+        title: "Tiếp nhận",
+        content: "Tiếp nhận đơn",
       },
     },
     photoModal: "Ảnh",
@@ -699,6 +704,7 @@ export default {
     relatedProductSameSeller: "Sản phẩm liên quan của cửa hàng",
   },
   button: {
+    receive: "Tiếp nhận",
     choose: "Chọn",
     shipmentImages: "Ảnh hàng hóa",
     viewDocument: "Xem tài liệu",
@@ -867,6 +873,7 @@ export default {
     unActiveFail: "Huỷ Kích hoạt không thành công",
   },
   success: {
+    receiveSuccess: "Tiếp nhận thành công {{number}} mã",
     autoUploadImage: "{{number}} ảnh đang được tải lên tự động",
     updateSuccess: "Cập nhật thành công",
     verifyPhone: "Đã gửi mã xác thực, mời bạn nhập mã xác thực vào ô bên dưới",
@@ -893,6 +900,7 @@ export default {
     recheckCod: "Tổng COD chưa đúng, vui lòng kiểm tra lại",
     noPhotoSelected: "Chưa có ảnh nào được chọn",
     noTakePhoto: "Vui lòng chụp ảnh trước khi tải lên",
+    dataInvalid: "Dữ liệu không hợp lệ",
   },
   placeholder: {
     newPassword: "Nhập mật khẩu mới",
@@ -1227,5 +1235,7 @@ export default {
     confirmPayment: "Bạn có chắc chắn thanh toán",
     completeConfirm1: "Xác nhận hoàn thành",
     deleteImages: "Bạn có chắc chắn xóa {{number}} ảnh?",
+    deleteReceive: "Bạn có chắc chắn xóa mã {{number}} không?",
+    confirmReceive: "Bạn có chắc chắn tiếp nhận {{number}} mã không?",
   },
 };

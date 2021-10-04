@@ -4,6 +4,7 @@ import {
   BottomTabNavigator,
   CheckAndScanStackNavigation,
   HomeStackNavigation,
+  ReceiveStack,
   ScanCodStackNavigation,
   ShipmentManagementStackNavigation,
   ShipmentStackNavigation,
@@ -23,6 +24,7 @@ export type RootParamList = {
   [SCREENS.CHECK_AND_SCAN_STACK]: undefined;
   [SCREENS.SCAN_COD_STACK]: undefined;
   [SCREENS.SHIPMENT_MANAGEMENT_STACK]: undefined;
+  [SCREENS.RECEIVE_STACK]: undefined;
 };
 
 export function RootNavigator() {
@@ -73,6 +75,7 @@ export function RootNavigator() {
         name={SCREENS.SHIPMENT_MANAGEMENT_STACK}
         component={ShipmentManagementStackNavigation}
       />
+      <RootStack.Screen name={SCREENS.RECEIVE_STACK} component={ReceiveStack} />
     </RootStack.Navigator>
   );
 }
