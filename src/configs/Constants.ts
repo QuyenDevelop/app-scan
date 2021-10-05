@@ -20,6 +20,7 @@ export const CONSTANT = {
     UPLOAD_IMAGES: "upload_images",
     ICHIBA_POSTOFFICE_ID: "IChiba-PostOffice-id",
     ICHIBA_CURRENCY_CODE: "IChiba-Currency-Code",
+    BARCODES: "barcodes",
   },
   REVOKE_TOKEN_ENDPOINT: "revocation",
   EVENT_KEY: {

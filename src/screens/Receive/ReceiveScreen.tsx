@@ -1,11 +1,18 @@
 import { shipmentApi } from "@api";
 import { Header } from "@components";
-import { Alert } from "@helpers";
+import { CONSTANT } from "@configs";
+import { Alert, getAsyncItem, setAsyncItem } from "@helpers";
 import { useShow } from "@hooks";
 import { useNavigation } from "@react-navigation/core";
 import { Button, ConfirmModal, Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
-import React, { FunctionComponent, useCallback, useRef, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   FlatList,
   Platform,
@@ -19,6 +26,11 @@ import { RNCamera } from "react-native-camera";
 import { ReceiveItem } from "./components/ReceiveItem";
 import styles from "./styles";
 
+const getStoreBarcode = async (): Promise<Array<string>> => {
+  const barcodes = await getAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.BARCODES);
+  return barcodes && Array.isArray(barcodes) ? barcodes : [];
+};
+
 export const ReceiveScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const [codes, setCodes] = useState<Array<string>>([]);
@@ -28,22 +40,30 @@ export const ReceiveScreen: FunctionComponent = () => {
   const inputValue = useRef<string>("");
   const inputRef = useRef<TextInput>(null);
 
-  const addNewCode = (code: string, noVibration?: boolean) => {
-    if (!code || code === "") {
-      Alert.warning("warning.dataInvalid");
-      return;
-    }
-    setCodes(listCode => {
-      const newCodes = [...listCode];
+  useEffect(() => {
+    getStoreBarcode().then((barcodes: Array<string>) => {
+      setCodes(barcodes);
+    });
+  }, []);
+
+  const addNewCode = useCallback(
+    async (code: string, noVibration?: boolean) => {
+      if (!code || code === "") {
+        Alert.warning("warning.dataInvalid");
+        return;
+      }
+      const newCodes = [...codes];
       if (!newCodes.includes(code)) {
         newCodes.unshift(code);
+        await setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.BARCODES, newCodes);
+        setCodes(newCodes);
         if (!noVibration) {
           Vibration.vibrate();
         }
       }
-      return newCodes;
-    });
-  };
+    },
+    [codes],
+  );
 
   const onRead = ({ barcodes }: { barcodes: Array<any> }) => {
     if (Platform.OS === "android") {
@@ -79,10 +99,10 @@ export const ReceiveScreen: FunctionComponent = () => {
     showLoadingReceive();
     shipmentApi
       .receiveCodes(codes)
-      ?.then(response => {
+      ?.then(async response => {
         if (response?.success) {
+          await setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.BARCODES, []);
           setCodes([]);
-
           Alert.success(
             translate("success.receiveSuccess", { number: codes.length }),
             true,
@@ -101,9 +121,14 @@ export const ReceiveScreen: FunctionComponent = () => {
 
   const keyExtractor = useCallback((item: string) => `${item}`, []);
 
-  const deleteItem = useCallback((item: string) => {
-    setCodes(listCode => listCode.filter(c => c !== item));
-  }, []);
+  const deleteItem = useCallback(
+    async (item: string) => {
+      const newCodes = codes.filter(c => c !== item);
+      await setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.BARCODES, newCodes);
+      setCodes(newCodes);
+    },
+    [codes],
+  );
 
   const renderItem = useCallback(
     ({ item }: { item: string }) => {
