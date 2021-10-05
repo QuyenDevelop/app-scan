@@ -37,24 +37,11 @@ export const ScanScreen: FunctionComponent = () => {
   const [errorContent, setErrorContent] = useState<string>("");
 
   const onRead = ({ barcodes }: { barcodes: any }) => {
-    if (Platform.OS === "android") {
-      return;
-    }
     if (!isLoadingFetchData) {
       if (barcodes.length > 0 && !!barcodes[0].data) {
         Vibration.vibrate();
         setContent(barcodes[0]?.data);
         getShipment(barcodes[0]?.data);
-      }
-    }
-  };
-
-  const onBarCodeRead = (e: any) => {
-    if (!isLoadingFetchData) {
-      if (e.data) {
-        Vibration.vibrate();
-        setContent(e.data);
-        getShipment(e.data);
       }
     }
   };
@@ -109,7 +96,6 @@ export const ScanScreen: FunctionComponent = () => {
           flashMode={RNCamera.Constants.FlashMode.on}
           captureAudio={false}
           onGoogleVisionBarcodesDetected={onRead}
-          onBarCodeRead={onBarCodeRead}
         >
           <BarcodeMask
             width={300}

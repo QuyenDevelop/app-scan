@@ -15,6 +15,7 @@ export default StyleSheet.create({
   camera: {
     width: "100%",
     height: "100%",
+    overflow: "hidden",
   },
   receiveBtn: {
     backgroundColor: Themes.colors.bg,

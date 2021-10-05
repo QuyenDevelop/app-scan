@@ -15,7 +15,6 @@ import React, {
 } from "react";
 import {
   FlatList,
-  Platform,
   TextInput,
   TouchableOpacity,
   Vibration,
@@ -57,6 +56,7 @@ export const ReceiveScreen: FunctionComponent = () => {
         newCodes.unshift(code);
         await setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.BARCODES, newCodes);
         setCodes(newCodes);
+        inputRef.current?.clear();
         if (!noVibration) {
           Vibration.vibrate();
         }
@@ -66,9 +66,6 @@ export const ReceiveScreen: FunctionComponent = () => {
   );
 
   const onRead = ({ barcodes }: { barcodes: Array<any> }) => {
-    if (Platform.OS === "android") {
-      return;
-    }
     if (!isLoadingFetchData) {
       if (barcodes.length > 0) {
         if (
@@ -76,18 +73,6 @@ export const ReceiveScreen: FunctionComponent = () => {
           barcodes[0].data.trim().length > 0
         ) {
           addNewCode(barcodes[0].data);
-        } else {
-          Alert.warning("warning.dataInvalid");
-        }
-      }
-    }
-  };
-
-  const onBarCodeRead = (e: any) => {
-    if (!isLoadingFetchData) {
-      if (e.data) {
-        if (typeof e.data === "string" && e.data.trim().length > 0) {
-          addNewCode(e.data);
         } else {
           Alert.warning("warning.dataInvalid");
         }
@@ -139,7 +124,6 @@ export const ReceiveScreen: FunctionComponent = () => {
 
   const onPressAddCode = () => {
     addNewCode(inputValue.current, true);
-    inputRef.current?.clear();
   };
 
   return (
@@ -159,7 +143,6 @@ export const ReceiveScreen: FunctionComponent = () => {
             flashMode={RNCamera.Constants.FlashMode.on}
             captureAudio={false}
             onGoogleVisionBarcodesDetected={onRead}
-            onBarCodeRead={onBarCodeRead}
           >
             <BarcodeMask
               width="80%"
@@ -175,7 +158,6 @@ export const ReceiveScreen: FunctionComponent = () => {
             placeholder={translate("placeholder.scanOrType")}
             style={styles.input}
             contextMenuHidden={true}
-            defaultValue={inputValue.current}
             onChangeText={text => (inputValue.current = text)}
             onSubmitEditing={_e => {
               onPressAddCode();
