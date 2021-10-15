@@ -4,6 +4,7 @@ import { CONSTANT } from "@configs";
 import { Alert, getAsyncItem, setAsyncItem } from "@helpers";
 import { useShow } from "@hooks";
 import { useNavigation } from "@react-navigation/core";
+import { IRootState } from "@redux";
 import { Button, ConfirmModal, Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
 import React, {
@@ -22,60 +23,93 @@ import {
 } from "react-native";
 import BarcodeMask from "react-native-barcode-mask";
 import { RNCamera } from "react-native-camera";
+import { useSelector } from "react-redux";
 import { ReceiveItem } from "./components/ReceiveItem";
 import styles from "./styles";
 
-const getStoreBarcode = async (): Promise<Array<string>> => {
+export interface Barcode {
+  referenceNumber: string;
+  pieces: number;
+  acceptedDate: string;
+  acceptedByUserName: string;
+  acceptedByUserId: string;
+}
+
+const getStoreBarcode = async (): Promise<Array<Barcode>> => {
   const barcodes = await getAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.BARCODES);
   return barcodes && Array.isArray(barcodes) ? barcodes : [];
 };
 
 export const ReceiveScreen: FunctionComponent = () => {
   const navigation = useNavigation();
-  const [codes, setCodes] = useState<Array<string>>([]);
+  const [codes, setCodes] = useState<Array<Barcode>>([]);
   const [isLoadingFetchData, showLoadingReceive, hideLoadingReceive] =
     useShow();
   const [isShowConfirmModal, showConfirmModal, hideConfirmModal] = useShow();
   const inputValue = useRef<string>("");
   const inputRef = useRef<TextInput>(null);
-
+  const userInfo = useSelector((state: IRootState) => state.account.profile);
+  const [isScanning, scanning, scanned] = useShow();
+  const timerRef = useRef<any>(null);
   useEffect(() => {
-    getStoreBarcode().then((barcodes: Array<string>) => {
+    getStoreBarcode().then((barcodes: Array<Barcode>) => {
       setCodes(barcodes);
     });
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
   }, []);
 
   const addNewCode = useCallback(
     async (code: string, noVibration?: boolean) => {
-      if (!code || code === "") {
+      if (!code || code.trim() === "") {
         Alert.warning("warning.dataInvalid");
         return;
       }
       const newCodes = [...codes];
-      if (!newCodes.includes(code)) {
-        newCodes.unshift(code);
-        await setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.BARCODES, newCodes);
-        setCodes(newCodes);
-        inputRef.current?.clear();
-        if (!noVibration) {
-          Vibration.vibrate();
-        }
+      const findCodeIndex = newCodes.findIndex(
+        c => c.referenceNumber === code.trim(),
+      );
+      if (findCodeIndex < 0) {
+        newCodes.unshift({
+          referenceNumber: code.trim(),
+          pieces: 1,
+          acceptedDate: new Date().toISOString(),
+          acceptedByUserName: userInfo?.name || "",
+          acceptedByUserId: userInfo?.preferred_username || "",
+        });
+      } else {
+        newCodes[findCodeIndex] = {
+          ...newCodes[findCodeIndex],
+          pieces: newCodes[findCodeIndex].pieces + 1,
+        };
+      }
+
+      await setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.BARCODES, newCodes);
+      setCodes(newCodes);
+      inputRef.current?.clear();
+      if (!noVibration) {
+        Vibration.vibrate();
       }
     },
-    [codes],
+    [codes, userInfo?.name, userInfo?.preferred_username],
   );
 
-  const onRead = ({ barcodes }: { barcodes: Array<any> }) => {
-    if (!isLoadingFetchData) {
+  const onRead = async ({ barcodes }: { barcodes: Array<any> }) => {
+    if (!isLoadingFetchData && !isScanning) {
       if (barcodes.length > 0) {
+        scanning();
         if (
           typeof barcodes[0].data === "string" &&
           barcodes[0].data.trim().length > 0
         ) {
-          addNewCode(barcodes[0].data);
+          await addNewCode(barcodes[0].data.trim());
         } else {
           Alert.warning("warning.dataInvalid");
         }
+        timerRef.current = setTimeout(() => scanned(), 2000);
       }
     }
   };
@@ -104,11 +138,14 @@ export const ReceiveScreen: FunctionComponent = () => {
       });
   };
 
-  const keyExtractor = useCallback((item: string) => `${item}`, []);
+  const keyExtractor = useCallback(
+    (item: Barcode) => `${item.referenceNumber}`,
+    [],
+  );
 
   const deleteItem = useCallback(
     async (item: string) => {
-      const newCodes = codes.filter(c => c !== item);
+      const newCodes = codes.filter(c => c.referenceNumber !== item);
       await setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.BARCODES, newCodes);
       setCodes(newCodes);
     },
@@ -116,14 +153,14 @@ export const ReceiveScreen: FunctionComponent = () => {
   );
 
   const renderItem = useCallback(
-    ({ item }: { item: string }) => {
+    ({ item }: { item: Barcode }) => {
       return <ReceiveItem item={item} deleteItem={deleteItem} />;
     },
     [deleteItem],
   );
 
   const onPressAddCode = () => {
-    addNewCode(inputValue.current, true);
+    addNewCode(inputValue.current.trim(), true);
   };
 
   return (

@@ -14,6 +14,7 @@ export default {
     receive: "Receive",
   },
   label: {
+    acceptedDate: "Accepted date",
     newPassword: "New password",
     confirmNewPassword: "New password (confirm)",
     contactName: "Contact name",

@@ -260,4 +260,5 @@ export interface ShipmentItemDashboardResponse extends ShipmentResponse {
   TotalChargeableWeight: number;
   CreatedOnUtc: string;
   ProcessedDate: string;
+  AcceptedDate: string;
 }

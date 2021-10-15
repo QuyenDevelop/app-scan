@@ -14,6 +14,7 @@ export default {
     receive: "受け取る",
   },
   label: {
+    acceptedDate: "受理日",
     newPassword: "新しいパスワード",
     confirmNewPassword: "新しいパスワード（確認)",
     contactName: "連絡先名",

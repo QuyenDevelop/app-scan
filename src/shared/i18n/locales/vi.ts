@@ -14,6 +14,7 @@ export default {
     receive: "Tiếp nhận",
   },
   label: {
+    acceptedDate: "Ngày tiếp nhận",
     newPassword: "Mật khẩu mới",
     confirmNewPassword: "Mật khẩu mới (Xác nhận)",
     contactName: "Tên liên hệ",

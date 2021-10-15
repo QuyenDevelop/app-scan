@@ -18,4 +18,16 @@ export default StyleSheet.create({
     left: 20,
     right: 20,
   },
+  code: {
+    ...Themes.font.medium,
+    fontSize: 16,
+    fontWeight: "bold",
+    flex: 0.6,
+  },
+  deleteItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 0.4,
+    justifyContent: "space-between",
+  },
 });

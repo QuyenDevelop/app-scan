@@ -54,6 +54,18 @@ export const ShipmentItem: FunctionComponent<Props> = props => {
             </Text>
           </View>
         </View>
+        <View style={styles.shipmentInfo}>
+          <View style={styles.iconShipment}>
+            <Icon
+              name="ic_status"
+              size={Metrics.icons.smallSmall}
+              color={Themes.colors.coolGray60}
+            />
+          </View>
+          <Text style={styles.infoText}>
+            {translate("label.refNumber")}: {item.ReferenceNumber}
+          </Text>
+        </View>
         {!!item.CreatedOnUtc && (
           <View style={styles.shipmentInfo}>
             <View style={styles.iconShipment}>
@@ -66,6 +78,21 @@ export const ShipmentItem: FunctionComponent<Props> = props => {
             <Text style={styles.infoText}>
               {translate("label.createDate")}:{" "}
               {Utils.date.formatDate(item.CreatedOnUtc)}
+            </Text>
+          </View>
+        )}
+        {!!item.AcceptedDate && (
+          <View style={styles.shipmentInfo}>
+            <View style={styles.iconShipment}>
+              <Icon
+                name="ic_calendar"
+                size={Metrics.icons.smallSmall}
+                color={Themes.colors.coolGray60}
+              />
+            </View>
+            <Text style={styles.infoText}>
+              {translate("label.acceptedDate")}:{" "}
+              {Utils.date.formatDate(item.AcceptedDate)}
             </Text>
           </View>
         )}
