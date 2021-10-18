@@ -2,6 +2,7 @@ import { Footer } from "@components";
 import { SCREENS } from "@configs";
 import { Alert, Utils } from "@helpers";
 import { useStatusBar } from "@hooks";
+import { Account } from "@models";
 import { useNavigation } from "@react-navigation/native";
 import { AccountAction } from "@redux";
 import { Button, Checkbox, TextInput, translate } from "@shared";
@@ -35,10 +36,14 @@ export const LoginScreen: FunctionComponent = () => {
       AccountAction.userInfo(
         {},
         {
-          onFailure: () => {
+          onFailure: (err: any) => {
+            console.log("fail: ", err);
             setIsLoading(false);
           },
-          onSuccess: () => {
+          onSuccess: (response: { account: Account }) => {
+            dispatch(
+              AccountAction.getPostOffice({ account: response.account }),
+            );
             setEmail("");
             setPassword("");
             setIsButtonClickSubmit(false);

@@ -1,9 +1,12 @@
+/* eslint-disable react-native/no-inline-styles */
 import { shipmentApi } from "@api";
 import { Header } from "@components";
 import { CONSTANT } from "@configs";
-import { Alert, getAsyncItem, setAsyncItem } from "@helpers";
+import { Alert, getAsyncItem, setAsyncItem, Utils } from "@helpers";
 import { useShow } from "@hooks";
+import { BarcodeMask, useBarcodeRead } from "@nartc/react-native-barcode-mask";
 import { useNavigation } from "@react-navigation/core";
+import { useIsFocused } from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { Button, ConfirmModal, Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
@@ -21,7 +24,6 @@ import {
   Vibration,
   View,
 } from "react-native";
-import BarcodeMask from "react-native-barcode-mask";
 import { RNCamera } from "react-native-camera";
 import { useSelector } from "react-redux";
 import { ReceiveItem } from "./components/ReceiveItem";
@@ -50,16 +52,23 @@ export const ReceiveScreen: FunctionComponent = () => {
   const inputRef = useRef<TextInput>(null);
   const userInfo = useSelector((state: IRootState) => state.account.profile);
   const [isScanning, scanning, scanned] = useShow();
-  const timerRef = useRef<any>(null);
+  const isFocused = useIsFocused();
+
+  const { onBarcodeFinderLayoutChange } = useBarcodeRead(
+    isFocused,
+    barcodeData => {
+      return barcodeData;
+    },
+    processedBarcodeData => {
+      addNewCode(processedBarcodeData.trim());
+    },
+    2000,
+  );
+
   useEffect(() => {
     getStoreBarcode().then((barcodes: Array<Barcode>) => {
       setCodes(barcodes);
     });
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-    };
   }, []);
 
   const addNewCode = useCallback(
@@ -78,7 +87,7 @@ export const ReceiveScreen: FunctionComponent = () => {
           pieces: 1,
           acceptedDate: new Date().toISOString(),
           acceptedByUserName: userInfo?.name || "",
-          acceptedByUserId: userInfo?.preferred_username || "",
+          acceptedByUserId: userInfo?.sub || "",
         });
       } else {
         newCodes[findCodeIndex] = {
@@ -94,23 +103,21 @@ export const ReceiveScreen: FunctionComponent = () => {
         Vibration.vibrate();
       }
     },
-    [codes, userInfo?.name, userInfo?.preferred_username],
+    [codes, userInfo?.name, userInfo?.sub],
   );
 
   const onRead = async ({ barcodes }: { barcodes: Array<any> }) => {
-    if (!isLoadingFetchData && !isScanning) {
+    if (isLoadingFetchData || isScanning) {
+      return;
+    }
+
+    if (barcodes.length > 0) {
+      scanning();
       if (barcodes.length > 0) {
-        scanning();
-        if (
-          typeof barcodes[0].data === "string" &&
-          barcodes[0].data.trim().length > 0
-        ) {
-          await addNewCode(barcodes[0].data.trim());
-        } else {
-          Alert.warning("warning.dataInvalid");
-        }
-        timerRef.current = setTimeout(() => scanned(), 2000);
+        addNewCode(barcodes[0].data.trim());
       }
+      await Utils.delay(2000);
+      scanned();
     }
   };
 
@@ -182,13 +189,19 @@ export const ReceiveScreen: FunctionComponent = () => {
             onGoogleVisionBarcodesDetected={onRead}
           >
             <BarcodeMask
-              width="80%"
-              height="80%"
+              width={280}
+              height={100}
+              edgeWidth={20}
+              edgeHeight={20}
+              edgeRadius={20}
               showAnimatedLine={false}
-              outerMaskOpacity={0.8}
+              maskOpacity={0.7}
+              backgroundColor={Themes.colors.black}
+              onLayoutChange={onBarcodeFinderLayoutChange}
             />
           </RNCamera>
         </View>
+
         <View style={styles.inputView}>
           <TextInput
             ref={inputRef}

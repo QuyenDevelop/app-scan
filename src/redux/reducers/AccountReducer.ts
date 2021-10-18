@@ -49,9 +49,12 @@ export const accountReducer: Reducer<IUserState, UnfoldSagaActionType> = (
   const { type, payload } = action;
   return produce(state, (draftState: IUserState): void => {
     switch (type) {
-      case createActionTypeOnSuccess(AccountActionType.GET_USER_INFO):
+      case createActionTypeOnSuccess(AccountActionType.GET_POST_OFFICE):
         draftState.profile = payload.account;
         draftState.postOffices = payload.postOffices;
+        break;
+      case createActionTypeOnSuccess(AccountActionType.GET_USER_INFO):
+        draftState.profile = payload.account;
         break;
       case createActionTypeOnSuccess(AccountActionType.LOGOUT):
         draftState.profile = null;

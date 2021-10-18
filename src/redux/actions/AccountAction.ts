@@ -15,4 +15,5 @@ export default {
     AccountActionType.CHANGE_CURRENCY_WITH_LAUNCH,
   ),
   changeLanguage: createAction(AccountActionType.CHANGE_LANGUAGE),
+  getPostOffice: createAction(AccountActionType.GET_POST_OFFICE),
 };

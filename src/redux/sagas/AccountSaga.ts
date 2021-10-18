@@ -84,10 +84,30 @@ export function* takeGetUserInfo({
     {
       handler: async (): Promise<{
         account: Account | undefined;
-        postOffices: Array<PostOfficeItemResponse>;
       }> => {
         const data = await authApi.getUserInfo();
+        return { account: data };
+      },
+      key: type,
+    },
+    callbacks,
+  );
+}
+
+export function* takeGetPostOffices({
+  callbacks,
+  type,
+  payload,
+}: UnfoldSagaActionType): Iterable<SagaIterator> {
+  yield unfoldSaga(
+    {
+      handler: async (): Promise<{
+        account: Account | undefined;
+        postOffices: Array<PostOfficeItemResponse>;
+      }> => {
+        const data = { ...payload.account };
         let postOffices: Array<PostOfficeItemResponse> = [];
+
         if (data) {
           const postOffice = await userPostOfficeApi.getPostOffice(data.sub);
           data.postOfficeId = postOffice?.IChiba_PostOffice_Id || "";
@@ -102,7 +122,6 @@ export function* takeGetUserInfo({
             postOffice?.IChiba_Currency_Code || "",
           );
         }
-
         return { account: data, postOffices: postOffices };
       },
       key: type,
@@ -155,4 +174,5 @@ export default function* accountSaga(): SagaIterator {
     takeChangeLanguageWithLaunch,
   );
   yield takeLatest(AccountActionType.CHANGE_LANGUAGE, takeChangeLanguage);
+  yield takeLatest(AccountActionType.GET_POST_OFFICE, takeGetPostOffices);
 }

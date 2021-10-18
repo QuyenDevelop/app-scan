@@ -1,5 +1,6 @@
 import { CONSTANT, DATA_CONSTANT, SCREENS } from "@configs";
 import { useStatusBar } from "@hooks";
+import { Account } from "@models";
 import { RootParamList } from "@navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo, { NetInfoState } from "@react-native-community/netinfo";
@@ -96,7 +97,10 @@ export const LaunchScreen: FunctionComponent<Props> = () => {
         AccountAction.userInfo(
           {},
           {
-            onSuccess: () => {
+            onSuccess: (response: { account: Account }) => {
+              dispatch(
+                AccountAction.getPostOffice({ account: response.account }),
+              );
               onContinueFlow();
             },
             onFinish: () => {

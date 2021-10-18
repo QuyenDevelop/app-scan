@@ -13,6 +13,7 @@ const formatDecimalText = (value: string): string => {
 };
 
 export const Utils = {
+  delay: (ms: number) => new Promise(res => setTimeout(res, ms)),
   comparePrice: (minPrice: number, maxPrice: number) => {
     return minPrice < maxPrice;
   },
