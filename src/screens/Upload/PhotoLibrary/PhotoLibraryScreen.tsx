@@ -4,6 +4,7 @@ import {
   Alert,
   getAsyncItem,
   hasAndroidPermission,
+  ScreenUtils,
   setAsyncItem,
 } from "@helpers";
 import { useShow, useToggle } from "@hooks";
@@ -23,11 +24,11 @@ import React, {
 } from "react";
 import {
   DeviceEventEmitter,
-  FlatList,
   Platform,
   TouchableOpacity,
   View,
 } from "react-native";
+import BigList from "react-native-big-list";
 import { ImageItem } from "./ImageItem";
 import styles from "./styles";
 
@@ -39,6 +40,8 @@ export interface PhotoLibraryScreenParams {
   prefix: string;
   suffix: string;
 }
+
+const ITEM_HEIGHT = (ScreenUtils.WIDTH - ScreenUtils.calculatorWidth(32)) / 3;
 
 export const PhotoLibraryScreen: FunctionComponent = () => {
   const navigation = useNavigation();
@@ -62,6 +65,8 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
       first: 40,
       assetType: "Photos",
       after: after,
+      groupTypes: "Album",
+      groupName: CONSTANT.ALBUMS,
     })
       .then(r => {
         setPhotos(p => [...p, ...r.edges]);
@@ -174,6 +179,8 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
     toggleMode();
   };
 
+  const keyExtractor = useCallback((item: any) => `${item.node.image.uri}`, []);
+
   return (
     <View style={styles.container}>
       <Header
@@ -189,13 +196,16 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
         titleRightOnPress={changeMode}
       />
       <View style={styles.content}>
-        <FlatList
+        <BigList
           data={photos}
-          keyExtractor={(item, index) => `${item.node.image.uri}_${index}`}
+          keyExtractor={keyExtractor}
           renderItem={renderItem}
           numColumns={3}
           onEndReachedThreshold={0.8}
           onEndReached={onEndReached}
+          showsVerticalScrollIndicator={false}
+          itemHeight={ITEM_HEIGHT}
+          contentContainerStyle={styles.contentContainer}
         />
         {isSelectMode && (
           <View style={styles.bottomView}>

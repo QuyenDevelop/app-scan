@@ -1,6 +1,7 @@
 export * from "./AddServicePhotos";
 export * from "./Auth";
 export * from "./Home";
+export * from "./Inventory";
 export * from "./Launch";
 export * from "./Menu";
 export * from "./Receive";

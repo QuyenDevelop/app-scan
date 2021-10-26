@@ -48,6 +48,7 @@ export default StyleSheet.create({
   },
   button: {
     marginTop: ScreenUtils.calculatorHeight(56),
+    marginBottom: ScreenUtils.calculatorHeight(20),
   },
   loginSocialContainer: {
     marginTop: ScreenUtils.calculatorHeight(16),

@@ -1,6 +1,6 @@
 import { Themes } from "@themes";
 import { Dimensions, StyleSheet } from "react-native";
-const { width } = Dimensions.get("screen");
+const { width, height } = Dimensions.get("screen");
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -8,7 +8,7 @@ export default StyleSheet.create({
   },
   image: {
     width: width,
-    height: width,
+    height: height,
   },
   swiper: {
     flex: 1,

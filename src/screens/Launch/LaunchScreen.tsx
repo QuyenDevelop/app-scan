@@ -60,8 +60,8 @@ export const LaunchScreen: FunctionComponent<Props> = () => {
     ]);
 
     console.log("🚀🚀🚀 => authenticate => accessToken", accessToken);
-    console.log("🚀🚀🚀 => authenticate => language", language);
-    console.log("🚀🚀🚀 => authenticate => currency", currency);
+    // console.log("🚀🚀🚀 => authenticate => language", language);
+    // console.log("🚀🚀🚀 => authenticate => currency", currency);
 
     dispatch(AccountAction.commonConfig());
 

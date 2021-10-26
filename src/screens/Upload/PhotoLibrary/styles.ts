@@ -40,8 +40,9 @@ export default StyleSheet.create({
     color: Themes.colors.white,
   },
   imageLibrary: {
-    width: (ScreenUtils.WIDTH - ScreenUtils.calculatorWidth(40)) / 3,
-    height: (ScreenUtils.WIDTH - ScreenUtils.calculatorWidth(37)) / 3,
+    width: "100%",
+    height: "100%",
+    overflow: "hidden",
   },
   iconCheck: {
     position: "absolute",
@@ -49,13 +50,13 @@ export default StyleSheet.create({
     right: ScreenUtils.calculatorHeight(8),
   },
   imageView: {
-    flex: 1 / 3,
+    width: (ScreenUtils.WIDTH - ScreenUtils.calculatorWidth(32)) / 3,
     justifyContent: "center",
     alignItems: "center",
-    padding: 2,
+    marginBottom: ScreenUtils.calculatorHeight(4),
   },
   content: {
-    margin: ScreenUtils.calculatorWidth(15),
+    marginHorizontal: ScreenUtils.calculatorWidth(12),
     flex: 1,
   },
   bottomView: {
@@ -79,5 +80,8 @@ export default StyleSheet.create({
   titleRight: {
     color: Themes.colors.white,
     fontSize: 16,
+  },
+  contentContainer: {
+    paddingVertical: ScreenUtils.calculatorWidth(12),
   },
 });

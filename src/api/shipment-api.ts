@@ -13,7 +13,7 @@ import {
   UpdateCodShipmentRequest,
   UpdateDirectShipmentRequest,
 } from "@models";
-import { Barcode } from "@screens";
+import { ReceiveBarcode } from "@screens";
 import { BaseApi } from "./base-api";
 
 class ShipmentApi extends BaseApi {
@@ -84,7 +84,7 @@ class ShipmentApi extends BaseApi {
     return this.get<DashboardsResponse>("gets-dashboard-mobile", request);
   }
 
-  receiveCodes(referenceNumbers: Array<Barcode>) {
+  receiveCodes(referenceNumbers: Array<ReceiveBarcode>) {
     return this.post("receiving", { importDetails: referenceNumbers }, {});
   }
 }

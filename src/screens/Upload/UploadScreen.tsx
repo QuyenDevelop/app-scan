@@ -25,8 +25,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { RNCamera } from "react-native-camera";
+import { RNCamera, TakePictureOptions } from "react-native-camera";
 import FastImage from "react-native-fast-image";
+import Marker, { ImageFormat } from "react-native-image-marker";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from "./styles";
 
@@ -52,20 +53,48 @@ export const UploadScreen: FunctionComponent = () => {
 
   const takePicture = async () => {
     if (cameraRef.current) {
-      const options = { quality: 0.5, imageType: "" };
+      const options: TakePictureOptions = {
+        quality: 0.5,
+      };
       const data = await cameraRef.current?.takePictureAsync(options);
-      setUri(data.uri);
+      // setUri(data.uri);
       setPhotos(p => [...p, data.uri]);
       if (Platform.OS === "android" && !(await hasAndroidPermission())) {
         return;
       }
-      CameraRoll.save(data.uri)
-        .then(() => {
-          console.log("save success");
+
+      Marker.markImage({
+        src: data.uri,
+        markerSrc: Images.icMenuHome, // icon uri
+        X: data.width - 400,
+        Y: 200,
+        scale: 1, // scale of bg
+        markerScale: 5, // scale of icon
+        quality: 100, // quality of image
+        saveFormat: ImageFormat.png,
+      })
+        .then(res => {
+          console.log("the path is: ", res);
+          setUri(res);
+          CameraRoll.save(res, { type: "photo", album: CONSTANT.ALBUMS })
+            .then(() => {
+              console.log("save success mark image");
+            })
+            .catch(err => {
+              console.log("save err: ", err);
+            });
         })
         .catch(err => {
-          console.log("save err: ", err);
+          console.log(err);
         });
+
+      // CameraRoll.save(data.uri)
+      //   .then(() => {
+      //     console.log("save success");
+      //   })
+      //   .catch(err => {
+      //     console.log("save err: ", err);
+      //   });
     }
   };
 
@@ -143,9 +172,7 @@ export const UploadScreen: FunctionComponent = () => {
             <Icon
               name="ic_close"
               size={Metrics.icons.large}
-              color={
-                isFlashMode ? Themes.colors.warning50 : Themes.colors.white
-              }
+              color={Themes.colors.white}
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={toggleFlashMode}>

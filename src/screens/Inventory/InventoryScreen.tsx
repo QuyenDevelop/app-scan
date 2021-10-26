@@ -4,11 +4,19 @@ import { Header } from "@components";
 import { CONSTANT } from "@configs";
 import { Alert, getAsyncItem, setAsyncItem } from "@helpers";
 import { useShow } from "@hooks";
+import { LocationResponse } from "@models";
 import { BarcodeMask, useBarcodeRead } from "@nartc/react-native-barcode-mask";
 import { useNavigation } from "@react-navigation/core";
 import { useIsFocused } from "@react-navigation/native";
 import { IRootState } from "@redux";
-import { Button, ConfirmModal, Icon, translate } from "@shared";
+import {
+  Button,
+  ConfirmModal,
+  Icon,
+  LocationModal,
+  Text,
+  translate,
+} from "@shared";
 import { Metrics, Themes } from "@themes";
 import React, {
   FunctionComponent,
@@ -26,10 +34,10 @@ import {
 } from "react-native";
 import { RNCamera } from "react-native-camera";
 import { useSelector } from "react-redux";
-import { ReceiveItem } from "./components/ReceiveItem";
+import { InventoryItem } from "./components/InventoryItem";
 import styles from "./styles";
 
-export interface ReceiveBarcode {
+export interface InventoryBarcode {
   referenceNumber: string;
   pieces: number;
   acceptedDate: string;
@@ -37,31 +45,32 @@ export interface ReceiveBarcode {
   acceptedByUserId: string;
 }
 
-const getStoreBarcode = async (): Promise<Array<ReceiveBarcode>> => {
+const getStoreBarcode = async (): Promise<Array<InventoryBarcode>> => {
   const barcodes = await getAsyncItem(
-    CONSTANT.TOKEN_STORAGE_KEY.RECEIVE_BARCODES,
+    CONSTANT.TOKEN_STORAGE_KEY.INVENTORY_BARCODES,
   );
   return barcodes && Array.isArray(barcodes) ? barcodes : [];
 };
 
-export const ReceiveScreen: FunctionComponent = () => {
+export const InventoryScreen: FunctionComponent = () => {
   const navigation = useNavigation();
-  const [codes, setCodes] = useState<Array<ReceiveBarcode>>([]);
-  const [isLoadingFetchData, showLoadingReceive, hideLoadingReceive] =
+  const [codes, setCodes] = useState<Array<InventoryBarcode>>([]);
+  const [isLoadingFetchData, showLoadingInventory, hideLoadingInventory] =
     useShow();
   const [isShowConfirmModal, showConfirmModal, hideConfirmModal] = useShow();
+  const [isShowLocationModal, showLocationModal, hideLocationModal] = useShow();
   const inputValue = useRef<string>("");
   const inputRef = useRef<TextInput>(null);
   const userInfo = useSelector((state: IRootState) => state.account.profile);
   const isFocused = useIsFocused();
   const [isShowDetectCode, showDetectCode, hideDetectCode] = useShow();
+  const [locationSelected, setLocationSelected] = useState<LocationResponse>();
   const [positionCode, setPositionCode] = useState({
     top: 0,
     left: 0,
     width: 0,
     height: 0,
   });
-
   const { barcodeRead, onBarcodeRead, onBarcodeFinderLayoutChange } =
     useBarcodeRead(
       isFocused,
@@ -75,7 +84,7 @@ export const ReceiveScreen: FunctionComponent = () => {
     );
 
   useEffect(() => {
-    getStoreBarcode().then((barcodes: Array<ReceiveBarcode>) => {
+    getStoreBarcode().then((barcodes: Array<InventoryBarcode>) => {
       setCodes(barcodes);
     });
   }, []);
@@ -110,7 +119,7 @@ export const ReceiveScreen: FunctionComponent = () => {
           acceptedByUserId: userInfo?.sub || "",
         });
         await setAsyncItem(
-          CONSTANT.TOKEN_STORAGE_KEY.RECEIVE_BARCODES,
+          CONSTANT.TOKEN_STORAGE_KEY.INVENTORY_BARCODES,
           newCodes,
         );
         setCodes(newCodes);
@@ -143,16 +152,16 @@ export const ReceiveScreen: FunctionComponent = () => {
     }
   };
 
-  const receiverCode = () => {
-    showLoadingReceive();
+  const inventoryCode = () => {
+    showLoadingInventory();
     shipmentApi
-      .receiveCodes(codes)
+      .inventoryCodes(codes)
       ?.then(async response => {
         if (response?.success) {
-          await setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.RECEIVE_BARCODES, []);
+          await setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.INVENTORY_BARCODES, []);
           setCodes([]);
           Alert.success(
-            translate("success.receiveSuccess", { number: codes.length }),
+            translate("success.inventoryCode", { number: codes.length }),
             true,
           );
         } else {
@@ -163,19 +172,22 @@ export const ReceiveScreen: FunctionComponent = () => {
         Alert.error("error.errorServer");
       })
       .finally(() => {
-        hideLoadingReceive();
+        hideLoadingInventory();
       });
   };
 
   const keyExtractor = useCallback(
-    (item: ReceiveBarcode) => `${item.referenceNumber}`,
+    (item: InventoryBarcode) => `${item.referenceNumber}`,
     [],
   );
 
   const deleteItem = useCallback(
     async (item: string) => {
       const newCodes = codes.filter(c => c.referenceNumber !== item);
-      await setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.RECEIVE_BARCODES, newCodes);
+      await setAsyncItem(
+        CONSTANT.TOKEN_STORAGE_KEY.INVENTORY_BARCODES,
+        newCodes,
+      );
       setCodes(newCodes);
     },
     [codes],
@@ -189,16 +201,19 @@ export const ReceiveScreen: FunctionComponent = () => {
         ...newCodes[index],
         pieces: isNaN(value) || value < 1 ? 1 : value,
       };
-      await setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.RECEIVE_BARCODES, newCodes);
+      await setAsyncItem(
+        CONSTANT.TOKEN_STORAGE_KEY.INVENTORY_BARCODES,
+        newCodes,
+      );
       setCodes(newCodes);
     },
     [codes],
   );
 
   const renderItem = useCallback(
-    ({ item, index }: { item: ReceiveBarcode; index: number }) => {
+    ({ item, index }: { item: InventoryBarcode; index: number }) => {
       return (
-        <ReceiveItem
+        <InventoryItem
           item={item}
           index={index}
           deleteItem={deleteItem}
@@ -206,17 +221,22 @@ export const ReceiveScreen: FunctionComponent = () => {
         />
       );
     },
-    [deleteItem],
+    [deleteItem, updatePieces],
   );
 
   const onPressAddCode = () => {
     addNewCode(inputValue.current.trim(), true);
   };
 
+  const onSelectLocation = (location: LocationResponse) => {
+    console.log("🚀🚀🚀 => onSelectLocation => location", location);
+    setLocationSelected(location);
+  };
+
   return (
     <View style={styles.container}>
       <Header
-        title={translate("screens.receive")}
+        title={translate("screens.inventory")}
         iconLeftName={["ic_arrow_left"]}
         iconLeftOnPress={[() => navigation.goBack()]}
         isCenterTitle
@@ -256,6 +276,29 @@ export const ReceiveScreen: FunctionComponent = () => {
             />
           )}
         </View>
+        <View style={styles.toolView}>
+          <TouchableOpacity
+            style={styles.locationBtn}
+            onPress={showLocationModal}
+          >
+            <Icon
+              name="ic_location"
+              size={Metrics.icons.smallSmall}
+              color={Themes.colors.red0722}
+            />
+            <Text style={styles.locationText}>
+              {locationSelected?.Name || translate("button.selectLocation")}
+            </Text>
+            <Icon
+              name="ic_arrow_down"
+              size={Metrics.icons.smallSmall}
+              color={Themes.colors.coolGray60}
+            />
+          </TouchableOpacity>
+          <Text>
+            -/- {translate("label.system")}/{translate("label.reality")}
+          </Text>
+        </View>
         <View style={styles.inputView}>
           <TextInput
             ref={inputRef}
@@ -278,7 +321,6 @@ export const ReceiveScreen: FunctionComponent = () => {
             />
           </TouchableOpacity>
         </View>
-
         <FlatList
           data={codes || []}
           keyExtractor={keyExtractor}
@@ -288,11 +330,11 @@ export const ReceiveScreen: FunctionComponent = () => {
         />
         {codes && codes.length > 0 && (
           <Button
-            title={translate("button.receive")}
+            title={translate("button.inventory")}
             onPress={showConfirmModal}
-            buttonStyle={styles.receiveBtn}
-            buttonChildStyle={styles.receiveChildBtn}
-            titleStyle={styles.receiveTextBtn}
+            buttonStyle={styles.inventoryBtn}
+            buttonChildStyle={styles.inventoryChildBtn}
+            titleStyle={styles.inventoryTextBtn}
             isLoading={isLoadingFetchData}
           />
         )}
@@ -300,8 +342,13 @@ export const ReceiveScreen: FunctionComponent = () => {
       <ConfirmModal
         isVisible={isShowConfirmModal}
         closeModal={hideConfirmModal}
-        message={translate("alert.confirmReceive", { number: codes.length })}
-        onConfirm={receiverCode}
+        message={translate("alert.confirmInventory", { number: codes.length })}
+        onConfirm={inventoryCode}
+      />
+      <LocationModal
+        isShowModal={isShowLocationModal}
+        closeModal={hideLocationModal}
+        onSelectLocation={onSelectLocation}
       />
     </View>
   );

@@ -60,7 +60,9 @@ export const Shipment: FunctionComponent<Props> = props => {
           </View>
           <Text style={styles.infoText}>
             {translate("label.createDate")}:{" "}
-            {Utils.date.formatDate(item.CreatedOnUtc)}
+            {item.CreatedOnUtc
+              ? Utils.date.formatDate(item.CreatedOnUtc)
+              : translate("label.updating")}
           </Text>
         </View>
         <View style={styles.shipmentInfo}>
@@ -73,7 +75,9 @@ export const Shipment: FunctionComponent<Props> = props => {
           </View>
           <Text style={styles.infoText}>
             {translate("label.processDate")}:{" "}
-            {Utils.date.formatDate(item.ProcessedDate)}
+            {item.ProcessedDate
+              ? Utils.date.formatDate(item.ProcessedDate)
+              : translate("label.updating")}
           </Text>
         </View>
         <View style={styles.shipmentInfo}>

@@ -130,3 +130,9 @@ export const goToReceiveScreen = () => {
     screen: SCREENS.RECEIVE_SCREEN,
   });
 };
+
+export const goToInventoryScreen = () => {
+  NavigationUtils.navigate(SCREENS.INVENTORY_STACK, {
+    screen: SCREENS.INVENTORY_SCREEN,
+  });
+};

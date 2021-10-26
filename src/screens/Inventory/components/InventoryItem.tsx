@@ -1,20 +1,19 @@
 import { useShow } from "@hooks";
-import { ReceiveBarcode } from "@screens";
+import { InventoryBarcode } from "@screens";
 import { DeleteModal, Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import styles from "./styles";
 interface Props {
-  item: ReceiveBarcode;
+  item: InventoryBarcode;
   index: number;
   deleteItem: (value: string) => void;
   updatePieces: (index: number, value: number) => void;
 }
 
-export const ReceiveItem: FunctionComponent<Props> = props => {
+export const InventoryItem: FunctionComponent<Props> = props => {
   const { item, index, deleteItem, updatePieces } = props;
-  // console.log("🚀🚀🚀 => item", item);
   const [isShowDeleteModal, showDeleteModal, hideDeleteModal] = useShow();
   const confirmDelete = () => {
     deleteItem(item.referenceNumber);

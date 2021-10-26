@@ -1,6 +1,7 @@
 import {
   goToCheckAndScanScreen,
   goToHomeScreen,
+  goToInventoryScreen,
   goToReceiveScreen,
   goToScanCodScreen,
   goToShipmentManagementScreen,
@@ -61,39 +62,39 @@ const shipmentMode = [
 const homeItems = [
   {
     id: 0,
+    title: "label.homeItems.receive.title",
+    content: "label.homeItems.receive.content",
+    icon: Images.claimAndInquiries,
+    onPress: goToReceiveScreen,
+  },
+  {
+    id: 1,
     title: "label.homeItems.checkAndScan.title",
     content: "label.homeItems.checkAndScan.content",
     icon: Images.checkAndScan,
     onPress: goToCheckAndScanScreen,
   },
   {
-    id: 1,
+    id: 2,
     title: "label.homeItems.cod.title",
     content: "label.homeItems.cod.content",
     icon: Images.cod,
     onPress: goToScanCodScreen,
   },
   {
-    id: 2,
+    id: 3,
     title: "label.homeItems.shipmentManagement.title",
     content: "label.homeItems.shipmentManagement.content",
     icon: Images.shipmentManagement,
     onPress: goToShipmentManagementScreen,
   },
   {
-    id: 3,
-    title: "label.homeItems.receive.title",
-    content: "label.homeItems.receive.content",
+    id: 4,
+    title: "label.homeItems.inventoryManagement.title",
+    content: "label.homeItems.inventoryManagement.content",
     icon: Images.claimAndInquiries,
-    onPress: goToReceiveScreen,
+    onPress: goToInventoryScreen,
   },
-  // {
-  //   id: 3,
-  //   title: "label.homeItems.claimAndInquiries.title",
-  //   content: "label.homeItems.claimAndInquiries.content",
-  //   icon: Images.claimAndInquiries,
-  //   onPress: () => {},
-  // },
 ];
 
 const menuItems = [

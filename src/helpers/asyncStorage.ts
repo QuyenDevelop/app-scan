@@ -22,3 +22,12 @@ export const setAsyncItem = async (key: string, value: any) => {
     return false;
   }
 };
+
+export const removeAsyncItem = async (key: string) => {
+  try {
+    await AsyncStorage.removeItem(key);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
