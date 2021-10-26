@@ -12,8 +12,12 @@ export default {
     userInfoScreen: "Thông tin người dùng",
     changePassword: "Đổi mật khẩu",
     receive: "Tiếp nhận",
+    inventory: "Kiểm kê",
   },
   label: {
+    reality: "Thực tế",
+    pleaseEnterPassword: "Vui lòng nhập mật khẩu",
+    biometricLogin: "Đăng nhập sinh trắc",
     acceptedDate: "Ngày tiếp nhận",
     newPassword: "Mật khẩu mới",
     confirmNewPassword: "Mật khẩu mới (Xác nhận)",
@@ -33,7 +37,7 @@ export default {
     status: "Trạng thái",
     waitingProcess: "Chờ xử lý",
     processed: "Đã xử lý",
-    location: "Địa điểm",
+    location: "Vị trí",
     qrUserManual:
       "Hãy đặt mã vạch trong cửa sổ để quét.\nViệc tìm kiếm sẽ tự động bắt đầu.",
     menuItem: {
@@ -65,6 +69,10 @@ export default {
       receive: {
         title: "Tiếp nhận",
         content: "Tiếp nhận đơn",
+      },
+      inventoryManagement: {
+        title: "Quản lý tồn kho",
+        content: "Kiểm soát và xác nhận số lượng hàng hóa",
       },
     },
     photoModal: "Ảnh",
@@ -249,7 +257,7 @@ export default {
     notification: "Thông báo",
     general: "Thông báo chung",
     order: "Đơn hàng",
-    system: "Thông báo hệ thống",
+    system: "Hệ thống",
     limitNumber: "Giới hạn 16 ký tự",
     result: "Kết quả:",
     notificationCount: "{{count}} thông báo",
@@ -705,6 +713,9 @@ export default {
     relatedProductSameSeller: "Sản phẩm liên quan của cửa hàng",
   },
   button: {
+    selectLocation: "Chọn vị trí",
+    inventory: "Kiểm kê",
+    loginWithBiometric: "Đăng nhập sinh trắc",
     receive: "Tiếp nhận",
     choose: "Chọn",
     shipmentImages: "Ảnh hàng hóa",
@@ -842,6 +853,9 @@ export default {
     send: "Gửi",
   },
   error: {
+    noLoginBiometric:
+      "Vui lòng đăng nhập bằng mật khẩu để trước khi sử dụng dịch vụ",
+    registerBiometricError: "Đăng kí sinh trắc thất bại. Vui lòng thử lại sau!",
     errBarCode: "Mã không hợp lệ",
     noShipment:
       "Không tồn tại shipment hoặc shipment ở trạng thái không cho phép.",
@@ -874,6 +888,8 @@ export default {
     unActiveFail: "Huỷ Kích hoạt không thành công",
   },
   success: {
+    removeBiometricSuccess: "Xóa đăng nhập sinh trắc thành công",
+    registerBiometricSuccess: "Đăng kí sinh trắc thành công",
     receiveSuccess: "Tiếp nhận thành công {{number}} mã",
     autoUploadImage: "{{number}} ảnh đang được tải lên tự động",
     updateSuccess: "Cập nhật thành công",
@@ -1238,5 +1254,6 @@ export default {
     deleteImages: "Bạn có chắc chắn xóa {{number}} ảnh?",
     deleteReceive: "Bạn có chắc chắn xóa mã {{number}} không?",
     confirmReceive: "Bạn có chắc chắn tiếp nhận {{number}} mã không?",
+    confirmInventory: "Bạn có chắc chắn kiểm kê {{number}} mã không?",
   },
 };
