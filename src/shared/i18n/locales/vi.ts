@@ -859,7 +859,7 @@ export default {
   error: {
     shipmentNotFound: "Không tìm thấy shipment {{name}}",
     noLoginBiometric:
-      "Vui lòng đăng nhập bằng mật khẩu để trước khi sử dụng dịch vụ",
+      "Vui lòng đăng nhập bằng mật khẩu trước khi sử dụng dịch vụ",
     registerBiometricError: "Đăng kí sinh trắc thất bại. Vui lòng thử lại sau!",
     errBarCode: "Mã không hợp lệ",
     noShipment:
