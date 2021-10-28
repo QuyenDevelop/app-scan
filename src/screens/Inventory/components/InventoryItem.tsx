@@ -1,14 +1,14 @@
 import { useShow } from "@hooks";
-import { InventoryBarcode } from "@screens";
-import { DeleteModal, Icon, translate } from "@shared";
+import { InventoryDetailTemp } from "@models";
+import { Checkbox, DeleteModal, Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import styles from "./styles";
 interface Props {
-  item: InventoryBarcode;
+  item: InventoryDetailTemp;
   index: number;
-  deleteItem: (value: string) => void;
+  deleteItem: (index: number) => void;
   updatePieces: (index: number, value: number) => void;
 }
 
@@ -16,19 +16,51 @@ export const InventoryItem: FunctionComponent<Props> = props => {
   const { item, index, deleteItem, updatePieces } = props;
   const [isShowDeleteModal, showDeleteModal, hideDeleteModal] = useShow();
   const confirmDelete = () => {
-    deleteItem(item.referenceNumber);
+    deleteItem(index);
   };
 
   const plusPieces = () => {
-    updatePieces(index, item.pieces + 1);
+    updatePieces(index, item.Pieces + 1);
   };
 
   const minusPieces = () => {
-    updatePieces(index, item.pieces - 1);
+    updatePieces(index, item.Pieces - 1);
   };
+
+  const onCheck = () => {
+    updatePieces(index, item.ExpectedPieces);
+  };
+
+  const getBackgroundColor = (): string => {
+    if (item.ExpectedPieces === item.Pieces) {
+      return Themes.colors.white;
+    }
+
+    if (item.ExpectedPieces > item.Pieces) {
+      return Themes.colors.danger60;
+    }
+
+    if (item.ExpectedPieces < item.Pieces) {
+      return Themes.colors.warningMain;
+    }
+    return Themes.colors.white;
+  };
+
   return (
     <View style={styles.receiveItem}>
-      <Text style={styles.code}>{item.referenceNumber}</Text>
+      <Checkbox
+        checked={item.Pieces === item.ExpectedPieces}
+        onChange={onCheck}
+      />
+
+      <View
+        style={[
+          styles.leftContainer,
+          { backgroundColor: getBackgroundColor() },
+        ]}
+      >
+        <Text style={styles.code}>{item.ShipmentNumber}</Text>
+      </View>
       <View style={styles.deleteItem}>
         <TouchableOpacity hitSlop={styles.hitSlop} onPress={minusPieces}>
           <Icon
@@ -37,19 +69,9 @@ export const InventoryItem: FunctionComponent<Props> = props => {
             size={Metrics.icons.small}
           />
         </TouchableOpacity>
-        {/* <Text>
-          {translate("label.quantity")}
-          <Text style={styles.code}> {item.pieces}</Text>
-        </Text> */}
-        <TextInput
-          defaultValue={item.pieces.toString()}
-          style={styles.quantityInput}
-          keyboardType="number-pad"
-          contextMenuHidden={true}
-          onChangeText={(text: string) => {
-            updatePieces(index, Number(text));
-          }}
-        />
+        <Text style={styles.code}>
+          {item.ExpectedPieces}/{item.Pieces}
+        </Text>
         <TouchableOpacity hitSlop={styles.hitSlop} onPress={plusPieces}>
           <Icon
             name="ic_plus"
@@ -57,23 +79,28 @@ export const InventoryItem: FunctionComponent<Props> = props => {
             size={Metrics.icons.small}
           />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={showDeleteModal}
-          hitSlop={styles.hitSlop}
-          style={styles.deleteBtn}
-        >
-          <Icon
-            name="ic_delete"
-            color={Themes.colors.collGray40}
-            size={Metrics.icons.small}
-          />
-        </TouchableOpacity>
       </View>
+      <View style={styles.deleteItemContainer}>
+        {!item.PositionTrue && (
+          <TouchableOpacity
+            onPress={showDeleteModal}
+            hitSlop={styles.hitSlop}
+            style={styles.deleteBtn}
+          >
+            <Icon
+              name="ic_delete"
+              color={Themes.colors.collGray40}
+              size={Metrics.icons.small}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+
       <DeleteModal
         isVisible={isShowDeleteModal}
         closeModal={hideDeleteModal}
         message={translate("alert.deleteReceive", {
-          number: item.referenceNumber,
+          number: item.ShipmentNumber,
         })}
         confirmDelete={confirmDelete}
       />

@@ -9,7 +9,8 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { FlatList, TextInput, TouchableOpacity, View } from "react-native";
+import { TextInput, TouchableOpacity, View } from "react-native";
+import BigList from "react-native-big-list";
 import { useSelector } from "react-redux";
 import styles from "./styles";
 
@@ -86,7 +87,7 @@ export const LocationModal: FunctionComponent<Props> = props => {
           value={searchText}
           onChangeText={setSearchText}
         />
-        <FlatList
+        <BigList
           data={findLocations}
           keyExtractor={keyExtractor}
           renderItem={renderItem}
@@ -96,6 +97,7 @@ export const LocationModal: FunctionComponent<Props> = props => {
           }
           keyboardDismissMode="on-drag"
           keyboardShouldPersistTaps="handled"
+          itemHeight={ScreenUtils.calculatorHeight(58)}
         />
       </View>
     </BaseBottomSheet>

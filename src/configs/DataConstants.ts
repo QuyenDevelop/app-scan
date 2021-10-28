@@ -1,7 +1,7 @@
 import {
   goToCheckAndScanScreen,
   goToHomeScreen,
-  goToInventoryScreen,
+  goToListInventoryScreen,
   goToReceiveScreen,
   goToScanCodScreen,
   goToShipmentManagementScreen,
@@ -93,7 +93,7 @@ const homeItems = [
     title: "label.homeItems.inventoryManagement.title",
     content: "label.homeItems.inventoryManagement.content",
     icon: Images.claimAndInquiries,
-    onPress: goToInventoryScreen,
+    onPress: goToListInventoryScreen,
   },
 ];
 

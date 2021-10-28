@@ -12,8 +12,16 @@ export default {
     userInfoScreen: "ユーザー情報",
     changePassword: "パスワードの変更",
     receive: "受け取る",
+    inventory: "在庫",
+    lisInventory: "在庫表",
   },
   label: {
+    sufficientQuantity: "十分な量",
+    scanLocation: "在庫前の位置をスキャンしてください",
+    chooseRequestInventory: "在庫要件を選択してください",
+    reality: "現実",
+    pleaseEnterPassword: "パスワードを入力してください",
+    biometricLogin: "バイオメトリックログイン",
     acceptedDate: "受理日",
     newPassword: "新しいパスワード",
     confirmNewPassword: "新しいパスワード（確認)",
@@ -66,6 +74,10 @@ export default {
       receive: {
         title: "受け取る",
         content: "注文を受け取る",
+      },
+      inventoryManagement: {
+        title: "在庫管理",
+        content: "商品の量を制御して確認してください",
       },
     },
     photoModal: "写真",
@@ -690,6 +702,9 @@ export default {
     relatedProductSameSeller: "同じ売り手からの関連商品",
   },
   button: {
+    scanLocation: "スキャン場所をスキャンします",
+    inventory: "在庫",
+    loginWithBiometric: "バイオメトリックログイン",
     receive: "受け取る",
     choose: "選ぶ",
     shipmentImages: "商品の写真",
@@ -822,6 +837,10 @@ export default {
     send: "送信",
   },
   error: {
+    shipmentNotFound: "K出荷なし{{name}}",
+    noLoginBiometric: "サービスを使用する前にパスワードでログインしてください",
+    registerBiometricError:
+      "バイオメトリック登録は失敗します。後でもう一度やり直してください！",
     errBarCode: "無効なコード",
     noShipment: "出荷は存在しないか、出荷は不正な状態にあります。",
     generic: "何かがうまくいかなかった",
@@ -849,6 +868,9 @@ export default {
     errorServer: "エラーが発生しました。 もう一度お試しください。",
   },
   success: {
+    inventorySuccess: "在庫が成功しました",
+    removeBiometricSuccess: "成功したバイオメトリックログインを削除します",
+    registerBiometricSuccess: "成功のために登録してください",
     receiveSuccess: "正常な受付{{Number}}コード",
     autoUploadImage: "{{number}}画像が自動的にアップロードされています",
     updateSuccess: "更新に成功",
@@ -1205,5 +1227,6 @@ export default {
     deleteImages: "{{number}}枚の写真を削除してよろしいですか？",
     deleteReceive: "{{number}}コードを削除してください。",
     confirmReceive: "{{number}}コードを受け取ってよろしいですか？",
+    confirmInventory: "{{number}}確実な在庫コードですか？",
   },
 };

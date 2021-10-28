@@ -2,6 +2,7 @@ import { SCREENS } from "@configs";
 import { NavigationUtils } from "@helpers";
 import {
   AddServicePhotosScreenParams,
+  InventoryScreenParams,
   LoginRouteParams,
   PhotoLibraryScreenParams,
   ShipmentDetailCODScreenParams,
@@ -131,8 +132,15 @@ export const goToReceiveScreen = () => {
   });
 };
 
-export const goToInventoryScreen = () => {
+export const goToInventoryScreen = (routeParams: InventoryScreenParams) => {
   NavigationUtils.navigate(SCREENS.INVENTORY_STACK, {
     screen: SCREENS.INVENTORY_SCREEN,
+    params: routeParams,
+  });
+};
+
+export const goToListInventoryScreen = () => {
+  NavigationUtils.navigate(SCREENS.INVENTORY_STACK, {
+    screen: SCREENS.LIST_INVENTORY_SCREEN,
   });
 };

@@ -5,12 +5,13 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Themes.colors.white,
   },
   content: {
     flex: 1,
   },
   cameraView: {
-    height: 200,
+    height: 150,
   },
   camera: {
     width: "100%",
@@ -20,7 +21,7 @@ export default StyleSheet.create({
   inventoryBtn: {
     backgroundColor: Themes.colors.bg,
     marginHorizontal: ScreenUtils.calculatorWidth(16),
-    marginBottom: ScreenUtils.calculatorHeight(20),
+    // marginBottom: ScreenUtils.calculatorHeight(20),
     borderRadius: ScreenUtils.calculatorHeight(8),
     justifyContent: "center",
     alignItems: "center",
@@ -73,5 +74,36 @@ export default StyleSheet.create({
   },
   locationText: {
     marginHorizontal: ScreenUtils.calculatorWidth(4),
+  },
+  requestInventoryItem: {
+    borderWidth: StyleSheet.hairlineWidth,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: ScreenUtils.calculatorHeight(12),
+    marginBottom: ScreenUtils.calculatorHeight(8),
+    marginHorizontal: ScreenUtils.calculatorWidth(16),
+    borderColor: Themes.colors.collGray40,
+    borderRadius: ScreenUtils.calculatorWidth(5),
+  },
+  contentHeader: {
+    marginHorizontal: ScreenUtils.calculatorWidth(16),
+    marginVertical: ScreenUtils.calculatorHeight(12),
+  },
+  noLocation: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: ScreenUtils.calculatorHeight(16),
+  },
+  noLocationText: {
+    marginLeft: ScreenUtils.calculatorWidth(8),
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  footer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: ScreenUtils.calculatorHeight(10),
   },
 });

@@ -224,25 +224,28 @@ export const ReceiveScreen: FunctionComponent = () => {
       />
       <View style={styles.content}>
         <View style={styles.cameraView}>
-          <RNCamera
-            style={styles.camera}
-            type={RNCamera.Constants.Type.back}
-            flashMode={RNCamera.Constants.FlashMode.on}
-            captureAudio={false}
-            onGoogleVisionBarcodesDetected={onRead}
-          >
-            <BarcodeMask
-              width={280}
-              height={100}
-              edgeWidth={20}
-              edgeHeight={20}
-              edgeRadius={20}
-              showAnimatedLine={false}
-              maskOpacity={0.7}
-              backgroundColor={Themes.colors.black}
-              onLayoutChange={onBarcodeFinderLayoutChange}
-            />
-          </RNCamera>
+          {isFocused && (
+            <RNCamera
+              style={styles.camera}
+              type={RNCamera.Constants.Type.back}
+              flashMode={RNCamera.Constants.FlashMode.on}
+              captureAudio={false}
+              onGoogleVisionBarcodesDetected={onRead}
+            >
+              <BarcodeMask
+                width={280}
+                height={100}
+                edgeWidth={20}
+                edgeHeight={20}
+                edgeRadius={20}
+                showAnimatedLine={false}
+                maskOpacity={0.7}
+                backgroundColor={Themes.colors.black}
+                onLayoutChange={onBarcodeFinderLayoutChange}
+              />
+            </RNCamera>
+          )}
+
           {isShowDetectCode && (
             <View
               style={{

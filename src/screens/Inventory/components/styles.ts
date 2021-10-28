@@ -22,7 +22,6 @@ export default StyleSheet.create({
     ...Themes.font.medium,
     fontSize: 16,
     fontWeight: "bold",
-    flex: 0.6,
   },
   deleteItem: {
     flexDirection: "row",
@@ -40,5 +39,14 @@ export default StyleSheet.create({
   },
   deleteBtn: {
     marginLeft: ScreenUtils.calculatorWidth(16),
+  },
+  leftContainer: {
+    flex: 0.6,
+    marginHorizontal: ScreenUtils.calculatorWidth(16),
+  },
+  deleteItemContainer: {
+    width: ScreenUtils.calculatorWidth(50),
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

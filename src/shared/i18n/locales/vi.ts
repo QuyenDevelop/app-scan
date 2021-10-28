@@ -13,8 +13,12 @@ export default {
     changePassword: "Đổi mật khẩu",
     receive: "Tiếp nhận",
     inventory: "Kiểm kê",
+    lisInventory: "Danh sách kiểm kê",
   },
   label: {
+    sufficientQuantity: "Số lượng đủ",
+    scanLocation: "Vui lòng quét vị trí trước khi kiểm kê",
+    chooseRequestInventory: "Chọn yêu cầu kiểm kê",
     reality: "Thực tế",
     pleaseEnterPassword: "Vui lòng nhập mật khẩu",
     biometricLogin: "Đăng nhập sinh trắc",
@@ -713,7 +717,7 @@ export default {
     relatedProductSameSeller: "Sản phẩm liên quan của cửa hàng",
   },
   button: {
-    selectLocation: "Chọn vị trí",
+    scanLocation: "Quét vị trí",
     inventory: "Kiểm kê",
     loginWithBiometric: "Đăng nhập sinh trắc",
     receive: "Tiếp nhận",
@@ -853,6 +857,7 @@ export default {
     send: "Gửi",
   },
   error: {
+    shipmentNotFound: "Không tìm thấy shipment {{name}}",
     noLoginBiometric:
       "Vui lòng đăng nhập bằng mật khẩu để trước khi sử dụng dịch vụ",
     registerBiometricError: "Đăng kí sinh trắc thất bại. Vui lòng thử lại sau!",
@@ -888,6 +893,7 @@ export default {
     unActiveFail: "Huỷ Kích hoạt không thành công",
   },
   success: {
+    inventorySuccess: "Kiểm kê thành công",
     removeBiometricSuccess: "Xóa đăng nhập sinh trắc thành công",
     registerBiometricSuccess: "Đăng kí sinh trắc thành công",
     receiveSuccess: "Tiếp nhận thành công {{number}} mã",

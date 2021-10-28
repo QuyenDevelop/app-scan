@@ -12,8 +12,16 @@ export default {
     userInfoScreen: "User information",
     changePassword: "Change password",
     receive: "Receive",
+    inventory: "Inventory",
+    lisInventory: "Inventory list",
   },
   label: {
+    sufficientQuantity: "Sufficient quantity",
+    scanLocation: "Please scan the position before inventory",
+    chooseRequestInventory: "Choose inventory requirements",
+    reality: "Reality",
+    pleaseEnterPassword: "Please enter a password",
+    biometricLogin: "Biometric login",
     acceptedDate: "Accepted date",
     newPassword: "New password",
     confirmNewPassword: "New password (confirm)",
@@ -65,6 +73,10 @@ export default {
       receive: {
         title: "Receive",
         content: "Receive orders",
+      },
+      inventoryManagement: {
+        title: "Inventory management",
+        content: "Control and confirm the quantity of goods",
       },
     },
     photoModal: "Photos",
@@ -707,6 +719,9 @@ export default {
     relatedProductSameSeller: "Related products from the same seller",
   },
   button: {
+    scanLocation: "Scan location",
+    inventory: "Inventory",
+    loginWithBiometric: "Biometric login",
     receive: "Receive",
     choose: "Choose",
     shipmentImages: "Photos of goods",
@@ -843,6 +858,11 @@ export default {
     send: "Send",
   },
   error: {
+    shipmentNotFound: "No shipment {{name}}",
+    noLoginBiometric:
+      "Please log in with your password before using the service",
+    registerBiometricError:
+      "Biometric registration fails. Please try again later!",
     errBarCode: "Invalid code",
     noShipment:
       "No shipment exists or the shipment is in an unauthorized state.",
@@ -875,6 +895,9 @@ export default {
     unActiveFail: "Deactivation failed",
   },
   success: {
+    inventorySuccess: "Successful inventory",
+    removeBiometricSuccess: "Delete successful biometric login",
+    registerBiometricSuccess: "Register for success",
     receiveSuccess: "Successful reception {{number}} code",
     autoUploadImage: "{{number}} images are being uploaded automatically",
     updateSuccess: "Update successful",
@@ -1242,5 +1265,6 @@ export default {
     deleteImages: "Are you sure deleting {{number}} photos?",
     deleteReceive: "Are you sure to delete the {{number}} code?",
     confirmReceive: "Are you sure to receive {{number}} code?",
+    confirmInventory: "Are you sure inventory {{number}} code?",
   },
 };

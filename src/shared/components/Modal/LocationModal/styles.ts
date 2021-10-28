@@ -7,7 +7,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingVertical: ScreenUtils.calculatorHeight(20),
+    height: ScreenUtils.calculatorHeight(58),
     borderBottomWidth: 1,
     borderBottomColor: Themes.colors.colGray20,
     marginHorizontal: ScreenUtils.calculatorWidth(20),
