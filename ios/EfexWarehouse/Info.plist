@@ -59,14 +59,16 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Need camera access for uploading images, scan shipment, etc</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Enabling Face ID allows you quick and secure access to your account.</string>
+  <key>CodePushDeploymentKey</key>
+  <string>rHqpjxpBnqnvYlVsQE_jLf1W8Mefaovz1lrPw</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Need photo library access for upload images</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Need photo library access for upload images</string>
-  <key>NSFaceIDUsageDescription</key>
-  <string>Enabling Face ID allows you quick and secure access to your account.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

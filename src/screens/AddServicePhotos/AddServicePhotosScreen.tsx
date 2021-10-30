@@ -191,7 +191,7 @@ export const AddServicePhotosScreen: FunctionComponent = () => {
         isVisible={isShowImage}
         closeModal={hideImage}
         index={indexShowImage}
-        isLocalImage={true}
+        // isLocalImage={true}
       />
     </View>
   );

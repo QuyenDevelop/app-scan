@@ -65,8 +65,8 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
       first: 40,
       assetType: "Photos",
       after: after,
-      groupTypes: "Album",
-      groupName: CONSTANT.ALBUMS,
+      // groupTypes: "Album",
+      // groupName: CONSTANT.ALBUMS,
     })
       .then(r => {
         setPhotos(p => [...p, ...r.edges]);

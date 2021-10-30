@@ -858,6 +858,8 @@ export default {
     send: "Send",
   },
   error: {
+    saveImageFail:
+      "Cannot store photos. Please check the memory and try again.",
     shipmentNotFound: "No shipment {{name}}",
     noLoginBiometric:
       "Please log in with your password before using the service",

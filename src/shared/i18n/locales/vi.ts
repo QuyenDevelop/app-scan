@@ -857,6 +857,8 @@ export default {
     send: "Gửi",
   },
   error: {
+    saveImageFail:
+      "Không thể lưu trữ ảnh. Vui lòng kiểm tra bộ nhớ và thử lại.",
     shipmentNotFound: "Không tìm thấy shipment {{name}}",
     noLoginBiometric:
       "Vui lòng đăng nhập bằng mật khẩu trước khi sử dụng dịch vụ",

@@ -13,7 +13,12 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { ActivityIndicator, FlatList, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  View,
+} from "react-native";
 import { useSelector } from "react-redux";
 import { AddServiceShipmentResponse } from "src/models/Response/ServiceResponse";
 import { ServiceInfo } from "./ServiceInfo";
@@ -219,6 +224,12 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
           keyExtractor={item => item.Id}
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoading}
+              onRefresh={getShipmentAddServices}
+            />
+          }
           ListEmptyComponent={<NoData />}
           ListFooterComponent={
             <Button

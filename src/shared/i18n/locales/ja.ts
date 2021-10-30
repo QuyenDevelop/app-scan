@@ -837,6 +837,8 @@ export default {
     send: "送信",
   },
   error: {
+    saveImageFail:
+      "写真を保存できません。メモリを確認してもう一度やり直してください。",
     shipmentNotFound: "K出荷なし{{name}}",
     noLoginBiometric: "サービスを使用する前にパスワードでログインしてください",
     registerBiometricError:
