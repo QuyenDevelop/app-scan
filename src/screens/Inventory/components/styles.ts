@@ -3,11 +3,15 @@ import { Themes } from "@themes";
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  receiveItem: {
+  receiveItemContainer: {
     borderBottomWidth: 1,
     borderColor: Themes.colors.colGray20,
+    flexDirection: "column",
+    justifyContent: "space-between",
     paddingVertical: ScreenUtils.calculatorHeight(16),
     marginHorizontal: ScreenUtils.calculatorWidth(16),
+  },
+  receiveItem: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -48,5 +52,11 @@ export default StyleSheet.create({
     width: ScreenUtils.calculatorWidth(50),
     justifyContent: "center",
     alignItems: "center",
+  },
+  bag: {
+    ...Themes.font.medium,
+    fontSize: 14,
+    fontWeight: "bold",
+    marginTop: ScreenUtils.calculatorHeight(8),
   },
 });

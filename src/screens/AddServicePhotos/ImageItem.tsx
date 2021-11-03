@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import { FastImageLoading, Icon } from "@shared";
+import { Icon } from "@shared";
 import { Images, Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
 import { TouchableWithoutFeedback, View } from "react-native";
@@ -21,8 +21,7 @@ export const ImageItem: FunctionComponent<Props> = props => {
   return (
     <TouchableWithoutFeedback onPress={onCheck}>
       <View style={styles.imageView}>
-        <FastImageLoading
-          sourceLoading={Images.productDefault}
+        <FastImage
           source={{ uri: uri || Images.productDefault }}
           resizeMode={FastImage.resizeMode.cover}
           style={styles.imageLibrary}

@@ -47,63 +47,69 @@ export const InventoryItem: FunctionComponent<Props> = props => {
   };
 
   return (
-    <View style={styles.receiveItem}>
-      <Checkbox
-        checked={item.Pieces === item.ExpectedPieces}
-        onChange={onCheck}
-      />
-
-      <View
-        style={[
-          styles.leftContainer,
-          { backgroundColor: getBackgroundColor() },
-        ]}
-      >
-        <Text style={styles.code}>{item.ShipmentNumber}</Text>
-      </View>
-      <View style={styles.deleteItem}>
-        <TouchableOpacity hitSlop={styles.hitSlop} onPress={minusPieces}>
-          <Icon
-            name="ic_minus"
-            color={Themes.colors.danger60}
-            size={Metrics.icons.small}
-          />
-        </TouchableOpacity>
-        <Text style={styles.code}>
-          {item.ExpectedPieces}/{item.Pieces}
-        </Text>
-        <TouchableOpacity hitSlop={styles.hitSlop} onPress={plusPieces}>
-          <Icon
-            name="ic_plus"
-            color={Themes.colors.danger60}
-            size={Metrics.icons.small}
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.deleteItemContainer}>
-        {!item.PositionTrue && (
-          <TouchableOpacity
-            onPress={showDeleteModal}
-            hitSlop={styles.hitSlop}
-            style={styles.deleteBtn}
-          >
+    <View style={styles.receiveItemContainer}>
+      <View style={styles.receiveItem}>
+        <Checkbox
+          checked={item.Pieces === item.ExpectedPieces}
+          onChange={onCheck}
+        />
+        <View
+          style={[
+            styles.leftContainer,
+            { backgroundColor: getBackgroundColor() },
+          ]}
+        >
+          <Text style={styles.code}>{item.ShipmentNumber}</Text>
+        </View>
+        <View style={styles.deleteItem}>
+          <TouchableOpacity hitSlop={styles.hitSlop} onPress={minusPieces}>
             <Icon
-              name="ic_delete"
-              color={Themes.colors.collGray40}
+              name="ic_minus"
+              color={Themes.colors.danger60}
               size={Metrics.icons.small}
             />
           </TouchableOpacity>
-        )}
-      </View>
+          <Text style={styles.code}>
+            {item.ExpectedPieces}/{item.Pieces}
+          </Text>
+          <TouchableOpacity hitSlop={styles.hitSlop} onPress={plusPieces}>
+            <Icon
+              name="ic_plus"
+              color={Themes.colors.danger60}
+              size={Metrics.icons.small}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.deleteItemContainer}>
+          {!item.PositionTrue && (
+            <TouchableOpacity
+              onPress={showDeleteModal}
+              hitSlop={styles.hitSlop}
+              style={styles.deleteBtn}
+            >
+              <Icon
+                name="ic_delete"
+                color={Themes.colors.collGray40}
+                size={Metrics.icons.small}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
 
-      <DeleteModal
-        isVisible={isShowDeleteModal}
-        closeModal={hideDeleteModal}
-        message={translate("alert.deleteReceive", {
-          number: item.ShipmentNumber,
-        })}
-        confirmDelete={confirmDelete}
-      />
+        <DeleteModal
+          isVisible={isShowDeleteModal}
+          closeModal={hideDeleteModal}
+          message={translate("alert.deleteReceive", {
+            number: item.ShipmentNumber,
+          })}
+          confirmDelete={confirmDelete}
+        />
+      </View>
+      {!!item.DispatchBagName && (
+        <Text style={styles.bag}>
+          {translate("label.bag")}: {item.DispatchBagName}
+        </Text>
+      )}
     </View>
   );
 };

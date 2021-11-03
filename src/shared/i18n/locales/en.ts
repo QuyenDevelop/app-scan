@@ -16,6 +16,7 @@ export default {
     lisInventory: "Inventory list",
   },
   label: {
+    bag: "Bag",
     sufficientQuantity: "Sufficient quantity",
     scanLocation: "Please scan the position before inventory",
     chooseRequestInventory: "Choose inventory requirements",

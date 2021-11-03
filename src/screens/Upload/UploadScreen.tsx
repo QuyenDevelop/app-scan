@@ -1,12 +1,11 @@
 import { CONSTANT, SCREENS } from "@configs";
 import {
   Alert,
-  getAsyncItem,
   hasAndroidPermission,
-  setAsyncItem,
+  storeImageUploadFail,
+  uploadImageService,
 } from "@helpers";
 import { useToggle } from "@hooks";
-import { StorageImages } from "@models";
 import { goToPhotoLibrary, ShipmentStackParamsList } from "@navigation";
 import CameraRoll from "@react-native-community/cameraroll";
 import {
@@ -76,10 +75,6 @@ export const UploadScreen: FunctionComponent = () => {
       return;
     }
 
-    const listImages = await getAsyncItem(
-      CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
-    );
-
     const current = new Date().getTime();
     const savePhotos = photos.map((image: string, index: number) => {
       return {
@@ -88,28 +83,18 @@ export const UploadScreen: FunctionComponent = () => {
       };
     });
 
-    let listPush: Array<StorageImages> = [];
-    if (listImages) {
-      listPush = [...listImages, ...savePhotos];
-    } else {
-      listPush = [...savePhotos];
-    }
+    uploadImageService(savePhotos).then(images => {
+      const imagesFail = savePhotos.filter(item => !images.includes(item.name));
+      storeImageUploadFail(imagesFail).then(() => {
+        DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
+      });
+    });
 
-    const storage = await setAsyncItem(
-      CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
-      listPush,
+    setPhotos([]);
+    Alert.success(
+      translate("success.autoUploadImage", { number: photos.length }),
+      true,
     );
-
-    if (storage) {
-      DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
-      setPhotos([]);
-      Alert.success(
-        translate("success.autoUploadImage", { number: photos.length }),
-        true,
-      );
-    } else {
-      Alert.error(translate("error.errorServer"));
-    }
   };
   return (
     <View style={styles.container}>

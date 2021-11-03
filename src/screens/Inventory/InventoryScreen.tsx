@@ -86,7 +86,7 @@ export const InventoryScreen: FunctionComponent = () => {
     getStoreBarcode().then((barcodes: Array<InventoryDetailTemp>) => {
       setCodes(barcodes);
     });
-  }, []);
+  }, [setCodes]);
 
   const isValidBarcode = (code: string): boolean => {
     const refactoredCode = code.trim();
@@ -229,7 +229,7 @@ export const InventoryScreen: FunctionComponent = () => {
         ?.then(response => {
           if (response.Status) {
             Alert.success("success.inventorySuccess");
-            navigation.goBack();
+            changeLocation();
           } else {
             Alert.error("error.errorServer");
           }
@@ -250,7 +250,7 @@ export const InventoryScreen: FunctionComponent = () => {
         ?.then(response => {
           if (response.Status) {
             Alert.success("success.inventorySuccess");
-            navigation.goBack();
+            changeLocation();
           } else {
             Alert.error("error.errorServer");
           }

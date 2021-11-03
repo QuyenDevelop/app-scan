@@ -10,7 +10,7 @@
 
 import { CONSTANT } from "@configs";
 import {
-  autoUpload,
+  autoUploadImageService,
   DropdownMessageHolder,
   NavigationUtils,
   ScreenUtils,
@@ -18,7 +18,7 @@ import {
 import { RootNavigator } from "@navigation";
 import { NavigationContainer } from "@react-navigation/native";
 import { Themes } from "@themes";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   AppState,
   DeviceEventEmitter,
@@ -31,33 +31,26 @@ import DropdownAlert from "react-native-dropdownalert";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const App = () => {
-  const [isAllowUpdate, setIsAllowUpdate] = useState<boolean>(true);
-
-  const handleAppStateChange = useCallback(
-    (nextAppState: string) => {
-      if (nextAppState === "active") {
-        autoUpload(isAllowUpdate, setIsAllowUpdate);
-      }
-    },
-    [isAllowUpdate],
-  );
-
-  const uploadEvent = useCallback(() => {
-    autoUpload(isAllowUpdate, setIsAllowUpdate);
-  }, [isAllowUpdate]);
+  const handleAppStateChange = useCallback((nextAppState: string) => {
+    if (nextAppState === "active") {
+      autoUploadImageService;
+    }
+  }, []);
 
   useEffect(() => {
-    // SplashScreen.hide();
+    autoUploadImageService();
+
     AppState.addEventListener("change", handleAppStateChange);
     DeviceEventEmitter.addListener(
       CONSTANT.EVENT_KEY.UPLOAD_IMAGES,
-      uploadEvent,
+      autoUploadImageService,
     );
+
     return () => {
       AppState.removeEventListener("change", handleAppStateChange);
       DeviceEventEmitter.removeAllListeners();
     };
-  }, []);
+  }, [handleAppStateChange]);
 
   return (
     <SafeAreaProvider>

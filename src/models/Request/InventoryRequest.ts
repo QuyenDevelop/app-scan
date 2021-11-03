@@ -20,6 +20,8 @@ export interface InventoryDetailTemp {
   Id: string;
   ShipmentNumber: string;
   ReferenceNumber: string;
+  DispatchBagName: string | null;
+  DispatchBagNumber: string | null;
   PostOfficeToSendId: string;
   LocationName: string;
   LastLocationName: string;

@@ -2,13 +2,12 @@ import { Header } from "@components";
 import { CONSTANT, SCREENS } from "@configs";
 import {
   Alert,
-  getAsyncItem,
   hasAndroidPermission,
   ScreenUtils,
-  setAsyncItem,
+  storeImageUploadFail,
+  uploadImageService,
 } from "@helpers";
 import { useShow, useToggle } from "@hooks";
-import { StorageImages } from "@models";
 import { ShipmentStackParamsList } from "@navigation";
 import CameraRoll, {
   PhotoIdentifier,
@@ -115,9 +114,6 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
       Alert.warning("warning.noPhotoSelected");
       return;
     }
-    const listImages = await getAsyncItem(
-      CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
-    );
 
     const current = new Date().getTime();
     const savePhotos = photosSelected.map((image: string, index: number) => {
@@ -127,29 +123,19 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
       };
     });
 
-    let listPush: Array<StorageImages> = [];
-    if (listImages) {
-      listPush = [...listImages, ...savePhotos];
-    } else {
-      listPush = [...savePhotos];
-    }
+    uploadImageService(savePhotos).then(images => {
+      const imagesFail = savePhotos.filter(item => !images.includes(item.name));
+      storeImageUploadFail(imagesFail).then(() => {
+        DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
+      });
+    });
 
-    const storage = await setAsyncItem(
-      CONSTANT.TOKEN_STORAGE_KEY.UPLOAD_IMAGES,
-      listPush,
+    toggleMode();
+    setPhotosSelected([]);
+    Alert.success(
+      translate("success.autoUploadImage", { number: photosSelected.length }),
+      true,
     );
-
-    if (storage) {
-      DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
-      toggleMode();
-      setPhotosSelected([]);
-      Alert.success(
-        translate("success.autoUploadImage", { number: photosSelected.length }),
-        true,
-      );
-    } else {
-      Alert.error(translate("error.errorServer"));
-    }
   };
 
   const renderItem = ({ item, index }: { item: any; index: number }) => {

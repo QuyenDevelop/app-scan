@@ -16,6 +16,7 @@ export default {
     lisInventory: "在庫表",
   },
   label: {
+    bag: "バッグ",
     sufficientQuantity: "十分な量",
     scanLocation: "在庫前の位置をスキャンしてください",
     chooseRequestInventory: "在庫要件を選択してください",

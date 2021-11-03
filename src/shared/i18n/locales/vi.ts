@@ -16,6 +16,7 @@ export default {
     lisInventory: "Danh sách kiểm kê",
   },
   label: {
+    bag: "Túi",
     sufficientQuantity: "Số lượng đủ",
     scanLocation: "Vui lòng quét vị trí trước khi kiểm kê",
     chooseRequestInventory: "Chọn yêu cầu kiểm kê",
