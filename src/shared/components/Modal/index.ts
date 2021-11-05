@@ -10,3 +10,4 @@ export * from "./ImageViewModal";
 export * from "./LocationModal";
 export * from "./RequestPasswordModal";
 export * from "./SuccessModal";
+export * from "./UpdateModal";
