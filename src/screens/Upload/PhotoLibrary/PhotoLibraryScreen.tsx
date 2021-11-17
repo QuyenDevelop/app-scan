@@ -8,6 +8,7 @@ import {
   uploadImageService,
 } from "@helpers";
 import { useShow, useToggle } from "@hooks";
+import { StorageImages } from "@models";
 import { ShipmentStackParamsList } from "@navigation";
 import CameraRoll, {
   PhotoIdentifier,
@@ -28,6 +29,7 @@ import {
   View,
 } from "react-native";
 import BigList from "react-native-big-list";
+import ImageResizer from "react-native-image-resizer";
 import { ImageItem } from "./ImageItem";
 import styles from "./styles";
 
@@ -116,12 +118,29 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
     }
 
     const current = new Date().getTime();
-    const savePhotos = photosSelected.map((image: string, index: number) => {
-      return {
+    const savePhotos: Array<StorageImages> = [];
+    const numOfPhotos = photosSelected.length;
+    for (let index = 0; index < numOfPhotos; index++) {
+      const uri = photosSelected[index];
+      const photo = photos.find(image => image.node.image.uri === uri);
+      let imageUri = uri;
+      if (photo) {
+        await ImageResizer.createResizedImage(
+          uri,
+          photo.node.image.width,
+          photo.node.image.height,
+          "JPEG",
+          0,
+        ).then(response => {
+          imageUri = response.uri;
+        });
+      }
+
+      savePhotos.push({
         name: `${prefix}_${current}_${index}_${suffix}.jpg`,
-        uri: image,
-      };
-    });
+        uri: imageUri,
+      });
+    }
 
     uploadImageService(savePhotos).then(images => {
       const imagesFail = savePhotos.filter(item => !images.includes(item.name));

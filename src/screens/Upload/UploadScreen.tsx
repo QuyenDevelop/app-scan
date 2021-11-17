@@ -26,6 +26,7 @@ import {
 } from "react-native";
 import { RNCamera, TakePictureOptions } from "react-native-camera";
 import FastImage from "react-native-fast-image";
+import ImageResizer from "react-native-image-resizer";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from "./styles";
 
@@ -51,14 +52,31 @@ export const UploadScreen: FunctionComponent = () => {
 
   const takePicture = async () => {
     if (cameraRef.current) {
-      const options: TakePictureOptions = { quality: 0.5, orientation: "auto" };
+      const options: TakePictureOptions = {
+        quality: 0.5,
+        orientation: "auto",
+        imageType: "jpeg",
+      };
       const data = await cameraRef.current?.takePictureAsync(options);
-      setUri(data.uri);
-      setPhotos(p => [...p, data.uri]);
       if (Platform.OS === "android" && !(await hasAndroidPermission())) {
         return;
       }
-      CameraRoll.save(data.uri).catch(err => {
+
+      let imageUri = data.uri;
+
+      await ImageResizer.createResizedImage(
+        data.uri,
+        data.width,
+        data.height,
+        "JPEG",
+        0,
+      ).then(response => {
+        imageUri = response.uri;
+      });
+
+      setUri(imageUri);
+      setPhotos(p => [...p, imageUri]);
+      CameraRoll.save(imageUri).catch(err => {
         console.log("save err: ", err);
         Alert.error("error.saveImageFail");
       });

@@ -105,9 +105,9 @@ export const InventoryItem: FunctionComponent<Props> = props => {
           confirmDelete={confirmDelete}
         />
       </View>
-      {!!item.DispatchBagName && (
+      {!!item.DispatchBagNumber && (
         <Text style={styles.bag}>
-          {translate("label.bag")}: {item.DispatchBagName}
+          {translate("label.bag")}: {item.DispatchBagNumber}
         </Text>
       )}
     </View>

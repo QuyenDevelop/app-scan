@@ -1,7 +1,6 @@
 import {
   goToCheckAndScanScreen,
   goToHomeScreen,
-  goToListInventoryScreen,
   goToReceiveScreen,
   goToScanCodScreen,
   goToShipmentManagementScreen,
@@ -88,13 +87,13 @@ const homeItems = [
     icon: Images.shipmentManagement,
     onPress: goToShipmentManagementScreen,
   },
-  {
-    id: 4,
-    title: "label.homeItems.inventoryManagement.title",
-    content: "label.homeItems.inventoryManagement.content",
-    icon: Images.claimAndInquiries,
-    onPress: goToListInventoryScreen,
-  },
+  // {
+  //   id: 4,
+  //   title: "label.homeItems.inventoryManagement.title",
+  //   content: "label.homeItems.inventoryManagement.content",
+  //   icon: Images.claimAndInquiries,
+  //   onPress: goToListInventoryScreen,
+  // },
 ];
 
 const menuItems = [

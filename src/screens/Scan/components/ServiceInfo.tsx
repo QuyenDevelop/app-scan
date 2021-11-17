@@ -97,19 +97,21 @@ export const ServiceInfo: FunctionComponent<Props> = props => {
               [{item.Code}] {item.Name}
             </Text>
           </View>
-          {item?.IsRequiredImage && (
-            <TouchableOpacity
-              style={styles.button}
-              hitSlop={styles.hitSlop}
-              onPress={showPhotoModal}
-            >
-              <Icon
-                name="ic_camera_fill"
-                size={Metrics.icons.small}
-                color={Themes.colors.black}
-              />
-            </TouchableOpacity>
-          )}
+          <TouchableOpacity
+            style={styles.button}
+            hitSlop={styles.hitSlop}
+            onPress={showPhotoModal}
+          >
+            <Icon
+              name="ic_camera_fill"
+              size={Metrics.icons.small}
+              color={
+                item?.IsRequiredImage
+                  ? Themes.colors.brand60
+                  : Themes.colors.black
+              }
+            />
+          </TouchableOpacity>
         </View>
         {item.imagesCargoAddServices && item.imagesCargoAddServices.length > 0 && (
           <TouchableOpacity

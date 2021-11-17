@@ -100,7 +100,7 @@ const App = () => {
         </View>
         <DropdownAlert
           ref={(ref: DropdownAlert) => DropdownMessageHolder.setDropDown(ref)}
-          closeInterval={5000}
+          closeInterval={2000}
           updateStatusBar={Platform.OS === "ios"}
         />
         <UpdateModal

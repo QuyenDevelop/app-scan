@@ -121,9 +121,12 @@ export const InventoryScreen: FunctionComponent = () => {
             locationName: locationScanned,
           })
           ?.then(response => {
+            console.log("🚀🚀🚀 => scanInventory", JSON.stringify(response));
             if (response.Status) {
               setCodes(draft => {
-                draft.unshift(response.Data);
+                response.Data;
+                draft.unshift(...response.Data);
+                console.log("🚀🚀🚀 => draft", draft);
               });
             } else {
               Alert.error(
@@ -141,7 +144,7 @@ export const InventoryScreen: FunctionComponent = () => {
           draft[findCodeIndex].Pieces = draft[findCodeIndex].Pieces + 1;
           let data = draft[findCodeIndex];
           draft.splice(findCodeIndex, 1);
-          draft.splice(0, 0, data);
+          draft.unshift(data);
         });
       }
       inventoryRef?.current?.scrollToIndex({ animated: true, index: 0 });
