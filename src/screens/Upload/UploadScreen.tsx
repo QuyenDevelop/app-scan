@@ -162,18 +162,10 @@ export const UploadScreen: FunctionComponent = () => {
         >
           <View style={styles.imageThumbnail}>
             <TouchableOpacity onPress={goToLibrary}>
-              {uri ? (
-                <Image source={{ uri: uri }} style={styles.image} />
-              ) : (
-                <View
-                  style={[
-                    styles.image,
-                    {
-                      backgroundColor: Themes.colors.black,
-                    },
-                  ]}
-                />
-              )}
+              <Image
+                source={uri ? { uri } : Images.productDefault}
+                style={styles.image}
+              />
             </TouchableOpacity>
             {photos.length > 0 && (
               <Text style={styles.imageThumbnailText}>
