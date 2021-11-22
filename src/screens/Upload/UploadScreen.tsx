@@ -58,6 +58,7 @@ export const UploadScreen: FunctionComponent = () => {
         imageType: "jpeg",
       };
       const data = await cameraRef.current?.takePictureAsync(options);
+      setUri(data.uri);
       if (Platform.OS === "android" && !(await hasAndroidPermission())) {
         return;
       }
@@ -74,7 +75,6 @@ export const UploadScreen: FunctionComponent = () => {
         imageUri = response.uri;
       });
 
-      setUri(imageUri);
       setPhotos(p => [...p, imageUri]);
       CameraRoll.save(imageUri).catch(err => {
         console.log("save err: ", err);
