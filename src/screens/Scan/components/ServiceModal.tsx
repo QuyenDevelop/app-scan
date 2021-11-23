@@ -27,7 +27,7 @@ export const ServiceModal: FunctionComponent<Props> = props => {
             size={Metrics.icons.small}
             color={Themes.colors.brand60}
           />
-          <Text style={{ marginLeft: ScreenUtils.calculatorWidth(8) }}>
+          <Text style={{ marginLeft: ScreenUtils.scale(8) }}>
             {service.Name}
           </Text>
         </View>

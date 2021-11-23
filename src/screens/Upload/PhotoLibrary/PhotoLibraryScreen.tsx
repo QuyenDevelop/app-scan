@@ -42,7 +42,7 @@ export interface PhotoLibraryScreenParams {
   suffix: string;
 }
 
-const ITEM_HEIGHT = (ScreenUtils.WIDTH - ScreenUtils.calculatorWidth(32)) / 3;
+const ITEM_HEIGHT = (ScreenUtils.WIDTH - ScreenUtils.scale(32)) / 3;
 
 export const PhotoLibraryScreen: FunctionComponent = () => {
   const navigation = useNavigation();

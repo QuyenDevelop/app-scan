@@ -53,9 +53,7 @@ export const ModeModal: FunctionComponent<Props> = props => {
             size={Metrics.icons.small}
             color={getIconColor()}
           />
-          <Text style={{ marginLeft: ScreenUtils.calculatorWidth(8) }}>
-            {mode.Name}
-          </Text>
+          <Text style={{ marginLeft: ScreenUtils.scale(8) }}>{mode.Name}</Text>
         </View>
       </TouchableOpacity>
     );

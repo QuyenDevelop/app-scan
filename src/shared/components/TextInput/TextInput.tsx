@@ -83,7 +83,7 @@ export const TextInput: FunctionComponent<Props> = props => {
     inputRef?.current?.setNativeProps({
       style: {
         fontFamily: FontFamily.regular,
-        height: ScreenUtils.calculatorHeight(40),
+        height: ScreenUtils.scale(40),
       },
     });
   }, []);
@@ -109,8 +109,8 @@ export const TextInput: FunctionComponent<Props> = props => {
           <View
             style={{
               marginTop: errorMessage
-                ? ScreenUtils.calculatorHeight(-2)
-                : ScreenUtils.calculatorHeight(-10),
+                ? ScreenUtils.scale(-2)
+                : ScreenUtils.scale(-10),
             }}
           >
             <CountryPicker
@@ -128,10 +128,10 @@ export const TextInput: FunctionComponent<Props> = props => {
               onSelect={onSelectCountry}
               translation="common"
               closeButtonImageStyle={{
-                width: ScreenUtils.calculatorWidth(20),
+                width: ScreenUtils.scale(20),
               }}
               containerButtonStyle={{
-                paddingTop: ScreenUtils.calculatorHeight(9),
+                paddingTop: ScreenUtils.scale(9),
               }}
             />
           </View>

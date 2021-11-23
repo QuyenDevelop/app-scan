@@ -71,10 +71,7 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
             onPress={showLocationModal}
           >
             <Text
-              style={[
-                styles.labelInfo,
-                { marginRight: ScreenUtils.calculatorWidth(8) },
-              ]}
+              style={[styles.labelInfo, { marginRight: ScreenUtils.scale(8) }]}
             >
               {subShipment.LocationName || translate("label.location")}
             </Text>
@@ -102,7 +99,7 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
             <Text style={styles.contentInfo}>{translate("label.gram")}</Text>
           </View>
         </View>
-        <View style={{ marginTop: ScreenUtils.calculatorHeight(12) }}>
+        <View style={{ marginTop: ScreenUtils.scale(12) }}>
           <View style={styles.spaceBetween}>
             <Text style={styles.labelInfo}>
               {translate("label.dimension")} ({translate("placeholder.length")}{" "}
@@ -114,7 +111,7 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
           <View
             style={[
               styles.generalInfoRow,
-              { borderBottomWidth: ScreenUtils.calculatorHeight(0) },
+              { borderBottomWidth: ScreenUtils.scale(0) },
             ]}
           >
             <TextInput

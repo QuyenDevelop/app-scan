@@ -1,10 +1,10 @@
-import { StyleSheet } from "react-native";
-import { Themes } from "@themes";
 import { ScreenUtils } from "@helpers";
+import { Themes } from "@themes";
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   countDown: {
-    marginTop: ScreenUtils.calculatorHeight(20),
+    marginTop: ScreenUtils.scale(20),
     alignItems: "center",
   },
   countDownText: {
@@ -16,7 +16,7 @@ export default StyleSheet.create({
     backgroundColor: Themes.colors.white,
   },
   contentContainer: {
-    marginTop: ScreenUtils.calculatorHeight(100),
+    marginTop: ScreenUtils.scale(100),
     justifyContent: "center",
     alignItems: "center",
   },
@@ -27,8 +27,8 @@ export default StyleSheet.create({
   textContainer: {
     justifyContent: "center",
     alignItems: "center",
-    width: ScreenUtils.calculatorWidth(220),
-    marginVertical: ScreenUtils.calculatorHeight(20),
+    width: ScreenUtils.scale(220),
+    marginVertical: ScreenUtils.scale(20),
   },
   footer: {
     width: "100%",
@@ -36,13 +36,13 @@ export default StyleSheet.create({
     bottom: 0,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: ScreenUtils.calculatorWidth(22),
-    paddingVertical: ScreenUtils.calculatorHeight(8),
+    paddingHorizontal: ScreenUtils.scale(22),
+    paddingVertical: ScreenUtils.scale(8),
     borderTopColor: Themes.colors.colGray20,
-    borderTopWidth: ScreenUtils.calculatorWidth(0.5),
+    borderTopWidth: ScreenUtils.scale(0.5),
   },
   right: {
-    marginLeft: ScreenUtils.calculatorWidth(13),
+    marginLeft: ScreenUtils.scale(13),
   },
   help: {
     ...Themes.font.regular,
@@ -58,7 +58,7 @@ export default StyleSheet.create({
     ...Themes.font.bold,
     fontSize: 16,
     color: Themes.colors.coolGray100,
-    marginBottom: ScreenUtils.calculatorHeight(10),
+    marginBottom: ScreenUtils.scale(10),
   },
   description: {
     textAlign: "center",

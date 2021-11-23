@@ -135,8 +135,8 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   loading: {
-    width: ScreenUtils.calculatorWidth(30),
-    height: ScreenUtils.calculatorWidth(30),
+    width: ScreenUtils.scale(30),
+    height: ScreenUtils.scale(30),
   },
 });
 

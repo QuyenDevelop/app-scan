@@ -9,14 +9,14 @@ export default StyleSheet.create({
   },
   content: {
     flex: 1,
-    paddingTop: ScreenUtils.calculatorHeight(24),
+    paddingTop: ScreenUtils.scale(24),
   },
   infoRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: ScreenUtils.calculatorWidth(20),
-    height: ScreenUtils.calculatorHeight(45),
+    paddingHorizontal: ScreenUtils.scale(20),
+    height: ScreenUtils.scale(45),
   },
   infoText: {
     fontSize: 13,

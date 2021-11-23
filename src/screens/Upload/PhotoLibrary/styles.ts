@@ -16,18 +16,18 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: ScreenUtils.calculatorHeight(5),
-    paddingHorizontal: ScreenUtils.calculatorWidth(10),
+    paddingVertical: ScreenUtils.scale(5),
+    paddingHorizontal: ScreenUtils.scale(10),
   },
   image: {
-    width: ScreenUtils.calculatorWidth(70),
-    height: ScreenUtils.calculatorHeight(70),
+    width: ScreenUtils.scale(70),
+    height: ScreenUtils.scale(70),
     borderRadius: 10,
   },
   capture: {
-    width: ScreenUtils.calculatorWidth(70),
-    height: ScreenUtils.calculatorWidth(70),
-    borderRadius: ScreenUtils.calculatorWidth(35),
+    width: ScreenUtils.scale(70),
+    height: ScreenUtils.scale(70),
+    borderRadius: ScreenUtils.scale(35),
     backgroundColor: Themes.colors.error,
   },
   flashButton: {
@@ -46,25 +46,25 @@ export default StyleSheet.create({
   },
   iconCheck: {
     position: "absolute",
-    bottom: ScreenUtils.calculatorHeight(8),
-    right: ScreenUtils.calculatorHeight(8),
+    bottom: ScreenUtils.scale(8),
+    right: ScreenUtils.scale(8),
   },
   imageView: {
-    width: (ScreenUtils.WIDTH - ScreenUtils.calculatorWidth(32)) / 3,
+    width: (ScreenUtils.WIDTH - ScreenUtils.scale(32)) / 3,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: ScreenUtils.calculatorHeight(4),
+    marginBottom: ScreenUtils.scale(4),
   },
   content: {
-    marginHorizontal: ScreenUtils.calculatorWidth(12),
+    marginHorizontal: ScreenUtils.scale(12),
     flex: 1,
   },
   bottomView: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: ScreenUtils.calculatorHeight(12),
-    paddingHorizontal: ScreenUtils.calculatorWidth(48),
+    paddingVertical: ScreenUtils.scale(12),
+    paddingHorizontal: ScreenUtils.scale(48),
   },
   loadingView: {
     flex: 1,
@@ -82,6 +82,6 @@ export default StyleSheet.create({
     fontSize: 16,
   },
   contentContainer: {
-    paddingVertical: ScreenUtils.calculatorWidth(12),
+    paddingVertical: ScreenUtils.scale(12),
   },
 });

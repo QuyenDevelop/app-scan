@@ -81,7 +81,7 @@ export const BaseBottomSheet: FunctionComponent<IProps> = props => {
             maxHeight:
               Metrics.screenHeight -
               insets.top -
-              ScreenUtils.calculatorHeight(Metrics.baseMargin * 40),
+              ScreenUtils.scale(Metrics.baseMargin * 40),
           }}
         >
           <View style={styles.headerContainer} />

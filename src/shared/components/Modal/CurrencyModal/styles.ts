@@ -5,14 +5,14 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   serviceSelect: {
     borderWidth: 1,
-    marginHorizontal: ScreenUtils.calculatorWidth(15),
-    marginTop: ScreenUtils.calculatorHeight(20),
-    paddingHorizontal: ScreenUtils.calculatorWidth(10),
-    paddingVertical: ScreenUtils.calculatorHeight(10),
+    marginHorizontal: ScreenUtils.scale(15),
+    marginTop: ScreenUtils.scale(20),
+    paddingHorizontal: ScreenUtils.scale(10),
+    paddingVertical: ScreenUtils.scale(10),
     borderColor: Themes.colors.collGray40,
-    borderRadius: ScreenUtils.calculatorWidth(15),
+    borderRadius: ScreenUtils.scale(15),
   },
   bottomModal: {
-    marginBottom: ScreenUtils.calculatorHeight(20),
+    marginBottom: ScreenUtils.scale(20),
   },
 });

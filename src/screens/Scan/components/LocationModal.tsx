@@ -32,9 +32,7 @@ export const LocationModal: FunctionComponent<Props> = props => {
             size={Metrics.icons.small}
             color={Themes.colors.brand60}
           />
-          <Text style={{ marginLeft: ScreenUtils.calculatorWidth(8) }}>
-            {item.Name}
-          </Text>
+          <Text style={{ marginLeft: ScreenUtils.scale(8) }}>{item.Name}</Text>
         </View>
       </TouchableOpacity>
     );

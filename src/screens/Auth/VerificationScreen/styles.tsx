@@ -8,8 +8,8 @@ export default StyleSheet.create({
     backgroundColor: Themes.colors.white,
   },
   childContainer: {
-    paddingTop: ScreenUtils.calculatorHeight(18),
-    paddingHorizontal: ScreenUtils.calculatorWidth(10),
+    paddingTop: ScreenUtils.scale(18),
+    paddingHorizontal: ScreenUtils.scale(10),
   },
   title: {
     ...Themes.font.bold,
@@ -18,7 +18,7 @@ export default StyleSheet.create({
   },
   textContainer: {
     alignItems: "flex-start",
-    marginTop: ScreenUtils.calculatorHeight(8),
+    marginTop: ScreenUtils.scale(8),
   },
   text: {
     ...Themes.font.medium,
@@ -29,8 +29,8 @@ export default StyleSheet.create({
     backgroundColor: Themes.colors.colGray10,
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: ScreenUtils.calculatorHeight(14),
-    marginTop: ScreenUtils.calculatorHeight(62),
+    paddingVertical: ScreenUtils.scale(14),
+    marginTop: ScreenUtils.scale(62),
   },
   textEmail: {
     ...Themes.font.medium,
@@ -40,27 +40,27 @@ export default StyleSheet.create({
   },
   contentContainer: {
     justifyContent: "flex-start",
-    marginTop: ScreenUtils.calculatorHeight(32),
+    marginTop: ScreenUtils.scale(32),
   },
   firstContentContainer: {
-    height: ScreenUtils.calculatorHeight(90),
+    height: ScreenUtils.scale(90),
   },
   firstContent: {
     ...Themes.font.medium,
     fontSize: 14,
     fontWeight: "400",
     color: Themes.colors.coolGray100,
-    lineHeight: ScreenUtils.calculatorHeight(21),
+    lineHeight: ScreenUtils.scale(21),
   },
   secondContent: {
     ...Themes.font.medium,
     fontSize: 14,
     fontWeight: "400",
     color: Themes.colors.coolGray100,
-    lineHeight: ScreenUtils.calculatorHeight(21),
-    marginTop: ScreenUtils.calculatorHeight(10),
+    lineHeight: ScreenUtils.scale(21),
+    marginTop: ScreenUtils.scale(10),
   },
   button: {
-    marginTop: ScreenUtils.calculatorHeight(56),
+    marginTop: ScreenUtils.scale(56),
   },
 });

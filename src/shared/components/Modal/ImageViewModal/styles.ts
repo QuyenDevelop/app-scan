@@ -9,11 +9,11 @@ export default StyleSheet.create({
     backgroundColor: Themes.colors.white,
   },
   imageLibrary: {
-    width: (ScreenUtils.WIDTH - ScreenUtils.calculatorWidth(40)) / 3,
-    height: (ScreenUtils.WIDTH - ScreenUtils.calculatorWidth(37)) / 3,
+    width: (ScreenUtils.WIDTH - ScreenUtils.scale(40)) / 3,
+    height: (ScreenUtils.WIDTH - ScreenUtils.scale(37)) / 3,
   },
   content: {
-    margin: ScreenUtils.calculatorWidth(15),
+    margin: ScreenUtils.scale(15),
     flex: 1,
   },
   imageView: {

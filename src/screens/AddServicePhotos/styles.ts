@@ -8,17 +8,17 @@ export default StyleSheet.create({
     backgroundColor: Themes.colors.white,
   },
   content: {
-    margin: ScreenUtils.calculatorWidth(15),
+    margin: ScreenUtils.scale(15),
     flex: 1,
   },
   imageLibrary: {
-    width: (ScreenUtils.WIDTH - ScreenUtils.calculatorWidth(40)) / 3,
-    height: (ScreenUtils.WIDTH - ScreenUtils.calculatorWidth(37)) / 3,
+    width: (ScreenUtils.WIDTH - ScreenUtils.scale(40)) / 3,
+    height: (ScreenUtils.WIDTH - ScreenUtils.scale(37)) / 3,
   },
   iconCheck: {
     position: "absolute",
-    bottom: ScreenUtils.calculatorHeight(8),
-    right: ScreenUtils.calculatorHeight(8),
+    bottom: ScreenUtils.scale(8),
+    right: ScreenUtils.scale(8),
   },
   imageView: {
     flex: 1 / 3,
@@ -30,8 +30,8 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: ScreenUtils.calculatorHeight(12),
-    paddingHorizontal: ScreenUtils.calculatorHeight(48),
+    paddingVertical: ScreenUtils.scale(12),
+    paddingHorizontal: ScreenUtils.scale(48),
   },
   loadingView: {
     flex: 1,

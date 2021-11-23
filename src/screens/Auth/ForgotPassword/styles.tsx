@@ -8,8 +8,8 @@ export default StyleSheet.create({
     backgroundColor: Themes.colors.white,
   },
   childContainer: {
-    paddingTop: ScreenUtils.calculatorHeight(18),
-    paddingHorizontal: ScreenUtils.calculatorWidth(20),
+    paddingTop: ScreenUtils.scale(18),
+    paddingHorizontal: ScreenUtils.scale(20),
   },
   title: {
     ...Themes.font.bold,
@@ -18,7 +18,7 @@ export default StyleSheet.create({
   },
   textContainer: {
     alignItems: "flex-start",
-    marginTop: ScreenUtils.calculatorHeight(8),
+    marginTop: ScreenUtils.scale(8),
   },
   text: {
     ...Themes.font.medium,
@@ -29,13 +29,13 @@ export default StyleSheet.create({
     ...Themes.font.bold,
     fontSize: 14,
     color: Themes.colors.primary,
-    marginLeft: ScreenUtils.calculatorWidth(4),
+    marginLeft: ScreenUtils.scale(4),
   },
   input: {
-    marginTop: ScreenUtils.calculatorHeight(48),
+    marginTop: ScreenUtils.scale(48),
   },
   button: {
-    marginTop: ScreenUtils.calculatorHeight(56),
+    marginTop: ScreenUtils.scale(56),
   },
   header: { backgroundColor: Themes.colors.white },
   confirmBtn: {

@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
-import { Themes } from "@themes";
 import { ScreenUtils } from "@helpers";
+import { Themes } from "@themes";
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   inputDefaultContainer: {
@@ -22,8 +22,8 @@ export const styles = StyleSheet.create({
     color: Themes.colors.textPrimary,
     alignSelf: "center",
     flex: 1,
-    paddingVertical: ScreenUtils.calculatorHeight(7),
-    paddingLeft: ScreenUtils.calculatorWidth(4),
+    paddingVertical: ScreenUtils.scale(7),
+    paddingLeft: ScreenUtils.scale(4),
   },
   label: {
     ...Themes.font.bold,
@@ -37,14 +37,14 @@ export const styles = StyleSheet.create({
     color: Themes.colors.error,
     ...Themes.font.regular,
     fontSize: 13,
-    marginTop: ScreenUtils.calculatorHeight(8),
+    marginTop: ScreenUtils.scale(8),
   },
   leftIcon: {
-    marginRight: ScreenUtils.calculatorWidth(4),
+    marginRight: ScreenUtils.scale(4),
     alignSelf: "center",
   },
   rightIcon: {
-    marginLeft: ScreenUtils.calculatorWidth(12),
+    marginLeft: ScreenUtils.scale(12),
     alignSelf: "center",
   },
   countryCodeWrapper: {

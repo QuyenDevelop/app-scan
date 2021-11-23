@@ -79,7 +79,7 @@ export const ServiceInfo: FunctionComponent<Props> = props => {
               <Icon
                 name="ic_check-circle"
                 size={Metrics.icons.small}
-                styles={{ marginRight: ScreenUtils.calculatorWidth(4) }}
+                styles={{ marginRight: ScreenUtils.scale(4) }}
                 color={
                   item.IsProcessed
                     ? Themes.colors.success60

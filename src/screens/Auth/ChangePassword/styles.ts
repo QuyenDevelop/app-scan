@@ -8,7 +8,7 @@ export default StyleSheet.create({
     backgroundColor: Themes.colors.white,
   },
   childContainer: {
-    paddingHorizontal: ScreenUtils.calculatorWidth(20),
+    paddingHorizontal: ScreenUtils.scale(20),
   },
   title: {
     ...Themes.font.bold,
@@ -16,13 +16,13 @@ export default StyleSheet.create({
     color: Themes.colors.textPrimary,
   },
   input: {
-    marginTop: ScreenUtils.calculatorHeight(48),
+    marginTop: ScreenUtils.scale(48),
   },
   button: {
-    marginTop: ScreenUtils.calculatorHeight(32),
+    marginTop: ScreenUtils.scale(32),
   },
   forgotPasswordBtn: {
-    marginTop: ScreenUtils.calculatorHeight(20),
+    marginTop: ScreenUtils.scale(20),
     alignSelf: "center",
   },
   forgotPasswordTextBtn: {

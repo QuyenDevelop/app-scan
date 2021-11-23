@@ -16,18 +16,18 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: ScreenUtils.calculatorHeight(5),
-    paddingHorizontal: ScreenUtils.calculatorWidth(20),
+    paddingVertical: ScreenUtils.scale(5),
+    paddingHorizontal: ScreenUtils.scale(20),
   },
   image: {
-    width: ScreenUtils.calculatorWidth(48),
-    height: ScreenUtils.calculatorWidth(48),
+    width: ScreenUtils.scale(48),
+    height: ScreenUtils.scale(48),
     borderRadius: 5,
   },
   capture: {
-    width: ScreenUtils.calculatorWidth(70),
-    height: ScreenUtils.calculatorWidth(70),
-    borderRadius: ScreenUtils.calculatorWidth(35),
+    width: ScreenUtils.scale(70),
+    height: ScreenUtils.scale(70),
+    borderRadius: ScreenUtils.scale(35),
     backgroundColor: Themes.colors.error,
   },
   flashText: {
@@ -49,11 +49,11 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: ScreenUtils.calculatorWidth(20),
+    paddingHorizontal: ScreenUtils.scale(20),
   },
   takePicture: {
-    width: ScreenUtils.calculatorWidth(72),
-    height: ScreenUtils.calculatorWidth(72),
+    width: ScreenUtils.scale(72),
+    height: ScreenUtils.scale(72),
   },
   imageThumbnail: {
     flexDirection: "column",
@@ -63,6 +63,6 @@ export default StyleSheet.create({
   imageThumbnailText: {
     fontSize: 12,
     color: Themes.colors.white,
-    marginTop: ScreenUtils.calculatorHeight(4),
+    marginTop: ScreenUtils.scale(4),
   },
 });

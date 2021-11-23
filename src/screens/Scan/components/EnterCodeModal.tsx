@@ -56,7 +56,7 @@ export const EnterCodeModal: FunctionComponent<Props> = props => {
           onPress={onCheck}
           buttonChildStyle={{
             backgroundColor: Themes.colors.bg,
-            width: ScreenUtils.WIDTH - ScreenUtils.calculatorWidth(40),
+            width: ScreenUtils.WIDTH - ScreenUtils.scale(40),
           }}
         />
       </View>

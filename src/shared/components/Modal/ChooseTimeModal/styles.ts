@@ -7,8 +7,8 @@ export default StyleSheet.create({
     maxHeight: "100%",
   },
   headerBottomSheet: {
-    paddingHorizontal: ScreenUtils.calculatorWidth(20),
-    paddingTop: ScreenUtils.calculatorHeight(10),
+    paddingHorizontal: ScreenUtils.scale(20),
+    paddingTop: ScreenUtils.scale(10),
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -19,19 +19,19 @@ export default StyleSheet.create({
   },
   applyBtn: {
     backgroundColor: Themes.colors.bg,
-    height: ScreenUtils.calculatorHeight(48),
-    marginHorizontal: ScreenUtils.calculatorWidth(70),
-    borderRadius: ScreenUtils.calculatorWidth(24),
+    height: ScreenUtils.scale(48),
+    marginHorizontal: ScreenUtils.scale(70),
+    borderRadius: ScreenUtils.scale(24),
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: ScreenUtils.calculatorHeight(30),
+    marginBottom: ScreenUtils.scale(30),
   },
   applyTextBtn: {
     fontWeight: "600",
     color: Themes.colors.white,
   },
   modalIOS: {
-    marginBottom: ScreenUtils.calculatorHeight(-10),
-    marginHorizontal: ScreenUtils.calculatorWidth(0),
+    marginBottom: ScreenUtils.scale(-10),
+    marginHorizontal: ScreenUtils.scale(0),
   },
 });

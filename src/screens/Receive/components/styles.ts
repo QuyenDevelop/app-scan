@@ -6,8 +6,8 @@ export default StyleSheet.create({
   receiveItem: {
     borderBottomWidth: 1,
     borderColor: Themes.colors.colGray20,
-    paddingVertical: ScreenUtils.calculatorHeight(16),
-    marginHorizontal: ScreenUtils.calculatorWidth(16),
+    paddingVertical: ScreenUtils.scale(16),
+    marginHorizontal: ScreenUtils.scale(16),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -32,13 +32,13 @@ export default StyleSheet.create({
   },
   quantityInput: {
     borderWidth: 1,
-    width: ScreenUtils.calculatorWidth(50),
-    paddingHorizontal: ScreenUtils.calculatorWidth(4),
-    borderRadius: ScreenUtils.calculatorWidth(5),
-    paddingVertical: ScreenUtils.calculatorWidth(5),
+    width: ScreenUtils.scale(50),
+    paddingHorizontal: ScreenUtils.scale(4),
+    borderRadius: ScreenUtils.scale(5),
+    paddingVertical: ScreenUtils.scale(5),
     borderColor: Themes.colors.collGray40,
   },
   deleteBtn: {
-    marginLeft: ScreenUtils.calculatorWidth(16),
+    marginLeft: ScreenUtils.scale(16),
   },
 });

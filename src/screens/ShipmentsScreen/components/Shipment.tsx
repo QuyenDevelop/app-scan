@@ -19,12 +19,7 @@ export const Shipment: FunctionComponent<Props> = props => {
   return (
     <TouchableWithoutFeedback onPress={goToDetails}>
       <View style={styles.shipmentContainer}>
-        <View
-          style={[
-            styles.shipment,
-            { marginBottom: ScreenUtils.calculatorHeight(6) },
-          ]}
-        >
+        <View style={[styles.shipment, { marginBottom: ScreenUtils.scale(6) }]}>
           <Text style={styles.shipmentNumber}>{item.ShipmentNumber}</Text>
           <View
             style={[

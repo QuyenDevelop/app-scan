@@ -13,6 +13,6 @@ export default StyleSheet.create({
     ...Themes.font.bold,
     fontSize: 18,
     color: Themes.colors.textPrimary,
-    marginBottom: ScreenUtils.calculatorHeight(15),
+    marginBottom: ScreenUtils.scale(15),
   },
 });

@@ -45,7 +45,7 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
             <Text style={styles.contentInfo}>{translate("label.gram")}</Text>
           </View>
         </View>
-        <View style={{ marginTop: ScreenUtils.calculatorHeight(12) }}>
+        <View style={{ marginTop: ScreenUtils.scale(12) }}>
           <View style={styles.spaceBetween}>
             <Text style={styles.labelInfo}>
               {translate("label.dimension")} ({translate("placeholder.length")}{" "}
@@ -57,7 +57,7 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
           <View
             style={[
               styles.generalInfoRow,
-              { borderBottomWidth: ScreenUtils.calculatorHeight(0) },
+              { borderBottomWidth: ScreenUtils.scale(0) },
             ]}
           >
             <TextInput

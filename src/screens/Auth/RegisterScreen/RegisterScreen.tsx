@@ -145,7 +145,7 @@ export const RegisterScreen: FunctionComponent = () => {
                 styles.buttonSocial,
                 {
                   borderColor: Themes.colors.facebook,
-                  marginLeft: ScreenUtils.calculatorWidth(13),
+                  marginLeft: ScreenUtils.scale(13),
                 },
               ]}
               onPress={loginWithFacebook}
@@ -163,7 +163,7 @@ export const RegisterScreen: FunctionComponent = () => {
                   styles.buttonSocial,
                   {
                     borderColor: Themes.colors.black,
-                    marginLeft: ScreenUtils.calculatorWidth(13),
+                    marginLeft: ScreenUtils.scale(13),
                   },
                 ]}
                 onPress={loginWithApple}

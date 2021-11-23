@@ -14,9 +14,9 @@ export const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     height: 48,
-    minWidth: ScreenUtils.calculatorWidth(42),
-    paddingHorizontal: ScreenUtils.calculatorWidth(27),
+    minWidth: ScreenUtils.scale(42),
+    paddingHorizontal: ScreenUtils.scale(27),
     backgroundColor: Themes.colors.bg,
-    borderRadius: ScreenUtils.calculatorHeight(24),
+    borderRadius: ScreenUtils.scale(24),
   },
 });

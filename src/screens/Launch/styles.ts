@@ -10,13 +10,13 @@ export default StyleSheet.create({
   },
   banner: {
     width: "100%",
-    height: ScreenUtils.calculatorHeight(361),
+    height: ScreenUtils.scale(361),
   },
   textContainer: {
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: ScreenUtils.calculatorHeight(30),
+    marginVertical: ScreenUtils.scale(30),
   },
   title: {
     width: "100%",
@@ -29,8 +29,8 @@ export default StyleSheet.create({
     width: "100%",
     textAlign: "center",
     ...Themes.font.regular,
-    paddingHorizontal: ScreenUtils.calculatorWidth(50),
-    marginTop: ScreenUtils.calculatorHeight(10),
+    paddingHorizontal: ScreenUtils.scale(50),
+    marginTop: ScreenUtils.scale(10),
     color: Themes.colors.coolGray60,
     lineHeight: 21,
     fontSize: 12,
@@ -38,23 +38,23 @@ export default StyleSheet.create({
   containerModal: {
     borderRadius: 12,
     backgroundColor: Themes.colors.white,
-    paddingTop: ScreenUtils.calculatorWidth(20),
-    paddingHorizontal: ScreenUtils.calculatorWidth(20),
+    paddingTop: ScreenUtils.scale(20),
+    paddingHorizontal: ScreenUtils.scale(20),
   },
   firstLaunchContainer: {
     flex: 1,
   },
   backgroundImg: {
-    marginTop: ScreenUtils.calculatorHeight(-12),
+    marginTop: ScreenUtils.scale(-12),
     width: "100%",
     height: "100%",
   },
   loadingView: {
     position: "absolute",
-    bottom: ScreenUtils.calculatorHeight(70),
+    bottom: ScreenUtils.scale(70),
     justifyContent: "center",
     alignSelf: "center",
-    width: ScreenUtils.calculatorWidth(120),
-    height: ScreenUtils.calculatorHeight(120),
+    width: ScreenUtils.scale(120),
+    height: ScreenUtils.scale(120),
   },
 });

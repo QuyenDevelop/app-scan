@@ -153,10 +153,7 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
               disabled={true}
             />
             <Text
-              style={[
-                styles.labelInfo,
-                { marginLeft: ScreenUtils.calculatorWidth(8) },
-              ]}
+              style={[styles.labelInfo, { marginLeft: ScreenUtils.scale(8) }]}
             >
               {shipmentStatus
                 ? translate("button.go")
@@ -166,10 +163,7 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
 
           <TouchableOpacity style={styles.serviceButton} disabled={true}>
             <Text
-              style={[
-                styles.labelInfo,
-                { marginRight: ScreenUtils.calculatorWidth(5) },
-              ]}
+              style={[styles.labelInfo, { marginRight: ScreenUtils.scale(5) }]}
             >
               {selectedMode?.Name || translate("label.selectMode")}
             </Text>
@@ -184,10 +178,7 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
           <Text style={styles.labelInfo}>{translate("label.service")}</Text>
           <TouchableOpacity style={styles.serviceButton} disabled={true}>
             <Text
-              style={[
-                styles.labelInfo,
-                { marginRight: ScreenUtils.calculatorWidth(5) },
-              ]}
+              style={[styles.labelInfo, { marginRight: ScreenUtils.scale(5) }]}
             >
               {selectedService?.Name || translate("label.selectService")}
             </Text>

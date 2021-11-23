@@ -43,6 +43,7 @@
     "react-native-code-push": "^7.0.1",
     "react-native-config": "^1.4.3",
     "react-native-country-picker-modal": "^2.0.0",
+    "react-native-device-info": "^8.4.8",
     "react-native-dropdownalert": "^4.3.0",
     "react-native-fast-image": "^8.3.7",
     "react-native-fbsdk-next": "^4.3.0",

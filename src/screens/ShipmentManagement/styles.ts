@@ -16,11 +16,11 @@ export default StyleSheet.create({
     backgroundColor: Themes.colors.white,
     flexDirection: "row",
     alignItems: "center",
-    height: ScreenUtils.calculatorHeight(44),
-    paddingHorizontal: ScreenUtils.calculatorWidth(20),
+    height: ScreenUtils.scale(44),
+    paddingHorizontal: ScreenUtils.scale(20),
   },
   checkbox: {
-    marginRight: ScreenUtils.calculatorWidth(8),
+    marginRight: ScreenUtils.scale(8),
   },
   checkText: {
     fontSize: 13,
@@ -28,8 +28,8 @@ export default StyleSheet.create({
   filterView: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: ScreenUtils.calculatorHeight(16),
-    paddingHorizontal: ScreenUtils.calculatorWidth(20),
+    paddingVertical: ScreenUtils.scale(16),
+    paddingHorizontal: ScreenUtils.scale(20),
     justifyContent: "space-between",
   },
   filterBtn: {
@@ -44,6 +44,6 @@ export default StyleSheet.create({
     fontSize: 13,
     fontWeight: "500",
     color: Themes.colors.brand60,
-    marginLeft: ScreenUtils.calculatorWidth(4),
+    marginLeft: ScreenUtils.scale(4),
   },
 });

@@ -5,8 +5,8 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    paddingHorizontal: ScreenUtils.calculatorWidth(20),
-    paddingVertical: ScreenUtils.calculatorHeight(10),
+    paddingHorizontal: ScreenUtils.scale(20),
+    paddingVertical: ScreenUtils.scale(10),
     backgroundColor: Themes.colors.bg,
   },
   leftContainer: {
@@ -15,9 +15,9 @@ export const styles = StyleSheet.create({
     // paddingTop: ScreenUtils.calculatorWidth(2)
   },
   leftIconButton: {
-    marginRight: ScreenUtils.calculatorWidth(4),
-    paddingRight: ScreenUtils.calculatorWidth(6),
-    paddingVertical: ScreenUtils.calculatorWidth(8),
+    marginRight: ScreenUtils.scale(4),
+    paddingRight: ScreenUtils.scale(6),
+    paddingVertical: ScreenUtils.scale(8),
   },
   leftIcon: {
     alignSelf: "center",
@@ -29,9 +29,9 @@ export const styles = StyleSheet.create({
     // paddingTop: ScreenUtils.calculatorWidth(2)
   },
   rightIconButton: {
-    marginLeft: ScreenUtils.calculatorWidth(4),
-    paddingLeft: ScreenUtils.calculatorWidth(6),
-    paddingVertical: ScreenUtils.calculatorWidth(8),
+    marginLeft: ScreenUtils.scale(4),
+    paddingLeft: ScreenUtils.scale(6),
+    paddingVertical: ScreenUtils.scale(8),
   },
   rightIcon: {
     alignSelf: "center",
@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     ...Themes.font.semiBold,
     alignSelf: "center",
     textAlign: "center",
-    marginHorizontal: ScreenUtils.calculatorWidth(4),
+    marginHorizontal: ScreenUtils.scale(4),
   },
   goBackContainer: {
     flexDirection: "row",
@@ -58,16 +58,16 @@ export const styles = StyleSheet.create({
     ...Themes.font.medium,
     fontSize: 16,
     color: Themes.colors.primary,
-    marginLeft: ScreenUtils.calculatorWidth(10),
+    marginLeft: ScreenUtils.scale(10),
   },
   iconGoBack: {
     alignSelf: "center",
   },
   changeLanguageContainer: {
     backgroundColor: Themes.colors.colGray10,
-    borderRadius: ScreenUtils.calculatorWidth(20),
-    paddingVertical: ScreenUtils.calculatorHeight(12),
-    paddingHorizontal: ScreenUtils.calculatorWidth(11),
+    borderRadius: ScreenUtils.scale(20),
+    paddingVertical: ScreenUtils.scale(12),
+    paddingHorizontal: ScreenUtils.scale(11),
     flexDirection: "row",
     alignItems: "center",
     marginLeft: "auto",
@@ -76,7 +76,7 @@ export const styles = StyleSheet.create({
     ...Themes.font.medium,
     color: Themes.colors.coolGray60,
     fontSize: 14,
-    marginLeft: ScreenUtils.calculatorWidth(8),
-    marginRight: ScreenUtils.calculatorWidth(18),
+    marginLeft: ScreenUtils.scale(8),
+    marginRight: ScreenUtils.scale(18),
   },
 });

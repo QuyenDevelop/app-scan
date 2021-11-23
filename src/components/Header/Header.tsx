@@ -138,9 +138,9 @@ export const Header: FunctionComponent<Props> = props => {
     const itemRightLength = iconRightName ? iconRightName.length : 0;
     const itemLeftLength = iconLeftName ? iconLeftName.length : 0;
     if (itemRightLength > itemLeftLength) {
-      return itemRightLength * ScreenUtils.calculatorWidth(40);
+      return itemRightLength * ScreenUtils.scale(40);
     } else {
-      return itemLeftLength * ScreenUtils.calculatorWidth(40);
+      return itemLeftLength * ScreenUtils.scale(40);
     }
   };
 

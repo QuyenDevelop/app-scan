@@ -11,18 +11,18 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "stretch",
-    marginTop: ScreenUtils.calculatorHeight(20),
+    marginTop: ScreenUtils.scale(20),
   },
   headerImage: {
     width: "100%",
-    height: ScreenUtils.calculatorHeight(213),
+    height: ScreenUtils.scale(213),
   },
   headerView: {
     flexDirection: "row",
-    paddingTop: ScreenUtils.calculatorHeight(17),
-    paddingHorizontal: ScreenUtils.calculatorWidth(20),
+    paddingTop: ScreenUtils.scale(17),
+    paddingHorizontal: ScreenUtils.scale(20),
   },
   menu: {
-    marginRight: ScreenUtils.calculatorWidth(10),
+    marginRight: ScreenUtils.scale(10),
   },
 });

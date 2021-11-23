@@ -8,8 +8,8 @@ export default StyleSheet.create({
     borderColor: Themes.colors.colGray20,
     flexDirection: "column",
     justifyContent: "space-between",
-    paddingVertical: ScreenUtils.calculatorHeight(16),
-    marginHorizontal: ScreenUtils.calculatorWidth(16),
+    paddingVertical: ScreenUtils.scale(16),
+    marginHorizontal: ScreenUtils.scale(16),
   },
   receiveItem: {
     flexDirection: "row",
@@ -35,21 +35,21 @@ export default StyleSheet.create({
   },
   quantityInput: {
     borderWidth: 1,
-    width: ScreenUtils.calculatorWidth(50),
-    paddingHorizontal: ScreenUtils.calculatorWidth(4),
-    borderRadius: ScreenUtils.calculatorWidth(5),
-    paddingVertical: ScreenUtils.calculatorWidth(5),
+    width: ScreenUtils.scale(50),
+    paddingHorizontal: ScreenUtils.scale(4),
+    borderRadius: ScreenUtils.scale(5),
+    paddingVertical: ScreenUtils.scale(5),
     borderColor: Themes.colors.collGray40,
   },
   deleteBtn: {
-    marginLeft: ScreenUtils.calculatorWidth(16),
+    marginLeft: ScreenUtils.scale(16),
   },
   leftContainer: {
     flex: 0.6,
-    marginHorizontal: ScreenUtils.calculatorWidth(16),
+    marginHorizontal: ScreenUtils.scale(16),
   },
   deleteItemContainer: {
-    width: ScreenUtils.calculatorWidth(50),
+    width: ScreenUtils.scale(50),
     justifyContent: "center",
     alignItems: "center",
   },
@@ -57,6 +57,6 @@ export default StyleSheet.create({
     ...Themes.font.medium,
     fontSize: 14,
     fontWeight: "bold",
-    marginTop: ScreenUtils.calculatorHeight(8),
+    marginTop: ScreenUtils.scale(8),
   },
 });

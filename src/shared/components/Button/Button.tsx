@@ -63,7 +63,7 @@ export const Button: FunctionComponent<Props> = props => {
             styles={
               title
                 ? {
-                    marginRight: ScreenUtils.calculatorWidth(6),
+                    marginRight: ScreenUtils.scale(6),
                   }
                 : {}
             }
@@ -80,7 +80,7 @@ export const Button: FunctionComponent<Props> = props => {
             styles={
               title
                 ? {
-                    marginLeft: ScreenUtils.calculatorWidth(6),
+                    marginLeft: ScreenUtils.scale(6),
                   }
                 : {}
             }

@@ -236,7 +236,7 @@ export const AddServicesTab: FunctionComponent<Props> = props => {
               title={translate("button.addService")}
               buttonStyle={styles.addServiceBtn}
               buttonChildStyle={{
-                width: ScreenUtils.WIDTH - ScreenUtils.calculatorHeight(40),
+                width: ScreenUtils.WIDTH - ScreenUtils.scale(40),
                 backgroundColor:
                   selectService.length === 0
                     ? Themes.colors.collGray40

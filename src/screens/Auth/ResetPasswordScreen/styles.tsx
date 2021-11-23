@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
-import { Themes } from "@themes";
 import { ScreenUtils } from "@helpers";
+import { Themes } from "@themes";
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
@@ -8,8 +8,8 @@ export default StyleSheet.create({
     backgroundColor: Themes.colors.white,
   },
   childContainer: {
-    paddingTop: ScreenUtils.calculatorHeight(18),
-    paddingHorizontal: ScreenUtils.calculatorWidth(10),
+    paddingTop: ScreenUtils.scale(18),
+    paddingHorizontal: ScreenUtils.scale(10),
   },
   title: {
     ...Themes.font.bold,
@@ -17,9 +17,9 @@ export default StyleSheet.create({
     color: Themes.colors.textPrimary,
   },
   input: {
-    marginTop: ScreenUtils.calculatorHeight(48),
+    marginTop: ScreenUtils.scale(48),
   },
   button: {
-    marginTop: ScreenUtils.calculatorHeight(56),
+    marginTop: ScreenUtils.scale(56),
   },
 });

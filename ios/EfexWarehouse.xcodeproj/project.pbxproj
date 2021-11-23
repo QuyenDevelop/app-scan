@@ -11,6 +11,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		3E6E9AE5272278BA00753F65 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E6E9AE4272278BA00753F65 /* GoogleService-Info.plist */; };
 		754B032426AE73D5009EF4C4 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2B100C369694267927E1B53 /* icomoon.ttf */; };
 		754B032526AE73D5009EF4C4 /* Oswald-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A4E40F381EE47FB8E1F4404 /* Oswald-Medium.ttf */; };
 		754B032626AE73D5009EF4C4 /* Oswald-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1898AC3AC528433F856B2292 /* Oswald-Regular.ttf */; };
@@ -21,8 +22,8 @@
 		754B032B26AE73D5009EF4C4 /* SFProText-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 55E92AD626714883836E4E35 /* SFProText-Semibold.ttf */; };
 		754B032F26AEBE98009EF4C4 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754B032E26AEBE98009EF4C4 /* File.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		B0E66854AFA09FCF8D00F88A /* libPods-EfexWarehouse.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7D1EB80FA2484CDBC847921 /* libPods-EfexWarehouse.a */; };
-		BF48996F25CE911185FD6326 /* libPods-EfexWarehouse-EfexWarehouseTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3401817AB1DDC205DA250C18 /* libPods-EfexWarehouse-EfexWarehouseTests.a */; };
+		A746730B07ECBDA90936B394 /* libPods-EfexWarehouse.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BCF3C359AD959635970A8C /* libPods-EfexWarehouse.a */; };
+		AFBEC41B0AD9B44DB65F8676 /* libPods-EfexWarehouse-EfexWarehouseTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E6F8A6FDD75788B6BD3269 /* libPods-EfexWarehouse-EfexWarehouseTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,9 +41,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* EfexWarehouseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EfexWarehouseTests.m; sourceTree = "<group>"; };
 		0328F77FDCF9428D8497F352 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
-		0AD22F4D237C5CE91D3A9892 /* Pods-EfexWarehouse.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EfexWarehouse.release.xcconfig"; path = "Target Support Files/Pods-EfexWarehouse/Pods-EfexWarehouse.release.xcconfig"; sourceTree = "<group>"; };
 		0EE1298F081941569469CD22 /* Oswald-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Oswald-SemiBold.ttf"; path = "../src/assets/fonts/Oswald-SemiBold.ttf"; sourceTree = "<group>"; };
-		10651EB1212B761094A6C42D /* Pods-EfexWarehouse-EfexWarehouseTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EfexWarehouse-EfexWarehouseTests.release.xcconfig"; path = "Target Support Files/Pods-EfexWarehouse-EfexWarehouseTests/Pods-EfexWarehouse-EfexWarehouseTests.release.xcconfig"; sourceTree = "<group>"; };
 		12716DB922074CF88F21BEB4 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* EfexWarehouse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EfexWarehouse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = EfexWarehouse/AppDelegate.h; sourceTree = "<group>"; };
@@ -52,15 +51,15 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = EfexWarehouse/main.m; sourceTree = "<group>"; };
 		1898AC3AC528433F856B2292 /* Oswald-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Oswald-Regular.ttf"; path = "../src/assets/fonts/Oswald-Regular.ttf"; sourceTree = "<group>"; };
 		1A08A286E28442BCADDA1263 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
-		1D45C50883DF7EC5E1628DCE /* Pods-EfexWarehouse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EfexWarehouse.debug.xcconfig"; path = "Target Support Files/Pods-EfexWarehouse/Pods-EfexWarehouse.debug.xcconfig"; sourceTree = "<group>"; };
-		3401817AB1DDC205DA250C18 /* libPods-EfexWarehouse-EfexWarehouseTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EfexWarehouse-EfexWarehouseTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36D9D436AB5045BA97B0C9AE /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		37D470A8905B456088EF4A16 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		3E1A225A271F1CD4008DBD46 /* EfexWarehouse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = EfexWarehouse.entitlements; path = EfexWarehouse/EfexWarehouse.entitlements; sourceTree = "<group>"; };
+		3E6E9AE4272278BA00753F65 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../FirebaseConfig/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		55E92AD626714883836E4E35 /* SFProText-Semibold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Semibold.ttf"; path = "../src/assets/fonts/SFProText-Semibold.ttf"; sourceTree = "<group>"; };
 		5A0AB70E036B4245A337692D /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		5A4E40F381EE47FB8E1F4404 /* Oswald-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Oswald-Medium.ttf"; path = "../src/assets/fonts/Oswald-Medium.ttf"; sourceTree = "<group>"; };
+		5BFFE4282A7A5EA0CD907685 /* Pods-EfexWarehouse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EfexWarehouse.debug.xcconfig"; path = "Target Support Files/Pods-EfexWarehouse/Pods-EfexWarehouse.debug.xcconfig"; sourceTree = "<group>"; };
 		6840EA14C7F34B31B35B773E /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
-		69A0CBE0D50E69CA08B07822 /* Pods-EfexWarehouse-EfexWarehouseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EfexWarehouse-EfexWarehouseTests.debug.xcconfig"; path = "Target Support Files/Pods-EfexWarehouse-EfexWarehouseTests/Pods-EfexWarehouse-EfexWarehouseTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6F0418139D214E6CACD2AB31 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		754B032D26AEBE98009EF4C4 /* EfexWarehouse-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EfexWarehouse-Bridging-Header.h"; sourceTree = "<group>"; };
 		754B032E26AEBE98009EF4C4 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
@@ -72,12 +71,16 @@
 		91BA54EBB03343518FE7E593 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		A2B100C369694267927E1B53 /* icomoon.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = icomoon.ttf; path = ../src/assets/fonts/icomoon.ttf; sourceTree = "<group>"; };
 		B26FE9F4E7F0432187006798 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		B2BCF3C359AD959635970A8C /* libPods-EfexWarehouse.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EfexWarehouse.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B49B338B811CA2FB7AF6A971 /* Pods-EfexWarehouse.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EfexWarehouse.release.xcconfig"; path = "Target Support Files/Pods-EfexWarehouse/Pods-EfexWarehouse.release.xcconfig"; sourceTree = "<group>"; };
+		B4E6F8A6FDD75788B6BD3269 /* libPods-EfexWarehouse-EfexWarehouseTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EfexWarehouse-EfexWarehouseTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6AEC344B4B747CAA663C59F /* SFProText-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Bold.ttf"; path = "../src/assets/fonts/SFProText-Bold.ttf"; sourceTree = "<group>"; };
-		B7D1EB80FA2484CDBC847921 /* libPods-EfexWarehouse.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EfexWarehouse.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B853F4480BA942A7AAD3FA0A /* SFProText-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Regular.ttf"; path = "../src/assets/fonts/SFProText-Regular.ttf"; sourceTree = "<group>"; };
 		C48C9BF56B804055AE311DEB /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
+		C7EA4A0F102B4E4EEEB1AD7E /* Pods-EfexWarehouse-EfexWarehouseTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EfexWarehouse-EfexWarehouseTests.release.xcconfig"; path = "Target Support Files/Pods-EfexWarehouse-EfexWarehouseTests/Pods-EfexWarehouse-EfexWarehouseTests.release.xcconfig"; sourceTree = "<group>"; };
 		D36D161AD931464598C61EAC /* SFProText-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Medium.ttf"; path = "../src/assets/fonts/SFProText-Medium.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		EDD3650173FCF5EE5C817346 /* Pods-EfexWarehouse-EfexWarehouseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EfexWarehouse-EfexWarehouseTests.debug.xcconfig"; path = "Target Support Files/Pods-EfexWarehouse-EfexWarehouseTests/Pods-EfexWarehouse-EfexWarehouseTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EE66B1BAC1E94E0FA3D2503D /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,7 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF48996F25CE911185FD6326 /* libPods-EfexWarehouse-EfexWarehouseTests.a in Frameworks */,
+				AFBEC41B0AD9B44DB65F8676 /* libPods-EfexWarehouse-EfexWarehouseTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,7 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B0E66854AFA09FCF8D00F88A /* libPods-EfexWarehouse.a in Frameworks */,
+				A746730B07ECBDA90936B394 /* libPods-EfexWarehouse.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,6 +124,8 @@
 		13B07FAE1A68108700A75B9A /* EfexWarehouse */ = {
 			isa = PBXGroup;
 			children = (
+				3E6E9AE4272278BA00753F65 /* GoogleService-Info.plist */,
+				3E1A225A271F1CD4008DBD46 /* EfexWarehouse.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -135,8 +140,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				B7D1EB80FA2484CDBC847921 /* libPods-EfexWarehouse.a */,
-				3401817AB1DDC205DA250C18 /* libPods-EfexWarehouse-EfexWarehouseTests.a */,
+				B2BCF3C359AD959635970A8C /* libPods-EfexWarehouse.a */,
+				B4E6F8A6FDD75788B6BD3269 /* libPods-EfexWarehouse-EfexWarehouseTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -144,10 +149,10 @@
 		68E0F15ADE27C2845966B022 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				1D45C50883DF7EC5E1628DCE /* Pods-EfexWarehouse.debug.xcconfig */,
-				0AD22F4D237C5CE91D3A9892 /* Pods-EfexWarehouse.release.xcconfig */,
-				69A0CBE0D50E69CA08B07822 /* Pods-EfexWarehouse-EfexWarehouseTests.debug.xcconfig */,
-				10651EB1212B761094A6C42D /* Pods-EfexWarehouse-EfexWarehouseTests.release.xcconfig */,
+				5BFFE4282A7A5EA0CD907685 /* Pods-EfexWarehouse.debug.xcconfig */,
+				B49B338B811CA2FB7AF6A971 /* Pods-EfexWarehouse.release.xcconfig */,
+				EDD3650173FCF5EE5C817346 /* Pods-EfexWarehouse-EfexWarehouseTests.debug.xcconfig */,
+				C7EA4A0F102B4E4EEEB1AD7E /* Pods-EfexWarehouse-EfexWarehouseTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -224,12 +229,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "EfexWarehouseTests" */;
 			buildPhases = (
-				9B9FA88EC34EC3CD76EBBCB5 /* [CP] Check Pods Manifest.lock */,
+				DB836E65A73AF5845CBC44C5 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				202A3FD276481D64A447220C /* [CP] Embed Pods Frameworks */,
-				A445141837847649931BFD36 /* [CP] Copy Pods Resources */,
+				94CDE6CF4719C4CF8FF5E26B /* [CP] Embed Pods Frameworks */,
+				AB14F8DDC71508909068C585 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -245,15 +250,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "EfexWarehouse" */;
 			buildPhases = (
-				8308F819765F1E3D48CFB86A /* [CP] Check Pods Manifest.lock */,
+				E25E3619C6F84B5E705D901F /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				62AEB861E3DA05D39401A67E /* [CP] Embed Pods Frameworks */,
-				2828D5C48B25571FF80B8E19 /* [CP] Copy Pods Resources */,
-				BB7A96472572E98EE37B18E8 /* [CP-User] [RNFB] Core Configuration */,
+				14B009688E8AE69CAE4242BA /* [CP] Embed Pods Frameworks */,
+				B5E4AD59806B5891A0D1B2BC /* [CP] Copy Pods Resources */,
+				E9D28A3D96C5DD500414D696 /* [CP-User] [RNFB] Core Configuration */,
 			);
 			buildRules = (
 			);
@@ -320,6 +325,7 @@
 				754B032926AE73D5009EF4C4 /* SFProText-Medium.ttf in Resources */,
 				754B032A26AE73D5009EF4C4 /* SFProText-Regular.ttf in Resources */,
 				754B032B26AE73D5009EF4C4 /* SFProText-Semibold.ttf in Resources */,
+				3E6E9AE5272278BA00753F65 /* GoogleService-Info.plist in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
@@ -342,41 +348,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		202A3FD276481D64A447220C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse-EfexWarehouseTests/Pods-EfexWarehouse-EfexWarehouseTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse-EfexWarehouseTests/Pods-EfexWarehouse-EfexWarehouseTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse-EfexWarehouseTests/Pods-EfexWarehouse-EfexWarehouseTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2828D5C48B25571FF80B8E19 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse/Pods-EfexWarehouse-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse/Pods-EfexWarehouse-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse/Pods-EfexWarehouse-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		62AEB861E3DA05D39401A67E /* [CP] Embed Pods Frameworks */ = {
+		14B009688E8AE69CAE4242BA /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -393,29 +365,58 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse/Pods-EfexWarehouse-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8308F819765F1E3D48CFB86A /* [CP] Check Pods Manifest.lock */ = {
+		94CDE6CF4719C4CF8FF5E26B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse-EfexWarehouseTests/Pods-EfexWarehouse-EfexWarehouseTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-EfexWarehouse-checkManifestLockResult.txt",
+				"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse-EfexWarehouseTests/Pods-EfexWarehouse-EfexWarehouseTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse-EfexWarehouseTests/Pods-EfexWarehouse-EfexWarehouseTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9B9FA88EC34EC3CD76EBBCB5 /* [CP] Check Pods Manifest.lock */ = {
+		AB14F8DDC71508909068C585 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse-EfexWarehouseTests/Pods-EfexWarehouse-EfexWarehouseTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse-EfexWarehouseTests/Pods-EfexWarehouse-EfexWarehouseTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse-EfexWarehouseTests/Pods-EfexWarehouse-EfexWarehouseTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B5E4AD59806B5891A0D1B2BC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse/Pods-EfexWarehouse-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse/Pods-EfexWarehouse-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse/Pods-EfexWarehouse-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DB836E65A73AF5845CBC44C5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -437,30 +438,35 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A445141837847649931BFD36 /* [CP] Copy Pods Resources */ = {
+		E25E3619C6F84B5E705D901F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse-EfexWarehouseTests/Pods-EfexWarehouse-EfexWarehouseTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse-EfexWarehouseTests/Pods-EfexWarehouse-EfexWarehouseTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EfexWarehouse-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EfexWarehouse-EfexWarehouseTests/Pods-EfexWarehouse-EfexWarehouseTests-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BB7A96472572E98EE37B18E8 /* [CP-User] [RNFB] Core Configuration */ = {
+		E9D28A3D96C5DD500414D696 /* [CP-User] [RNFB] Core Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
 			);
 			name = "[CP-User] [RNFB] Core Configuration";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -520,7 +526,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 69A0CBE0D50E69CA08B07822 /* Pods-EfexWarehouse-EfexWarehouseTests.debug.xcconfig */;
+			baseConfigurationReference = EDD3650173FCF5EE5C817346 /* Pods-EfexWarehouse-EfexWarehouseTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -548,7 +554,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 10651EB1212B761094A6C42D /* Pods-EfexWarehouse-EfexWarehouseTests.release.xcconfig */;
+			baseConfigurationReference = C7EA4A0F102B4E4EEEB1AD7E /* Pods-EfexWarehouse-EfexWarehouseTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -573,11 +579,12 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1D45C50883DF7EC5E1628DCE /* Pods-EfexWarehouse.debug.xcconfig */;
+			baseConfigurationReference = 5BFFE4282A7A5EA0CD907685 /* Pods-EfexWarehouse.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CODE_SIGN_ENTITLEMENTS = EfexWarehouse/EfexWarehouse.entitlements;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BF2QE86V7N;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = EfexWarehouse/Info.plist;
@@ -586,7 +593,7 @@
 					"@executable_path/Frameworks",
 				);
 				LD_VERIFY_BITCODE = NO;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -597,25 +604,29 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "EfexWarehouse-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0AD22F4D237C5CE91D3A9892 /* Pods-EfexWarehouse.release.xcconfig */;
+			baseConfigurationReference = B49B338B811CA2FB7AF6A971 /* Pods-EfexWarehouse.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CODE_SIGN_ENTITLEMENTS = EfexWarehouse/EfexWarehouse.entitlements;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BF2QE86V7N;
+				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphoneos*]" = armv7;
 				INFOPLIST_FILE = EfexWarehouse/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LD_VERIFY_BITCODE = NO;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -625,6 +636,7 @@
 				PRODUCT_NAME = EfexWarehouse;
 				SWIFT_OBJC_BRIDGING_HEADER = "EfexWarehouse-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

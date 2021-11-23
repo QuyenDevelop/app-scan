@@ -8,8 +8,8 @@ export default StyleSheet.create({
     backgroundColor: Themes.colors.white,
   },
   childContainer: {
-    paddingTop: ScreenUtils.calculatorHeight(18),
-    paddingHorizontal: ScreenUtils.calculatorWidth(10),
+    paddingTop: ScreenUtils.scale(18),
+    paddingHorizontal: ScreenUtils.scale(10),
   },
   title: {
     ...Themes.font.bold,
@@ -19,7 +19,7 @@ export default StyleSheet.create({
   noAccountContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: ScreenUtils.calculatorHeight(8),
+    marginTop: ScreenUtils.scale(8),
   },
   noAccount: {
     ...Themes.font.medium,
@@ -30,48 +30,48 @@ export default StyleSheet.create({
     ...Themes.font.bold,
     fontSize: 14,
     color: Themes.colors.primary,
-    marginLeft: ScreenUtils.calculatorWidth(4),
+    marginLeft: ScreenUtils.scale(4),
   },
   input: {
-    marginTop: ScreenUtils.calculatorHeight(48),
+    marginTop: ScreenUtils.scale(48),
   },
   button: {
-    marginTop: ScreenUtils.calculatorHeight(56),
+    marginTop: ScreenUtils.scale(56),
   },
   loginSocialContainer: {
-    marginTop: ScreenUtils.calculatorHeight(16),
+    marginTop: ScreenUtils.scale(16),
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
   },
   line: {
-    width: ScreenUtils.calculatorWidth(47),
+    width: ScreenUtils.scale(47),
     backgroundColor: Themes.colors.colGray20,
-    height: ScreenUtils.calculatorHeight(2),
+    height: ScreenUtils.scale(2),
   },
   orLogin: {
     ...Themes.font.regular,
     fontSize: 14,
     color: Themes.colors.coolGray60,
-    marginHorizontal: ScreenUtils.calculatorWidth(11),
+    marginHorizontal: ScreenUtils.scale(11),
   },
   buttonGoogle: {
     borderColor: Themes.colors.google,
-    borderWidth: ScreenUtils.calculatorWidth(2),
+    borderWidth: ScreenUtils.scale(2),
     backgroundColor: Themes.colors.white,
   },
   buttonFacebook: {
     borderColor: Themes.colors.facebook,
-    borderWidth: ScreenUtils.calculatorWidth(2),
+    borderWidth: ScreenUtils.scale(2),
     backgroundColor: Themes.colors.white,
   },
   buttonSocial: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: ScreenUtils.calculatorWidth(38),
-    height: ScreenUtils.calculatorWidth(38),
-    borderRadius: ScreenUtils.calculatorWidth(38),
+    width: ScreenUtils.scale(38),
+    height: ScreenUtils.scale(38),
+    borderRadius: ScreenUtils.scale(38),
     borderWidth: 2,
   },
 });

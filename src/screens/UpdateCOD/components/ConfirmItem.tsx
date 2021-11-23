@@ -25,7 +25,7 @@ export const ConfirmItem: FunctionComponent<Props> = props => {
           style={[
             styles.labelInfo,
             {
-              marginRight: ScreenUtils.calculatorWidth(5),
+              marginRight: ScreenUtils.scale(5),
             },
           ]}
         >
@@ -56,7 +56,7 @@ export const ConfirmItem: FunctionComponent<Props> = props => {
           style={[
             styles.labelInfo,
             {
-              marginRight: ScreenUtils.calculatorWidth(5),
+              marginRight: ScreenUtils.scale(5),
             },
           ]}
         >

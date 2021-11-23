@@ -8,7 +8,7 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   tabBarText: {
-    marginTop: ScreenUtils.calculatorHeight(6),
+    marginTop: ScreenUtils.scale(6),
     textAlign: "center",
     ...Themes.font.medium,
     fontSize: 11,

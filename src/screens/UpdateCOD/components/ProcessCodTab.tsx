@@ -168,7 +168,7 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
               style={[
                 styles.labelInfo,
                 {
-                  marginRight: ScreenUtils.calculatorWidth(5),
+                  marginRight: ScreenUtils.scale(5),
                   color: item.CustomerCode
                     ? Themes.colors.collGray40
                     : Themes.colors.textPrimary,
@@ -229,7 +229,7 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
                 style={[
                   styles.labelInfo,
                   {
-                    marginRight: ScreenUtils.calculatorWidth(5),
+                    marginRight: ScreenUtils.scale(5),
                     color: item.CustomerCode
                       ? Themes.colors.collGray40
                       : Themes.colors.textPrimary,
@@ -279,7 +279,7 @@ export const ProcessCodTab: FunctionComponent<Props> = props => {
                   style={[
                     styles.labelInfo,
                     {
-                      marginRight: ScreenUtils.calculatorWidth(5),
+                      marginRight: ScreenUtils.scale(5),
                       color: Themes.colors.collGray40,
                     },
                   ]}

@@ -1,37 +1,45 @@
-import { Dimensions, Platform, StatusBar } from "react-native";
-
+import { Dimensions, PixelRatio, Platform, StatusBar } from "react-native";
+import deviceInfoModule from "react-native-device-info";
 const { width, height } = Dimensions.get("screen");
+const lagerValue = width > height ? width : height;
+const smallValue = width > height ? height : width;
+
+export const isIphoneX = () => {
+  const dimension = Dimensions.get("window");
+  return (
+    Platform.OS === "ios" &&
+    !Platform.isPad &&
+    !Platform.isTVOS &&
+    (dimension.height === 780 ||
+      dimension.width === 780 ||
+      dimension.height === 812 ||
+      dimension.width === 812 ||
+      dimension.height === 844 ||
+      dimension.width === 844 ||
+      dimension.height === 896 ||
+      dimension.width === 896 ||
+      dimension.height === 926 ||
+      dimension.width === 926)
+  );
+};
+
+const standardLength = deviceInfoModule.isTablet() ? smallValue : lagerValue;
+const offset =
+  width > height
+    ? 0
+    : Platform.OS === "ios"
+    ? 78
+    : StatusBar.currentHeight || 0; // iPhone X style SafeAreaView size in portrait
+const deviceHeight =
+  isIphoneX() || Platform.OS === "android"
+    ? standardLength - offset
+    : standardLength;
 
 export const ScreenUtils = {
-  calculatorWidth(width: number) {
-    return Dimensions.get("screen").width / (375 / width);
-  },
-  calculatorHeight(height: number) {
-    return Dimensions.get("screen").height / (812 / height);
-  },
-  getStatusBarHeight(skipAndroid: boolean = false) {
-    const X_WIDTH = 375;
-    const X_HEIGHT = 812;
-
-    const XSMAX_WIDTH = 414;
-    const XSMAX_HEIGHT = 896;
-    let isIPhoneX = false;
-    const { height, width } = Dimensions.get("window");
-    const W_HEIGHT = height > width ? height : width;
-    const W_WIDTH = height > width ? width : height;
-
-    if (Platform.OS === "ios" && !Platform.isPad && !Platform.isTVOS) {
-      isIPhoneX =
-        (W_WIDTH === X_WIDTH && W_HEIGHT === X_HEIGHT) ||
-        (W_WIDTH === XSMAX_WIDTH && W_HEIGHT === XSMAX_HEIGHT);
-    }
-
-    return Platform.select({
-      ios: isIPhoneX ? 44 : 20,
-      android: skipAndroid ? 0 : StatusBar.currentHeight,
-      default: 0,
-    });
-  },
   WIDTH: width,
   HEIGHT: height,
+  scale(value: number) {
+    const heightPercent = (value * deviceHeight) / 667;
+    return PixelRatio.roundToNearestPixel(heightPercent);
+  },
 };

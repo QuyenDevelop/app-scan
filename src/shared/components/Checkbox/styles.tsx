@@ -8,10 +8,10 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   childContainer: {
-    width: ScreenUtils.calculatorHeight(20),
-    height: ScreenUtils.calculatorHeight(20),
+    width: ScreenUtils.scale(20),
+    height: ScreenUtils.scale(20),
     borderColor: Themes.colors.collGray40,
-    borderRadius: ScreenUtils.calculatorWidth(2),
+    borderRadius: ScreenUtils.scale(2),
     justifyContent: "center",
     alignItems: "center",
   },
@@ -19,7 +19,7 @@ export default StyleSheet.create({
     ...Themes.font.regular,
     fontSize: 14,
     color: Themes.colors.textPrimary,
-    marginLeft: ScreenUtils.calculatorWidth(8),
+    marginLeft: ScreenUtils.scale(8),
   },
   hitSlop: {
     top: 20,

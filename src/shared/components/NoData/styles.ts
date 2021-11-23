@@ -9,8 +9,8 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    width: ScreenUtils.calculatorWidth(219),
-    height: ScreenUtils.calculatorWidth(219),
+    width: ScreenUtils.scale(219),
+    height: ScreenUtils.scale(219),
   },
   noDataTitle: {
     fontSize: 16,

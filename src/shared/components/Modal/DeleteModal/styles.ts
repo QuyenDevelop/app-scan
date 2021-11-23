@@ -12,15 +12,15 @@ export default StyleSheet.create({
   },
   content: {
     backgroundColor: Themes.colors.white,
-    marginHorizontal: ScreenUtils.calculatorWidth(40),
-    padding: ScreenUtils.calculatorWidth(16),
-    borderRadius: ScreenUtils.calculatorWidth(5),
+    marginHorizontal: ScreenUtils.scale(40),
+    padding: ScreenUtils.scale(16),
+    borderRadius: ScreenUtils.scale(5),
   },
   message: {
     fontSize: 16,
     fontWeight: "500",
     textAlign: "center",
-    marginBottom: ScreenUtils.calculatorHeight(24),
+    marginBottom: ScreenUtils.scale(24),
   },
   confirm: {
     flexDirection: "row",
@@ -36,6 +36,6 @@ export default StyleSheet.create({
   },
   icon: {
     alignSelf: "center",
-    marginVertical: ScreenUtils.calculatorHeight(12),
+    marginVertical: ScreenUtils.scale(12),
   },
 });

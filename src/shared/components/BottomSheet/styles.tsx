@@ -11,8 +11,8 @@ export default StyleSheet.create({
   titleModalContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginHorizontal: ScreenUtils.calculatorWidth(16),
-    marginVertical: ScreenUtils.calculatorHeight(10),
+    marginHorizontal: ScreenUtils.scale(16),
+    marginVertical: ScreenUtils.scale(10),
   },
   titleModalText: {
     ...Themes.font.semiBold,
@@ -21,25 +21,25 @@ export default StyleSheet.create({
   },
   headerContainer: {
     backgroundColor: Themes.colors.collGray40,
-    marginBottom: ScreenUtils.calculatorHeight(6),
+    marginBottom: ScreenUtils.scale(6),
     alignSelf: "center",
-    width: ScreenUtils.calculatorWidth(46),
-    height: ScreenUtils.calculatorHeight(5),
+    width: ScreenUtils.scale(46),
+    height: ScreenUtils.scale(5),
     borderRadius: 1000,
   },
   contentContainer: {
-    borderTopLeftRadius: ScreenUtils.calculatorWidth(16),
-    borderTopRightRadius: ScreenUtils.calculatorWidth(16),
+    borderTopLeftRadius: ScreenUtils.scale(16),
+    borderTopRightRadius: ScreenUtils.scale(16),
     backgroundColor: Themes.colors.white,
-    paddingTop: ScreenUtils.calculatorHeight(12),
+    paddingTop: ScreenUtils.scale(12),
   },
   itemContainer: {
     justifyContent: "center",
     flex: 1,
-    paddingHorizontal: ScreenUtils.calculatorWidth(16),
+    paddingHorizontal: ScreenUtils.scale(16),
     borderBottomWidth: 1,
     borderBottomColor: Themes.colors.colGray20,
-    paddingVertical: ScreenUtils.calculatorHeight(14),
+    paddingVertical: ScreenUtils.scale(14),
   },
   titleContainer: {
     flexDirection: "row",
@@ -47,10 +47,10 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   contentDetailContainer: {
-    marginTop: ScreenUtils.calculatorHeight(10),
+    marginTop: ScreenUtils.scale(10),
   },
   icon: {
-    marginRight: ScreenUtils.calculatorWidth(12),
+    marginRight: ScreenUtils.scale(12),
   },
   text: {
     flex: 1,
@@ -70,8 +70,8 @@ export default StyleSheet.create({
   },
   search: {
     backgroundColor: Themes.colors.colGray10,
-    borderRadius: ScreenUtils.calculatorWidth(20),
-    paddingLeft: ScreenUtils.calculatorWidth(20),
+    borderRadius: ScreenUtils.scale(20),
+    paddingLeft: ScreenUtils.scale(20),
     borderBottomWidth: 0,
   },
 });

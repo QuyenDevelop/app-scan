@@ -1,18 +1,18 @@
-import { StyleSheet } from "react-native";
 import { ScreenUtils } from "@helpers";
 import { Themes } from "@themes";
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   footer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: ScreenUtils.calculatorWidth(22),
-    paddingVertical: ScreenUtils.calculatorHeight(8),
+    paddingHorizontal: ScreenUtils.scale(22),
+    paddingVertical: ScreenUtils.scale(8),
     borderTopColor: Themes.colors.colGray20,
-    borderTopWidth: ScreenUtils.calculatorWidth(0.5),
+    borderTopWidth: ScreenUtils.scale(0.5),
   },
   right: {
-    marginLeft: ScreenUtils.calculatorWidth(13),
+    marginLeft: ScreenUtils.scale(13),
   },
   help: {
     ...Themes.font.regular,

@@ -282,10 +282,7 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
               value={shipmentStatus}
             />
             <Text
-              style={[
-                styles.labelInfo,
-                { marginLeft: ScreenUtils.calculatorWidth(8) },
-              ]}
+              style={[styles.labelInfo, { marginLeft: ScreenUtils.scale(8) }]}
             >
               {shipmentStatus
                 ? translate("button.go")
@@ -298,10 +295,7 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
             onPress={showModeModal}
           >
             <Text
-              style={[
-                styles.labelInfo,
-                { marginRight: ScreenUtils.calculatorWidth(5) },
-              ]}
+              style={[styles.labelInfo, { marginRight: ScreenUtils.scale(5) }]}
             >
               {selectedMode?.Name || translate("label.selectMode")}
             </Text>
@@ -319,10 +313,7 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
             onPress={showServiceModal}
           >
             <Text
-              style={[
-                styles.labelInfo,
-                { marginRight: ScreenUtils.calculatorWidth(5) },
-              ]}
+              style={[styles.labelInfo, { marginRight: ScreenUtils.scale(5) }]}
             >
               {selectedService?.Name || translate("label.selectService")}
             </Text>

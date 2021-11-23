@@ -58,7 +58,7 @@ export const LocationModal: FunctionComponent<Props> = props => {
               size={Metrics.icons.small}
               color={Themes.colors.brand60}
             />
-            <Text style={{ marginLeft: ScreenUtils.calculatorWidth(8) }}>
+            <Text style={{ marginLeft: ScreenUtils.scale(8) }}>
               {item.Name}
             </Text>
           </View>
@@ -97,7 +97,7 @@ export const LocationModal: FunctionComponent<Props> = props => {
           }
           keyboardDismissMode="on-drag"
           keyboardShouldPersistTaps="handled"
-          itemHeight={ScreenUtils.calculatorHeight(58)}
+          itemHeight={ScreenUtils.scale(58)}
         />
       </View>
     </BaseBottomSheet>

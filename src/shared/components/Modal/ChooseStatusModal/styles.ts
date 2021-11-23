@@ -9,8 +9,8 @@ export default StyleSheet.create({
   content: {
     flex: 1,
     flexDirection: "column",
-    paddingHorizontal: ScreenUtils.calculatorWidth(20),
-    paddingTop: ScreenUtils.calculatorHeight(16),
+    paddingHorizontal: ScreenUtils.scale(20),
+    paddingTop: ScreenUtils.scale(16),
   },
   title: {
     fontWeight: "bold",
@@ -18,16 +18,16 @@ export default StyleSheet.create({
   searchView: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: ScreenUtils.calculatorWidth(16),
-    paddingVertical: ScreenUtils.calculatorHeight(14),
+    paddingHorizontal: ScreenUtils.scale(16),
+    paddingVertical: ScreenUtils.scale(14),
     borderWidth: 1,
     borderColor: Themes.colors.colGray20,
-    marginTop: ScreenUtils.calculatorHeight(4),
-    borderRadius: ScreenUtils.calculatorHeight(25),
+    marginTop: ScreenUtils.scale(4),
+    borderRadius: ScreenUtils.scale(25),
   },
   searchInput: {
     flex: 1,
-    marginLeft: ScreenUtils.calculatorWidth(8),
+    marginLeft: ScreenUtils.scale(8),
     ...Platform.select({
       android: {
         paddingVertical: 0,
@@ -35,8 +35,8 @@ export default StyleSheet.create({
     }),
   },
   customers: {
-    marginTop: ScreenUtils.calculatorHeight(24),
-    marginBottom: ScreenUtils.calculatorHeight(10),
+    marginTop: ScreenUtils.scale(24),
+    marginBottom: ScreenUtils.scale(10),
   },
   item: {
     justifyContent: "center",
@@ -44,7 +44,7 @@ export default StyleSheet.create({
     backgroundColor: Themes.colors.colGray10,
     height: 48,
     borderRadius: 8,
-    marginBottom: ScreenUtils.calculatorHeight(12),
+    marginBottom: ScreenUtils.scale(12),
     borderColor: Themes.colors.brand60,
   },
   itemText: {

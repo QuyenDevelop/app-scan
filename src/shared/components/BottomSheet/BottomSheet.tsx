@@ -156,7 +156,7 @@ export const BottomSheet: FunctionComponent<IProps> = props => {
             </View>
           ) : null}
           <ScrollView
-            style={{ marginBottom: ScreenUtils.calculatorHeight(20) }}
+            style={{ marginBottom: ScreenUtils.scale(20) }}
             showsVerticalScrollIndicator={false}
           >
             {dataSource.map((item: BottomSheetOption, index: number) => (
