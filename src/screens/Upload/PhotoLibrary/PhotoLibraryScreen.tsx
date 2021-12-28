@@ -127,8 +127,8 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
       if (photo) {
         await ImageResizer.createResizedImage(
           uri,
-          photo.node.image.width,
-          photo.node.image.height,
+          photo.node.image.width || ScreenUtils.WIDTH,
+          photo.node.image.height || ScreenUtils.HEIGHT,
           "JPEG",
           0,
         ).then(response => {
