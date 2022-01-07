@@ -79,6 +79,10 @@ export default {
         title: "Quản lý tồn kho",
         content: "Kiểm soát và xác nhận số lượng hàng hóa",
       },
+      exploitShipment: {
+        title: "Khai thác lô hàng",
+        content: "Khai thác lô hàng",
+      },
     },
     photoModal: "Ảnh",
     totalCod: "Tổng tiền COD:",

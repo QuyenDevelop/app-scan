@@ -42,7 +42,7 @@ export const HomeScreen: FunctionComponent = () => {
           />
         </View>
       </ImageBackground>
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {DATA_CONSTANT.HOME_ITEMS.map((item, index) => {
           return (
             <HomeItem

@@ -2,6 +2,7 @@ export * from "./AuthNavigator";
 export * from "./BottomTabNavigator";
 export * from "./CheckAndScanNavigator";
 export * from "./CODNavigator";
+export * from "./FeedbackNavigator";
 export * from "./HomeNavigator";
 export * from "./InventoryNavigator";
 export * from "./NavigationManagement";

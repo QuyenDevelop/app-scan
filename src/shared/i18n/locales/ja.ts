@@ -80,6 +80,10 @@ export default {
         title: "在庫管理",
         content: "商品の量を制御して確認してください",
       },
+      exploitShipment: {
+        title: "エクスプロイト出荷",
+        content: "エクスプロイト出荷",
+      },
     },
     photoModal: "写真",
     totalCod: "配達の合計金額:",

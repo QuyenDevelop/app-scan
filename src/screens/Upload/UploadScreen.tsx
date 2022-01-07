@@ -4,6 +4,7 @@ import {
   hasAndroidPermission,
   storeImageUploadFail,
   uploadImageService,
+  uploadImageShipment
 } from "@helpers";
 import { useToggle } from "@hooks";
 import { goToPhotoLibrary, ShipmentStackParamsList } from "@navigation";
@@ -37,6 +38,11 @@ type NavigationRoute = RouteProp<
 export interface UploadScreenParams {
   prefix: string;
   suffix: string;
+  images?: Array<{ Id?: string; Name: string; Url: string }> | [];
+  reUpdateImagesList?: (
+    photos: Array<{ Id?: string; Name: string; Url: string }>,
+    imgList?: Array<{ Id?: string; Name: string; Url: string }>,
+  ) => void;
 }
 
 export const UploadScreen: FunctionComponent = () => {
@@ -44,7 +50,7 @@ export const UploadScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const route = useRoute<NavigationRoute>();
-  const { prefix, suffix } = route?.params;
+  const { images, prefix, suffix, reUpdateImagesList } = route?.params;
   const cameraRef = useRef<RNCamera>(null);
   const [uri, setUri] = useState<string>();
   const [isFlashMode, toggleFlashMode] = useToggle();
@@ -73,6 +79,7 @@ export const UploadScreen: FunctionComponent = () => {
         0,
       ).then(response => {
         imageUri = response.uri;
+        console.log(imageUri);
       });
 
       setPhotos(p => [...p, imageUri]);
@@ -84,17 +91,55 @@ export const UploadScreen: FunctionComponent = () => {
   };
 
   const goToLibrary = () => {
-    goToPhotoLibrary({ prefix: prefix, suffix: suffix });
+    goToPhotoLibrary({
+      images: images,
+      reUpdateImagesList: reUpdateImagesList,
+      prefix: prefix,
+      suffix: suffix,
+    });
   };
 
-  const uploadPhoto = async () => {
+  const uploadPhotoShipment = async () => {
+    // ----------- update lại state ListImages của component cha nếu reUdate() đc truyền
+    console.log("🚀🚀🚀 => update lại state ListImages của component cha nếu reUdate() đc truyền")
     if (photos.length === 0) {
       Alert.warning("warning.noTakePhoto");
       return;
     }
 
     const current = new Date().getTime();
+    const updatePhotos = photos.map((image: string, index: number) => {
+      console.log("image uri:" + image);
+      return {
+        Name: `${prefix}_${current}_${index}_${suffix}.jpg`,
+        Url: image,
+      };
+    });
+    uploadImageShipment(updatePhotos).then(images => {
+      const imagesFail = updatePhotos.filter(item => !images.includes(item.Name));
+      // storeImageUploadFail(imagesFail).then(() => {
+      //   DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
+      // });
+    });
+
+    reUpdateImagesList ? reUpdateImagesList(updatePhotos, images) : undefined;
+    setPhotos([]);
+    Alert.success(
+      translate("success.autoUploadImage", { number: photos.length }),
+      true,
+    );
+  }
+  
+
+  const uploadPhoto = async () => {
+    if (photos.length === 0) {
+      Alert.warning("warning.noTakePhoto");
+      return;
+    }
+    console.log("🚀🚀🚀 => nomally!!!")
+    const current = new Date().getTime();
     const savePhotos = photos.map((image: string, index: number) => {
+      console.log("image uri:" + image);
       return {
         name: `${prefix}_${current}_${index}_${suffix}.jpg`,
         uri: image,
@@ -114,6 +159,7 @@ export const UploadScreen: FunctionComponent = () => {
       true,
     );
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.flex1}>
@@ -180,7 +226,7 @@ export const UploadScreen: FunctionComponent = () => {
           <TouchableOpacity onPress={takePicture}>
             <FastImage source={Images.icTakePhoto} style={styles.takePicture} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={uploadPhoto}>
+          <TouchableOpacity onPress={reUpdateImagesList ? uploadPhotoShipment : uploadPhoto}>
             <Icon
               name="ic_upload_1"
               size={Metrics.icons.xxl}

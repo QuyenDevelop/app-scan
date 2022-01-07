@@ -9,23 +9,43 @@ interface Props {
   isShowModal: boolean;
   closeModal: () => void;
   shipment: string;
-  service: string;
+  service?: string;
+  images?: Array<{ Id?: string; Name: string; Url: string }> | [];
+  reUpdateImagesList?: (
+    photos: Array<{ Id?: string; Name: string; Url: string }>,
+  ) => void;
 }
 export const PhotoModal: FunctionComponent<Props> = props => {
-  const { isShowModal, closeModal, shipment, service } = props;
+  const {
+    isShowModal,
+    closeModal,
+    shipment,
+    service,
+    images,
+    reUpdateImagesList,
+  } = props;
+
   const goToTakePhoto = () => {
     closeModal();
     goToUpload({
-      prefix: `${shipment}_${service}`,
-      suffix: DATA_CONSTANT.SUFFIX_IMAGE.shipmentAddServices,
+      images: images ? images : [],
+      reUpdateImagesList: reUpdateImagesList,
+      prefix: service ? `${shipment}_${service}` : `${shipment}`,
+      suffix: service
+        ? DATA_CONSTANT.SUFFIX_IMAGE.shipmentAddServices
+        : DATA_CONSTANT.SUFFIX_IMAGE.shipmentImages,
     });
   };
 
   const goToLibrary = () => {
     closeModal();
     goToPhotoLibrary({
-      prefix: `${shipment}_${service}`,
-      suffix: DATA_CONSTANT.SUFFIX_IMAGE.shipmentAddServices,
+      images: images,
+      reUpdateImagesList: reUpdateImagesList,
+      prefix: service ? `${shipment}_${service}` : `${shipment}`,
+      suffix: service
+        ? DATA_CONSTANT.SUFFIX_IMAGE.shipmentAddServices
+        : DATA_CONSTANT.SUFFIX_IMAGE.shipmentImages,
     });
   };
 

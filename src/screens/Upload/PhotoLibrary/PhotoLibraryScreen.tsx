@@ -6,9 +6,10 @@ import {
   ScreenUtils,
   storeImageUploadFail,
   uploadImageService,
+  uploadImageShipment,
 } from "@helpers";
 import { useShow, useToggle } from "@hooks";
-import { StorageImages } from "@models";
+import { ShipmentImages, StorageImages } from "@models";
 import { ShipmentStackParamsList } from "@navigation";
 import CameraRoll, {
   PhotoIdentifier,
@@ -40,6 +41,11 @@ type NavigationRoute = RouteProp<
 export interface PhotoLibraryScreenParams {
   prefix: string;
   suffix: string;
+  images?: Array<{ Id?: string; Name: string; Url: string }> | [];
+  reUpdateImagesList?: (
+    photos: Array<{ Id?: string; Name: string; Url: string }>,
+    imgList?: Array<{ Id?: string; Name: string; Url: string }>,
+  ) => void;
 }
 
 const ITEM_HEIGHT = (ScreenUtils.WIDTH - ScreenUtils.scale(32)) / 3;
@@ -47,7 +53,7 @@ const ITEM_HEIGHT = (ScreenUtils.WIDTH - ScreenUtils.scale(32)) / 3;
 export const PhotoLibraryScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const route = useRoute<NavigationRoute>();
-  const { prefix, suffix } = route?.params;
+  const { prefix, suffix, images, reUpdateImagesList } = route?.params;
   // const [isShowDelete, showDelete, hideDelete] = useShow();
   const [photos, setPhotos] = useState<Array<PhotoIdentifier>>([]);
   const [photosShow, setPhotosShow] = useState<Array<string>>([]);
@@ -112,6 +118,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
   };
 
   const uploadImages = async () => {
+    console.log("🚀🚀🚀 => upload images for services Shipment")
     if (photosSelected.length === 0) {
       Alert.warning("warning.noPhotoSelected");
       return;
@@ -127,8 +134,8 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
       if (photo) {
         await ImageResizer.createResizedImage(
           uri,
-          photo.node.image.width,
-          photo.node.image.height,
+          photo.node.image.width || ScreenUtils.WIDTH,
+          photo.node.image.height || ScreenUtils.HEIGHT,
           "JPEG",
           0,
         ).then(response => {
@@ -149,6 +156,54 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
       });
     });
 
+    toggleMode();
+    setPhotosSelected([]);
+    Alert.success(
+      translate("success.autoUploadImage", { number: photosSelected.length }),
+      true,
+    );
+  };
+
+  const uploadPhotoShipment = async () => {
+    // ----------- update lại state ListImages của component cha nếu reUdate() đc truyền
+    console.log("🚀🚀🚀 => update lại state ListImages của component cha nếu reUdate() đc truyền")
+    if (photos.length === 0) {
+      Alert.warning("warning.noTakePhoto");
+      return;
+    }
+
+    const current = new Date().getTime();
+    const updatePhotos: Array<ShipmentImages> = [];
+    const numOfPhotos = photosSelected.length;
+    for (let index = 0; index < numOfPhotos; index++) {
+      const uri = photosSelected[index];
+      const photo = photos.find(image => image.node.image.uri === uri);
+      let imageUri = uri;
+      if (photo) {
+        await ImageResizer.createResizedImage(
+          uri,
+          photo.node.image.width || ScreenUtils.WIDTH,
+          photo.node.image.height || ScreenUtils.HEIGHT,
+          "JPEG",
+          0,
+        ).then(response => {
+          imageUri = response.uri;
+        });
+      }
+      updatePhotos.push({
+        Id: "",
+        Name: `${prefix}_${current}_${index}_${suffix}.jpg`,
+        Url: imageUri,
+      });
+    };
+    uploadImageShipment(updatePhotos).then(images => {
+      const imagesFail = updatePhotos.filter(item => !images.includes(item.Name));
+      // storeImageUploadFail(imagesFail).then(() => {
+      //   DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
+      // });
+    });
+
+    reUpdateImagesList ? reUpdateImagesList(updatePhotos, images) : undefined;
     toggleMode();
     setPhotosSelected([]);
     Alert.success(
@@ -235,7 +290,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
             </Text>
             <TouchableOpacity
               disabled={photosSelected.length === 0}
-              onPress={uploadImages}
+              onPress={reUpdateImagesList ? uploadPhotoShipment : uploadImages}
             >
               <Icon
                 name="ic_upload_2"

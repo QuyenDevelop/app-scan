@@ -1,7 +1,7 @@
-import { payCodApi, shipmentApi } from "@api";
+import { payCodApi, shipmentApi, uploadApi } from "@api";
 import { CONSTANT, DATA_CONSTANT } from "@configs";
 import { getAsyncItem, setAsyncItem } from "@helpers";
-import { StorageImages } from "@models";
+import { ShipmentImages, StorageImages } from "@models";
 import BackgroundTimer from "react-native-background-timer";
 
 export const removeImage = async (name: string) => {
@@ -152,6 +152,35 @@ export const uploadImageService = async (
             name,
           );
           successImages.push(name);
+        })
+        .catch(() => {});
+    }
+  }
+
+  return successImages;
+};
+
+export const uploadImageShipment = async (
+  listImages: Array<ShipmentImages>,
+): Promise<Array<string>> => {
+  const successImages: string[] = [];
+  for (const item of listImages) {
+    const { Name, Url } = item;
+    const imageForm = new FormData();
+    imageForm.append("files", {
+      uri: Url,
+      type: "image/jpeg",
+      name: Name,
+    });
+    if (Name.includes(DATA_CONSTANT.SUFFIX_IMAGE.shipmentImages)) {
+      await uploadApi
+        .uploadImage(imageForm)
+        ?.then(async () => {
+          console.log(
+            "🚀🚀🚀 => BackgroundTimer.runBackgroundTimer => upload success: ",
+            Name,
+          );
+          successImages.push(Name);
         })
         .catch(() => {});
     }

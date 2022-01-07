@@ -3,6 +3,7 @@ import {
   AuthStackNavigation,
   BottomTabNavigator,
   CheckAndScanStackNavigation,
+  FeedbackStackNavigation,
   HomeStackNavigation,
   InventoryStack,
   ReceiveStack,
@@ -27,6 +28,7 @@ export type RootParamList = {
   [SCREENS.SHIPMENT_MANAGEMENT_STACK]: undefined;
   [SCREENS.RECEIVE_STACK]: undefined;
   [SCREENS.INVENTORY_STACK]: undefined;
+  [SCREENS.FEEDBACK_STACK]: undefined;
 };
 
 export function RootNavigator() {
@@ -81,6 +83,10 @@ export function RootNavigator() {
       <RootStack.Screen
         name={SCREENS.INVENTORY_STACK}
         component={InventoryStack}
+      />
+      <RootStack.Screen
+        name={SCREENS.FEEDBACK_STACK}
+        component={FeedbackStackNavigation}
       />
     </RootStack.Navigator>
   );

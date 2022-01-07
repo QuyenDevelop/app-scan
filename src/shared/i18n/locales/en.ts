@@ -79,6 +79,10 @@ export default {
         title: "Inventory management",
         content: "Control and confirm the quantity of goods",
       },
+      exploitShipment: {
+        title: "Exploit Shipment",
+        content: "Exploit Shipment",
+      },
     },
     photoModal: "Photos",
     totalCod: "Total amount on delivery:",
