@@ -175,14 +175,15 @@ export const uploadImageShipment = async (
     if (Name.includes(DATA_CONSTANT.SUFFIX_IMAGE.shipmentImages)) {
       await uploadApi
         .uploadImage(imageForm)
-        ?.then(async () => {
-          console.log(
-            "🚀🚀🚀 => BackgroundTimer.runBackgroundTimer => upload success: ",
-            Name,
-          );
-          successImages.push(Name);
+        ?.then(async response => {
+          console.log("có vào");
+          console.log(JSON.stringify(response));
+          if (response.Data) {
+          }
         })
-        .catch(() => {});
+        .catch(() => {
+          console.log("có exception");
+        });
     }
   }
 

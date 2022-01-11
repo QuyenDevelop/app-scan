@@ -64,3 +64,39 @@ export interface GetDashboardsRequest {
   postOfficeToSendId: string;
   customerId: string;
 }
+
+export interface ExploitShipmentImage {
+  id?: string;
+  refId?: string;
+  name: string;
+  originSize?: string;
+  url?: string;
+}
+export interface SubShipmentViewModel {
+  id: string | undefined;
+  shipmentId?: string | undefined;
+  length: number;
+  width: number;
+  height: number;
+  totalGrossWeight: number;
+  status: number;
+  subShipmentNumber: string | undefined;
+  referenceNumber: string | undefined;
+  locationName: string | undefined;
+  totalChargeableWeight?: number;
+  orderNumber?: string | undefined;
+}
+export interface ExploitShipmentRequest {
+  id?: string;
+  shipmentNumber?: string;
+  referenceNumber?: string;
+  customerId: string;
+  postOfficeToSendId: string | undefined;
+  expectedPieces: number;
+  pieces?: number;
+  subShipmentViewModels: Array<SubShipmentViewModel>;
+  images: Array<ExploitShipmentImage>;
+  note: string;
+  createdBy: string;
+  createdByUserName: string;
+}

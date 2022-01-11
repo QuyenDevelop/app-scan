@@ -41,10 +41,10 @@ type NavigationRoute = RouteProp<
 export interface PhotoLibraryScreenParams {
   prefix: string;
   suffix: string;
-  images?: Array<{ Id?: string; Name: string; Url: string }> | [];
+  images?: Array<ShipmentImages> | [];
   reUpdateImagesList?: (
-    photos: Array<{ Id?: string; Name: string; Url: string }>,
-    imgList?: Array<{ Id?: string; Name: string; Url: string }>,
+    photos: Array<ShipmentImages>,
+    imgList?: Array<ShipmentImages>,
   ) => void;
 }
 
@@ -111,14 +111,14 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
     }
 
     if (isSelected(uri)) {
-      setPhotosSelected(images => images.filter(image => image !== uri));
+      setPhotosSelected(image => image.filter(img => img !== uri));
     } else {
-      setPhotosSelected(images => [...images, uri]);
+      setPhotosSelected(image => [...image, uri]);
     }
   };
 
   const uploadImages = async () => {
-    console.log("🚀🚀🚀 => upload images for services Shipment")
+    console.log("🚀🚀🚀 => upload images for services Shipment");
     if (photosSelected.length === 0) {
       Alert.warning("warning.noPhotoSelected");
       return;
@@ -149,8 +149,8 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
       });
     }
 
-    uploadImageService(savePhotos).then(images => {
-      const imagesFail = savePhotos.filter(item => !images.includes(item.name));
+    uploadImageService(savePhotos).then(image => {
+      const imagesFail = savePhotos.filter(item => !image.includes(item.name));
       storeImageUploadFail(imagesFail).then(() => {
         DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
       });
@@ -166,7 +166,9 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
 
   const uploadPhotoShipment = async () => {
     // ----------- update lại state ListImages của component cha nếu reUdate() đc truyền
-    console.log("🚀🚀🚀 => update lại state ListImages của component cha nếu reUdate() đc truyền")
+    console.log(
+      "🚀🚀🚀 => update lại state ListImages của component cha nếu reUdate() đc truyền",
+    );
     if (photos.length === 0) {
       Alert.warning("warning.noTakePhoto");
       return;
@@ -195,9 +197,12 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
         Name: `${prefix}_${current}_${index}_${suffix}.jpg`,
         Url: imageUri,
       });
-    };
-    uploadImageShipment(updatePhotos).then(images => {
-      const imagesFail = updatePhotos.filter(item => !images.includes(item.Name));
+    }
+    uploadImageShipment(updatePhotos).then(image => {
+      console.log(image);
+      // const imagesFail = updatePhotos.filter(
+      //   item => !images.includes(item.Name),
+      // );
       // storeImageUploadFail(imagesFail).then(() => {
       //   DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
       // });

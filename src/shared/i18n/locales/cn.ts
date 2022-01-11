@@ -10,6 +10,7 @@ export default {
   },
   label: {
     scanOrTypeShipment: "Scan or enter shipment / reference code",
+    changeLocation: "Change location",
     cm: "cm",
     gram: "gram",
     subShipment: "Piece {{index}}:",
@@ -608,6 +609,7 @@ export default {
   button: {
     back: "回来",
     confirm: "确认",
+    addCode: "Enter shipment code",
     createAccount: "立即创建帐户",
     remember: "记住帐号",
     forgotPassword: "忘记密码？",
@@ -740,6 +742,7 @@ export default {
       ward: "请输入病房/公社",
       zip: "请输入您的邮政编码",
       addressDetail: "请输入详细地址",
+      customer: "Please enter your customer",
     },
     enterWrongCode: "输入错误的代码!",
     errorServer: "发生了错误。请再试一次！",
@@ -764,6 +767,7 @@ export default {
     addCart: "产品已加入购物车",
     order: "订单支付成功",
     addCard: "添加成功卡",
+    success: "Successful",
   },
   warning: {
     noPhotos: "You have no photos yet",

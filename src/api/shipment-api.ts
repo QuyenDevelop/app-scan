@@ -3,6 +3,7 @@ import {
   CompleteAddServiceRequest,
   DashboardsResponse,
   DeleteSubShipmentRequest,
+  ExploitShipmentRequest,
   GetDashboardsRequest,
   LocationsResponse,
   ScanShipmentCODResponse,
@@ -86,6 +87,10 @@ class ShipmentApi extends BaseApi {
 
   receiveCodes(referenceNumbers: Array<ReceiveBarcode>) {
     return this.post("receiving", { importDetails: referenceNumbers }, {});
+  }
+
+  exploitShipment(request: ExploitShipmentRequest) {
+    return this.post("add-complain-shipment", request, {});
   }
 }
 
