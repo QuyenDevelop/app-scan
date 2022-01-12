@@ -1,4 +1,5 @@
 import { DATA_CONSTANT } from "@configs";
+import { ShipmentImages } from "@models";
 import { goToPhotoLibrary, goToUpload } from "@navigation";
 import { BaseBottomSheet, translate } from "@shared";
 import React, { FunctionComponent } from "react";
@@ -9,23 +10,44 @@ interface Props {
   isShowModal: boolean;
   closeModal: () => void;
   shipment: string;
-  service: string;
+  service?: string;
+  images?: Array<ShipmentImages> | [];
+  reUpdateImagesList?: (
+    photos: Array<ShipmentImages>,
+    imgList?: Array<ShipmentImages>,
+  ) => void;
 }
 export const PhotoModal: FunctionComponent<Props> = props => {
-  const { isShowModal, closeModal, shipment, service } = props;
+  const {
+    isShowModal,
+    closeModal,
+    shipment,
+    service,
+    images,
+    reUpdateImagesList,
+  } = props;
+
   const goToTakePhoto = () => {
     closeModal();
     goToUpload({
-      prefix: `${shipment}_${service}`,
-      suffix: DATA_CONSTANT.SUFFIX_IMAGE.shipmentAddServices,
+      images: images ? images : [],
+      reUpdateImagesList: reUpdateImagesList,
+      prefix: service ? `${shipment}_${service}` : `${shipment}`,
+      suffix: service
+        ? DATA_CONSTANT.SUFFIX_IMAGE.shipmentAddServices
+        : DATA_CONSTANT.SUFFIX_IMAGE.shipmentImages,
     });
   };
 
   const goToLibrary = () => {
     closeModal();
     goToPhotoLibrary({
-      prefix: `${shipment}_${service}`,
-      suffix: DATA_CONSTANT.SUFFIX_IMAGE.shipmentAddServices,
+      images: images,
+      reUpdateImagesList: reUpdateImagesList,
+      prefix: service ? `${shipment}_${service}` : `${shipment}`,
+      suffix: service
+        ? DATA_CONSTANT.SUFFIX_IMAGE.shipmentAddServices
+        : DATA_CONSTANT.SUFFIX_IMAGE.shipmentImages,
     });
   };
 

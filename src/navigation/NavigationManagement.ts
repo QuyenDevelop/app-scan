@@ -1,7 +1,9 @@
 import { SCREENS } from "@configs";
 import { NavigationUtils } from "@helpers";
 import {
+  AddExploitPhotosScreenParams,
   AddServicePhotosScreenParams,
+  FeedbackParams,
   InventoryScreenParams,
   LoginRouteParams,
   PhotoLibraryScreenParams,
@@ -74,6 +76,19 @@ export const goToScanCodScreen = () => {
   });
 };
 
+export const goToScanShipmentCodeScreen = () => {
+  NavigationUtils.navigate(SCREENS.FEEDBACK_STACK, {
+    screen: SCREENS.SCAN_SHIPMENT_CODE,
+  });
+};
+
+export const goToFeedbackScreen = (routeParams: FeedbackParams) => {
+  NavigationUtils.navigate(SCREENS.FEEDBACK_STACK, {
+    screen: SCREENS.FEED_BACK_SCREEN,
+    params: routeParams,
+  });
+};
+
 export const goToMenuScreen = () => {
   NavigationUtils.navigate(SCREENS.HOME_STACK, {
     screen: SCREENS.MENU_SCREEN,
@@ -101,7 +116,14 @@ export const goToAddServicePhotosScreen = (
     params: routeParams,
   });
 };
-
+export const goToAddExploitPhotosScreen = (
+  routeParams: AddExploitPhotosScreenParams,
+) => {
+  NavigationUtils.navigate(SCREENS.SHIPMENT_STACK, {
+    screen: SCREENS.EXPLOIT_UPLOAD_SCREEN,
+    params: routeParams,
+  });
+};
 export const goToShipmentManagementScreen = () => {
   NavigationUtils.navigate(SCREENS.SHIPMENT_MANAGEMENT_STACK, {
     screen: SCREENS.SHIPMENT_MANAGEMENT_SCREEN,
@@ -142,5 +164,11 @@ export const goToInventoryScreen = (routeParams: InventoryScreenParams) => {
 export const goToListInventoryScreen = () => {
   NavigationUtils.navigate(SCREENS.INVENTORY_STACK, {
     screen: SCREENS.LIST_INVENTORY_SCREEN,
+  });
+};
+
+export const goToUpdateLocationScreen = () => {
+  NavigationUtils.navigate(SCREENS.UPDATE_lOCATION_STACK, {
+    screen: SCREENS.UPDATE_lOCATION_SCREEN,
   });
 };

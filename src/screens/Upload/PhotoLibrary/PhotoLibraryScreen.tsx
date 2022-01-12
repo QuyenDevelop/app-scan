@@ -6,9 +6,10 @@ import {
   ScreenUtils,
   storeImageUploadFail,
   uploadImageService,
+  uploadImageShipment,
 } from "@helpers";
 import { useShow, useToggle } from "@hooks";
-import { StorageImages } from "@models";
+import { ShipmentImages, StorageImages } from "@models";
 import { ShipmentStackParamsList } from "@navigation";
 import CameraRoll, {
   PhotoIdentifier,
@@ -40,6 +41,11 @@ type NavigationRoute = RouteProp<
 export interface PhotoLibraryScreenParams {
   prefix: string;
   suffix: string;
+  images?: Array<ShipmentImages> | [];
+  reUpdateImagesList?: (
+    photos: Array<ShipmentImages>,
+    imgList?: Array<ShipmentImages>,
+  ) => void;
 }
 
 const ITEM_HEIGHT = (ScreenUtils.WIDTH - ScreenUtils.scale(32)) / 3;
@@ -47,7 +53,7 @@ const ITEM_HEIGHT = (ScreenUtils.WIDTH - ScreenUtils.scale(32)) / 3;
 export const PhotoLibraryScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const route = useRoute<NavigationRoute>();
-  const { prefix, suffix } = route?.params;
+  const { prefix, suffix, images, reUpdateImagesList } = route?.params;
   // const [isShowDelete, showDelete, hideDelete] = useShow();
   const [photos, setPhotos] = useState<Array<PhotoIdentifier>>([]);
   const [photosShow, setPhotosShow] = useState<Array<string>>([]);
@@ -105,13 +111,14 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
     }
 
     if (isSelected(uri)) {
-      setPhotosSelected(images => images.filter(image => image !== uri));
+      setPhotosSelected(image => image.filter(img => img !== uri));
     } else {
-      setPhotosSelected(images => [...images, uri]);
+      setPhotosSelected(image => [...image, uri]);
     }
   };
 
   const uploadImages = async () => {
+    console.log("🚀🚀🚀 => upload images for services Shipment");
     if (photosSelected.length === 0) {
       Alert.warning("warning.noPhotoSelected");
       return;
@@ -142,8 +149,8 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
       });
     }
 
-    uploadImageService(savePhotos).then(images => {
-      const imagesFail = savePhotos.filter(item => !images.includes(item.name));
+    uploadImageService(savePhotos).then(image => {
+      const imagesFail = savePhotos.filter(item => !image.includes(item.name));
       storeImageUploadFail(imagesFail).then(() => {
         DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
       });
@@ -155,6 +162,52 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
       translate("success.autoUploadImage", { number: photosSelected.length }),
       true,
     );
+  };
+
+  const uploadPhotoShipment = async () => {
+    // ----------- update lại state ListImages của component cha nếu reUdate() đc truyền
+    console.log(
+      "🚀🚀🚀 => update lại state ListImages của component cha nếu reUdate() đc truyền",
+    );
+    if (photos.length === 0) {
+      Alert.warning("warning.noTakePhoto");
+      return;
+    }
+
+    const current = new Date().getTime();
+    const updatePhotos: Array<{ name: string; uri: string }> = [];
+    const numOfPhotos = photosSelected.length;
+    for (let index = 0; index < numOfPhotos; index++) {
+      const uri = photosSelected[index];
+      const photo = photos.find(image => image.node.image.uri === uri);
+      let imageUri = uri;
+      if (photo) {
+        await ImageResizer.createResizedImage(
+          uri,
+          photo.node.image.width || ScreenUtils.WIDTH,
+          photo.node.image.height || ScreenUtils.HEIGHT,
+          "JPEG",
+          0,
+        ).then(response => {
+          imageUri = response.uri;
+        });
+      }
+      updatePhotos.push({
+        name: `${prefix}_${current}_${index}_${suffix}.jpg`,
+        uri: imageUri,
+      });
+    }
+    uploadImageShipment(updatePhotos).then(image => {
+      console.log(image);
+      reUpdateImagesList ? reUpdateImagesList(image, images) : undefined;
+      Alert.success(
+        translate("success.autoUploadImage", { number: photosSelected.length }),
+        true,
+      );
+    });
+
+    toggleMode();
+    setPhotosSelected([]);
   };
 
   const renderItem = ({ item, index }: { item: any; index: number }) => {
@@ -235,7 +288,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
             </Text>
             <TouchableOpacity
               disabled={photosSelected.length === 0}
-              onPress={uploadImages}
+              onPress={reUpdateImagesList ? uploadPhotoShipment : uploadImages}
             >
               <Icon
                 name="ic_upload_2"

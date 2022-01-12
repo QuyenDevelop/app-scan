@@ -1,12 +1,15 @@
 import {
   goToCheckAndScanScreen,
   goToHomeScreen,
+  goToListInventoryScreen,
   goToReceiveScreen,
   goToScanCodScreen,
+  goToScanShipmentCodeScreen,
   goToShipmentManagementScreen,
   goToUserInformationScreen,
 } from "@navigation";
 import { Images } from "@themes";
+// import { goToScanShipmentCodeScreen } from "./../navigation/NavigationManagement";
 
 const shipmentService = [
   {
@@ -87,12 +90,26 @@ const homeItems = [
     icon: Images.shipmentManagement,
     onPress: goToShipmentManagementScreen,
   },
+  {
+    id: 4,
+    title: "label.homeItems.inventoryManagement.title",
+    content: "label.homeItems.inventoryManagement.content",
+    icon: Images.claimAndInquiries,
+    onPress: goToListInventoryScreen,
+  },
+  {
+    id: 5,
+    title: "label.homeItems.exploitShipment.title",
+    content: "label.homeItems.exploitShipment.content",
+    icon: Images.checkAndScan,
+    onPress: goToScanShipmentCodeScreen,
+  },
   // {
-  //   id: 4,
-  //   title: "label.homeItems.inventoryManagement.title",
-  //   content: "label.homeItems.inventoryManagement.content",
-  //   icon: Images.claimAndInquiries,
-  //   onPress: goToListInventoryScreen,
+  //   id: 6,
+  //   title: "label.changeLocation",
+  //   content: "label.changeLocation",
+  //   icon: Images.shipmentManagement,
+  //   onPress: goToUpdateLocationScreen,
   // },
 ];
 
@@ -144,6 +161,7 @@ const menuItems = [
 const suffixImage = {
   shipmentAddServices: "shipment_add_service_suffix",
   shipmentCod: "shipment_cod_suffix",
+  shipmentImages: "shipment_images_suffix",
 };
 
 export const DATA_CONSTANT = {

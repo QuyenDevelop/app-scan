@@ -1,7 +1,7 @@
-import { payCodApi, shipmentApi } from "@api";
+import { payCodApi, shipmentApi, uploadApi } from "@api";
 import { CONSTANT, DATA_CONSTANT } from "@configs";
 import { getAsyncItem, setAsyncItem } from "@helpers";
-import { StorageImages } from "@models";
+import { ShipmentImages, StorageImages } from "@models";
 import BackgroundTimer from "react-native-background-timer";
 
 export const removeImage = async (name: string) => {
@@ -156,6 +156,41 @@ export const uploadImageService = async (
         .catch(() => {});
     }
   }
+
+  return successImages;
+};
+
+export const uploadImageShipment = async (
+  listImages: Array<{ uri: string; name: string }>,
+): Promise<Array<ShipmentImages>> => {
+  const successImages: Array<ShipmentImages> = [];
+  const imageForm = new FormData();
+  for (const item of listImages) {
+    const { name, uri } = item;
+    imageForm.append("image", {
+      uri: uri,
+      type: "image/jpeg",
+      name: name,
+    });
+  }
+
+  await uploadApi
+    .uploadImage(imageForm)
+    ?.then(async response => {
+      if (response.Data) {
+        // chờ sử lý
+        console.log(response);
+        response.Data.map(data => {
+          successImages.push({
+            Name: data.Name,
+            Url: data.FullUrl,
+          });
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
 
   return successImages;
 };

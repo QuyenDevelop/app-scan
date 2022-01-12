@@ -112,12 +112,12 @@ export interface ShipmentItemResponse {
 }
 
 export interface ShipmentImages {
-  RefId: string;
+  RefId?: string;
   Name: string;
-  OriginSize: string;
+  OriginSize?: string;
   Url: string;
-  Id: string;
-  EntityCacheKey: string;
+  Id?: string;
+  EntityCacheKey?: string;
 }
 export interface ShipmentAddServiceResponse {
   ShipmentId: string;

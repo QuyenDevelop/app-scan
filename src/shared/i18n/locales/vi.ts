@@ -17,6 +17,7 @@ export default {
   },
   label: {
     bag: "Túi",
+    changeLocation: "Đổi vị trí",
     sufficientQuantity: "Số lượng đủ",
     scanLocation: "Vui lòng quét vị trí trước khi kiểm kê",
     chooseRequestInventory: "Chọn yêu cầu kiểm kê",
@@ -78,6 +79,10 @@ export default {
       inventoryManagement: {
         title: "Quản lý tồn kho",
         content: "Kiểm soát và xác nhận số lượng hàng hóa",
+      },
+      exploitShipment: {
+        title: "Khai thác lô hàng",
+        content: "Khai thác lô hàng",
       },
     },
     photoModal: "Ảnh",
@@ -719,6 +724,7 @@ export default {
   },
   button: {
     scanLocation: "Quét vị trí",
+    addCode: "Nhập mã bằng tay",
     inventory: "Kiểm kê",
     loginWithBiometric: "Đăng nhập sinh trắc",
     receive: "Tiếp nhận",
@@ -887,6 +893,7 @@ export default {
       ward: "Vui lòng nhập Phường/xã",
       zip: "Vui lòng nhập mã bưu điện",
       addressDetail: "Vui lòng nhập địa chỉ chi tiết",
+      customer: "Vui lòng nhập chọn khách hàng",
     },
     enterWrongCode: "Nhập mã sai!",
     errorServer: "Đã có lỗi xảy ra. Vui lòng thử lại!",
@@ -918,6 +925,7 @@ export default {
     addCard: "Thêm thẻ thành công",
     confirmPaymentSuccess: "Xác nhận thanh toán thành công",
     deleteSuccess: "Xóa thành công",
+    success: "Thành công",
   },
   warning: {
     noPhotos: "Dịch vụ chưa có ảnh.",

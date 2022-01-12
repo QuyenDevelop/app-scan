@@ -4,8 +4,10 @@ import {
   hasAndroidPermission,
   storeImageUploadFail,
   uploadImageService,
+  uploadImageShipment,
 } from "@helpers";
 import { useToggle } from "@hooks";
+import { ShipmentImages } from "@models";
 import { goToPhotoLibrary, ShipmentStackParamsList } from "@navigation";
 import CameraRoll from "@react-native-community/cameraroll";
 import {
@@ -37,6 +39,11 @@ type NavigationRoute = RouteProp<
 export interface UploadScreenParams {
   prefix: string;
   suffix: string;
+  images?: Array<ShipmentImages> | [];
+  reUpdateImagesList?: (
+    photos: Array<ShipmentImages>,
+    imgList?: Array<ShipmentImages>,
+  ) => void;
 }
 
 export const UploadScreen: FunctionComponent = () => {
@@ -44,7 +51,7 @@ export const UploadScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const route = useRoute<NavigationRoute>();
-  const { prefix, suffix } = route?.params;
+  const { images, prefix, suffix, reUpdateImagesList } = route?.params;
   const cameraRef = useRef<RNCamera>(null);
   const [uri, setUri] = useState<string>();
   const [isFlashMode, toggleFlashMode] = useToggle();
@@ -70,9 +77,10 @@ export const UploadScreen: FunctionComponent = () => {
         data.width,
         data.height,
         "JPEG",
-        0,
+        1,
       ).then(response => {
         imageUri = response.uri;
+        console.log(imageUri);
       });
 
       setPhotos(p => [...p, imageUri]);
@@ -84,7 +92,40 @@ export const UploadScreen: FunctionComponent = () => {
   };
 
   const goToLibrary = () => {
-    goToPhotoLibrary({ prefix: prefix, suffix: suffix });
+    goToPhotoLibrary({
+      images: images,
+      reUpdateImagesList: reUpdateImagesList,
+      prefix: prefix,
+      suffix: suffix,
+    });
+  };
+
+  const uploadPhotoShipment = async () => {
+    // ----------- update lại state ListImages của component cha nếu reUpdate() đc truyền
+    if (photos.length === 0) {
+      Alert.warning("warning.noTakePhoto");
+      return;
+    }
+
+    const current = new Date().getTime();
+    const updatePhotos = photos.map((imageUrl: string, index: number) => {
+      const name = `${prefix}_${current}_${index}.jpg`;
+      return {
+        uri: imageUrl,
+        name: name,
+      };
+    });
+
+    uploadImageShipment(updatePhotos).then(image => {
+      // console.log(JSON.stringify(image));
+      reUpdateImagesList ? reUpdateImagesList(image, images) : undefined;
+      Alert.success(
+        translate("success.autoUploadImage", { number: photos.length }),
+        true,
+      );
+    });
+
+    setPhotos([]);
   };
 
   const uploadPhoto = async () => {
@@ -92,17 +133,19 @@ export const UploadScreen: FunctionComponent = () => {
       Alert.warning("warning.noTakePhoto");
       return;
     }
-
+    console.log("🚀🚀🚀 => !!!");
     const current = new Date().getTime();
     const savePhotos = photos.map((image: string, index: number) => {
+      console.log("image uri:" + image);
+      const name = `${prefix}_${current}_${index}_${suffix}.jpg`;
       return {
-        name: `${prefix}_${current}_${index}_${suffix}.jpg`,
+        name: name,
         uri: image,
       };
     });
 
-    uploadImageService(savePhotos).then(images => {
-      const imagesFail = savePhotos.filter(item => !images.includes(item.name));
+    uploadImageService(savePhotos).then(image => {
+      const imagesFail = savePhotos.filter(item => !image.includes(item.name));
       storeImageUploadFail(imagesFail).then(() => {
         DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
       });
@@ -114,6 +157,7 @@ export const UploadScreen: FunctionComponent = () => {
       true,
     );
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.flex1}>
@@ -180,7 +224,9 @@ export const UploadScreen: FunctionComponent = () => {
           <TouchableOpacity onPress={takePicture}>
             <FastImage source={Images.icTakePhoto} style={styles.takePicture} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={uploadPhoto}>
+          <TouchableOpacity
+            onPress={reUpdateImagesList ? uploadPhotoShipment : uploadPhoto}
+          >
             <Icon
               name="ic_upload_1"
               size={Metrics.icons.xxl}

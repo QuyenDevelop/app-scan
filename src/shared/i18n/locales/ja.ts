@@ -17,6 +17,7 @@ export default {
   },
   label: {
     bag: "バッグ",
+    changeLocation: "Change location",
     sufficientQuantity: "十分な量",
     scanLocation: "在庫前の位置をスキャンしてください",
     chooseRequestInventory: "在庫要件を選択してください",
@@ -79,6 +80,10 @@ export default {
       inventoryManagement: {
         title: "在庫管理",
         content: "商品の量を制御して確認してください",
+      },
+      exploitShipment: {
+        title: "エクスプロイト出荷",
+        content: "エクスプロイト出荷",
       },
     },
     photoModal: "写真",
@@ -704,6 +709,7 @@ export default {
   },
   button: {
     scanLocation: "スキャン場所をスキャンします",
+    addCode: "Enter shipment code",
     inventory: "在庫",
     loginWithBiometric: "バイオメトリックログイン",
     receive: "受け取る",
@@ -866,6 +872,7 @@ export default {
       ward: "区/コミューンを入力してください",
       zip: "郵便番号を入力してください",
       addressDetail: "詳細な住所を入力してください",
+      customer: "Please enter your customer",
     },
     enterWrongCode: "間違ったコードを入力してください！",
     errorServer: "エラーが発生しました。 もう一度お試しください。",

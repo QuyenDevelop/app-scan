@@ -18,6 +18,7 @@ export default {
   label: {
     bag: "Bag",
     sufficientQuantity: "Sufficient quantity",
+    changeLocation: "Change location",
     scanLocation: "Please scan the position before inventory",
     chooseRequestInventory: "Choose inventory requirements",
     reality: "Reality",
@@ -78,6 +79,10 @@ export default {
       inventoryManagement: {
         title: "Inventory management",
         content: "Control and confirm the quantity of goods",
+      },
+      exploitShipment: {
+        title: "Exploit Shipment",
+        content: "Exploit Shipment",
       },
     },
     photoModal: "Photos",
@@ -721,6 +726,7 @@ export default {
   },
   button: {
     scanLocation: "Scan location",
+    addCode: "Enter shipment code",
     inventory: "Inventory",
     loginWithBiometric: "Biometric login",
     receive: "Receive",
@@ -889,6 +895,7 @@ export default {
       ward: "Please enter Ward/Commune",
       zip: "Please enter your postal code",
       addressDetail: "Please enter detailed address",
+      customer: "Please enter your customer",
     },
     enterWrongCode: "Enter the wrong code!",
     errorServer: "An error has occurred. Please try again!",
@@ -921,6 +928,7 @@ export default {
     addCard: "Add success card",
     confirmPaymentSuccess: "Confirm successful payment",
     deleteSuccess: "Delete success",
+    success: "Successful",
   },
   warning: {
     noPhotos: "Service No photo provided",

@@ -11,6 +11,7 @@ export default {
   label: {
     scanOrTypeShipment: "Scan or enter shipment / reference code",
     cm: "cm",
+    changeLocation: "Change location",
     gram: "gram",
     subShipment: "Piece {{index}}:",
     subShipmentWeight: "Weight:",
@@ -606,6 +607,7 @@ export default {
   },
   button: {
     back: "回來",
+    addCode: "Enter shipment code",
     confirm: "確認",
     createAccount: "立即創建帳戶",
     remember: "記住帳號",
@@ -723,7 +725,6 @@ export default {
     generic: "發生了錯誤",
     validation: {
       email: "不合規電郵",
-
       password: "密碼無效（至少有一個大寫字母和一個特殊字符）",
       passwordNoMatch: "密碼不匹配",
       required: "不能為空",
@@ -739,6 +740,7 @@ export default {
       ward: "請輸入病房/公社",
       zip: "請輸入您的郵政編碼",
       addressDetail: "請輸入詳細地址",
+      customer: "Please enter your customer",
     },
     enterWrongCode: "輸入錯誤的代碼!",
     errorServer: "發生了錯誤。 請再試一次！",
