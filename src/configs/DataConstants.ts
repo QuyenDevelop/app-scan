@@ -104,6 +104,13 @@ const homeItems = [
     icon: Images.checkAndScan,
     onPress: goToScanShipmentCodeScreen,
   },
+  // {
+  //   id: 6,
+  //   title: "label.changeLocation",
+  //   content: "label.changeLocation",
+  //   icon: Images.shipmentManagement,
+  //   onPress: goToUpdateLocationScreen,
+  // },
 ];
 
 const menuItems = [

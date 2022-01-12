@@ -1,4 +1,5 @@
 import { DATA_CONSTANT } from "@configs";
+import { ShipmentImages } from "@models";
 import { goToPhotoLibrary, goToUpload } from "@navigation";
 import { BaseBottomSheet, translate } from "@shared";
 import React, { FunctionComponent } from "react";
@@ -10,9 +11,10 @@ interface Props {
   closeModal: () => void;
   shipment: string;
   service?: string;
-  images?: Array<{ Id?: string; Name: string; Url: string }> | [];
+  images?: Array<ShipmentImages> | [];
   reUpdateImagesList?: (
-    photos: Array<{ Id?: string; Name: string; Url: string }>,
+    photos: Array<ShipmentImages>,
+    imgList?: Array<ShipmentImages>,
   ) => void;
 }
 export const PhotoModal: FunctionComponent<Props> = props => {

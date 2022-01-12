@@ -166,3 +166,9 @@ export const goToListInventoryScreen = () => {
     screen: SCREENS.LIST_INVENTORY_SCREEN,
   });
 };
+
+export const goToUpdateLocationScreen = () => {
+  NavigationUtils.navigate(SCREENS.UPDATE_lOCATION_STACK, {
+    screen: SCREENS.UPDATE_lOCATION_SCREEN,
+  });
+};

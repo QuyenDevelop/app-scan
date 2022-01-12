@@ -13,3 +13,4 @@ export * from "./ScanCodNavigator";
 export * from "./ScanNavigator";
 export * from "./ShipmentManagementNavigator";
 export * from "./ShipmentNavigator";
+export * from "./UpdateLocationNavigator";

@@ -109,29 +109,23 @@ export const UploadScreen: FunctionComponent = () => {
 
     const current = new Date().getTime();
     const updatePhotos = photos.map((imageUrl: string, index: number) => {
-      // const cndUrl = "https://cdn.efex.asia/image/";
-      const name = `${prefix}_${current}_${index}_${suffix}.jpg`;
+      const name = `${prefix}_${current}_${index}.jpg`;
       return {
-        Name: name,
-        Url: imageUrl,
+        uri: imageUrl,
+        name: name,
       };
     });
+
     uploadImageShipment(updatePhotos).then(image => {
-      console.log(image);
-      // const imagesFail = updatePhotos.filter(
-      //   item => !images.includes(item.Name),
-      // );
-      // storeImageUploadFail(imagesFail).then(() => {
-      //   DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
-      // });
+      // console.log(JSON.stringify(image));
+      reUpdateImagesList ? reUpdateImagesList(image, images) : undefined;
+      Alert.success(
+        translate("success.autoUploadImage", { number: photos.length }),
+        true,
+      );
     });
 
-    reUpdateImagesList ? reUpdateImagesList(updatePhotos, images) : undefined;
     setPhotos([]);
-    Alert.success(
-      translate("success.autoUploadImage", { number: photos.length }),
-      true,
-    );
   };
 
   const uploadPhoto = async () => {

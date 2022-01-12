@@ -13,6 +13,7 @@ import {
   UpdateAddServiceRequest,
   UpdateCodShipmentRequest,
   UpdateDirectShipmentRequest,
+  UpdateLocationRequest,
 } from "@models";
 import { ReceiveBarcode } from "@screens";
 import { BaseApi } from "./base-api";
@@ -91,6 +92,10 @@ class ShipmentApi extends BaseApi {
 
   exploitShipment(request: ExploitShipmentRequest) {
     return this.post("add-complain-shipment", request, {});
+  }
+
+  changeLocation(request: UpdateLocationRequest) {
+    return this.post("change-location-shipment", request, {});
   }
 }
 

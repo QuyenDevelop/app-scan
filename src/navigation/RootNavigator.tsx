@@ -10,6 +10,7 @@ import {
   ScanCodStackNavigation,
   ShipmentManagementStackNavigation,
   ShipmentStackNavigation,
+  UpdateLocationStack,
 } from "@navigation";
 import { createStackNavigator } from "@react-navigation/stack";
 import { LaunchScreen, LaunchScreenRouteParams } from "@screens";
@@ -29,6 +30,7 @@ export type RootParamList = {
   [SCREENS.RECEIVE_STACK]: undefined;
   [SCREENS.INVENTORY_STACK]: undefined;
   [SCREENS.FEEDBACK_STACK]: undefined;
+  [SCREENS.UPDATE_lOCATION_STACK]: undefined;
 };
 
 export function RootNavigator() {
@@ -87,6 +89,10 @@ export function RootNavigator() {
       <RootStack.Screen
         name={SCREENS.FEEDBACK_STACK}
         component={FeedbackStackNavigation}
+      />
+      <RootStack.Screen
+        name={SCREENS.UPDATE_lOCATION_STACK}
+        component={UpdateLocationStack}
       />
     </RootStack.Navigator>
   );

@@ -175,7 +175,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
     }
 
     const current = new Date().getTime();
-    const updatePhotos: Array<ShipmentImages> = [];
+    const updatePhotos: Array<{ name: string; uri: string }> = [];
     const numOfPhotos = photosSelected.length;
     for (let index = 0; index < numOfPhotos; index++) {
       const uri = photosSelected[index];
@@ -193,28 +193,21 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
         });
       }
       updatePhotos.push({
-        Id: "",
-        Name: `${prefix}_${current}_${index}_${suffix}.jpg`,
-        Url: imageUri,
+        name: `${prefix}_${current}_${index}_${suffix}.jpg`,
+        uri: imageUri,
       });
     }
     uploadImageShipment(updatePhotos).then(image => {
       console.log(image);
-      // const imagesFail = updatePhotos.filter(
-      //   item => !images.includes(item.Name),
-      // );
-      // storeImageUploadFail(imagesFail).then(() => {
-      //   DeviceEventEmitter.emit(CONSTANT.EVENT_KEY.UPLOAD_IMAGES);
-      // });
+      reUpdateImagesList ? reUpdateImagesList(image, images) : undefined;
+      Alert.success(
+        translate("success.autoUploadImage", { number: photosSelected.length }),
+        true,
+      );
     });
 
-    reUpdateImagesList ? reUpdateImagesList(updatePhotos, images) : undefined;
     toggleMode();
     setPhotosSelected([]);
-    Alert.success(
-      translate("success.autoUploadImage", { number: photosSelected.length }),
-      true,
-    );
   };
 
   const renderItem = ({ item, index }: { item: any; index: number }) => {

@@ -14,5 +14,6 @@ export * from "./ShipmentDetailCOD";
 export * from "./ShipmentManagement";
 export * from "./ShipmentsScreen";
 export * from "./UpdateCOD";
+export * from "./UpdateLocation";
 export * from "./Upload";
 export * from "./User";

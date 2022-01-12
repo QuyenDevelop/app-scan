@@ -1,7 +1,7 @@
 export interface ScanLocationRequest {
   LocationName: string;
   PostOfficeId: string;
-  WarehouseInventoryId: string;
+  WarehouseInventoryId?: string;
 }
 
 export interface ConfirmAllStillRequest {

@@ -47,6 +47,24 @@ export class BaseApi {
       });
   }
 
+  postCdn(uri: string, data: any, params: any, noPrefix = false) {
+    const url = this.createUrl(uri, noPrefix);
+    return AxiosService.getAxiosInstance()
+      ?.post(url, data, {
+        params,
+        headers: {
+          ...{
+            "content-type": "multipart/form-data",
+          },
+          ...this.createDefaultHeader(),
+        },
+      })
+      .then(response => response && response.data)
+      .catch(error => {
+        return this.onFailed(error);
+      });
+  }
+
   postUrlEncoded(uri: string, data: any, noPrefix = false) {
     const url = this.createUrl(uri, noPrefix);
     var qs = require("qs");

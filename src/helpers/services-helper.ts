@@ -161,31 +161,36 @@ export const uploadImageService = async (
 };
 
 export const uploadImageShipment = async (
-  listImages: Array<ShipmentImages>,
-): Promise<Array<string>> => {
-  const successImages: string[] = [];
+  listImages: Array<{ uri: string; name: string }>,
+): Promise<Array<ShipmentImages>> => {
+  const successImages: Array<ShipmentImages> = [];
+  const imageForm = new FormData();
   for (const item of listImages) {
-    const { Name, Url } = item;
-    const imageForm = new FormData();
-    imageForm.append("files", {
-      uri: Url,
+    const { name, uri } = item;
+    imageForm.append("image", {
+      uri: uri,
       type: "image/jpeg",
-      name: Name,
+      name: name,
     });
-    if (Name.includes(DATA_CONSTANT.SUFFIX_IMAGE.shipmentImages)) {
-      await uploadApi
-        .uploadImage(imageForm)
-        ?.then(async response => {
-          console.log("có vào");
-          console.log(JSON.stringify(response));
-          if (response.Data) {
-          }
-        })
-        .catch(() => {
-          console.log("có exception");
-        });
-    }
   }
+
+  await uploadApi
+    .uploadImage(imageForm)
+    ?.then(async response => {
+      if (response.Data) {
+        // chờ sử lý
+        console.log(response);
+        response.Data.map(data => {
+          successImages.push({
+            Name: data.Name,
+            Url: data.FullUrl,
+          });
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
 
   return successImages;
 };
