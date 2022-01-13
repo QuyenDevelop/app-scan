@@ -81,8 +81,8 @@ export default {
         content: "Kiểm soát và xác nhận số lượng hàng hóa",
       },
       exploitShipment: {
-        title: "Khai thác lô hàng",
-        content: "Khai thác lô hàng",
+        title: "Khiếu nại lô hàng",
+        content: "Gửi khiếu nại lô hàng",
       },
     },
     photoModal: "Ảnh",
