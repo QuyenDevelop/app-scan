@@ -82,8 +82,8 @@ export default {
         content: "商品の量を制御して確認してください",
       },
       exploitShipment: {
-        title: "エクスプロイト出荷",
-        content: "エクスプロイト出荷",
+        title: "出荷苦情",
+        content: "出荷に関する苦情を送信する",
       },
     },
     photoModal: "写真",

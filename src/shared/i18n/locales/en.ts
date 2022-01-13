@@ -81,8 +81,8 @@ export default {
         content: "Control and confirm the quantity of goods",
       },
       exploitShipment: {
-        title: "Exploit Shipment",
-        content: "Exploit Shipment",
+        title: "Complain Shipment",
+        content: "Send shipment complaints",
       },
     },
     photoModal: "Photos",

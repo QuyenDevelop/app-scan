@@ -1,4 +1,4 @@
-import { inventoryApi, shipmentApi } from "@api";
+import { shipmentApi } from "@api";
 import { Header } from "@components";
 import { Alert } from "@helpers";
 import { useShow } from "@hooks";
@@ -10,8 +10,10 @@ import { Button, Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent, useState } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   Keyboard,
+  Platform,
   Text,
   TouchableOpacity,
   Vibration,
@@ -25,27 +27,59 @@ import styles from "./styles";
 export const UpdateLocationScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const [isShowEnterCode, showEnterCode, hideEnterCode] = useShow();
+  const [isLoadingFetchData, showIsLoadingFetchData, hideIsLoadingFetchData] =
+    useShow();
   const postOfficesId = useSelector(
     (state: IRootState) => state.account.profile?.postOfficeId,
   );
-  const [location, setLocation] = useState<String>("A-01-01-03");
+  const [location, setLocation] = useState<String>("");
   const [shipmentCode, setShipmentCode] = useState<Array<String>>([]);
   const [shipmentValue, setShipmentValue] = useState<string>("");
+  const [showHeader, setShowHeader] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const validateShipmentCode = (value: string) => {
+    return new RegExp(/^([0-9A-Z]){9,20}$/g).test(value);
+  };
 
   const onRead = async ({ barcodes }: { barcodes: Array<any> }) => {
     if (barcodes.length > 0 && !!barcodes[0].data) {
-      if (!location) {
-        Vibration.vibrate();
-        getLocation(barcodes[0].data.trim());
-      } else {
-        Vibration.vibrate();
-        getShipment(barcodes[0]?.data.trim());
+      const checkShipment = shipmentCode.filter(shipment => {
+        const itemData = shipment ? shipment.toUpperCase() : "".toUpperCase();
+        const textSearch = barcodes[0].data.trim().toUpperCase();
+        return itemData.indexOf(textSearch) > -1;
+      });
+
+      if (location && checkShipment.length) {
+        // nếu đã có location và shipment đã tồn tại thì break
+        console.log("🚀🚀🚀 => shipment: " + JSON.stringify(checkShipment));
+        return;
+      }
+
+      if (!isLoadingFetchData) {
+        if (!location && showHeader) {
+          setTimeout(() => {
+            getLocation(barcodes[0].data.trim());
+          }, 500);
+          return;
+        }
+
+        if (
+          location &&
+          !checkShipment.length &&
+          validateShipmentCode(barcodes[0].data.trim())
+        ) {
+          Vibration.vibrate();
+          getShipment(barcodes[0]?.data.trim());
+          return;
+        }
       }
     }
   };
 
   const toggleClearLocation = () => {
     setLocation("");
+    setShowHeader(true);
     setShipmentCode([]);
   };
   const toggleDeleteShipment = (value: string) => {
@@ -58,7 +92,8 @@ export const UpdateLocationScreen: FunctionComponent = () => {
       Alert.error("error.errBarCode");
       return;
     }
-    inventoryApi
+    showIsLoadingFetchData();
+    shipmentApi
       .scanLocation({
         LocationName: value,
         PostOfficeId: postOfficesId || "",
@@ -66,18 +101,26 @@ export const UpdateLocationScreen: FunctionComponent = () => {
       ?.then(response => {
         if (response.Status) {
           setLocation(value);
+          setShowHeader(false);
         }
       })
-      .catch(() => {
-        Alert.error("error.errorServer");
+      .catch(() => {})
+      .finally(() => {
+        Keyboard.dismiss();
+        setTimeout(() => {
+          hideIsLoadingFetchData();
+        }, 500);
       });
   };
 
-  const getShipment = (value: string | null) => {
-    if (!value || value === "") {
+  const getShipment = (value: string) => {
+    if (!value || value === "" || value === null) {
+      // nếu value không có gì thì return luôn
       Alert.error("error.errBarCode");
       return;
     }
+
+    showIsLoadingFetchData();
     shipmentApi
       .scanShipment(value)
       ?.then(shipment => {
@@ -89,7 +132,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
           // Logic after get shipment success
           setShipmentCode(s => [...s, shipment?.data[0].ShipmentNumber]);
         } else {
-          Alert.error("shipment?.message");
+          Alert.error("error.errorServer");
         }
       })
       .catch(() => {
@@ -98,10 +141,14 @@ export const UpdateLocationScreen: FunctionComponent = () => {
       .finally(() => {
         Keyboard.dismiss();
         setShipmentValue("");
+        setTimeout(() => {
+          hideIsLoadingFetchData();
+        }, 500);
       });
   };
 
   const toggleChangeLocationShipment = () => {
+    setIsLoading(true);
     if (shipmentCode.length <= 0) {
       Alert.error("error.noShipment");
       return;
@@ -123,13 +170,20 @@ export const UpdateLocationScreen: FunctionComponent = () => {
           Alert.error(response.errorCode);
         }
       })
-      .catch(() => Alert.error("error.errorSever"));
+      .catch(() => Alert.error("error.errorSever"))
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
     <>
       <Header
-        title={translate("label.changeLocation")}
+        title={
+          showHeader
+            ? translate("label.location")
+            : translate("label.scanOrTypeShipment")
+        }
         iconLeftName={["ic_arrow_left"]}
         iconLeftOnPress={[() => navigation.goBack()]}
         isCenterTitle
@@ -155,6 +209,15 @@ export const UpdateLocationScreen: FunctionComponent = () => {
               backgroundColor={Themes.colors.black}
               // onLayoutChange={onBarcodeFinderLayoutChange}
             />
+            <View style={styles.centerView}>
+              {isLoadingFetchData && Platform.OS === "ios" ? (
+                <View style={styles.loadingView}>
+                  <ActivityIndicator color={Themes.colors.collGray40} />
+                </View>
+              ) : (
+                <></>
+              )}
+            </View>
           </RNCamera>
         </View>
         {location ? (
@@ -227,6 +290,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
         <View style={styles.buttonBox}>
           <View style={styles.halfButtonBox}>
             <Button
+              isLoading={isLoading}
               onPress={() => toggleChangeLocationShipment()}
               title={translate("button.submit")}
               buttonChildStyle={{ width: "80%" }}

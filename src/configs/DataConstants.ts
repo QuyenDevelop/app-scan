@@ -6,6 +6,7 @@ import {
   goToScanCodScreen,
   goToScanShipmentCodeScreen,
   goToShipmentManagementScreen,
+  goToUpdateLocationScreen,
   goToUserInformationScreen,
 } from "@navigation";
 import { Images } from "@themes";
@@ -71,46 +72,46 @@ const homeItems = [
   },
   {
     id: 1,
+    title: "label.homeItems.exploitShipment.title",
+    content: "label.homeItems.exploitShipment.content",
+    icon: Images.checkAndScan,
+    onPress: goToScanShipmentCodeScreen,
+  },
+  {
+    id: 2,
     title: "label.homeItems.checkAndScan.title",
     content: "label.homeItems.checkAndScan.content",
     icon: Images.checkAndScan,
     onPress: goToCheckAndScanScreen,
   },
   {
-    id: 2,
+    id: 3,
     title: "label.homeItems.cod.title",
     content: "label.homeItems.cod.content",
     icon: Images.cod,
     onPress: goToScanCodScreen,
   },
   {
-    id: 3,
+    id: 4,
     title: "label.homeItems.shipmentManagement.title",
     content: "label.homeItems.shipmentManagement.content",
     icon: Images.shipmentManagement,
     onPress: goToShipmentManagementScreen,
   },
   {
-    id: 4,
+    id: 5,
     title: "label.homeItems.inventoryManagement.title",
     content: "label.homeItems.inventoryManagement.content",
     icon: Images.claimAndInquiries,
     onPress: goToListInventoryScreen,
   },
   {
-    id: 5,
-    title: "label.homeItems.exploitShipment.title",
-    content: "label.homeItems.exploitShipment.content",
-    icon: Images.checkAndScan,
-    onPress: goToScanShipmentCodeScreen,
+    id: 6,
+    title: "label.changeLocation",
+    content: "label.changeLocation",
+    icon: Images.shipmentManagement,
+    onPress: goToUpdateLocationScreen,
   },
-  // {
-  //   id: 6,
-  //   title: "label.changeLocation",
-  //   content: "label.changeLocation",
-  //   icon: Images.shipmentManagement,
-  //   onPress: goToUpdateLocationScreen,
-  // },
 ];
 
 const menuItems = [
