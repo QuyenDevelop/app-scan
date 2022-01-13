@@ -34,6 +34,8 @@ export interface ShipmentResponse {
   ExpectedPieces: number;
   ProcessedDate: string;
   CreatedOnUtc: string;
+  Images: Array<ShipmentImages>;
+  Note: string;
 }
 
 export interface SubShipment {

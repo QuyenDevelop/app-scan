@@ -6,6 +6,7 @@ import {
   goToScanCodScreen,
   goToScanShipmentCodeScreen,
   goToShipmentManagementScreen,
+  goToUpdateLocationScreen,
   goToUserInformationScreen,
 } from "@navigation";
 import { Images } from "@themes";
@@ -104,13 +105,13 @@ const homeItems = [
     icon: Images.claimAndInquiries,
     onPress: goToListInventoryScreen,
   },
-  // {
-  //   id: 6,
-  //   title: "label.changeLocation",
-  //   content: "label.changeLocation",
-  //   icon: Images.shipmentManagement,
-  //   onPress: goToUpdateLocationScreen,
-  // },
+  {
+    id: 6,
+    title: "label.changeLocation",
+    content: "label.changeLocation",
+    icon: Images.shipmentManagement,
+    onPress: goToUpdateLocationScreen,
+  },
 ];
 
 const menuItems = [

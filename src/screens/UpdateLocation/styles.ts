@@ -25,6 +25,17 @@ export default StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  centerView: {
+    flex: 0.4,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "stretch",
+  },
+  loadingView: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+  },
   toolView: {
     flexDirection: "row",
     justifyContent: "space-between",

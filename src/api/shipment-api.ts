@@ -6,6 +6,7 @@ import {
   ExploitShipmentRequest,
   GetDashboardsRequest,
   LocationsResponse,
+  ScanLocationRequest,
   ScanShipmentCODResponse,
   ScanShipmentResponse,
   ShipmentDetailResponse,
@@ -92,6 +93,10 @@ class ShipmentApi extends BaseApi {
 
   exploitShipment(request: ExploitShipmentRequest) {
     return this.post("add-complain-shipment", request, {});
+  }
+
+  scanLocation(request: ScanLocationRequest) {
+    return this.post("scan-location", request, {});
   }
 
   changeLocation(request: UpdateLocationRequest) {
