@@ -851,6 +851,7 @@ export default {
     registerBiometricError:
       "バイオメトリック登録は失敗します。後でもう一度やり直してください！",
     errBarCode: "無効なコード",
+    unableShipment: "Shipment had Scanned",
     noShipment: "出荷は存在しないか、出荷は不正な状態にあります。",
     generic: "何かがうまくいかなかった",
     validation: {
@@ -873,6 +874,7 @@ export default {
       zip: "郵便番号を入力してください",
       addressDetail: "詳細な住所を入力してください",
       customer: "Please enter your customer",
+      weight: "Please enter Weight of Shipment",
     },
     enterWrongCode: "間違ったコードを入力してください！",
     errorServer: "エラーが発生しました。 もう一度お試しください。",

@@ -743,6 +743,7 @@ export default {
       zip: "请输入您的邮政编码",
       addressDetail: "请输入详细地址",
       customer: "Please enter your customer",
+      weight: "Please enter Weight of Shipment",
     },
     enterWrongCode: "输入错误的代码!",
     errorServer: "发生了错误。请再试一次！",

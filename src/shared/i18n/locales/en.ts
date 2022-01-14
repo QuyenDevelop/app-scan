@@ -873,6 +873,7 @@ export default {
     registerBiometricError:
       "Biometric registration fails. Please try again later!",
     errBarCode: "Invalid code",
+    unableShipment: "Shipment had Scanned",
     noShipment:
       "No shipment exists or the shipment is in an unauthorized state.",
     generic: "Something went wrong",
@@ -896,6 +897,7 @@ export default {
       zip: "Please enter your postal code",
       addressDetail: "Please enter detailed address",
       customer: "Please enter your customer",
+      weight: "Please enter Weight of Shipment",
     },
     enterWrongCode: "Enter the wrong code!",
     errorServer: "An error has occurred. Please try again!",

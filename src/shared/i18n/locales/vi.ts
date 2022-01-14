@@ -871,6 +871,7 @@ export default {
       "Vui lòng đăng nhập bằng mật khẩu trước khi sử dụng dịch vụ",
     registerBiometricError: "Đăng kí sinh trắc thất bại. Vui lòng thử lại sau!",
     errBarCode: "Mã không hợp lệ",
+    unableShipment: "Shipment đã có trong danh sách rồi",
     noShipment:
       "Không tồn tại shipment hoặc shipment ở trạng thái không cho phép.",
     generic: "Đã có lỗi xảy ra",
@@ -894,6 +895,7 @@ export default {
       zip: "Vui lòng nhập mã bưu điện",
       addressDetail: "Vui lòng nhập địa chỉ chi tiết",
       customer: "Vui lòng nhập chọn khách hàng",
+      weight: "Vui lòng nhập khối lượng",
     },
     enterWrongCode: "Nhập mã sai!",
     errorServer: "Đã có lỗi xảy ra. Vui lòng thử lại!",

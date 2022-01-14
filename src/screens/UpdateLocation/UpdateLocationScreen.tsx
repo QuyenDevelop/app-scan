@@ -51,19 +51,25 @@ export const UpdateLocationScreen: FunctionComponent = () => {
       });
 
       if (location && checkShipment.length) {
-        // nếu đã có location và shipment đã tồn tại thì break
-        console.log("🚀🚀🚀 => shipment: " + JSON.stringify(checkShipment));
+        // if shipment code has been scanned return notification
+        Alert.error("error.unableShipment");
         return;
       }
 
       if (!isLoadingFetchData) {
+        // get location
         if (!location && showHeader) {
           setTimeout(() => {
             getLocation(barcodes[0].data.trim());
           }, 500);
           return;
         }
-
+        // if format of code shipment false return notification
+        if (!validateShipmentCode(barcodes[0].data.trim())) {
+          Alert.error("error.enterWrongCode");
+          return;
+        }
+        // get shipment
         if (
           location &&
           !checkShipment.length &&
@@ -115,7 +121,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
 
   const getShipment = (value: string) => {
     if (!value || value === "" || value === null) {
-      // nếu value không có gì thì return luôn
+      // if dont have code return notification
       Alert.error("error.errBarCode");
       return;
     }
@@ -158,7 +164,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
       locationName: location,
       shipmentNumbers: shipmentCode,
     };
-    console.log("data: " + JSON.stringify(data));
+    // console.log("data: " + JSON.stringify(data));
     shipmentApi
       .changeLocation(data)
       ?.then(response => {

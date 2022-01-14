@@ -3,6 +3,7 @@ import { CONSTANT, DATA_CONSTANT } from "@configs";
 import { getAsyncItem, setAsyncItem } from "@helpers";
 import { ShipmentImages, StorageImages } from "@models";
 import BackgroundTimer from "react-native-background-timer";
+import uuid from "react-native-uuid";
 
 export const removeImage = async (name: string) => {
   const presentImages = await getAsyncItem(
@@ -178,10 +179,10 @@ export const uploadImageShipment = async (
     .uploadImage(imageForm)
     ?.then(async response => {
       if (response.Data) {
-        // chờ sử lý
-        console.log(response);
+        // console.log(response);
         response.Data.map(data => {
           successImages.push({
+            Id: uuid.v4().toString(),
             Name: data.Name,
             Url: data.FullUrl,
           });

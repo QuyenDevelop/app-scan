@@ -137,7 +137,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
           photo.node.image.width || ScreenUtils.WIDTH,
           photo.node.image.height || ScreenUtils.HEIGHT,
           "JPEG",
-          0,
+          80,
         ).then(response => {
           imageUri = response.uri;
         });
@@ -187,7 +187,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
           photo.node.image.width || ScreenUtils.WIDTH,
           photo.node.image.height || ScreenUtils.HEIGHT,
           "JPEG",
-          0,
+          80,
         ).then(response => {
           imageUri = response.uri;
         });

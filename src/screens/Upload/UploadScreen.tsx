@@ -77,10 +77,10 @@ export const UploadScreen: FunctionComponent = () => {
         data.width,
         data.height,
         "JPEG",
-        1,
+        80,
       ).then(response => {
         imageUri = response.uri;
-        console.log(imageUri);
+        // console.log(imageUri);
       });
 
       setPhotos(p => [...p, imageUri]);
@@ -136,7 +136,7 @@ export const UploadScreen: FunctionComponent = () => {
     console.log("🚀🚀🚀 => !!!");
     const current = new Date().getTime();
     const savePhotos = photos.map((image: string, index: number) => {
-      console.log("image uri:" + image);
+      // console.log("image uri:" + image);
       const name = `${prefix}_${current}_${index}_${suffix}.jpg`;
       return {
         name: name,

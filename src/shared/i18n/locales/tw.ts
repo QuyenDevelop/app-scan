@@ -741,6 +741,7 @@ export default {
       zip: "請輸入您的郵政編碼",
       addressDetail: "請輸入詳細地址",
       customer: "Please enter your customer",
+      weight: "Please enter Weight of Shipment",
     },
     enterWrongCode: "輸入錯誤的代碼!",
     errorServer: "發生了錯誤。 請再試一次！",
