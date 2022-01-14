@@ -20,6 +20,7 @@ export default {
     sufficientQuantity: "Sufficient quantity",
     changeLocation: "Change location",
     scanLocation: "Please scan the position before inventory",
+    scanLocationBefore: "Please Scan location before",
     chooseRequestInventory: "Choose inventory requirements",
     reality: "Reality",
     pleaseEnterPassword: "Please enter a password",

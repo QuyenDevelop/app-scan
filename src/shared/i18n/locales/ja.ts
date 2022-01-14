@@ -17,9 +17,10 @@ export default {
   },
   label: {
     bag: "バッグ",
-    changeLocation: "Change location",
+    changeLocation: "地域を変更",
     sufficientQuantity: "十分な量",
     scanLocation: "在庫前の位置をスキャンしてください",
+    scanLocationBefore: "前に場所をスキャンしてください",
     chooseRequestInventory: "在庫要件を選択してください",
     reality: "現実",
     pleaseEnterPassword: "パスワードを入力してください",
@@ -84,6 +85,10 @@ export default {
       exploitShipment: {
         title: "出荷苦情",
         content: "出荷に関する苦情を送信する",
+      },
+      changeLocation: {
+        title: "地域を変更",
+        content: "貨物の場所を更新する",
       },
     },
     photoModal: "写真",
@@ -709,7 +714,7 @@ export default {
   },
   button: {
     scanLocation: "スキャン場所をスキャンします",
-    addCode: "Enter shipment code",
+    addCode: "出荷コードを入力します",
     inventory: "在庫",
     loginWithBiometric: "バイオメトリックログイン",
     receive: "受け取る",
@@ -776,6 +781,7 @@ export default {
     setDefault: "デフォルトに設定",
     addAddress: "住所を追加",
     cancel: "キャンセル",
+    submit: "同意",
     userRegister: {
       resend: "リンクリーエンを再送",
       confirmResendMessage:

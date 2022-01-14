@@ -289,27 +289,29 @@ export const UpdateLocationScreen: FunctionComponent = () => {
               color={Themes.colors.info60}
             />
             <Text style={styles.noLocationText}>
-              {translate("label.scanLocation")}
+              {translate("label.scanLocationBefore")}
             </Text>
           </View>
         )}
-        <View style={styles.buttonBox}>
-          <View style={styles.halfButtonBox}>
-            <Button
-              isLoading={isLoading}
-              onPress={() => toggleChangeLocationShipment()}
-              title={translate("button.submit")}
-              buttonChildStyle={{ width: "80%" }}
-            />
+        {showHeader ? null : (
+          <View style={styles.buttonBox}>
+            <View style={styles.halfButtonBox}>
+              <Button
+                isLoading={isLoading}
+                onPress={() => toggleChangeLocationShipment()}
+                title={translate("button.submit")}
+                buttonChildStyle={{ width: "80%" }}
+              />
+            </View>
+            <View style={styles.halfButtonBox}>
+              <Button
+                onPress={() => navigation.goBack()}
+                title={translate("button.cancel")}
+                buttonChildStyle={{ width: "80%" }}
+              />
+            </View>
           </View>
-          <View style={styles.halfButtonBox}>
-            <Button
-              onPress={() => navigation.goBack()}
-              title={translate("button.cancel")}
-              buttonChildStyle={{ width: "80%" }}
-            />
-          </View>
-        </View>
+        )}
       </View>
       <EnterCodeModal
         isShowModal={isShowEnterCode}

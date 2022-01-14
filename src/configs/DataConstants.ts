@@ -107,8 +107,8 @@ const homeItems = [
   },
   {
     id: 6,
-    title: "label.changeLocation",
-    content: "label.changeLocation",
+    title: "label.homeItems.changeLocation.title",
+    content: "label.homeItems.changeLocation.content",
     icon: Images.shipmentManagement,
     onPress: goToUpdateLocationScreen,
   },

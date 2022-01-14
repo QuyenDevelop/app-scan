@@ -20,6 +20,7 @@ export default {
     changeLocation: "Đổi vị trí",
     sufficientQuantity: "Số lượng đủ",
     scanLocation: "Vui lòng quét vị trí trước khi kiểm kê",
+    scanLocationBefore: "Vui lòng quét vị trí trước",
     chooseRequestInventory: "Chọn yêu cầu kiểm kê",
     reality: "Thực tế",
     pleaseEnterPassword: "Vui lòng nhập mật khẩu",
