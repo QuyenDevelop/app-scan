@@ -85,6 +85,10 @@ export default {
         title: "Khiếu nại lô hàng",
         content: "Gửi khiếu nại lô hàng",
       },
+      changeLocation: {
+        title: "Đổi vị trí",
+        content: "Thay đổi vị trí Shipments",
+      },
     },
     photoModal: "Ảnh",
     totalCod: "Tổng tiền COD:",

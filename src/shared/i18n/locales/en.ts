@@ -85,6 +85,10 @@ export default {
         title: "Complain Shipment",
         content: "Send shipment complaints",
       },
+      changeLocation: {
+        title: "Change Location",
+        content: "Change location of shipments",
+      },
     },
     photoModal: "Photos",
     totalCod: "Total amount on delivery:",
