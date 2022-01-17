@@ -23,7 +23,11 @@ class ShipmentApi extends BaseApi {
   scanShipment(value: string) {
     return this.get<ScanShipmentResponse>("scan-shipment", { keyword: value });
   }
-
+  getShipmentById({ shipmentId }: { shipmentId: string }) {
+    return this.get<any>("get-by-id", {
+      id: shipmentId,
+    });
+  }
   uploadImage(data: FormData) {
     return this.post("upload-image-cargoraddservice", data, {});
   }

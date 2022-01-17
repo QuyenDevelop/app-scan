@@ -50,12 +50,6 @@ export const UpdateLocationScreen: FunctionComponent = () => {
         return itemData.indexOf(textSearch) > -1;
       });
 
-      if (location && checkShipment.length) {
-        // if shipment code has been scanned return notification
-        Alert.error("error.unableShipment");
-        return;
-      }
-
       if (!isLoadingFetchData) {
         // get location
         if (!location && showHeader) {
@@ -65,16 +59,21 @@ export const UpdateLocationScreen: FunctionComponent = () => {
           return;
         }
         // if format of code shipment false return notification
-        if (!validateShipmentCode(barcodes[0].data.trim())) {
-          Alert.error("error.enterWrongCode");
-          return;
-        }
         // get shipment
         if (
           location &&
           !checkShipment.length &&
           validateShipmentCode(barcodes[0].data.trim())
         ) {
+          if (location && checkShipment.length) {
+            // if shipment code has been scanned return notification
+            setTimeout(() => Alert.error("error.unableShipment"), 1000);
+            return;
+          }
+          if (!validateShipmentCode(barcodes[0].data.trim())) {
+            setTimeout(() => Alert.error("error.enterWrongCode"), 1000);
+            return;
+          }
           Vibration.vibrate();
           getShipment(barcodes[0]?.data.trim());
           return;
