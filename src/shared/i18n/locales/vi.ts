@@ -901,6 +901,7 @@ export default {
       addressDetail: "Vui lòng nhập địa chỉ chi tiết",
       customer: "Vui lòng nhập chọn khách hàng",
       weight: "Vui lòng nhập khối lượng",
+      images: "Vui lòng chọn chọn ảnh trước",
     },
     enterWrongCode: "Nhập mã sai!",
     errorServer: "Đã có lỗi xảy ra. Vui lòng thử lại!",

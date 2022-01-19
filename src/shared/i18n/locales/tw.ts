@@ -742,6 +742,7 @@ export default {
       addressDetail: "請輸入詳細地址",
       customer: "Please enter your customer",
       weight: "Please enter Weight of Shipment",
+      images: "please choose some images",
     },
     enterWrongCode: "輸入錯誤的代碼!",
     errorServer: "發生了錯誤。 請再試一次！",
