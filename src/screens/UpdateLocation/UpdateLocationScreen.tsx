@@ -38,8 +38,11 @@ export const UpdateLocationScreen: FunctionComponent = () => {
   const [showHeader, setShowHeader] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  const validateShipmentCode = (value: string) => {
+  const isShipmentCode = (value: string) => {
     return new RegExp(/^([0-9A-Z]){9,20}$/g).test(value);
+  };
+  const isLocationCode = (value: string) => {
+    return new RegExp(/^[A-z](\-[0-9A-Z]{2}){1,3}$/g).test(value);
   };
 
   const onRead = async ({ barcodes }: { barcodes: Array<any> }) => {
@@ -52,30 +55,30 @@ export const UpdateLocationScreen: FunctionComponent = () => {
 
       if (!isLoadingFetchData) {
         // get location
-        if (!location && showHeader) {
-          setTimeout(() => {
-            getLocation(barcodes[0].data.trim());
-          }, 500);
+        if (
+          !location &&
+          showHeader &&
+          isLocationCode(barcodes[0].data.trim())
+        ) {
+          getLocation(barcodes[0].data.trim());
           return;
         }
-        // if format of code shipment false return notification
         // get shipment
         if (
           location &&
           !checkShipment.length &&
-          validateShipmentCode(barcodes[0].data.trim())
+          isShipmentCode(barcodes[0].data.trim())
         ) {
-          if (location && checkShipment.length) {
-            // if shipment code has been scanned return notification
-            setTimeout(() => Alert.error("error.unableShipment"), 1000);
-            return;
-          }
-          if (!validateShipmentCode(barcodes[0].data.trim())) {
-            setTimeout(() => Alert.error("error.enterWrongCode"), 1000);
-            return;
-          }
+          // if (location && checkShipment.length) {
+          //   setTimeout(() => Alert.error("error.unableShipment"), 1000);
+          //   return;
+          // }
+          // if (!isShipmentCode(barcodes[0].data.trim())) {
+          //   setTimeout(() => Alert.error("error.enterWrongCode"), 1000);
+          //   return;
+          // }
           Vibration.vibrate();
-          getShipment(barcodes[0]?.data.trim());
+          await getShipment(barcodes[0]?.data.trim());
           return;
         }
       }

@@ -40,7 +40,8 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: ScreenUtils.scale(16),
-    marginTop: ScreenUtils.scale(12),
+    paddingVertical: ScreenUtils.scale(12),
+    borderBottomWidth: 0.5,
   },
   locationText: {
     // marginHorizontal: ScreenUtils.scale(8),
@@ -81,7 +82,7 @@ export default StyleSheet.create({
   receiveItemContainer: {
     flexDirection: "column",
     justifyContent: "space-between",
-    paddingVertical: ScreenUtils.scale(16),
+    paddingVertical: ScreenUtils.scale(10),
     marginHorizontal: ScreenUtils.scale(16),
   },
   receiveItem: {
