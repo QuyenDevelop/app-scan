@@ -7,6 +7,7 @@ export default {
     photoLibraryScreen: "Photo library",
     uploadImageScreen: "Take photos",
     menuScreen: "Menu",
+    complaint: "Complaint information",
   },
   label: {
     scanOrTypeShipment: "Scan or enter shipment / reference code",

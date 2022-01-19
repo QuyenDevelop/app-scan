@@ -14,6 +14,7 @@ export default {
     receive: "受け取る",
     inventory: "在庫",
     lisInventory: "在庫表",
+    complaint: "苦情について",
   },
   label: {
     bag: "バッグ",

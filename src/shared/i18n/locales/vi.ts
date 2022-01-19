@@ -14,6 +14,7 @@ export default {
     receive: "Tiếp nhận",
     inventory: "Kiểm kê",
     lisInventory: "Danh sách kiểm kê",
+    complaint: "Thông tin khiếu nại",
   },
   label: {
     bag: "Túi",

@@ -14,6 +14,7 @@ export default {
     receive: "Receive",
     inventory: "Inventory",
     lisInventory: "Inventory list",
+    complaint: "Complaint information",
   },
   label: {
     bag: "Bag",
