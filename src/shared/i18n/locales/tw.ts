@@ -608,6 +608,7 @@ export default {
   },
   button: {
     back: "回來",
+    addShipment: "Enter shipment/tracking code",
     addCode: "Enter shipment code",
     confirm: "確認",
     createAccount: "立即創建帳戶",

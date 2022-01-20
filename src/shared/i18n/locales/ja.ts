@@ -715,6 +715,7 @@ export default {
   },
   button: {
     scanLocation: "スキャン場所をスキャンします",
+    addShipment: "Enter shipment/tracking code",
     addCode: "出荷コードを入力します",
     inventory: "在庫",
     loginWithBiometric: "バイオメトリックログイン",

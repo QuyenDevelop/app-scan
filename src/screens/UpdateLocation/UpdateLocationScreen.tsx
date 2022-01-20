@@ -1,6 +1,6 @@
 import { shipmentApi } from "@api";
 import { Header } from "@components";
-import { Alert } from "@helpers";
+import { Alert, ScreenUtils } from "@helpers";
 import { useShow } from "@hooks";
 import { UpdateLocationRequest } from "@models";
 import { BarcodeMask } from "@nartc/react-native-barcode-mask";
@@ -21,12 +21,14 @@ import {
 } from "react-native";
 import { RNCamera } from "react-native-camera";
 import { useSelector } from "react-redux";
+import { ChooseLocationModal } from "../ExploitShipmentScreen/components/ChooseLocationModal";
 import { EnterCodeModal } from "../Scan/components/EnterCodeModal";
 import styles from "./styles";
 
 export const UpdateLocationScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const [isShowEnterCode, showEnterCode, hideEnterCode] = useShow();
+  const [isShowLocationModal, showLocationModal, hideLocationModal] = useShow();
   const [isLoadingFetchData, showIsLoadingFetchData, hideIsLoadingFetchData] =
     useShow();
   const postOfficesId = useSelector(
@@ -44,8 +46,13 @@ export const UpdateLocationScreen: FunctionComponent = () => {
   const isLocationCode = (value: string) => {
     return new RegExp(/^[A-z](\-[0-9A-Z]{2}){1,3}$/g).test(value);
   };
+  const onSelectLocation = (value: string) => {
+    setLocation(value);
+  };
 
   const onRead = async ({ barcodes }: { barcodes: Array<any> }) => {
+    // TODO: scan and check location code... alert fail message
+    // TODO: scan and check shipment code... alert fail message
     if (barcodes.length > 0 && !!barcodes[0].data) {
       const checkShipment = shipmentCode.filter(shipment => {
         const itemData = shipment ? shipment.toUpperCase() : "".toUpperCase();
@@ -60,6 +67,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
           showHeader &&
           isLocationCode(barcodes[0].data.trim())
         ) {
+          Vibration.vibrate();
           getLocation(barcodes[0].data.trim());
           return;
         }
@@ -69,14 +77,6 @@ export const UpdateLocationScreen: FunctionComponent = () => {
           !checkShipment.length &&
           isShipmentCode(barcodes[0].data.trim())
         ) {
-          // if (location && checkShipment.length) {
-          //   setTimeout(() => Alert.error("error.unableShipment"), 1000);
-          //   return;
-          // }
-          // if (!isShipmentCode(barcodes[0].data.trim())) {
-          //   setTimeout(() => Alert.error("error.enterWrongCode"), 1000);
-          //   return;
-          // }
           Vibration.vibrate();
           await getShipment(barcodes[0]?.data.trim());
           return;
@@ -123,7 +123,6 @@ export const UpdateLocationScreen: FunctionComponent = () => {
 
   const getShipment = (value: string) => {
     if (!value || value === "" || value === null) {
-      // if dont have code return notification
       Alert.error("error.errBarCode");
       return;
     }
@@ -137,7 +136,6 @@ export const UpdateLocationScreen: FunctionComponent = () => {
             Alert.error("error.noShipment");
             return;
           }
-          // Logic after get shipment success
           setShipmentCode(s => [...s, shipment?.data[0].ShipmentNumber]);
         } else {
           Alert.error("error.errorServer");
@@ -166,11 +164,9 @@ export const UpdateLocationScreen: FunctionComponent = () => {
       locationName: location,
       shipmentNumbers: shipmentCode,
     };
-    // console.log("data: " + JSON.stringify(data));
     shipmentApi
       .changeLocation(data)
       ?.then(response => {
-        // console.log("response: " + JSON.stringify(response));
         if (response.Status) {
           Alert.success("success.success");
           setShipmentCode([]);
@@ -278,21 +274,26 @@ export const UpdateLocationScreen: FunctionComponent = () => {
                   color={Themes.colors.blue008}
                 />
                 <Text style={styles.qrUserManual}>
-                  {translate("button.addCode")}
+                  {translate("button.addShipment")}
                 </Text>
               </TouchableOpacity>
             </View>
           </View>
         ) : (
-          <View style={styles.noLocation}>
-            <Icon
-              name="ic_search"
-              size={Metrics.icons.large}
-              color={Themes.colors.info60}
-            />
-            <Text style={styles.noLocationText}>
-              {translate("label.scanLocationBefore")}
-            </Text>
+          <View style={{ marginVertical: ScreenUtils.scale(8) }}>
+            <TouchableOpacity
+              style={styles.enterKeyboardButton}
+              onPress={showLocationModal}
+            >
+              <Icon
+                name="ic_search"
+                size={Metrics.icons.large}
+                color={Themes.colors.info60}
+              />
+              <Text style={styles.qrUserManual}>
+                {translate("label.scanLocationBefore")}
+              </Text>
+            </TouchableOpacity>
           </View>
         )}
         {showHeader ? null : (
@@ -321,6 +322,11 @@ export const UpdateLocationScreen: FunctionComponent = () => {
         code={shipmentValue}
         onChangeCode={setShipmentValue}
         onCheckCode={getShipment}
+      />
+      <ChooseLocationModal
+        isVisible={isShowLocationModal}
+        closeModal={hideLocationModal}
+        onSelectLocation={local => onSelectLocation(local.Name)}
       />
     </>
   );

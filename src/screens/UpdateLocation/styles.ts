@@ -77,7 +77,7 @@ export default StyleSheet.create({
     borderRadius: ScreenUtils.scale(23),
     paddingVertical: ScreenUtils.scale(12),
     marginHorizontal: "10%",
-    paddingHorizontal: ScreenUtils.scale(60),
+    // paddingHorizontal: ScreenUtils.scale(60),
   },
   receiveItemContainer: {
     flexDirection: "column",
