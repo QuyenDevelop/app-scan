@@ -2,7 +2,7 @@
 import { inventoryApi } from "@api";
 import { Header } from "@components";
 import { CONSTANT, SCREENS } from "@configs";
-import { Alert, getAsyncItem, Utils } from "@helpers";
+import { Alert, getAsyncItem, ScreenUtils, Utils } from "@helpers";
 import { useShow } from "@hooks";
 import { InventoryDetailTemp, RequestInventoryResponse } from "@models";
 import { BarcodeMask, useBarcodeRead } from "@nartc/react-native-barcode-mask";
@@ -30,6 +30,7 @@ import {
 import { RNCamera } from "react-native-camera";
 import { useSelector } from "react-redux";
 import { useImmer } from "use-immer";
+import { ChooseLocationModal } from "../ExploitShipmentScreen/components/ChooseLocationModal";
 import { InventoryItem } from "./components/InventoryItem";
 import styles from "./styles";
 
@@ -57,6 +58,7 @@ export const InventoryScreen: FunctionComponent = () => {
   const [isLoadingFetchData, showLoadingInventory, hideLoadingInventory] =
     useShow();
   const [isShowConfirmModal, showConfirmModal, hideConfirmModal] = useShow();
+  const [isShowLocationModal, showLocationModal, hideLocationModal] = useShow();
   const inputValue = useRef<string>("");
   const inputRef = useRef<TextInput>(null);
   const inventoryRef = useRef<FlatList>(null);
@@ -449,15 +451,20 @@ export const InventoryScreen: FunctionComponent = () => {
             )}
           </>
         ) : (
-          <View style={styles.noLocation}>
-            <Icon
-              name="ic_search"
-              size={Metrics.icons.large}
-              color={Themes.colors.info60}
-            />
-            <Text style={styles.noLocationText}>
-              {translate("label.scanLocation")}
-            </Text>
+          <View style={{ marginVertical: ScreenUtils.scale(8) }}>
+            <TouchableOpacity
+              style={styles.enterKeyboardButton}
+              onPress={showLocationModal}
+            >
+              <Icon
+                name="ic_search"
+                size={Metrics.icons.large}
+                color={Themes.colors.info60}
+              />
+              <Text style={styles.qrUserManual}>
+                {translate("label.scanLocation")}
+              </Text>
+            </TouchableOpacity>
           </View>
         )}
       </View>
@@ -466,6 +473,11 @@ export const InventoryScreen: FunctionComponent = () => {
         closeModal={hideConfirmModal}
         message={translate("alert.confirmInventory", { number: codes.length })}
         onConfirm={inventoryCode}
+      />
+      <ChooseLocationModal
+        isVisible={isShowLocationModal}
+        closeModal={hideLocationModal}
+        onSelectLocation={local => getDataLocation(local.Name)}
       />
     </View>
   );

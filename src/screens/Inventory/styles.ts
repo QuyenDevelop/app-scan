@@ -106,4 +106,21 @@ export default StyleSheet.create({
     justifyContent: "center",
     marginVertical: ScreenUtils.scale(10),
   },
+  qrUserManual: {
+    textAlign: "center",
+    color: Themes.colors.blue008,
+    marginLeft: ScreenUtils.scale(8),
+  },
+  enterKeyboardButton: {
+    width: "80%",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: Themes.colors.blue008,
+    borderRadius: ScreenUtils.scale(23),
+    paddingVertical: ScreenUtils.scale(12),
+    marginHorizontal: "10%",
+    // paddingHorizontal: ScreenUtils.scale(60),
+  },
 });
