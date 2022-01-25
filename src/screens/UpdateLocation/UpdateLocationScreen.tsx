@@ -2,7 +2,7 @@ import { shipmentApi } from "@api";
 import { Header } from "@components";
 import { Alert, ScreenUtils } from "@helpers";
 import { useShow } from "@hooks";
-import { UpdateLocationRequest } from "@models";
+import { ShipmentResponse, UpdateLocationRequest } from "@models";
 import { BarcodeMask } from "@nartc/react-native-barcode-mask";
 import { useNavigation } from "@react-navigation/native";
 import { IRootState } from "@redux";
@@ -35,7 +35,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
     (state: IRootState) => state.account.profile?.postOfficeId,
   );
   const [location, setLocation] = useState<String>("");
-  const [shipmentCode, setShipmentCode] = useState<Array<String>>([]);
+  const [shipmentCode, setShipmentCode] = useState<Array<ShipmentResponse>>([]);
   const [shipmentValue, setShipmentValue] = useState<string>("");
   const [showHeader, setShowHeader] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,6 +48,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
   };
   const onSelectLocation = (value: string) => {
     setLocation(value);
+    setShowHeader(false);
   };
 
   const onRead = async ({ barcodes }: { barcodes: Array<any> }) => {
@@ -55,7 +56,9 @@ export const UpdateLocationScreen: FunctionComponent = () => {
     // TODO: scan and check shipment code... alert fail message
     if (barcodes.length > 0 && !!barcodes[0].data) {
       const checkShipment = shipmentCode.filter(shipment => {
-        const itemData = shipment ? shipment.toUpperCase() : "".toUpperCase();
+        const itemData = shipment
+          ? shipment.ShipmentNumber.toUpperCase()
+          : "".toUpperCase();
         const textSearch = barcodes[0].data.trim().toUpperCase();
         return itemData.indexOf(textSearch) > -1;
       });
@@ -91,7 +94,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
     setShipmentCode([]);
   };
   const toggleDeleteShipment = (value: string) => {
-    const newData = shipmentCode.filter(item => item !== value);
+    const newData = shipmentCode.filter(item => item.ShipmentNumber !== value);
     setShipmentCode(newData);
   };
 
@@ -115,6 +118,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
       .catch(() => {})
       .finally(() => {
         Keyboard.dismiss();
+        setShowHeader(false);
         setTimeout(() => {
           hideIsLoadingFetchData();
         }, 500);
@@ -122,6 +126,16 @@ export const UpdateLocationScreen: FunctionComponent = () => {
   };
 
   const getShipment = (value: string) => {
+    const checkShipment = shipmentCode.filter(shipment => {
+      const itemData = shipment
+        ? shipment.ShipmentNumber.toUpperCase()
+        : "".toUpperCase();
+      const textSearch = value.trim().toUpperCase();
+      return itemData.indexOf(textSearch) > -1;
+    });
+    if (checkShipment.length > 0) {
+      return;
+    }
     if (!value || value === "" || value === null) {
       Alert.error("error.errBarCode");
       return;
@@ -136,7 +150,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
             Alert.error("error.noShipment");
             return;
           }
-          setShipmentCode(s => [...s, shipment?.data[0].ShipmentNumber]);
+          setShipmentCode(s => [...s, shipment?.data[0]]);
         } else {
           Alert.error("error.errorServer");
         }
@@ -154,15 +168,19 @@ export const UpdateLocationScreen: FunctionComponent = () => {
   };
 
   const toggleChangeLocationShipment = () => {
-    setIsLoading(true);
     if (shipmentCode.length <= 0) {
       Alert.error("error.noShipment");
       return;
     }
+    console.log(
+      "data :",
+      shipmentCode.map(shipment => shipment.ShipmentNumber),
+    );
+    setIsLoading(true);
     const data: UpdateLocationRequest = {
       postOfficeId: postOfficesId || "",
       locationName: location,
-      shipmentNumbers: shipmentCode,
+      shipmentNumbers: shipmentCode.map(shipment => shipment.ShipmentNumber),
     };
     shipmentApi
       .changeLocation(data)
@@ -246,9 +264,14 @@ export const UpdateLocationScreen: FunctionComponent = () => {
                 renderItem={({ item }) => {
                   return (
                     <View style={styles.receiveItem}>
-                      <Text style={styles.code}>{item}</Text>
+                      <Text style={styles.code}>{item.ShipmentNumber}</Text>
+                      <Text style={styles.Pieces}>
+                        SL: {item.ExpectedPieces}
+                      </Text>
                       <TouchableOpacity
-                        onPress={() => toggleDeleteShipment(item.toString())}
+                        onPress={() =>
+                          toggleDeleteShipment(item.ShipmentNumber.toString())
+                        }
                         hitSlop={styles.hitSlop}
                         style={styles.deleteBtn}
                       >

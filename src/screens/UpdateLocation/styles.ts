@@ -87,6 +87,7 @@ export default StyleSheet.create({
   },
   receiveItem: {
     marginVertical: ScreenUtils.scale(5),
+    marginHorizontal: ScreenUtils.scale(5),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -101,6 +102,10 @@ export default StyleSheet.create({
     ...Themes.font.medium,
     fontSize: 16,
     fontWeight: "bold",
+  },
+  Pieces: {
+    ...Themes.font.medium,
+    fontSize: 13,
   },
   deleteBtn: {
     marginLeft: ScreenUtils.scale(16),
