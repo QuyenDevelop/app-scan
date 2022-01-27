@@ -12,7 +12,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { LocationModal } from "./LocationModal";
+import { ChooseLocationModal } from "./ChooseLocationModal";
 import styles from "./styles";
 interface Props {
   subShipment: SubShipment;
@@ -161,8 +161,13 @@ export const SubShipmentItem: FunctionComponent<Props> = props => {
           message={translate("alert.deleteConfirmation", { index: index + 1 })}
           confirmDelete={onDelete}
         />
-        <LocationModal
+        {/* <ChooseLocationModal
           isShowModal={isShowLocationModal}
+          closeModal={hideLocationModal}
+          onSelectLocation={onSelectLocation}
+        /> */}
+        <ChooseLocationModal
+          isVisible={isShowLocationModal}
           closeModal={hideLocationModal}
           onSelectLocation={onSelectLocation}
         />
