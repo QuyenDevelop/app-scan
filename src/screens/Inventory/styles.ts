@@ -215,4 +215,7 @@ export default StyleSheet.create({
     ...Themes.font.medium,
     fontSize: 15,
   },
+  loading: {
+    marginTop: ScreenUtils.scale(40),
+  },
 });

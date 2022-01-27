@@ -43,6 +43,7 @@ import { useImmer } from "use-immer";
 import { ChooseLocationModal } from "../ExploitShipmentScreen/components/ChooseLocationModal";
 import { ShipmentItem } from "./components/ShipmentItem";
 import styles from "./styles";
+import { ActivityIndicator } from "react-native";
 
 export interface InventoryScreenParams {
   requestInventory: RequestInventoryResponse;
@@ -95,6 +96,7 @@ export const InventoryScreen: FunctionComponent = () => {
     height: 0,
   });
   const [listSearchText, setListSearchText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const { barcodeRead, onBarcodeRead, onBarcodeFinderLayoutChange } =
     useBarcodeRead(
@@ -245,6 +247,7 @@ export const InventoryScreen: FunctionComponent = () => {
 
   const getDataLocation = (location: string) => {
     showLoadingInventory();
+    setIsLoading(true);
     const dataRequest = {
       LocationName: location,
       PostOfficeId: postOfficesId || "",
@@ -297,6 +300,7 @@ export const InventoryScreen: FunctionComponent = () => {
       })
       .finally(async () => {
         await Utils.delay(1000);
+        setIsLoading(false);
         hideLoadingInventory();
       });
   };
@@ -440,7 +444,9 @@ export const InventoryScreen: FunctionComponent = () => {
         <View style={[styles.receiveItem]}>
           <Checkbox
             checked={item.Pieces === item.ExpectedPieces}
-            onChange={() => {}}
+            onChange={() => {
+              updateBagPieces(index, 1);
+            }}
           />
           <View
             style={[
@@ -568,7 +574,10 @@ export const InventoryScreen: FunctionComponent = () => {
   };
 
   const checkAll = (): boolean => {
-    return codes.every(value => value.Pieces === value.ExpectedPieces);
+    return (
+      codes.every(value => value.Pieces === value.ExpectedPieces) &&
+      titleShow.every(value => value.ExpectedPieces === 1)
+    );
   };
 
   const checkPositionTrue = (): boolean => {
@@ -622,7 +631,13 @@ export const InventoryScreen: FunctionComponent = () => {
               />
             )}
           </View>
-          {locationScanned ? (
+          {isLoading ? (
+            <ActivityIndicator
+              style={styles.loading}
+              size="large"
+              color={Themes.colors.collGray40}
+            />
+          ) : locationScanned ? (
             <>
               <View style={styles.toolView}>
                 <TouchableOpacity
