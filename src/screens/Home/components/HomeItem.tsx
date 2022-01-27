@@ -9,13 +9,13 @@ import { useSelector } from "react-redux";
 import styles from "./styles";
 interface Props {
   title: string;
-  content: string;
+  content?: string;
   icon: any;
   onPress: () => void;
 }
 
 const HomeItem: FunctionComponent<Props> = props => {
-  const { title, content, icon, onPress } = props;
+  const { title, icon, onPress } = props;
   const profile = useSelector(
     (state: IRootState) => state.account.profile,
   ) as Account | null;
@@ -38,7 +38,6 @@ const HomeItem: FunctionComponent<Props> = props => {
         />
         <View style={styles.contentHomeItem}>
           <Text style={styles.titleHomeItem}>{title}</Text>
-          <Text style={styles.subtitleHomeItem}>{content}</Text>
         </View>
       </View>
     </TouchableOpacity>

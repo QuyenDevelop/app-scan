@@ -60,7 +60,7 @@ export default {
     },
     homeItems: {
       checkAndScan: {
-        title: "チェックとスキャン",
+        title: "チェック中",
         content: "小包とサービス処理プラスを確認してください",
       },
       cod: {
@@ -68,11 +68,11 @@ export default {
         content: "配送料を確認して確認してください",
       },
       shipmentManagement: {
-        title: "出荷管理",
+        title: "出荷",
         content: "出荷状況を確認してください",
       },
       claimAndInquiries: {
-        title: "クレームとお問い合わせ",
+        title: "お問い合わせ",
         content: "顧客の要求と苦情を参照してください",
       },
       receive: {
@@ -80,15 +80,15 @@ export default {
         content: "注文を受け取る",
       },
       inventoryManagement: {
-        title: "在庫管理",
+        title: "倉庫",
         content: "商品の量を制御して確認してください",
       },
       exploitShipment: {
-        title: "出荷苦情",
+        title: "エクスプロイト",
         content: "出荷に関する苦情を送信する",
       },
       changeLocation: {
-        title: "地域を変更",
+        title: "場所",
         content: "貨物の場所を更新する",
       },
     },

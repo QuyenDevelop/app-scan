@@ -9,6 +9,7 @@ import {
   ScrollView,
   TouchableOpacity,
   View,
+  FlatList,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import HomeItem from "./components/HomeItem";
@@ -18,6 +19,17 @@ export const HomeScreen: FunctionComponent = () => {
   useShipmentInfo();
   const insets = useSafeAreaInsets();
   useStatusBar("light-content");
+
+  const renderHomeItem = ({ item, index }: { item: any; index: number }) => {
+    return (
+      <HomeItem
+        key={index}
+        title={translate(item.title)}
+        icon={item.icon}
+        onPress={item.onPress}
+      />
+    );
+  };
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -43,17 +55,12 @@ export const HomeScreen: FunctionComponent = () => {
         </View>
       </ImageBackground>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {DATA_CONSTANT.HOME_ITEMS.map((item, index) => {
-          return (
-            <HomeItem
-              key={index}
-              title={translate(item.title)}
-              content={translate(item.content)}
-              icon={item.icon}
-              onPress={item.onPress}
-            />
-          );
-        })}
+        <FlatList
+          data={DATA_CONSTANT.HOME_ITEMS}
+          keyExtractor={(item: any) => item.id}
+          renderItem={renderHomeItem}
+          numColumns={3}
+        />
       </ScrollView>
     </View>
   );

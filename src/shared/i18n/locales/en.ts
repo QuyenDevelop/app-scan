@@ -59,7 +59,7 @@ export default {
     },
     homeItems: {
       checkAndScan: {
-        title: "Check and scan",
+        title: "Scan",
         content: "Check parcel and service processing plus",
       },
       cod: {
@@ -67,11 +67,11 @@ export default {
         content: "Check and confirm shipping fees",
       },
       shipmentManagement: {
-        title: "Shipment management",
+        title: "Shipment",
         content: "Check the shipment status",
       },
       claimAndInquiries: {
-        title: "Claim and inquiries",
+        title: "Inquiries",
         content: "See customer's request and complaint",
       },
       receive: {
@@ -79,15 +79,15 @@ export default {
         content: "Receive orders",
       },
       inventoryManagement: {
-        title: "Inventory management",
+        title: "Inventory",
         content: "Control and confirm the quantity of goods",
       },
       exploitShipment: {
-        title: "Complain Shipment",
+        title: "Complaint",
         content: "Send shipment complaints",
       },
       changeLocation: {
-        title: "Change Location",
+        title: "Location",
         content: "Change location of shipments",
       },
     },

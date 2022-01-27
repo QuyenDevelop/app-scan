@@ -4,25 +4,28 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   homeItem: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
+    flex: 1,
+    width: ScreenUtils.WIDTH / 3 - 10,
+    height: ScreenUtils.scale(120),
+    flexDirection: "column",
+    justifyContent: "center",
     alignItems: "center",
     backgroundColor: Themes.colors.white,
-    padding: ScreenUtils.scale(16),
-    marginHorizontal: ScreenUtils.scale(20),
+    // padding: ScreenUtils.scale(16),
+    marginHorizontal: ScreenUtils.scale(5),
+    marginVertical: ScreenUtils.scale(5),
     borderRadius: ScreenUtils.scale(15),
-    marginBottom: ScreenUtils.scale(8),
   },
   iconHomeItem: {
-    width: ScreenUtils.scale(60),
-    height: ScreenUtils.scale(60),
-    marginRight: ScreenUtils.scale(16),
+    width: ScreenUtils.scale(80),
+    height: ScreenUtils.scale(80),
+    // marginRight: ScreenUtils.scale(16),
   },
   contentHomeItem: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+    justifyContent: "center",
+    alignItems: "center",
   },
   titleHomeItem: {
     color: Themes.colors.coolGray100,
