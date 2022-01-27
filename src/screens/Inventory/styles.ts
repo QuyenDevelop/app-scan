@@ -20,7 +20,7 @@ export default StyleSheet.create({
   },
   inventoryBtn: {
     backgroundColor: Themes.colors.bg,
-    marginHorizontal: ScreenUtils.scale(16),
+    marginHorizontal: ScreenUtils.scale(8),
     // marginBottom: ScreenUtils.calculatorHeight(20),
     borderRadius: ScreenUtils.scale(8),
     justifyContent: "center",
@@ -59,7 +59,13 @@ export default StyleSheet.create({
   addCode: {
     justifyContent: "center",
     alignItems: "center",
+    marginHorizontal: ScreenUtils.scale(5),
     paddingLeft: ScreenUtils.scale(16),
+  },
+  code: {
+    ...Themes.font.medium,
+    fontSize: 16,
+    fontWeight: "bold",
   },
   toolView: {
     flexDirection: "row",
@@ -105,6 +111,7 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginVertical: ScreenUtils.scale(10),
+    marginHorizontal: ScreenUtils.scale(16),
   },
   qrUserManual: {
     textAlign: "center",
@@ -122,5 +129,62 @@ export default StyleSheet.create({
     paddingVertical: ScreenUtils.scale(12),
     marginHorizontal: "10%",
     // paddingHorizontal: ScreenUtils.scale(60),
+  },
+  receiveItemContainer: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    marginHorizontal: ScreenUtils.scale(8),
+  },
+  leftContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    flex: 0.6,
+    marginHorizontal: ScreenUtils.scale(8),
+    marginVertical: ScreenUtils.scale(5),
+    borderBottomWidth: 0.6,
+    borderColor: Themes.colors.coolGray30,
+  },
+  deleteItemContainer: {
+    width: ScreenUtils.scale(40),
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  deleteItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 0.5,
+    justifyContent: "space-between",
+  },
+  hitSlop: {
+    top: 20,
+    bottom: 20,
+    left: 20,
+    right: 20,
+  },
+  deleteBtn: {
+    marginLeft: ScreenUtils.scale(16),
+  },
+  sectionHeader: {
+    paddingTop: 2,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 2,
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor: "#8fb1aa",
+  },
+  item: {
+    padding: 10,
+    fontSize: 18,
+    height: 44,
+  },
+  checkbox: {
+    marginLeft: ScreenUtils.scale(8),
+  },
+  kHeader: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
   },
 });

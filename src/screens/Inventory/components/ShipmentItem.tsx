@@ -8,27 +8,25 @@ import styles from "./styles";
 interface Props {
   item: InventoryDetailTemp;
   index: number;
-  deleteItem: (index: number) => void;
-  updatePieces: (index: number, value: number) => void;
+  Delete: (code: number) => void;
+  Upgrades: (code: number, value: number) => void;
 }
 
-export const InventoryItem: FunctionComponent<Props> = props => {
-  const { item, index, deleteItem, updatePieces } = props;
+export const ShipmentItem: FunctionComponent<Props> = props => {
+  const { item, index, Upgrades, Delete } = props;
   const [isShowDeleteModal, showDeleteModal, hideDeleteModal] = useShow();
+
   const confirmDelete = () => {
-    deleteItem(index);
+    Delete(index);
   };
-
   const plusPieces = () => {
-    updatePieces(index, item.Pieces + 1);
+    Upgrades(index, item.Pieces + 1);
   };
-
   const minusPieces = () => {
-    updatePieces(index, item.Pieces - 1);
+    Upgrades(index, item.Pieces - 1);
   };
-
   const onCheck = () => {
-    updatePieces(index, item.ExpectedPieces);
+    Upgrades(index, item.ExpectedPieces);
   };
 
   const getBackgroundColor = (): string => {
@@ -62,17 +60,17 @@ export const InventoryItem: FunctionComponent<Props> = props => {
           <Text style={styles.code}>{item.ShipmentNumber}</Text>
         </View>
         <View style={styles.deleteItem}>
-          <TouchableOpacity hitSlop={styles.hitSlop} onPress={minusPieces}>
+          <TouchableOpacity onPress={minusPieces}>
             <Icon
               name="ic_minus"
               color={Themes.colors.danger60}
               size={Metrics.icons.small}
             />
           </TouchableOpacity>
-          <Text style={styles.code}>
+          <Text style={styles.Pieces}>
             {item.ExpectedPieces}/{item.Pieces}
           </Text>
-          <TouchableOpacity hitSlop={styles.hitSlop} onPress={plusPieces}>
+          <TouchableOpacity onPress={plusPieces}>
             <Icon
               name="ic_plus"
               color={Themes.colors.danger60}
@@ -81,19 +79,17 @@ export const InventoryItem: FunctionComponent<Props> = props => {
           </TouchableOpacity>
         </View>
         <View style={styles.deleteItemContainer}>
-          {!item.PositionTrue && (
-            <TouchableOpacity
-              onPress={showDeleteModal}
-              hitSlop={styles.hitSlop}
-              style={styles.deleteBtn}
-            >
-              <Icon
-                name="ic_delete"
-                color={Themes.colors.collGray40}
-                size={Metrics.icons.small}
-              />
-            </TouchableOpacity>
-          )}
+          <TouchableOpacity
+            onPress={showDeleteModal}
+            hitSlop={styles.hitSlop}
+            style={styles.deleteBtn}
+          >
+            <Icon
+              name="ic_delete"
+              color={Themes.colors.collGray40}
+              size={Metrics.icons.small}
+            />
+          </TouchableOpacity>
         </View>
 
         <DeleteModal
@@ -105,11 +101,6 @@ export const InventoryItem: FunctionComponent<Props> = props => {
           confirmDelete={confirmDelete}
         />
       </View>
-      {!!item.DispatchBagNumber && (
-        <Text style={styles.bag}>
-          {translate("label.bag")}: {item.DispatchBagNumber}
-        </Text>
-      )}
     </View>
   );
 };

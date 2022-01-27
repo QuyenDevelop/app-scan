@@ -1,6 +1,7 @@
 import {
   goToCheckAndScanScreen,
   goToHomeScreen,
+  goToListInventoryScreen,
   goToReceiveScreen,
   goToScanCodScreen,
   goToScanShipmentCodeScreen,
@@ -97,13 +98,13 @@ const homeItems = [
     icon: Images.shipmentManagement,
     onPress: goToShipmentManagementScreen,
   },
-  // {
-  //   id: 5,
-  //   title: "label.homeItems.inventoryManagement.title",
-  //   content: "label.homeItems.inventoryManagement.content",
-  //   icon: Images.claimAndInquiries,
-  //   onPress: goToListInventoryScreen,
-  // },
+  {
+    id: 5,
+    title: "label.homeItems.inventoryManagement.title",
+    content: "label.homeItems.inventoryManagement.content",
+    icon: Images.claimAndInquiries,
+    onPress: goToListInventoryScreen,
+  },
   {
     id: 6,
     title: "label.homeItems.changeLocation.title",
