@@ -109,7 +109,7 @@ const homeItems = [
     id: 6,
     title: "label.homeItems.inventoryManagement.title",
     // content: "label.homeItems.inventoryManagement.content",
-    icon: Images.icMenuHome,
+    icon: Images.icInventory,
     onPress: goToListInventoryScreen,
   },
 ];

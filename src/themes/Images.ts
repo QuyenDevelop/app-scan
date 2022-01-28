@@ -18,8 +18,9 @@ export const Images = {
   icMenuSetting: require("../assets/icons/ic_menu_setting.png"),
   icMenuUser: require("../assets/icons/ic_menu_user.png"),
   icTakePhoto: require("../assets/icons/ic_take_photo.png"),
-  icLocation: require("../assets/icons/ic_location_new.png"),
-  icExploit: require("../assets/icons/exploit.png"),
+  icLocation: require("../assets/icons/doivitri.png"),
+  icExploit: require("../assets/icons/khieunai.png"),
+  icInventory: require("../assets/icons/kiemke.png"),
   noData: require("../assets/images/no_data.png"),
 };
 
