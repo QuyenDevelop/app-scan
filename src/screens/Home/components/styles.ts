@@ -6,7 +6,6 @@ export default StyleSheet.create({
   homeItem: {
     flex: 1,
     width: ScreenUtils.WIDTH / 3 - 10,
-    height: ScreenUtils.scale(120),
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
@@ -17,8 +16,10 @@ export default StyleSheet.create({
     borderRadius: ScreenUtils.scale(15),
   },
   iconHomeItem: {
-    width: ScreenUtils.scale(80),
-    height: ScreenUtils.scale(80),
+    width: ScreenUtils.scale(60),
+    height: ScreenUtils.scale(60),
+    marginHorizontal: ScreenUtils.scale(5),
+    marginVertical: ScreenUtils.scale(5),
     // marginRight: ScreenUtils.scale(16),
   },
   contentHomeItem: {
@@ -26,6 +27,7 @@ export default StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: ScreenUtils.scale(5),
   },
   titleHomeItem: {
     color: Themes.colors.coolGray100,

@@ -74,7 +74,7 @@ const homeItems = [
     id: 1,
     title: "label.homeItems.exploitShipment.title",
     // content: "label.homeItems.exploitShipment.content",
-    icon: Images.checkAndScan,
+    icon: Images.icExploit,
     onPress: goToScanShipmentCodeScreen,
   },
   {
@@ -93,24 +93,24 @@ const homeItems = [
   },
   {
     id: 4,
+    title: "label.homeItems.changeLocation.title",
+    // content: "label.homeItems.changeLocation.content",
+    icon: Images.icLocation,
+    onPress: goToUpdateLocationScreen,
+  },
+  {
+    id: 5,
     title: "label.homeItems.shipmentManagement.title",
     // content: "label.homeItems.shipmentManagement.content",
     icon: Images.shipmentManagement,
     onPress: goToShipmentManagementScreen,
   },
   {
-    id: 5,
+    id: 6,
     title: "label.homeItems.inventoryManagement.title",
     // content: "label.homeItems.inventoryManagement.content",
-    icon: Images.claimAndInquiries,
+    icon: Images.icMenuHome,
     onPress: goToListInventoryScreen,
-  },
-  {
-    id: 6,
-    title: "label.homeItems.changeLocation.title",
-    // content: "label.homeItems.changeLocation.content",
-    icon: Images.shipmentManagement,
-    onPress: goToUpdateLocationScreen,
   },
 ];
 
