@@ -28,6 +28,7 @@ import React, {
   useState,
 } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   Keyboard,
   LayoutAnimation,
@@ -43,7 +44,6 @@ import { useImmer } from "use-immer";
 import { ChooseLocationModal } from "../ExploitShipmentScreen/components/ChooseLocationModal";
 import { ShipmentItem } from "./components/ShipmentItem";
 import styles from "./styles";
-import { ActivityIndicator } from "react-native";
 
 export interface InventoryScreenParams {
   requestInventory: RequestInventoryResponse;
@@ -124,8 +124,14 @@ export const InventoryScreen: FunctionComponent = () => {
         item.Data.forEach(i => convertToArrInventory.push(i));
       }
     });
-    // console.log("Data: ", JSON.stringify(convertToArrInventory));
+
+    console.log("Zô!!");
+    console.log(
+      "🚀🚀🚀 => convertToArrInventory: ",
+      JSON.stringify(convertToArrInventory),
+    );
     setCodes([...ShipmentNotBag, ...convertToArrInventory]);
+    console.log("🚀🚀🚀 => codes: ", JSON.stringify(codes));
   }, [titleShow, ShipmentNotBag]);
 
   const isValidBarcode = (code: string): boolean => {
@@ -145,8 +151,12 @@ export const InventoryScreen: FunctionComponent = () => {
       if (!isValidBarcode(code)) {
         return;
       }
-      const findCodeIndex = codes.findIndex(
-        c => c.ShipmentNumber === code.trim(),
+
+      const findShipmentIndex = ShipmentNotBag.findIndex(
+        c => c.ShipmentNumber === code.toUpperCase().trim(),
+      );
+      const findBagIndex = titleShow.findIndex(
+        c => c.DispatchBagNumber === code.toUpperCase().trim(),
       );
 
       const dataRequest = {
@@ -157,36 +167,40 @@ export const InventoryScreen: FunctionComponent = () => {
         postOfficeId: userInfo?.postOfficeId || "",
         locationName: locationScanned,
       };
-      console.log("🚀🚀🚀 => dataRequest: ", dataRequest);
-      if (findCodeIndex < 0) {
+      // console.log("🚀🚀🚀 => dataRequest: ", dataRequest);
+      if (findShipmentIndex < 0) {
         await inventoryApi
           .scanInventory(dataRequest)
           ?.then(response => {
-            // console.log("Inventory Response: ", JSON.stringify(response.Data));
+            console.log("Inventory Response: ", JSON.stringify(response.Data));
             if (response.Status) {
-              setCodes(draft => {
-                response.Data;
-                draft.unshift(...response.Data);
-                // console.log("🚀🚀🚀 => draft", draft);
+              // TODO: get data scan code
+              const dataTerm: Array<InventoryDetailTemp> = [];
+              response.Data.forEach((data: InventoryDetailTemp) => {
+                if (data.DispatchBagName === null) {
+                  setShipmentNotBag(draft => {
+                    data;
+                    draft.unshift(data);
+                  });
+                }
+                if (data.DispatchBagName !== null) {
+                  dataTerm.push(data);
+                }
               });
-              // TODO:
-              // const dataTerm: Array<InventoryDetailTemp> = [];
-              // response.Data.forEach((data: InventoryDetailTemp) => {
-              //   if (data.DispatchBagNumber === null) {
-              //     setShipmentNotBag(draft => {
-              //       data;
-              //       draft.unshift(data);
-              //     });
-              //   }
-              //   if (data.DispatchBagNumber !== null) {
-              //     dataTerm.push(data);
-              //   }
-              // });
-              // setTitleShow(draft => {
-              //   response.Data;
-              //   draft.unshift(...convertToBags(dataTerm));
-              //   // console.log("🚀🚀🚀 => draft", draft);
-              // });
+              if (findBagIndex < 0) {
+                setTitleShow(draft => {
+                  dataTerm;
+                  draft.unshift(...convertToBags(dataTerm));
+                });
+              } else {
+                setTitleShow(draft => {
+                  draft[findBagIndex].ExpectedPieces =
+                    draft[findBagIndex].ExpectedPieces + 1;
+                  let data = draft[findBagIndex];
+                  draft.splice(findBagIndex, 1);
+                  draft.unshift(data);
+                });
+              }
             } else {
               Alert.error(
                 translate("error.shipmentNotFound", { name: code.trim() }),
@@ -203,10 +217,10 @@ export const InventoryScreen: FunctionComponent = () => {
           });
       } else {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-        setCodes(draft => {
-          draft[findCodeIndex].Pieces = draft[findCodeIndex].Pieces + 1;
-          let data = draft[findCodeIndex];
-          draft.splice(findCodeIndex, 1);
+        setShipmentNotBag(draft => {
+          draft[findShipmentIndex].Pieces = draft[findShipmentIndex].Pieces + 1;
+          let data = draft[findShipmentIndex];
+          draft.splice(findShipmentIndex, 1);
           draft.unshift(data);
         });
       }
@@ -216,15 +230,7 @@ export const InventoryScreen: FunctionComponent = () => {
         Vibration.vibrate();
       }
     },
-    [
-      codes,
-      locationScanned,
-      requestInventory.Id,
-      setCodes,
-      userInfo?.postOfficeId,
-      userInfo?.preferred_username,
-      userInfo?.sub,
-    ],
+    [codes, locationScanned],
   );
 
   const convertToBags = (data: Array<InventoryDetailTemp>) => {
@@ -260,18 +266,13 @@ export const InventoryScreen: FunctionComponent = () => {
         // console.log("🚀🚀🚀 => location data: ", response);
         if (response.Status) {
           setLocationScanned(location);
-          setCodes(
-            response.Data.map((code: InventoryDetailTemp) => ({
-              ...code,
-              PositionTrue: true,
-            })),
-          );
-          // setTitleShow(convertToBags(response.Data));
-          // setShipmentNotBag(
-          //   response.Data.filter(
-          //     (code: InventoryDetailTemp) => !code.DispatchBagNumber,
-          //   ),
+          // setCodes(
+          //   response.Data.map((code: InventoryDetailTemp) => ({
+          //     ...code,
+          //     PositionTrue: true,
+          //   })),
           // );
+          // ----------
           const dataTerm: Array<InventoryDetailTemp> = [];
           response.Data.forEach((data: InventoryDetailTemp) => {
             if (data.DispatchBagNumber === null) {
@@ -436,6 +437,20 @@ export const InventoryScreen: FunctionComponent = () => {
     setListSearchText(value);
     setShowDeleteModal(true);
   };
+  const getBackgroundColor = (value: number): string => {
+    if (value === 1) {
+      return Themes.colors.white;
+    }
+
+    if (value > 1) {
+      return Themes.colors.warningMain;
+    }
+
+    if (value < 1) {
+      return Themes.colors.danger60;
+    }
+    return Themes.colors.white;
+  };
   // ---------- render List Bag
   const RenderBagItem = ({ item, index }: { item: any; index: number }) => {
     // const ind = index + 1;
@@ -443,7 +458,7 @@ export const InventoryScreen: FunctionComponent = () => {
       <View style={styles.receiveItemContainer}>
         <View style={[styles.receiveItem]}>
           <Checkbox
-            checked={item.Pieces === item.ExpectedPieces}
+            checked={item.ExpectedPieces === 1}
             onChange={() => {
               updateBagPieces(index, 1);
             }}
@@ -451,7 +466,7 @@ export const InventoryScreen: FunctionComponent = () => {
           <View
             style={[
               styles.leftContainer,
-              // { backgroundColor: getBackgroundColor() },
+              { backgroundColor: getBackgroundColor(item.ExpectedPieces) },
             ]}
           >
             <Text style={styles.code}>{item.DispatchBagNumber}</Text>
@@ -515,19 +530,22 @@ export const InventoryScreen: FunctionComponent = () => {
       </View>
     );
   };
-  const RenderShipmentItem = useCallback(
-    ({ item, index }: { item: InventoryDetailTemp; index: number }) => {
-      return (
-        <ShipmentItem
-          item={item}
-          index={index}
-          Delete={deleteShipmentItem}
-          Upgrades={updateShipmentPieces}
-        />
-      );
-    },
-    [ShipmentNotBag],
-  );
+  const RenderShipmentItem = ({
+    item,
+    index,
+  }: {
+    item: InventoryDetailTemp;
+    index: number;
+  }) => {
+    return (
+      <ShipmentItem
+        item={item}
+        index={index}
+        Delete={deleteShipmentItem}
+        Upgrades={updateShipmentPieces}
+      />
+    );
+  };
   const RenderHeaderListBag = () => {
     return ShipmentNotBag.length > 0 ? (
       <>
@@ -544,6 +562,7 @@ export const InventoryScreen: FunctionComponent = () => {
   };
 
   const onPressAddCode = async () => {
+    await Keyboard.dismiss();
     await addNewCode(inputValue.current.trim(), true);
   };
 
@@ -675,6 +694,7 @@ export const InventoryScreen: FunctionComponent = () => {
                   returnKeyType="done"
                   returnKeyLabel="Add"
                   blurOnSubmit={false}
+                  onEndEditing={Keyboard.dismiss}
                 />
                 <TouchableOpacity
                   style={styles.addCode}
@@ -688,7 +708,6 @@ export const InventoryScreen: FunctionComponent = () => {
                 </TouchableOpacity>
               </View>
               <FlatList
-                ref={inventoryRef}
                 data={titleShow.filter(item => item.DispatchBagNumber !== null)}
                 keyExtractor={(item, index) =>
                   item.DispatchBagNumber + index.toString()
@@ -697,7 +716,6 @@ export const InventoryScreen: FunctionComponent = () => {
                 ListHeaderComponent={RenderHeaderListBag}
                 // ListFooterComponent={RenderFooterListBag}
                 keyboardDismissMode="on-drag"
-                keyboardShouldPersistTaps="handled"
               />
               {/* {codes && codes.length > 0 && ( */}
               <View style={styles.footer}>
