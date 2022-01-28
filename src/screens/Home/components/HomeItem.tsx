@@ -37,7 +37,9 @@ const HomeItem: FunctionComponent<Props> = props => {
           resizeMode={FastImage.resizeMode.cover}
         />
         <View style={styles.contentHomeItem}>
-          <Text style={styles.titleHomeItem}>{title}</Text>
+          <Text style={styles.titleHomeItem} numberOfLines={2}>
+            {title}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>

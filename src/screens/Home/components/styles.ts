@@ -23,14 +23,17 @@ export default StyleSheet.create({
     // marginRight: ScreenUtils.scale(16),
   },
   contentHomeItem: {
-    flex: 1,
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "space-around",
     alignItems: "center",
+    textAlign: "center",
+    marginHorizontal: ScreenUtils.scale(5),
     marginBottom: ScreenUtils.scale(5),
   },
   titleHomeItem: {
     color: Themes.colors.coolGray100,
+    textAlign: "center",
+    alignItems: "center",
     fontWeight: "600",
   },
   subtitleHomeItem: {

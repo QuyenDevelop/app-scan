@@ -59,7 +59,7 @@ export default {
     },
     homeItems: {
       checkAndScan: {
-        title: "Quét",
+        title: "Kiểm tra và quét",
         content: "Kiểm tra bưu kiện và xử lý dịch vụ cộng thêm",
       },
       cod: {
@@ -67,11 +67,11 @@ export default {
         content: "Kiểm tra và xác nhận phí vận chuyển",
       },
       shipmentManagement: {
-        title: "Shipment",
+        title: "Quản lý lô hàng",
         content: "Kiểm tra trạng thái lô hàng",
       },
       claimAndInquiries: {
-        title: "Yêu cầu",
+        title: "Yêu cầu và khiếu nại",
         content: "Xem yêu cầu và khiếu nại của khách hàng",
       },
       receive: {
@@ -79,15 +79,15 @@ export default {
         content: "Tiếp nhận đơn",
       },
       inventoryManagement: {
-        title: "Kho",
+        title: "Quản lý Kho",
         content: "Kiểm soát và xác nhận số lượng hàng hóa",
       },
       exploitShipment: {
-        title: "Khiếu nại",
+        title: "Yêu cầu và khiếu nại",
         content: "Gửi khiếu nại lô hàng",
       },
       changeLocation: {
-        title: "Vị trí",
+        title: "Đổi Vị trí",
         content: "Thay đổi vị trí Shipments",
       },
     },
