@@ -31,6 +31,7 @@ import {
 } from "react-native";
 import BigList from "react-native-big-list";
 import ImageResizer from "react-native-image-resizer";
+import { UploadWaitingModal } from "./components/UploadWaitingModal";
 import { ImageItem } from "./ImageItem";
 import styles from "./styles";
 
@@ -62,6 +63,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [isSelectMode, toggleMode] = useToggle();
   const [isShowImage, showImage, hideImage] = useShow();
+  const [isWaiting, setWaiting] = useState<boolean>(false);
   const [indexShowImage, setIndexShowImage] = useState<number>(0);
 
   const getAllPhotos = useCallback(async () => {
@@ -137,7 +139,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
           photo.node.image.width || ScreenUtils.WIDTH,
           photo.node.image.height || ScreenUtils.HEIGHT,
           "JPEG",
-          80,
+          50,
         ).then(response => {
           imageUri = response.uri;
         });
@@ -166,6 +168,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
 
   const uploadPhotoShipment = async () => {
     // ----------- update lại state ListImages của component cha nếu reUdate() đc truyền
+    setWaiting(true);
     console.log(
       "🚀🚀🚀 => update lại state ListImages của component cha nếu reUdate() đc truyền",
     );
@@ -187,7 +190,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
           photo.node.image.width || ScreenUtils.WIDTH,
           photo.node.image.height || ScreenUtils.HEIGHT,
           "JPEG",
-          80,
+          50,
         ).then(response => {
           imageUri = response.uri;
         });
@@ -197,15 +200,21 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
         uri: imageUri,
       });
     }
-    uploadImageShipment(updatePhotos).then(image => {
-      console.log(image);
-      reUpdateImagesList ? reUpdateImagesList(image, images) : undefined;
-      Alert.success(
-        translate("success.autoUploadImage", { number: photosSelected.length }),
-        true,
-      );
-    });
-
+    uploadImageShipment(updatePhotos)
+      .then(image => {
+        console.log(image);
+        reUpdateImagesList ? reUpdateImagesList(image, images) : undefined;
+        Alert.success(
+          translate("success.autoUploadImage", {
+            number: photosSelected.length,
+          }),
+          true,
+        );
+        navigation.goBack();
+      })
+      .finally(() => {
+        setWaiting(false);
+      });
     toggleMode();
     setPhotosSelected([]);
   };
@@ -318,6 +327,7 @@ export const PhotoLibraryScreen: FunctionComponent = () => {
         index={indexShowImage}
         isLocalImage={true}
       />
+      <UploadWaitingModal isVisible={isWaiting} />
     </View>
   );
 };
