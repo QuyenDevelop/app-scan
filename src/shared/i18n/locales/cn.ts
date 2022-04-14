@@ -610,7 +610,7 @@ export default {
   button: {
     back: "回来",
     confirm: "确认",
-    addShipment: "Enter shipment/tracking code",
+    addShipment: "Enter shipment code",
     addCode: "Enter shipment code",
     createAccount: "立即创建帐户",
     remember: "记住帐号",

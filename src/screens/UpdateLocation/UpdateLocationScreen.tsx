@@ -73,6 +73,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
           Vibration.vibrate();
           getLocation(barcodes[0].data.trim());
           return;
+        } else {
         }
         // get shipment
         if (
@@ -83,6 +84,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
           Vibration.vibrate();
           await getShipment(barcodes[0]?.data.trim());
           return;
+        } else {
         }
       }
     }
@@ -115,7 +117,9 @@ export const UpdateLocationScreen: FunctionComponent = () => {
           setShowHeader(false);
         }
       })
-      .catch(() => {})
+      .catch(err => {
+        Alert.error(err, true);
+      })
       .finally(() => {
         Keyboard.dismiss();
         setShowHeader(false);
@@ -134,6 +138,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
       return itemData.indexOf(textSearch) > -1;
     });
     if (checkShipment.length > 0) {
+      Alert.error("Shipment đã được scan");
       return;
     }
     if (!value || value === "" || value === null) {
@@ -155,8 +160,8 @@ export const UpdateLocationScreen: FunctionComponent = () => {
           Alert.error("error.errorServer");
         }
       })
-      .catch(() => {
-        Alert.error("error.errorServer");
+      .catch(err => {
+        Alert.error(err, true);
       })
       .finally(() => {
         Keyboard.dismiss();
@@ -172,10 +177,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
       Alert.error("error.noShipment");
       return;
     }
-    console.log(
-      "data :",
-      shipmentCode.map(shipment => shipment.ShipmentNumber),
-    );
+
     setIsLoading(true);
     const data: UpdateLocationRequest = {
       postOfficeId: postOfficesId || "",
@@ -188,6 +190,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
         if (response.Status) {
           Alert.success("success.success");
           setShipmentCode([]);
+          setLocation("");
         } else {
           Alert.error(response.errorCode);
         }

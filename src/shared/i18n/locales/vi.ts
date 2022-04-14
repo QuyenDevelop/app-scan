@@ -730,7 +730,7 @@ export default {
   },
   button: {
     scanLocation: "Quét vị trí",
-    addShipment: "Nhập mã shipment/tracking",
+    addShipment: "Nhập mã shipment",
     addCode: "Nhập mã bằng tay",
     inventory: "Kiểm kê",
     loginWithBiometric: "Đăng nhập sinh trắc",
