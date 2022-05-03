@@ -17,6 +17,7 @@ export default {
     complaint: "苦情について",
   },
   label: {
+    haveShipment: "Shipment đã tốn tại",
     bag: "バッグ",
     changeLocation: "地域を変更",
     sufficientQuantity: "十分な量",

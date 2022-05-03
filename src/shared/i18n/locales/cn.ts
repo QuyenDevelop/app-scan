@@ -10,6 +10,7 @@ export default {
     complaint: "Complaint information",
   },
   label: {
+    haveShipment: "Shipment has scanned",
     scanOrTypeShipment: "Scan or enter shipment / reference code",
     changeLocation: "Change location",
     cm: "cm",

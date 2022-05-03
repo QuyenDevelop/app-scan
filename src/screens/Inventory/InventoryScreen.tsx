@@ -125,14 +125,9 @@ export const InventoryScreen: FunctionComponent = () => {
       }
     });
 
-    console.log("Zô!!");
-    console.log(
-      "🚀🚀🚀 => convertToArrInventory: ",
-      JSON.stringify(convertToArrInventory),
-    );
     setCodes([...ShipmentNotBag, ...convertToArrInventory]);
     console.log("🚀🚀🚀 => codes: ", JSON.stringify(codes));
-  }, [titleShow, ShipmentNotBag]);
+  }, [titleShow, ShipmentNotBag, setCodes, codes]);
 
   const isValidBarcode = (code: string): boolean => {
     const refactoredCode = code.trim();
@@ -230,7 +225,17 @@ export const InventoryScreen: FunctionComponent = () => {
         Vibration.vibrate();
       }
     },
-    [codes, locationScanned],
+    [
+      ShipmentNotBag,
+      locationScanned,
+      requestInventory.Id,
+      setShipmentNotBag,
+      setTitleShow,
+      titleShow,
+      userInfo?.postOfficeId,
+      userInfo?.preferred_username,
+      userInfo?.sub,
+    ],
   );
 
   const convertToBags = (data: Array<InventoryDetailTemp>) => {
@@ -259,7 +264,6 @@ export const InventoryScreen: FunctionComponent = () => {
       PostOfficeId: postOfficesId || "",
       WarehouseInventoryId: requestInventory.Id,
     };
-    console.log("🚀🚀🚀 => location data: ", JSON.stringify(dataRequest));
     inventoryApi
       .scanLocation(dataRequest)
       ?.then(response => {

@@ -17,6 +17,7 @@ export default {
     complaint: "Thông tin khiếu nại",
   },
   label: {
+    haveShipment: "Shipment đã tốn tại",
     bag: "Túi",
     changeLocation: "Đổi vị trí",
     sufficientQuantity: "Số lượng đủ",

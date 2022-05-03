@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { shipmentApi } from "@api";
 import { Header } from "@components";
 import { Alert, ScreenUtils } from "@helpers";
@@ -130,6 +131,10 @@ export const UpdateLocationScreen: FunctionComponent = () => {
   };
 
   const getShipment = (value: string) => {
+    if (!value || value === "" || value === null) {
+      Alert.error("error.errBarCode");
+      return;
+    }
     const checkShipment = shipmentCode.filter(shipment => {
       const itemData = shipment
         ? shipment.ShipmentNumber.toUpperCase()
@@ -138,11 +143,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
       return itemData.indexOf(textSearch) > -1;
     });
     if (checkShipment.length > 0) {
-      Alert.error("Shipment đã được scan");
-      return;
-    }
-    if (!value || value === "" || value === null) {
-      Alert.error("error.errBarCode");
+      Alert.error("label.haveShipment");
       return;
     }
 
@@ -157,7 +158,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
           }
           setShipmentCode(s => [...s, shipment?.data[0]]);
         } else {
-          Alert.error("error.errorServer");
+          Alert.error("error.noShipment");
         }
       })
       .catch(err => {
@@ -210,7 +211,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
             : translate("label.scanOrTypeShipment")
         }
         iconLeftName={["ic_arrow_left"]}
-        iconLeftOnPress={[() => navigation.goBack()]}
+        iconLeftOnPress={[navigation.goBack]}
         isCenterTitle
         titleColor={Themes.colors.white}
       />
@@ -263,8 +264,11 @@ export const UpdateLocationScreen: FunctionComponent = () => {
             <View style={styles.receiveItemContainer}>
               <FlatList
                 data={shipmentCode}
-                keyExtractor={(item, index) => index.toString()}
+                keyExtractor={(item, index) =>
+                  `${item.ShipmentNumber}_${index.toString()}`
+                }
                 renderItem={({ item }) => {
+                  // console.log("🚀🚀🚀 => item", item);
                   return (
                     <View style={styles.receiveItem}>
                       <Text style={styles.code}>{item.ShipmentNumber}</Text>
@@ -322,12 +326,12 @@ export const UpdateLocationScreen: FunctionComponent = () => {
             </TouchableOpacity>
           </View>
         )}
-        {showHeader ? null : (
+        {!showHeader && (
           <View style={styles.buttonBox}>
             <View style={styles.halfButtonBox}>
               <Button
                 isLoading={isLoading}
-                onPress={() => toggleChangeLocationShipment()}
+                onPress={toggleChangeLocationShipment}
                 title={translate("button.submit")}
                 buttonChildStyle={{ width: "80%" }}
               />
