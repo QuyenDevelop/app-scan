@@ -17,6 +17,7 @@ export default {
     complaint: "Thông tin khiếu nại",
   },
   label: {
+    haveShipment: "Shipment đã tốn tại",
     bag: "Túi",
     changeLocation: "Đổi vị trí",
     sufficientQuantity: "Số lượng đủ",
@@ -730,7 +731,7 @@ export default {
   },
   button: {
     scanLocation: "Quét vị trí",
-    addShipment: "Nhập mã shipment/tracking",
+    addShipment: "Nhập mã shipment",
     addCode: "Nhập mã bằng tay",
     inventory: "Kiểm kê",
     loginWithBiometric: "Đăng nhập sinh trắc",

@@ -17,6 +17,7 @@ export default {
     complaint: "苦情について",
   },
   label: {
+    haveShipment: "Shipment đã tốn tại",
     bag: "バッグ",
     changeLocation: "地域を変更",
     sufficientQuantity: "十分な量",
@@ -715,7 +716,7 @@ export default {
   },
   button: {
     scanLocation: "スキャン場所をスキャンします",
-    addShipment: "Enter shipment/tracking code",
+    addShipment: "Enter shipment code",
     addCode: "出荷コードを入力します",
     inventory: "在庫",
     loginWithBiometric: "バイオメトリックログイン",

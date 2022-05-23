@@ -5,11 +5,10 @@ import { Icon, translate } from "@shared";
 import { Images, Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
 import {
+  FlatList,
   ImageBackground,
-  ScrollView,
   TouchableOpacity,
   View,
-  FlatList,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import HomeItem from "./components/HomeItem";
@@ -54,14 +53,12 @@ export const HomeScreen: FunctionComponent = () => {
           />
         </View>
       </ImageBackground>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <FlatList
-          data={DATA_CONSTANT.HOME_ITEMS}
-          keyExtractor={(item: any) => item.id}
-          renderItem={renderHomeItem}
-          numColumns={3}
-        />
-      </ScrollView>
+      <FlatList
+        data={DATA_CONSTANT.HOME_ITEMS}
+        keyExtractor={(item: any) => item.id}
+        renderItem={renderHomeItem}
+        numColumns={3}
+      />
     </View>
   );
 };

@@ -732,7 +732,7 @@ export default {
   },
   button: {
     scanLocation: "Scan location",
-    addShipment: "Enter shipment/tracking code",
+    addShipment: "Enter shipment code",
     addCode: "Enter shipment code",
     inventory: "Inventory",
     loginWithBiometric: "Biometric login",
