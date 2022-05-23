@@ -54,7 +54,7 @@ const ITEM_HEIGHT = (ScreenUtils.WIDTH - ScreenUtils.scale(32)) / 3;
 export const PhotoLibraryScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const route = useRoute<NavigationRoute>();
-  const { prefix, suffix, images, reUpdateImagesList } = route?.params;
+  const { prefix, suffix, images, reUpdateImagesList } = route?.params || {};
   // const [isShowDelete, showDelete, hideDelete] = useShow();
   const [photos, setPhotos] = useState<Array<PhotoIdentifier>>([]);
   const [photosShow, setPhotosShow] = useState<Array<string>>([]);
