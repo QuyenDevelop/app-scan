@@ -68,16 +68,15 @@ export default StyleSheet.create({
     marginLeft: ScreenUtils.scale(8),
   },
   enterKeyboardButton: {
-    width: "80%",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
     borderColor: Themes.colors.blue008,
-    borderRadius: ScreenUtils.scale(23),
+    borderRadius: ScreenUtils.scale(8),
     paddingVertical: ScreenUtils.scale(12),
-    marginHorizontal: "10%",
-    // paddingHorizontal: ScreenUtils.scale(60),
+    marginHorizontal: ScreenUtils.scale(16),
+    marginTop: ScreenUtils.scale(10),
   },
   receiveItemContainer: {
     flexDirection: "column",
@@ -109,5 +108,24 @@ export default StyleSheet.create({
   },
   deleteBtn: {
     marginLeft: ScreenUtils.scale(16),
+  },
+  inputView: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: ScreenUtils.scale(10),
+    paddingHorizontal: ScreenUtils.scale(16),
+  },
+  input: {
+    borderWidth: 1,
+    flex: 1,
+    paddingHorizontal: ScreenUtils.scale(12),
+    height: ScreenUtils.scale(48),
+    paddingVertical: 0,
+    borderColor: Themes.colors.colGray20,
+  },
+  addCode: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingLeft: ScreenUtils.scale(16),
   },
 });

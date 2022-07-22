@@ -1,11 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 import { shipmentApi } from "@api";
-import { Alert, Utils } from "@helpers";
+import { Alert, ScreenUtils, Utils } from "@helpers";
 import { useShipmentInfo, useShow } from "@hooks";
 import { GetDashboardsRequest, ShipmentItemDashboardResponse } from "@models";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { IRootState } from "@redux";
-import { Checkbox, Icon, NoData, SearchHeader, Text, translate } from "@shared";
+import { Checkbox, Icon, NoData, Text, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
 import debounce from "lodash/debounce";
 import React, {
@@ -18,6 +18,7 @@ import {
   ActivityIndicator,
   FlatList,
   RefreshControl,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -39,6 +40,7 @@ export const ShipmentManagementScreen: FunctionComponent = () => {
   const postOfficeToSendId = useSelector(
     (state: IRootState) => state.account.profile?.postOfficeId,
   );
+  const navigation = useNavigation();
   const [isLoading, showLoading, hideLoading] = useShow();
   const [isReLoading] = useShow();
   const [isShowLoadMore, showLoadMore, hideLoadMore] = useShow();
@@ -158,6 +160,10 @@ export const ShipmentManagementScreen: FunctionComponent = () => {
     applyFilter(filter);
   }, 1000);
 
+  const onClearText = () => {
+    setFilterValue({ ...filterValue, keywords: "" });
+  };
+
   const itemsKey = useCallback(
     (item: ShipmentItemDashboardResponse, index: number) =>
       `${item.Id}_${index}`,
@@ -184,10 +190,53 @@ export const ShipmentManagementScreen: FunctionComponent = () => {
 
   return (
     <View style={styles.container}>
-      <SearchHeader
-        searchValue={filterValue.keywords}
-        onChange={searchShipment}
-      />
+      <View
+        style={[
+          {
+            flexDirection: "row",
+            paddingHorizontal: ScreenUtils.scale(20),
+            paddingVertical: ScreenUtils.scale(10),
+            backgroundColor: Themes.colors.bg,
+            alignItems: "center",
+            paddingTop: insets.top,
+          },
+        ]}
+      >
+        <TouchableOpacity
+          hitSlop={{ top: 20, bottom: 20, right: 20, left: 20 }}
+          onPress={() => navigation.goBack()}
+        >
+          <Icon
+            color={Themes.colors.white}
+            name="ic_arrow_left"
+            size={Metrics.icons.small}
+          />
+        </TouchableOpacity>
+        <View style={styles.searchView}>
+          <Icon
+            color={Themes.colors.coolGray60}
+            name="ic_search"
+            size={Metrics.icons.small}
+          />
+          <TextInput
+            placeholder={translate("placeholder.scanOrType")}
+            placeholderTextColor={Themes.colors.collGray40}
+            style={styles.searchInput}
+            defaultValue={filterValue.keywords}
+            onChangeText={searchShipment}
+            autoFocus={true}
+          />
+          {filterValue.keywords !== "" && (
+            <TouchableOpacity onPress={onClearText} style={styles.clearText}>
+              <Icon
+                color={Themes.colors.coolGray80}
+                name="ic_close"
+                size={Metrics.icons.smallSmall}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
       <View style={styles.content}>
         <View style={styles.checkView}>
           <Checkbox

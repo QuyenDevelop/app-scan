@@ -59,6 +59,7 @@ export default {
     HandedOverTheExportPartner: "Handed Over The Export Partner",
   },
   label: {
+    haveShipment: "Shipment have scanned",
     bag: "Bag",
     sufficientQuantity: "Sufficient quantity",
     changeLocation: "Change location",

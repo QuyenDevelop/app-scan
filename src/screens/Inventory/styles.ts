@@ -124,15 +124,14 @@ export default StyleSheet.create({
     marginLeft: ScreenUtils.scale(8),
   },
   enterKeyboardButton: {
-    width: "80%",
+    marginHorizontal: ScreenUtils.scale(16),
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
     borderColor: Themes.colors.blue008,
-    borderRadius: ScreenUtils.scale(23),
+    borderRadius: ScreenUtils.scale(8),
     paddingVertical: ScreenUtils.scale(12),
-    marginHorizontal: "10%",
     // paddingHorizontal: ScreenUtils.scale(60),
   },
   // receiveItemContainer: {

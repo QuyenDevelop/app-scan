@@ -51,7 +51,7 @@ export default StyleSheet.create({
     borderWidth: 1,
     flex: 1,
     paddingHorizontal: ScreenUtils.scale(12),
-    height: ScreenUtils.scale(40),
+    height: ScreenUtils.scale(48),
     paddingVertical: 0,
     borderColor: Themes.colors.colGray20,
   },

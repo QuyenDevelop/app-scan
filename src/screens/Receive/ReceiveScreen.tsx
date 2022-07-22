@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import { shipmentApi } from "@api";
 import { Header } from "@components";
 import { CONSTANT } from "@configs";
 import { Alert, getAsyncItem, setAsyncItem } from "@helpers";
 import { useShow } from "@hooks";
+import { PlatformAndroidStatic } from "@models";
 import { BarcodeMask, useBarcodeRead } from "@nartc/react-native-barcode-mask";
 import { useNavigation } from "@react-navigation/core";
 import { useIsFocused } from "@react-navigation/native";
@@ -19,6 +21,7 @@ import React, {
 } from "react";
 import {
   FlatList,
+  Platform,
   TextInput,
   TouchableOpacity,
   Vibration,
@@ -62,6 +65,8 @@ export const ReceiveScreen: FunctionComponent = () => {
     height: 0,
   });
 
+  const PlatformBrandConstraint = Platform.constants as PlatformAndroidStatic;
+
   const { barcodeRead, onBarcodeRead, onBarcodeFinderLayoutChange } =
     useBarcodeRead(
       isFocused,
@@ -73,6 +78,12 @@ export const ReceiveScreen: FunctionComponent = () => {
       },
       2000,
     );
+
+  useEffect(() => {
+    PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
+      inputRef.current &&
+      inputRef.current.focus();
+  }, []);
 
   useEffect(() => {
     getStoreBarcode().then((barcodes: Array<ReceiveBarcode>) => {
@@ -183,7 +194,6 @@ export const ReceiveScreen: FunctionComponent = () => {
 
   const updatePieces = useCallback(
     async (index: number, value: number) => {
-      console.log("🚀🚀🚀 => value", value);
       const newCodes = [...codes];
       newCodes[index] = {
         ...newCodes[index],
@@ -223,42 +233,45 @@ export const ReceiveScreen: FunctionComponent = () => {
         titleColor={Themes.colors.white}
       />
       <View style={styles.content}>
-        <View style={styles.cameraView}>
-          {isFocused && (
-            <RNCamera
-              style={styles.camera}
-              type={RNCamera.Constants.Type.back}
-              flashMode={RNCamera.Constants.FlashMode.on}
-              captureAudio={false}
-              onGoogleVisionBarcodesDetected={onRead}
-            >
-              <BarcodeMask
-                width={280}
-                height={100}
-                edgeWidth={20}
-                edgeHeight={20}
-                edgeRadius={20}
-                showAnimatedLine={false}
-                maskOpacity={0.7}
-                backgroundColor={Themes.colors.black}
-                onLayoutChange={onBarcodeFinderLayoutChange}
-              />
-            </RNCamera>
-          )}
+        {PlatformBrandConstraint.Brand !==
+          CONSTANT.PLATFORM_BRAND.HONEYWELL && (
+          <View style={styles.cameraView}>
+            {isFocused && (
+              <RNCamera
+                style={styles.camera}
+                type={RNCamera.Constants.Type.back}
+                flashMode={RNCamera.Constants.FlashMode.on}
+                captureAudio={false}
+                onGoogleVisionBarcodesDetected={onRead}
+              >
+                <BarcodeMask
+                  width={280}
+                  height={100}
+                  edgeWidth={20}
+                  edgeHeight={20}
+                  edgeRadius={20}
+                  showAnimatedLine={false}
+                  maskOpacity={0.7}
+                  backgroundColor={Themes.colors.black}
+                  onLayoutChange={onBarcodeFinderLayoutChange}
+                />
+              </RNCamera>
+            )}
 
-          {isShowDetectCode && (
-            <View
-              style={{
-                position: "absolute",
-                top: positionCode.top,
-                left: positionCode.left,
-                height: 2,
-                width: positionCode.width,
-                backgroundColor: Themes.colors.success60,
-              }}
-            />
-          )}
-        </View>
+            {isShowDetectCode && (
+              <View
+                style={{
+                  position: "absolute",
+                  top: positionCode.top,
+                  left: positionCode.left,
+                  height: 2,
+                  width: positionCode.width,
+                  backgroundColor: Themes.colors.success60,
+                }}
+              />
+            )}
+          </View>
+        )}
         <View style={styles.inputView}>
           <TextInput
             ref={inputRef}

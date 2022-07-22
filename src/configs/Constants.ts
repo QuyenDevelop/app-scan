@@ -32,4 +32,10 @@ export const CONSTANT = {
     ADD_SERVICE_PHOTO: "AddServicePhotos",
   },
   ALBUMS: "EfexWarehouse",
+  PLATFORM_BRAND: {
+    HONEYWELL: "Honeywell",
+  },
+  PLATFORM_MODAL: {
+    EDA: "EDA",
+  },
 };

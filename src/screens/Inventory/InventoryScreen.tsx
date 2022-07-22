@@ -4,7 +4,11 @@ import { Header } from "@components";
 import { CONSTANT, SCREENS } from "@configs";
 import { Alert, getAsyncItem, ScreenUtils, Utils } from "@helpers";
 import { useShow } from "@hooks";
-import { InventoryDetailTemp, RequestInventoryResponse } from "@models";
+import {
+  InventoryDetailTemp,
+  PlatformAndroidStatic,
+  RequestInventoryResponse,
+} from "@models";
 import { BarcodeMask, useBarcodeRead } from "@nartc/react-native-barcode-mask";
 import { InventoryParamsList } from "@navigation";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/core";
@@ -32,6 +36,7 @@ import {
   FlatList,
   Keyboard,
   LayoutAnimation,
+  Platform,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -87,6 +92,7 @@ export const InventoryScreen: FunctionComponent = () => {
   const inventoryRef = useRef<FlatList>(null);
   const userInfo = useSelector((state: IRootState) => state.account.profile);
   const isFocused = useIsFocused();
+  const [addressText, setAddressText] = useState<string>("");
   const [isShowDetectCode, showDetectCode, hideDetectCode] = useShow();
   const [locationScanned, setLocationScanned] = useState<string>("");
   const [positionCode, setPositionCode] = useState({
@@ -97,6 +103,7 @@ export const InventoryScreen: FunctionComponent = () => {
   });
   const [listSearchText, setListSearchText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const PlatformBrandConstraint = Platform.constants as PlatformAndroidStatic;
 
   const { barcodeRead, onBarcodeRead, onBarcodeFinderLayoutChange } =
     useBarcodeRead(
@@ -114,7 +121,7 @@ export const InventoryScreen: FunctionComponent = () => {
     getStoreBarcode().then((barcodes: Array<InventoryDetailTemp>) => {
       setCodes(barcodes);
     });
-  }, []);
+  }, [setCodes]);
 
   // ------------ merge two list: ShipmentNoBag List and Bag list
   useEffect(() => {
@@ -126,8 +133,7 @@ export const InventoryScreen: FunctionComponent = () => {
     });
 
     setCodes([...ShipmentNotBag, ...convertToArrInventory]);
-    console.log("🚀🚀🚀 => codes: ", JSON.stringify(codes));
-  }, [titleShow, ShipmentNotBag, setCodes, codes]);
+  }, [titleShow, ShipmentNotBag, setCodes]);
 
   const isValidBarcode = (code: string): boolean => {
     const refactoredCode = code.trim();
@@ -162,7 +168,6 @@ export const InventoryScreen: FunctionComponent = () => {
         postOfficeId: userInfo?.postOfficeId || "",
         locationName: locationScanned,
       };
-      // console.log("🚀🚀🚀 => dataRequest: ", dataRequest);
       if (findShipmentIndex < 0) {
         await inventoryApi
           .scanInventory(dataRequest)
@@ -267,15 +272,8 @@ export const InventoryScreen: FunctionComponent = () => {
     inventoryApi
       .scanLocation(dataRequest)
       ?.then(response => {
-        // console.log("🚀🚀🚀 => location data: ", response);
         if (response.Status) {
           setLocationScanned(location);
-          // setCodes(
-          //   response.Data.map((code: InventoryDetailTemp) => ({
-          //     ...code,
-          //     PositionTrue: true,
-          //   })),
-          // );
           // ----------
           const dataTerm: Array<InventoryDetailTemp> = [];
           response.Data.forEach((data: InventoryDetailTemp) => {
@@ -292,7 +290,6 @@ export const InventoryScreen: FunctionComponent = () => {
           setTitleShow(draft => {
             response.Data;
             draft.push(...convertToBags(dataTerm));
-            // console.log("🚀🚀🚀 => draft", draft);
           });
         } else {
           setLocationScanned("");
@@ -397,19 +394,6 @@ export const InventoryScreen: FunctionComponent = () => {
     },
     [setShipmentNotBag],
   );
-  // const setShowDataItem = useCallback(
-  //   (value: string | "") => {
-  //     setListSearchText(value);
-  //     if (value === "XXX") {
-  //       setListSearchText("XXX");
-  //     }
-  //     if (value === listSearchText) {
-  //       setListSearchText("");
-  //       return;
-  //     }
-  //   },
-  //   [listSearchText, codes],
-  // );
 
   const updateBagPieces = useCallback(async (index: number, value: number) => {
     setTitleShow(draft => {
@@ -431,7 +415,6 @@ export const InventoryScreen: FunctionComponent = () => {
     [],
   );
   const plusBagPieces = (index: number, value: number) => {
-    // console.log("index: " + index + " code: " + code + " value: " + value);
     updateBagPieces(index, value);
   };
   const minusBagPieces = (index: number, value: number) => {
@@ -445,16 +428,15 @@ export const InventoryScreen: FunctionComponent = () => {
     if (value === 1) {
       return Themes.colors.white;
     }
-
     if (value > 1) {
       return Themes.colors.warningMain;
     }
-
     if (value < 1) {
       return Themes.colors.danger60;
     }
     return Themes.colors.white;
   };
+
   // ---------- render List Bag
   const RenderBagItem = ({ item, index }: { item: any; index: number }) => {
     // const ind = index + 1;
@@ -476,14 +458,6 @@ export const InventoryScreen: FunctionComponent = () => {
             <Text style={styles.code}>{item.DispatchBagNumber}</Text>
             <Text>Túi : {item.Data[0].DispatchBagName}</Text>
           </View>
-          {/* <TouchableOpacity
-            onPress={() => setShowDataItem(item.DispatchBagNumber)}
-          >
-            <Text style={styles.code}>
-              {item.DispatchBagNumber ? item.DispatchBagNumber : "Khác"}
-            </Text>
-            <Text>Túi : {item.Data[0].DispatchBagName}</Text>
-          </TouchableOpacity> */}
           <View style={styles.deleteItem}>
             <TouchableOpacity
               hitSlop={styles.hitSlop}
@@ -521,16 +495,6 @@ export const InventoryScreen: FunctionComponent = () => {
             </TouchableOpacity>
           </View>
         </View>
-        {/* {listSearchText === item.DispatchBagNumber &&
-          item.Data.map((i: InventoryDetailTemp, index: number) => {
-            return (
-              <InventoryItem
-                item={i}
-                index={index}
-                pieces={item.ExpectedPieces}
-              />
-            );
-          })} */}
       </View>
     );
   };
@@ -564,7 +528,6 @@ export const InventoryScreen: FunctionComponent = () => {
       <View />
     );
   };
-
   const onPressAddCode = async () => {
     await Keyboard.dismiss();
     await addNewCode(inputValue.current.trim(), true);
@@ -618,42 +581,45 @@ export const InventoryScreen: FunctionComponent = () => {
           titleColor={Themes.colors.white}
         />
         <View style={styles.content}>
-          <View style={styles.cameraView}>
-            {isFocused && (
-              <RNCamera
-                style={styles.camera}
-                type={RNCamera.Constants.Type.back}
-                flashMode={RNCamera.Constants.FlashMode.on}
-                captureAudio={false}
-                onGoogleVisionBarcodesDetected={onRead}
-              >
-                <BarcodeMask
-                  width={280}
-                  height={100}
-                  edgeWidth={20}
-                  edgeHeight={20}
-                  edgeRadius={20}
-                  showAnimatedLine={false}
-                  maskOpacity={0.7}
-                  backgroundColor={Themes.colors.black}
-                  onLayoutChange={onBarcodeFinderLayoutChange}
-                />
-              </RNCamera>
-            )}
+          {PlatformBrandConstraint.Brand !==
+            CONSTANT.PLATFORM_BRAND.HONEYWELL && (
+            <View style={styles.cameraView}>
+              {isFocused && (
+                <RNCamera
+                  style={styles.camera}
+                  type={RNCamera.Constants.Type.back}
+                  flashMode={RNCamera.Constants.FlashMode.on}
+                  captureAudio={false}
+                  onGoogleVisionBarcodesDetected={onRead}
+                >
+                  <BarcodeMask
+                    width={280}
+                    height={100}
+                    edgeWidth={20}
+                    edgeHeight={20}
+                    edgeRadius={20}
+                    showAnimatedLine={false}
+                    maskOpacity={0.7}
+                    backgroundColor={Themes.colors.black}
+                    onLayoutChange={onBarcodeFinderLayoutChange}
+                  />
+                </RNCamera>
+              )}
 
-            {isShowDetectCode && (
-              <View
-                style={{
-                  position: "absolute",
-                  top: positionCode.top,
-                  left: positionCode.left,
-                  height: 2,
-                  width: positionCode.width,
-                  backgroundColor: Themes.colors.success60,
-                }}
-              />
-            )}
-          </View>
+              {isShowDetectCode && (
+                <View
+                  style={{
+                    position: "absolute",
+                    top: positionCode.top,
+                    left: positionCode.left,
+                    height: 2,
+                    width: positionCode.width,
+                    backgroundColor: Themes.colors.success60,
+                  }}
+                />
+              )}
+            </View>
+          )}
           {isLoading ? (
             <ActivityIndicator
               style={styles.loading}
@@ -718,10 +684,8 @@ export const InventoryScreen: FunctionComponent = () => {
                 }
                 renderItem={RenderBagItem}
                 ListHeaderComponent={RenderHeaderListBag}
-                // ListFooterComponent={RenderFooterListBag}
                 keyboardDismissMode="on-drag"
               />
-              {/* {codes && codes.length > 0 && ( */}
               <View style={styles.footer}>
                 <Checkbox
                   style={styles.checkbox}
@@ -738,17 +702,44 @@ export const InventoryScreen: FunctionComponent = () => {
                   isLoading={isLoadingFetchData}
                 />
               </View>
-              {/* )} */}
             </>
           ) : (
             <View style={{ marginVertical: ScreenUtils.scale(8) }}>
+              {PlatformBrandConstraint.Brand ===
+                CONSTANT.PLATFORM_BRAND.HONEYWELL && (
+                <View style={styles.inputView}>
+                  <TextInput
+                    placeholder={translate("placeholder.scanOrType")}
+                    style={styles.input}
+                    contextMenuHidden={true}
+                    onChangeText={text => setAddressText(text)}
+                    onSubmitEditing={_e => {
+                      getDataLocation(addressText);
+                    }}
+                    autoFocus={true}
+                    returnKeyType="done"
+                    returnKeyLabel="Add"
+                    blurOnSubmit={false}
+                  />
+                  <TouchableOpacity
+                    style={styles.addCode}
+                    onPress={() => getDataLocation(addressText)}
+                  >
+                    <Icon
+                      name="ic_plus"
+                      color={Themes.colors.bg}
+                      size={Metrics.icons.small}
+                    />
+                  </TouchableOpacity>
+                </View>
+              )}
               <TouchableOpacity
                 style={styles.enterKeyboardButton}
                 onPress={showLocationModal}
               >
                 <Icon
                   name="ic_search"
-                  size={Metrics.icons.large}
+                  size={Metrics.icons.small}
                   color={Themes.colors.info60}
                 />
                 <Text style={styles.qrUserManual}>

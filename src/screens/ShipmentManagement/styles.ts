@@ -1,6 +1,6 @@
 import { ScreenUtils } from "@helpers";
 import { Themes } from "@themes";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
@@ -45,5 +45,35 @@ export default StyleSheet.create({
     fontWeight: "500",
     color: Themes.colors.brand60,
     marginLeft: ScreenUtils.scale(4),
+  },
+  searchView: {
+    flex: 1,
+    backgroundColor: Themes.colors.white,
+    marginLeft: ScreenUtils.scale(20),
+    height: ScreenUtils.scale(40),
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: ScreenUtils.scale(20),
+    paddingHorizontal: ScreenUtils.scale(8),
+    marginVertical: ScreenUtils.scale(10),
+  },
+  searchInput: {
+    ...Themes.font.medium,
+    flex: 1,
+    paddingHorizontal: ScreenUtils.scale(8),
+    alignItems: "center",
+    ...Platform.select({
+      android: {
+        paddingVertical: 0,
+      },
+    }),
+  },
+  clearText: {
+    height: ScreenUtils.scale(24),
+    width: ScreenUtils.scale(24),
+    borderRadius: ScreenUtils.scale(12),
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: Themes.colors.colGray20,
   },
 });

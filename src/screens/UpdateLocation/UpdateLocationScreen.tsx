@@ -1,21 +1,27 @@
 /* eslint-disable react-native/no-inline-styles */
 import { shipmentApi } from "@api";
 import { Header } from "@components";
+import { CONSTANT } from "@configs";
 import { Alert, ScreenUtils } from "@helpers";
 import { useShow } from "@hooks";
-import { ShipmentResponse, UpdateLocationRequest } from "@models";
+import {
+  PlatformAndroidStatic,
+  ShipmentResponse,
+  UpdateLocationRequest,
+} from "@models";
 import { BarcodeMask } from "@nartc/react-native-barcode-mask";
 import { useNavigation } from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { Button, Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
   Keyboard,
   Platform,
   Text,
+  TextInput,
   TouchableOpacity,
   Vibration,
   View,
@@ -40,16 +46,31 @@ export const UpdateLocationScreen: FunctionComponent = () => {
   const [shipmentValue, setShipmentValue] = useState<string>("");
   const [showHeader, setShowHeader] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [addressText, setAddressText] = useState<string>("");
+  const [shipmentText, setShipmentText] = useState<string>("");
+  const PlatformBrandConstraint = Platform.constants as PlatformAndroidStatic;
+  const inputRef = useRef<TextInput>(null);
+
+  useEffect(() => {
+    PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
+      inputRef.current &&
+      inputRef.current.focus();
+  }, [PlatformBrandConstraint]);
 
   const isShipmentCode = (value: string) => {
     return new RegExp(/^([0-9A-Z]){9,20}$/g).test(value);
   };
   const isLocationCode = (value: string) => {
-    return new RegExp(/^[A-z](\-[0-9A-Z]{2}){1,3}$/g).test(value);
+    return new RegExp(/^[A-z](-[0-9A-Z]{2}){1,3}$/g).test(value);
   };
   const onSelectLocation = (value: string) => {
-    setLocation(value);
-    setShowHeader(false);
+    if (isLocationCode(value.trim())) {
+      setLocation(value);
+      setShowHeader(false);
+    } else {
+      Alert.error("error.errBarCode");
+      setAddressText("");
+    }
   };
 
   const onRead = async ({ barcodes }: { barcodes: Array<any> }) => {
@@ -74,7 +95,6 @@ export const UpdateLocationScreen: FunctionComponent = () => {
           Vibration.vibrate();
           getLocation(barcodes[0].data.trim());
           return;
-        } else {
         }
         // get shipment
         if (
@@ -85,7 +105,6 @@ export const UpdateLocationScreen: FunctionComponent = () => {
           Vibration.vibrate();
           await getShipment(barcodes[0]?.data.trim());
           return;
-        } else {
         }
       }
     }
@@ -95,6 +114,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
     setLocation("");
     setShowHeader(true);
     setShipmentCode([]);
+    setAddressText("");
   };
   const toggleDeleteShipment = (value: string) => {
     const newData = shipmentCode.filter(item => item.ShipmentNumber !== value);
@@ -143,6 +163,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
       return itemData.indexOf(textSearch) > -1;
     });
     if (checkShipment.length > 0) {
+      setShipmentText("");
       Alert.error("label.haveShipment");
       return;
     }
@@ -157,16 +178,20 @@ export const UpdateLocationScreen: FunctionComponent = () => {
             return;
           }
           setShipmentCode(s => [...s, shipment?.data[0]]);
+          setShipmentText("");
         } else {
           Alert.error("error.noShipment");
+          setShipmentText("");
         }
       })
       .catch(err => {
+        setShipmentText("");
         Alert.error(err, true);
       })
       .finally(() => {
         Keyboard.dismiss();
         setShipmentValue("");
+        setShipmentText("");
         setTimeout(() => {
           hideIsLoadingFetchData();
         }, 500);
@@ -216,36 +241,39 @@ export const UpdateLocationScreen: FunctionComponent = () => {
         titleColor={Themes.colors.white}
       />
       <View style={styles.container}>
-        <View style={styles.cameraView}>
-          <RNCamera
-            style={styles.camera}
-            type={RNCamera.Constants.Type.back}
-            flashMode={RNCamera.Constants.FlashMode.on}
-            captureAudio={false}
-            onGoogleVisionBarcodesDetected={onRead}
-          >
-            <BarcodeMask
-              width={280}
-              height={100}
-              edgeWidth={20}
-              edgeHeight={20}
-              edgeRadius={20}
-              showAnimatedLine={false}
-              maskOpacity={0.7}
-              backgroundColor={Themes.colors.black}
-              // onLayoutChange={onBarcodeFinderLayoutChange}
-            />
-            <View style={styles.centerView}>
-              {isLoadingFetchData && Platform.OS === "ios" ? (
-                <View style={styles.loadingView}>
-                  <ActivityIndicator color={Themes.colors.collGray40} />
-                </View>
-              ) : (
-                <></>
-              )}
-            </View>
-          </RNCamera>
-        </View>
+        {PlatformBrandConstraint.Brand !==
+          CONSTANT.PLATFORM_BRAND.HONEYWELL && (
+          <View style={styles.cameraView}>
+            <RNCamera
+              style={styles.camera}
+              type={RNCamera.Constants.Type.back}
+              flashMode={RNCamera.Constants.FlashMode.on}
+              captureAudio={false}
+              onGoogleVisionBarcodesDetected={onRead}
+            >
+              <BarcodeMask
+                width={280}
+                height={100}
+                edgeWidth={20}
+                edgeHeight={20}
+                edgeRadius={20}
+                showAnimatedLine={false}
+                maskOpacity={0.7}
+                backgroundColor={Themes.colors.black}
+                // onLayoutChange={onBarcodeFinderLayoutChange}
+              />
+              <View style={styles.centerView}>
+                {isLoadingFetchData && Platform.OS === "ios" ? (
+                  <View style={styles.loadingView}>
+                    <ActivityIndicator color={Themes.colors.collGray40} />
+                  </View>
+                ) : (
+                  <></>
+                )}
+              </View>
+            </RNCamera>
+          </View>
+        )}
         {location ? (
           <View>
             <View style={styles.toolView}>
@@ -261,6 +289,52 @@ export const UpdateLocationScreen: FunctionComponent = () => {
                 />
               </TouchableOpacity>
             </View>
+            {PlatformBrandConstraint.Brand !==
+            CONSTANT.PLATFORM_BRAND.HONEYWELL ? (
+              <View>
+                <TouchableOpacity
+                  style={styles.enterKeyboardButton}
+                  onPress={showEnterCode}
+                >
+                  <Icon
+                    name="ic_keyboad"
+                    size={Metrics.icons.tiny}
+                    color={Themes.colors.blue008}
+                  />
+                  <Text style={styles.qrUserManual}>
+                    {translate("button.addShipment")}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View style={styles.inputView}>
+                <TextInput
+                  value={shipmentText}
+                  placeholder={translate("placeholder.scanOrType")}
+                  style={styles.input}
+                  contextMenuHidden={true}
+                  onChangeText={text => setShipmentText(text)}
+                  onSubmitEditing={_e => {
+                    getShipment(shipmentText);
+                  }}
+                  autoFocus={true}
+                  clearTextOnFocus={true}
+                  returnKeyType="done"
+                  returnKeyLabel="Add"
+                  blurOnSubmit={false}
+                />
+                <TouchableOpacity
+                  style={styles.addCode}
+                  onPress={() => getShipment(shipmentText)}
+                >
+                  <Icon
+                    name="ic_plus"
+                    color={Themes.colors.bg}
+                    size={Metrics.icons.small}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
             <View style={styles.receiveItemContainer}>
               <FlatList
                 data={shipmentCode}
@@ -268,7 +342,6 @@ export const UpdateLocationScreen: FunctionComponent = () => {
                   `${item.ShipmentNumber}_${index.toString()}`
                 }
                 renderItem={({ item }) => {
-                  // console.log("🚀🚀🚀 => item", item);
                   return (
                     <View style={styles.receiveItem}>
                       <Text style={styles.code}>{item.ShipmentNumber}</Text>
@@ -293,31 +366,46 @@ export const UpdateLocationScreen: FunctionComponent = () => {
                 }}
               />
             </View>
-            <View>
-              <TouchableOpacity
-                style={styles.enterKeyboardButton}
-                onPress={showEnterCode}
-              >
-                <Icon
-                  name="ic_keyboad"
-                  size={Metrics.icons.tiny}
-                  color={Themes.colors.blue008}
-                />
-                <Text style={styles.qrUserManual}>
-                  {translate("button.addShipment")}
-                </Text>
-              </TouchableOpacity>
-            </View>
           </View>
         ) : (
           <View style={{ marginVertical: ScreenUtils.scale(8) }}>
+            {PlatformBrandConstraint.Brand ===
+              CONSTANT.PLATFORM_BRAND.HONEYWELL && (
+              <View style={styles.inputView}>
+                <TextInput
+                  value={addressText}
+                  placeholder={translate("placeholder.scanOrType")}
+                  style={styles.input}
+                  contextMenuHidden={true}
+                  onChangeText={text => setAddressText(text)}
+                  onSubmitEditing={_e => {
+                    onSelectLocation(addressText);
+                  }}
+                  autoFocus={true}
+                  clearTextOnFocus={true}
+                  returnKeyType="done"
+                  returnKeyLabel="Add"
+                  blurOnSubmit={false}
+                />
+                <TouchableOpacity
+                  style={styles.addCode}
+                  onPress={() => onSelectLocation(addressText)}
+                >
+                  <Icon
+                    name="ic_plus"
+                    color={Themes.colors.bg}
+                    size={Metrics.icons.small}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
             <TouchableOpacity
               style={styles.enterKeyboardButton}
               onPress={showLocationModal}
             >
               <Icon
                 name="ic_search"
-                size={Metrics.icons.large}
+                size={Metrics.icons.small}
                 color={Themes.colors.info60}
               />
               <Text style={styles.qrUserManual}>
