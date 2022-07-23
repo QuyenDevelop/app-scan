@@ -121,19 +121,18 @@ export const ReceiveScreen: FunctionComponent = () => {
           acceptedByUserName: userInfo?.name || "",
           acceptedByUserId: userInfo?.sub || "",
         });
-        await setAsyncItem(
-          CONSTANT.TOKEN_STORAGE_KEY.RECEIVE_BARCODES,
-          newCodes,
-        );
-        setCodes(newCodes);
-        setShipmentCode("");
-        inputRef.current?.clear();
-        if (!noVibration) {
-          Vibration.vibrate();
-        }
       } else {
-        setShipmentCode("");
-        Alert.error("error.errBarCode");
+        newCodes[findCodeIndex] = {
+          ...newCodes[findCodeIndex],
+          pieces: newCodes[findCodeIndex].pieces + 1,
+        };
+      }
+      await setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.RECEIVE_BARCODES, newCodes);
+      setCodes(newCodes);
+      setShipmentCode("");
+      inputRef.current?.clear();
+      if (!noVibration) {
+        Vibration.vibrate();
       }
     },
     [codes, userInfo?.name, userInfo?.sub],
@@ -229,11 +228,7 @@ export const ReceiveScreen: FunctionComponent = () => {
   };
 
   const onPressAddCode = () => {
-    const newCodes = [...codes];
-    const findCodeIndex = newCodes.findIndex(
-      c => c.referenceNumber === shipmentCode.trim(),
-    );
-    if (isShipmentCode(shipmentCode) && findCodeIndex < 0) {
+    if (isShipmentCode(shipmentCode)) {
       addNewCode(shipmentCode.trim(), true);
     } else {
       setShipmentCode("");
@@ -242,8 +237,13 @@ export const ReceiveScreen: FunctionComponent = () => {
   };
 
   const autoSubmitScan = debounce((value: string) => {
-    addNewCode(value.trim(), true);
-  }, 200);
+    if (isShipmentCode(value)) {
+      addNewCode(value.trim(), true);
+    } else {
+      setShipmentCode("");
+      Alert.error("error.errBarCode");
+    }
+  }, 500);
 
   return (
     <View style={styles.container}>

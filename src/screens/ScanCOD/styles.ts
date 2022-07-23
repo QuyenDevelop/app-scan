@@ -24,6 +24,14 @@ export default StyleSheet.create({
   buttonTouchable: {
     padding: 16,
   },
+  clearText: {
+    height: ScreenUtils.scale(24),
+    width: ScreenUtils.scale(24),
+    borderRadius: ScreenUtils.scale(12),
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: Themes.colors.colGray20,
+  },
   input: {
     width: "100%",
     flexDirection: "row",

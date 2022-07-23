@@ -14,7 +14,6 @@ interface Props {
 
 export const ReceiveItem: FunctionComponent<Props> = props => {
   const { item, index, deleteItem, updatePieces } = props;
-  // console.log("🚀🚀🚀 => item", item);
   const [isShowDeleteModal, showDeleteModal, hideDeleteModal] = useShow();
   const confirmDelete = () => {
     deleteItem(item.referenceNumber);
@@ -38,10 +37,6 @@ export const ReceiveItem: FunctionComponent<Props> = props => {
             size={Metrics.icons.small}
           />
         </TouchableOpacity>
-        {/* <Text>
-          {translate("label.quantity")}
-          <Text style={styles.code}> {item.pieces}</Text>
-        </Text> */}
         <TextInput
           defaultValue={item.pieces.toString()}
           style={styles.quantityInput}

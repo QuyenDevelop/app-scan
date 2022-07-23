@@ -6,7 +6,7 @@ export default StyleSheet.create({
   receiveItem: {
     borderBottomWidth: 1,
     borderColor: Themes.colors.colGray20,
-    paddingVertical: ScreenUtils.scale(16),
+    paddingVertical: ScreenUtils.scale(8),
     marginHorizontal: ScreenUtils.scale(16),
     flexDirection: "row",
     alignItems: "center",
@@ -32,10 +32,11 @@ export default StyleSheet.create({
   },
   quantityInput: {
     borderWidth: 1,
-    width: ScreenUtils.scale(50),
-    paddingHorizontal: ScreenUtils.scale(4),
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: ScreenUtils.scale(5),
-    paddingVertical: ScreenUtils.scale(5),
+    paddingVertical: ScreenUtils.scale(1),
+    paddingLeft: ScreenUtils.scale(8),
     borderColor: Themes.colors.collGray40,
   },
   deleteBtn: {

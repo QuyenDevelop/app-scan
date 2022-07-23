@@ -35,6 +35,7 @@ export const ScanCODScreen: FunctionComponent = () => {
     useShow();
   const [content, setContent] = useState<string>("");
   const [isShowEnterCode, showEnterCode, hideEnterCode] = useShow();
+  const [isLoading, setShowLoading, setHideLoading] = useShow();
   const [errorContent, setErrorContent] = useState<string>("");
   const inputRef = useRef<TextInput>(null);
   const [shipmentCode, setShipmentCode] = useState<string>("");
@@ -57,6 +58,7 @@ export const ScanCODScreen: FunctionComponent = () => {
   };
 
   const getShipment = (value: string) => {
+    setShowLoading();
     setErrorContent("");
     if (!value || value === "") {
       Alert.error("error.errBarCode");
@@ -78,10 +80,10 @@ export const ScanCODScreen: FunctionComponent = () => {
       })
       .finally(() => {
         Keyboard.dismiss();
+        setShipmentCode("");
         setContent("");
-        setTimeout(() => {
-          hideIsLoadingFetchData();
-        }, 500);
+        hideIsLoadingFetchData();
+        setHideLoading();
       });
   };
 
@@ -162,32 +164,72 @@ export const ScanCODScreen: FunctionComponent = () => {
             isCenterTitle
             titleColor={Themes.colors.white}
           />
-          <View style={styles.inputView}>
-            <TextInput
-              ref={inputRef}
-              placeholder={translate("placeholder.scanOrType")}
-              style={styles.inputCode}
-              value={shipmentCode}
-              contextMenuHidden={true}
-              onChangeText={text => setShipmentCode(text)}
-              onSubmitEditing={_e => {
-                getShipment(shipmentCode);
+          {isLoading ? (
+            <ActivityIndicator
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
               }}
-              returnKeyType="done"
-              returnKeyLabel="Add"
-              blurOnSubmit={false}
+              color={Themes.colors.coolGray100}
             />
-            <TouchableOpacity
-              style={{ padding: ScreenUtils.scale(8) }}
-              onPress={() => getShipment(shipmentCode)}
+          ) : (
+            <View
+              style={[
+                {
+                  flexDirection: "row",
+                  paddingHorizontal: ScreenUtils.scale(20),
+                  paddingVertical: ScreenUtils.scale(10),
+                  alignItems: "center",
+                },
+              ]}
             >
-              <Icon
-                name="ic_plus"
-                color={Themes.colors.bg}
-                size={Metrics.icons.small}
-              />
-            </TouchableOpacity>
-          </View>
+              <View style={styles.inputCode}>
+                <Icon
+                  color={Themes.colors.coolGray60}
+                  name="ic_search"
+                  size={Metrics.icons.small}
+                />
+                <TextInput
+                  placeholder={translate("placeholder.scanOrType")}
+                  placeholderTextColor={Themes.colors.collGray40}
+                  style={{ flex: 1 }}
+                  defaultValue={shipmentCode}
+                  onChangeText={text => setShipmentCode(text)}
+                  ref={inputRef}
+                  returnKeyType="done"
+                  returnKeyLabel="Add"
+                  onSubmitEditing={_e => {
+                    getShipment(shipmentCode);
+                  }}
+                />
+                {shipmentCode !== "" && (
+                  <TouchableOpacity
+                    onPress={() => setShipmentCode("")}
+                    style={styles.clearText}
+                  >
+                    <Icon
+                      color={Themes.colors.coolGray80}
+                      name="ic_close"
+                      size={Metrics.icons.smallSmall}
+                    />
+                  </TouchableOpacity>
+                )}
+              </View>
+              <TouchableOpacity
+                style={{ padding: ScreenUtils.scale(8) }}
+                onPress={() => getShipment(shipmentCode)}
+              >
+                <Icon
+                  name="ic_plus"
+                  color={Themes.colors.bg}
+                  size={Metrics.icons.small}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       )}
       <EnterCodeModal

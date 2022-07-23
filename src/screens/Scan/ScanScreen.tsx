@@ -37,6 +37,7 @@ export const ScanScreen: FunctionComponent = () => {
 
   const [isLoadingFetchData, showIsLoadingFetchData, hideIsLoadingFetchData] =
     useShow();
+  const [isLoading, setShowLoading, setHideLoading] = useShow();
   const [content, setContent] = useState<string>("");
   const [isShowEnterCode, showEnterCode, hideEnterCode] = useShow();
   const [errorContent, setErrorContent] = useState<string>("");
@@ -66,6 +67,7 @@ export const ScanScreen: FunctionComponent = () => {
       Alert.error("error.errBarCode");
       return;
     }
+    setShowLoading();
     showIsLoadingFetchData();
     shipmentApi
       .scanShipment(value)
@@ -95,9 +97,9 @@ export const ScanScreen: FunctionComponent = () => {
       .finally(() => {
         Keyboard.dismiss();
         setContent("");
-        setTimeout(() => {
-          hideIsLoadingFetchData();
-        }, 500);
+        setShipmentCode("");
+        setHideLoading();
+        hideIsLoadingFetchData();
       });
   };
 
@@ -178,7 +180,74 @@ export const ScanScreen: FunctionComponent = () => {
             isCenterTitle
             titleColor={Themes.colors.white}
           />
-          <View style={styles.inputView}>
+          {isLoading ? (
+            <ActivityIndicator
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+              }}
+              color={Themes.colors.coolGray100}
+            />
+          ) : (
+            <View
+              style={[
+                {
+                  flexDirection: "row",
+                  paddingHorizontal: ScreenUtils.scale(20),
+                  paddingVertical: ScreenUtils.scale(10),
+                  alignItems: "center",
+                },
+              ]}
+            >
+              <View style={styles.inputCode}>
+                <Icon
+                  color={Themes.colors.coolGray60}
+                  name="ic_search"
+                  size={Metrics.icons.small}
+                />
+                <TextInput
+                  placeholder={translate("placeholder.scanOrType")}
+                  placeholderTextColor={Themes.colors.collGray40}
+                  style={{ flex: 1 }}
+                  defaultValue={shipmentCode}
+                  onChangeText={text => setShipmentCode(text)}
+                  ref={inputRef}
+                  // autoFocus={true}
+                  returnKeyType="done"
+                  returnKeyLabel="Add"
+                  onSubmitEditing={_e => {
+                    getShipment(shipmentCode);
+                  }}
+                />
+                {shipmentCode !== "" && (
+                  <TouchableOpacity
+                    onPress={() => setShipmentCode("")}
+                    style={styles.clearText}
+                  >
+                    <Icon
+                      color={Themes.colors.coolGray80}
+                      name="ic_close"
+                      size={Metrics.icons.smallSmall}
+                    />
+                  </TouchableOpacity>
+                )}
+              </View>
+              <TouchableOpacity
+                style={{ padding: ScreenUtils.scale(8) }}
+                onPress={() => getShipment(shipmentCode)}
+              >
+                <Icon
+                  name="ic_plus"
+                  color={Themes.colors.bg}
+                  size={Metrics.icons.small}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+          {/* <View style={styles.inputView}>
             <TextInput
               ref={inputRef}
               placeholder={translate("placeholder.scanOrType")}
@@ -203,7 +272,7 @@ export const ScanScreen: FunctionComponent = () => {
                 size={Metrics.icons.small}
               />
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
       )}
       <EnterCodeModal
