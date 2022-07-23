@@ -31,6 +31,12 @@ export default StyleSheet.create({
     paddingHorizontal: ScreenUtils.scale(30),
     marginVertical: ScreenUtils.scale(10),
   },
+  inputView: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: ScreenUtils.scale(10),
+    paddingHorizontal: ScreenUtils.scale(16),
+  },
   inputCode: {
     flex: 1,
     borderWidth: 1,

@@ -64,8 +64,7 @@ export default StyleSheet.create({
   addCode: {
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal: ScreenUtils.scale(5),
-    paddingLeft: ScreenUtils.scale(16),
+    padding: ScreenUtils.scale(8),
   },
   code: {
     ...Themes.font.medium,

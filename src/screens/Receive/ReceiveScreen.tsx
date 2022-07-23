@@ -12,6 +12,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { Button, ConfirmModal, Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
+import debounce from "lodash/debounce";
 import React, {
   FunctionComponent,
   useCallback,
@@ -53,7 +54,7 @@ export const ReceiveScreen: FunctionComponent = () => {
   const [isLoadingFetchData, showLoadingReceive, hideLoadingReceive] =
     useShow();
   const [isShowConfirmModal, showConfirmModal, hideConfirmModal] = useShow();
-  const inputValue = useRef<string>("");
+  const [shipmentCode, setShipmentCode] = useState<string>("");
   const inputRef = useRef<TextInput>(null);
   const userInfo = useSelector((state: IRootState) => state.account.profile);
   const isFocused = useIsFocused();
@@ -125,10 +126,14 @@ export const ReceiveScreen: FunctionComponent = () => {
           newCodes,
         );
         setCodes(newCodes);
+        setShipmentCode("");
         inputRef.current?.clear();
         if (!noVibration) {
           Vibration.vibrate();
         }
+      } else {
+        setShipmentCode("");
+        Alert.error("error.errBarCode");
       }
     },
     [codes, userInfo?.name, userInfo?.sub],
@@ -219,9 +224,26 @@ export const ReceiveScreen: FunctionComponent = () => {
     [deleteItem],
   );
 
-  const onPressAddCode = () => {
-    addNewCode(inputValue.current.trim(), true);
+  const isShipmentCode = (value: string) => {
+    return new RegExp(/^([0-9A-Z]){9,20}$/g).test(value);
   };
+
+  const onPressAddCode = () => {
+    const newCodes = [...codes];
+    const findCodeIndex = newCodes.findIndex(
+      c => c.referenceNumber === shipmentCode.trim(),
+    );
+    if (isShipmentCode(shipmentCode) && findCodeIndex < 0) {
+      addNewCode(shipmentCode.trim(), true);
+    } else {
+      setShipmentCode("");
+      Alert.error("error.errBarCode");
+    }
+  };
+
+  const autoSubmitScan = debounce((value: string) => {
+    addNewCode(value.trim(), true);
+  }, 200);
 
   return (
     <View style={styles.container}>
@@ -277,8 +299,12 @@ export const ReceiveScreen: FunctionComponent = () => {
             ref={inputRef}
             placeholder={translate("placeholder.scanOrType")}
             style={styles.input}
+            value={shipmentCode}
             contextMenuHidden={true}
-            onChangeText={text => (inputValue.current = text)}
+            onChangeText={value => {
+              setShipmentCode(value);
+              autoSubmitScan(value);
+            }}
             onSubmitEditing={_e => {
               onPressAddCode();
             }}

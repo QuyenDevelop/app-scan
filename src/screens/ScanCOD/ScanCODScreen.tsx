@@ -1,17 +1,22 @@
+/* eslint-disable react-native/no-inline-styles */
 import { shipmentApi } from "@api";
-import { Alert } from "@helpers";
+import { Header } from "@components";
+import { CONSTANT } from "@configs";
+import { Alert, ScreenUtils } from "@helpers";
 import { useShow } from "@hooks";
+import { PlatformAndroidStatic } from "@models";
 import { goToUpdateCodScreen } from "@navigation";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Dimensions,
   Keyboard,
   Platform,
   Text,
+  TextInput,
   TouchableOpacity,
   Vibration,
   View,
@@ -31,6 +36,15 @@ export const ScanCODScreen: FunctionComponent = () => {
   const [content, setContent] = useState<string>("");
   const [isShowEnterCode, showEnterCode, hideEnterCode] = useShow();
   const [errorContent, setErrorContent] = useState<string>("");
+  const inputRef = useRef<TextInput>(null);
+  const [shipmentCode, setShipmentCode] = useState<string>("");
+  const PlatformBrandConstraint = Platform.constants as PlatformAndroidStatic;
+
+  useEffect(() => {
+    PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
+      inputRef.current &&
+      inputRef.current.focus();
+  }, [PlatformBrandConstraint.Brand]);
 
   const onRead = ({ barcodes }: { barcodes: any }) => {
     if (!isLoadingFetchData) {
@@ -73,7 +87,8 @@ export const ScanCODScreen: FunctionComponent = () => {
 
   return (
     <View style={styles.container}>
-      {isFocused && (
+      {isFocused &&
+      PlatformBrandConstraint.Brand !== CONSTANT.PLATFORM_BRAND.HONEYWELL ? (
         <RNCamera
           style={styles.camera}
           type={RNCamera.Constants.Type.back}
@@ -138,6 +153,42 @@ export const ScanCODScreen: FunctionComponent = () => {
             </View>
           </View>
         </RNCamera>
+      ) : (
+        <View style={{ flex: 1 }}>
+          <Header
+            title={translate("screens.checkAndScan")}
+            iconLeftName={["ic_arrow_left"]}
+            iconLeftOnPress={[() => navigation.goBack()]}
+            isCenterTitle
+            titleColor={Themes.colors.white}
+          />
+          <View style={styles.inputView}>
+            <TextInput
+              ref={inputRef}
+              placeholder={translate("placeholder.scanOrType")}
+              style={styles.inputCode}
+              value={shipmentCode}
+              contextMenuHidden={true}
+              onChangeText={text => setShipmentCode(text)}
+              onSubmitEditing={_e => {
+                getShipment(shipmentCode);
+              }}
+              returnKeyType="done"
+              returnKeyLabel="Add"
+              blurOnSubmit={false}
+            />
+            <TouchableOpacity
+              style={{ padding: ScreenUtils.scale(8) }}
+              onPress={() => getShipment(shipmentCode)}
+            >
+              <Icon
+                name="ic_plus"
+                color={Themes.colors.bg}
+                size={Metrics.icons.small}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
       )}
       <EnterCodeModal
         isShowModal={isShowEnterCode}

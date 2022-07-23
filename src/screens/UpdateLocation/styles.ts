@@ -126,6 +126,6 @@ export default StyleSheet.create({
   addCode: {
     justifyContent: "center",
     alignItems: "center",
-    paddingLeft: ScreenUtils.scale(16),
+    padding: ScreenUtils.scale(8),
   },
 });

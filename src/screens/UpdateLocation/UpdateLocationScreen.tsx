@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { Button, Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
+import debounce from "lodash/debounce";
 import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -192,9 +193,7 @@ export const UpdateLocationScreen: FunctionComponent = () => {
         Keyboard.dismiss();
         setShipmentValue("");
         setShipmentText("");
-        setTimeout(() => {
-          hideIsLoadingFetchData();
-        }, 500);
+        hideIsLoadingFetchData();
       });
   };
 
@@ -226,6 +225,14 @@ export const UpdateLocationScreen: FunctionComponent = () => {
         setIsLoading(false);
       });
   };
+
+  const autoSubmitScanShipment = debounce((value: string) => {
+    getShipment(value.trim());
+  }, 200);
+
+  const autoSubmitScanLocation = debounce((value: string) => {
+    onSelectLocation(value.trim());
+  }, 200);
 
   return (
     <>
@@ -313,7 +320,10 @@ export const UpdateLocationScreen: FunctionComponent = () => {
                   placeholder={translate("placeholder.scanOrType")}
                   style={styles.input}
                   contextMenuHidden={true}
-                  onChangeText={text => setShipmentText(text)}
+                  onChangeText={value => {
+                    setShipmentText(value);
+                    autoSubmitScanShipment(value);
+                  }}
                   onSubmitEditing={_e => {
                     getShipment(shipmentText);
                   }}
@@ -377,7 +387,10 @@ export const UpdateLocationScreen: FunctionComponent = () => {
                   placeholder={translate("placeholder.scanOrType")}
                   style={styles.input}
                   contextMenuHidden={true}
-                  onChangeText={text => setAddressText(text)}
+                  onChangeText={value => {
+                    setAddressText(value);
+                    autoSubmitScanLocation(value);
+                  }}
                   onSubmitEditing={_e => {
                     onSelectLocation(addressText);
                   }}
