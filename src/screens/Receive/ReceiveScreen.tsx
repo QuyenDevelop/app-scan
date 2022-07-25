@@ -158,6 +158,11 @@ export const ReceiveScreen: FunctionComponent = () => {
     }
   };
 
+  const handleCancel = () => {
+    hideConfirmModal();
+    inputRef.current && inputRef.current.focus();
+  };
+
   const receiverCode = () => {
     showLoadingReceive();
     shipmentApi
@@ -179,6 +184,7 @@ export const ReceiveScreen: FunctionComponent = () => {
       })
       .finally(() => {
         hideLoadingReceive();
+        inputRef.current && inputRef.current.focus();
       });
   };
 
@@ -192,6 +198,7 @@ export const ReceiveScreen: FunctionComponent = () => {
       const newCodes = codes.filter(c => c.referenceNumber !== item);
       await setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.RECEIVE_BARCODES, newCodes);
       setCodes(newCodes);
+      inputRef.current && inputRef.current.focus();
     },
     [codes],
   );
@@ -341,7 +348,7 @@ export const ReceiveScreen: FunctionComponent = () => {
       </View>
       <ConfirmModal
         isVisible={isShowConfirmModal}
-        closeModal={hideConfirmModal}
+        closeModal={handleCancel}
         message={translate("alert.confirmReceive", { number: codes.length })}
         onConfirm={receiverCode}
       />
