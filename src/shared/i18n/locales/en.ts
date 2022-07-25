@@ -15,6 +15,11 @@ export default {
     inventory: "Inventory",
     lisInventory: "Inventory list",
     complaint: "Complaint information",
+    picking: {
+      deliveryBill: "Delivery Bill",
+      deliveryBillDetail: "Delivery Bill Detail",
+      picking: "Picking",
+    },
   },
   shipmentStatus: {
     created: "Created",

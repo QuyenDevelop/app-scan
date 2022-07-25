@@ -15,6 +15,11 @@ export default {
     inventory: "在庫",
     lisInventory: "在庫表",
     complaint: "苦情について",
+    picking: {
+      deliveryBill: "配達請求書",
+      deliveryBillDetail: "在庫の詳細",
+      picking: "ピッキング",
+    },
   },
   shipmentStatus: {
     created: "作成した",

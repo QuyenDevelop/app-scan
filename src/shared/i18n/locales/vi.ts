@@ -15,6 +15,11 @@ export default {
     inventory: "Kiểm kê",
     lisInventory: "Danh sách kiểm kê",
     complaint: "Thông tin khiếu nại",
+    picking: {
+      deliveryBill: "Phiếu xuất kho",
+      deliveryBillDetail: "Thông tin phiếu xuất kho",
+      picking: "Nhặt hàng",
+    },
   },
   shipmentStatus: {
     created: "khởi tạo",

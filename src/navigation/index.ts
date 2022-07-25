@@ -7,6 +7,7 @@ export * from "./HomeNavigator";
 export * from "./InventoryNavigator";
 export * from "./NavigationManagement";
 export * from "./PhotosNavigator";
+export * from "./PickingNavigator";
 export * from "./ReceiveNavigator";
 export * from "./RootNavigator";
 export * from "./ScanCodNavigator";

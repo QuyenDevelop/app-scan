@@ -7,6 +7,7 @@ export * from "./Home";
 export * from "./Inventory";
 export * from "./Launch";
 export * from "./Menu";
+export * from "./Picking";
 export * from "./Receive";
 export * from "./Scan";
 export * from "./ScanCOD";

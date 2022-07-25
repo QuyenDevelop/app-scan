@@ -2,6 +2,7 @@ import {
   goToCheckAndScanScreen,
   goToHomeScreen,
   goToListInventoryScreen,
+  goToPickingScreen,
   goToReceiveScreen,
   goToScanCodScreen,
   goToScanShipmentCodeScreen,
@@ -111,6 +112,13 @@ const homeItems = [
     // content: "label.homeItems.inventoryManagement.content",
     icon: Images.icInventory,
     onPress: goToListInventoryScreen,
+  },
+  {
+    id: 7,
+    title: "screens.picking.deliveryBill",
+    // content: "label.homeItems.inventoryManagement.content",
+    icon: Images.icInventory,
+    onPress: goToPickingScreen,
   },
 ];
 

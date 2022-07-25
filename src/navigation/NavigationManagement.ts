@@ -167,6 +167,12 @@ export const goToListInventoryScreen = () => {
   });
 };
 
+export const goToPickingScreen = () => {
+  NavigationUtils.navigate(SCREENS.PICKING_STACK, {
+    screen: SCREENS.DELIVERY_BILL_MANAGEMENT_SCREEN,
+  });
+};
+
 export const goToUpdateLocationScreen = () => {
   NavigationUtils.navigate(SCREENS.UPDATE_lOCATION_STACK, {
     screen: SCREENS.UPDATE_lOCATION_SCREEN,
