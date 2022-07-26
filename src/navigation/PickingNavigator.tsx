@@ -4,6 +4,7 @@ import {
   DeliveryBillDetailParams,
   DeliveryBillDetailScreen,
   DeliveryBillManagementScreen,
+  PickingParams,
   PickingScreen,
 } from "@screens";
 import React from "react";
@@ -11,7 +12,7 @@ import React from "react";
 export type PickingParamsList = {
   [SCREENS.DELIVERY_BILL_MANAGEMENT_SCREEN]: undefined;
   [SCREENS.DELIVERY_BILL_DETAIL_SCREEN]: DeliveryBillDetailParams;
-  [SCREENS.PICKING_SCREEN]: undefined;
+  [SCREENS.PICKING_SCREEN]: PickingParams;
 };
 
 const PickingStackNavigator = createStackNavigator<PickingParamsList>();

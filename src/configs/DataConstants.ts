@@ -117,7 +117,7 @@ const homeItems = [
     id: 7,
     title: "screens.picking.deliveryBill",
     // content: "label.homeItems.inventoryManagement.content",
-    icon: Images.icInventory,
+    icon: Images.icPicking,
     onPress: goToPickingScreen,
   },
 ];

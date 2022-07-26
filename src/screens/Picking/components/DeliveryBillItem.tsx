@@ -1,3 +1,5 @@
+import { SCREENS } from "@configs";
+import { useNavigation } from "@react-navigation/native";
 import { translate } from "@shared";
 import React, { FunctionComponent } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
@@ -5,10 +7,31 @@ import styles from "./styles";
 
 interface Props {
   item: any;
+  tab?: string;
 }
 
-export const DeliveryBillItem: FunctionComponent<Props> = ({ item }) => {
-  const gotoDeliveryDetail = () => {};
+export const DeliveryBillItem: FunctionComponent<Props> = ({ item, tab }) => {
+  const navigation = useNavigation();
+
+  const gotoDeliveryDetail = () => {
+    navigation.navigate(SCREENS.PICKING_STACK, {
+      screen: SCREENS.DELIVERY_BILL_DETAIL_SCREEN,
+      params: {
+        id: item.billId,
+        tab: tab || "",
+      },
+    });
+  };
+
+  const gotoPicking = () => {
+    navigation.navigate(SCREENS.PICKING_STACK, {
+      screen: SCREENS.PICKING_SCREEN,
+      params: {
+        id: item.billId,
+        tab: tab || "",
+      },
+    });
+  };
 
   const getStatus = () => {
     switch (item.status) {
@@ -51,7 +74,7 @@ export const DeliveryBillItem: FunctionComponent<Props> = ({ item }) => {
         </View>
         <View>
           {item.status !== "FINISHED" && (
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={gotoPicking}>
               <Text style={styles.buttonText}>
                 {item.status === "WAITING"
                   ? translate("screens.picking.pickingNow")

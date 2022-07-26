@@ -21,6 +21,7 @@ export const Images = {
   icLocation: require("../assets/icons/doivitri.png"),
   icExploit: require("../assets/icons/khieunai.png"),
   icInventory: require("../assets/icons/kiemke.png"),
+  icPicking: require("../assets/icons/pcking.png"),
   noData: require("../assets/images/no_data.png"),
 };
 

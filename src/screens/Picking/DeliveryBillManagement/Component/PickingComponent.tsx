@@ -62,7 +62,7 @@ export const PickingComponent: FunctionComponent<Props> = props => {
 
   const keyExtractor = (item: any, index: number) => `${item.id}_${index}`;
   const renderItem = ({ item }: { item: any }) => {
-    return <DeliveryBillItem item={item} />;
+    return <DeliveryBillItem item={item} tab={"PROGRESS"} />;
   };
 
   return (
