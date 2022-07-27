@@ -28,6 +28,12 @@ export default {
       waitingStatus: "未払いの商品",
       pickingStatus: "商品を拾います",
       doneStatus: "拾った",
+      doneButton: "完全なピッキング商品",
+      confirmTitle: "商品を選ぶことを確認します",
+      confirmMessage:
+        "まだ出荷がピックアップされていません。完了を確認する理由を選択してください！",
+      confirmNoFindShipment: "商品はありません",
+      confirmReason: "その他の理由",
     },
   },
   shipmentStatus: {

@@ -28,6 +28,12 @@ export default {
       waitingStatus: "Chưa nhặt hàng",
       pickingStatus: "Đang nhặt hàng",
       doneStatus: "Đã nhặt hàng",
+      doneButton: "Hoàn thành nhặt hàng",
+      confirmTitle: "xác nhận hoàn thành nhặt hàng",
+      confirmMessage:
+        "Vẫn còn shipment chưa được nhặt hàng Vui lòng chọn lý do để xác nhận hoàn thành! ",
+      confirmNoFindShipment: "Không thấy hàng",
+      confirmReason: "Lý do khác",
     },
   },
   shipmentStatus: {
