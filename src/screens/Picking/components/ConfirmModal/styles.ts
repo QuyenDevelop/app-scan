@@ -7,8 +7,11 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "stretch",
+    alignItems: "center",
     backgroundColor: Themes.colors.transparentBlack,
+  },
+  scrollViewContainer: {
+    maxHeight: ScreenUtils.HEIGHT / 2,
   },
   content: {
     backgroundColor: Themes.colors.white,
