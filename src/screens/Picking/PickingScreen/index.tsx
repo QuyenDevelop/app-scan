@@ -6,7 +6,12 @@ import { useShow } from "@hooks";
 import { PlatformAndroidStatic, PostOfficeItemResponse } from "@models";
 import { BarcodeMask } from "@nartc/react-native-barcode-mask";
 import { PickingParamsList } from "@navigation";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import {
+  CommonActions,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
@@ -223,12 +228,17 @@ export const PickingScreen: FunctionComponent = () => {
   }, 1000);
 
   const handleCompletePicking = () => {
+    console.log("🚀🚀🚀 => handleCompletePicking => reason", reason);
     showLoadingSubmit();
 
     setTimeout(() => {
-      console.log("🚀🚀🚀 => reason", reason);
       hideLoadingSubmit();
       hideModalConfirm();
+      navigation.dispatch(
+        CommonActions.reset({
+          routes: [{ name: SCREENS.DELIVERY_BILL_MANAGEMENT_SCREEN }],
+        }),
+      );
     }, 500);
   };
 

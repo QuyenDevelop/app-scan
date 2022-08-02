@@ -106,7 +106,7 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
 
   const keyExtractor = (item: any, index: number) => `${item.id}_${index}`;
   const renderItem = ({ item }: { item: any }) => {
-    return postOffices?.Code !== "08" ? (
+    return postOffices?.Code !== "02" ? (
       <ShipmentItemNormal item={item} />
     ) : (
       <ShipmentItemTokyo item={item} />
@@ -154,12 +154,17 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
                 Shipment: {data.totalShipment}
               </Text>
               <Text style={styles.shipmentCode}>
-                Đã nhặt: {data.picked}/{data.totalShipment}
+                {translate("screens.picking.finished")}: {data.picked}/
+                {data.totalShipment}
               </Text>
-              <Text style={styles.shipmentCode}>KL: {data.weight} kg</Text>
+              <Text style={styles.shipmentCode}>
+                {translate("label.weight")}: {data.weight} kg
+              </Text>
             </View>
             <View style={styles.inline}>
-              <Text style={styles.shipmentCode}>Lý do: {data.reason}</Text>
+              <Text style={styles.shipmentCode}>
+                {translate("screens.picking.reason")}: {data.reason}
+              </Text>
             </View>
           </View>
           <View style={styles.flatListContainer}>
