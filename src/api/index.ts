@@ -4,6 +4,7 @@ import authApi from "./auth-api";
 import axiosService from "./axios.service";
 import currencyApi from "./currency-api";
 import customerApi from "./customer-api";
+import deliveryBillApi from "./delivery-bill-api";
 import inventoryApi from "./inventory-api";
 import payCodApi from "./pay-cod-api";
 import serviceApi from "./service-api";
@@ -27,4 +28,5 @@ export {
   axiosService,
   inventoryApi,
   warehouseInventoryApi,
+  deliveryBillApi,
 };

@@ -1,5 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
+import { deliveryBillApi } from "@api";
+import { CONSTANT, DATA_CONSTANT } from "@configs";
+import { Alert, getAsyncItem, ScreenUtils } from "@helpers";
 import { useShow } from "@hooks";
+import { PostOfficeItemResponse } from "@models";
+import { IRootState } from "@redux";
 import { Themes } from "@themes";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import {
@@ -8,65 +14,130 @@ import {
   RefreshControl,
   View,
 } from "react-native";
+import { useSelector } from "react-redux";
 import { DeliveryBillItem } from "../../components/DeliveryBillItem";
 import styles from "./styles";
 
-const dataWaiting: any[] = [
-  {
-    id: 1,
-    billId: "SPM0022070500085JP",
-    createdDate: "16:30  2/7/2022",
-    totalShipment: 8,
-    picked: 0,
-    status: "WAITING",
-    reason: "",
-  },
-  {
-    id: 2,
-    billId: "SPM0022070500085JP",
-    createdDate: "10:30  2/7/2022",
-    totalShipment: 8,
-    picked: 0,
-    status: "WAITING",
-    reason: "",
-  },
-];
-
-interface Props {}
-
-export const WaitingPickingComponent: FunctionComponent<Props> = props => {
-  const {} = props;
+export const WaitingPickingComponent: FunctionComponent<any> = () => {
   const [data, setData] = useState<any>();
   const [isLoading, setShowLoading, setHideLoading] = useShow();
   const [isFreshing, setShowFreshing, setHideFreshing] = useShow();
   const [isLoadingFooter, setShowLoadingFooter, setHideLoadingFooter] =
     useShow();
   const [disableLoadMore, setDisableLoadMore] = useState<boolean>(false);
+  const postOfficesData = useSelector(
+    (state: IRootState) => state.account.postOffices,
+  );
+  const [pageIndex, setPageIndex] = useState<number>(1);
+  const PAGE_SIZE_DEFAULT = 20;
+  const [postOffices, setPostOffice] = useState<PostOfficeItemResponse>();
+  useEffect(() => {
+    const getPostoffice = async () => {
+      const postOfficeId = await getAsyncItem(
+        CONSTANT.TOKEN_STORAGE_KEY.ICHIBA_POSTOFFICE_ID,
+      );
+      if (postOfficeId) {
+        const postOffice = postOfficesData.find(
+          item => item.Id === postOfficeId,
+        );
+        setPostOffice(postOffice);
+      }
+    };
+    getPostoffice();
+  }, []);
 
   useEffect(() => {
     setShowLoading();
-    setData(dataWaiting);
-
-    setTimeout(() => {
-      setHideLoading();
-      setDisableLoadMore(true);
-    }, 1000);
+    deliveryBillApi
+      .getDeliveryBill({
+        RequireTotalCount: true,
+        Skip: 0,
+        Take: 10,
+        PageIndex: 1,
+        PageSize: PAGE_SIZE_DEFAULT,
+        PostOfficeId: postOffices?.Id || "",
+      })
+      ?.then(response => {
+        if (
+          response?.data &&
+          response?.data?.data &&
+          response?.data?.data.length > 0
+        ) {
+          setData(response?.data?.data);
+          if (data >= response?.data.totalCount) {
+            setDisableLoadMore(true);
+          }
+        }
+      })
+      .catch(error => {
+        Alert.error(error);
+      })
+      .finally(() => {
+        setHideLoading();
+      });
   }, []);
 
   const onRefresh = () => {
     setShowFreshing();
-
-    setTimeout(() => {
-      setHideFreshing();
-    }, 1000);
+    deliveryBillApi
+      .getDeliveryBill({
+        RequireTotalCount: true,
+        Skip: 0,
+        Take: 10,
+        PageIndex: 1,
+        PageSize: PAGE_SIZE_DEFAULT,
+        PostOfficeId: postOffices?.Id || "",
+      })
+      ?.then(response => {
+        if (
+          response?.data &&
+          response?.data?.data &&
+          response?.data?.data.length > 0
+        ) {
+          setData(response?.data?.data);
+          if (data >= response?.data.totalCount) {
+            setDisableLoadMore(true);
+          }
+        }
+      })
+      .catch(error => {
+        Alert.error(error);
+      })
+      .finally(() => {
+        setHideFreshing();
+      });
   };
 
   const onEndReached = () => {
     setShowLoadingFooter();
-
-    setTimeout(() => {
-      setHideLoadingFooter();
-    }, 1000);
+    deliveryBillApi
+      .getDeliveryBill({
+        RequireTotalCount: true,
+        Skip: 0,
+        Take: 10,
+        PageIndex: pageIndex,
+        PageSize: PAGE_SIZE_DEFAULT,
+        PostOfficeId: postOffices?.Id || "",
+      })
+      ?.then(response => {
+        if (
+          response?.data &&
+          response?.data?.data &&
+          response?.data?.data.length > 0
+        ) {
+          setData([...data, ...response?.data?.data]);
+          setPageIndex(pageIndex + 1);
+          if (data >= response?.data.totalCount) {
+            setDisableLoadMore(true);
+          }
+        }
+      })
+      .catch(error => {
+        Alert.error(error);
+      })
+      .finally(() => {
+        setHideLoadingFooter();
+      });
   };
 
   const keyExtractor = (item: any, index: number) => `${item.id}_${index}`;
@@ -89,9 +160,16 @@ export const WaitingPickingComponent: FunctionComponent<Props> = props => {
         />
       ) : (
         <FlatList
-          data={data}
+          data={
+            data?.filter(
+              (item: any) =>
+                item.ProcessStatus === DATA_CONSTANT.PXK_STATUS.WAITING,
+            ) || []
+          }
           keyExtractor={keyExtractor}
           renderItem={renderItem}
+          nestedScrollEnabled
+          showsVerticalScrollIndicator={false}
           onEndReached={disableLoadMore ? null : onEndReached}
           refreshControl={
             <RefreshControl refreshing={isFreshing} onRefresh={onRefresh} />
@@ -106,7 +184,7 @@ export const WaitingPickingComponent: FunctionComponent<Props> = props => {
               <></>
             )
           }
-          contentContainerStyle={{ flex: 1 }}
+          contentContainerStyle={{ paddingBottom: ScreenUtils.scale(12) }}
         />
       )}
     </View>

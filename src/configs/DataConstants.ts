@@ -222,6 +222,12 @@ const shipmentStatus = [
   { key: 382, value: "shipmentStatus.ComplaintHandled" },
 ];
 
+const pxkStatus = {
+  WAITING: "N",
+  PROGRESS: "Packing",
+  FINISHED: "Y",
+};
+
 export const DATA_CONSTANT = {
   SHIPMENT_SERVICE: shipmentService,
   LANGUAGE_CODE: languageCodes,
@@ -230,4 +236,5 @@ export const DATA_CONSTANT = {
   MENU_ITEMS: menuItems,
   SUFFIX_IMAGE: suffixImage,
   SHIPMENT_STATUS: shipmentStatus,
+  PXK_STATUS: pxkStatus,
 };

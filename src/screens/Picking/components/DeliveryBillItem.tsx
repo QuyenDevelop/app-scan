@@ -1,4 +1,6 @@
-import { SCREENS } from "@configs";
+import { DATA_CONSTANT, SCREENS } from "@configs";
+import { Utils } from "@helpers";
+import { DeliveryBillItemResponse } from "@models";
 import { useNavigation } from "@react-navigation/native";
 import { translate } from "@shared";
 import React, { FunctionComponent } from "react";
@@ -6,7 +8,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import styles from "./styles";
 
 interface Props {
-  item: any;
+  item: DeliveryBillItemResponse;
   tab?: string;
 }
 
@@ -17,7 +19,7 @@ export const DeliveryBillItem: FunctionComponent<Props> = ({ item, tab }) => {
     navigation.navigate(SCREENS.PICKING_STACK, {
       screen: SCREENS.DELIVERY_BILL_DETAIL_SCREEN,
       params: {
-        id: item.billId,
+        id: item.RefNo,
         tab: tab || "",
       },
     });
@@ -27,20 +29,21 @@ export const DeliveryBillItem: FunctionComponent<Props> = ({ item, tab }) => {
     navigation.navigate(SCREENS.PICKING_STACK, {
       screen: SCREENS.PICKING_SCREEN,
       params: {
-        id: item.billId,
+        id: item.RefNo,
         tab: tab || "",
       },
     });
   };
 
   const getStatus = () => {
-    switch (item.status) {
-      case "WAITING":
+    switch (item.ProcessStatus) {
+      case DATA_CONSTANT.PXK_STATUS.WAITING:
         return translate("screens.picking.waitingStatus");
-      case "PROCESS":
+      case DATA_CONSTANT.PXK_STATUS.PROGRESS:
         return translate("screens.picking.pickingStatus");
-      default:
+      case DATA_CONSTANT.PXK_STATUS.FINISHED:
         return translate("screens.picking.doneStatus");
+      default:
     }
   };
 
@@ -49,34 +52,35 @@ export const DeliveryBillItem: FunctionComponent<Props> = ({ item, tab }) => {
       <View style={styles.content}>
         <View>
           <TouchableOpacity onPress={gotoDeliveryDetail}>
-            <Text style={styles.billCodeText}>{item.billId}</Text>
+            <Text style={styles.billCodeText}>{item.RefNo}</Text>
           </TouchableOpacity>
           <Text style={styles.createdDate}>
-            {translate("label.createDate")}: {item.createdDate}
+            {translate("label.createDate")}:{" "}
+            {Utils.date.formatDateTime(item.CreatedOnUtc)}
           </Text>
         </View>
         <View style={styles.rightContent}>
           <Text style={styles.status}>{getStatus()}</Text>
-          {item.picked !== 0 && (
+          {/* {item.picked !== 0 && (
             <Text
               style={styles.createdDate}
             >{`${item.picked}/${item.totalShipment}`}</Text>
-          )}
+          )} */}
         </View>
       </View>
       <View style={[styles.content]}>
         <View style={styles.reasonContent}>
-          {item.reason !== "" && (
+          {!!item.Note && (
             <Text numberOfLines={1} style={styles.reason}>
-              {translate("screens.picking.reason")}: {item.reason}
+              {translate("screens.picking.reason")}: {item.Note}
             </Text>
           )}
         </View>
         <View>
-          {item.status !== "FINISHED" && (
+          {item.ProcessStatus !== DATA_CONSTANT.PXK_STATUS.FINISHED && (
             <TouchableOpacity style={styles.button} onPress={gotoPicking}>
               <Text style={styles.buttonText}>
-                {item.status === "WAITING"
+                {item.ProcessStatus === DATA_CONSTANT.PXK_STATUS.WAITING
                   ? translate("screens.picking.pickingNow")
                   : translate("screens.picking.continue")}
               </Text>
