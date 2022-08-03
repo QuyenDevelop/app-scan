@@ -224,8 +224,8 @@ const shipmentStatus = [
 
 const pxkStatus = {
   WAITING: "N",
-  PROGRESS: "Packing",
-  FINISHED: "Y",
+  PROGRESS: "Picking",
+  FINISHED: "Picked",
 };
 
 export const DATA_CONSTANT = {

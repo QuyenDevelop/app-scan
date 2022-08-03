@@ -1,10 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
+import { ShipmentSourceItem } from "@models";
 import React, { FunctionComponent } from "react";
 import { Text, View } from "react-native";
 import styles from "./styles";
 
 interface Props {
-  item: any;
+  item: ShipmentSourceItem;
 }
 
 export const ShipmentItemNormal: FunctionComponent<Props> = props => {
@@ -17,20 +18,24 @@ export const ShipmentItemNormal: FunctionComponent<Props> = props => {
           numberOfLines={1}
           adjustsFontSizeToFit={true}
         >
-          {item.shipmentId}
+          {item.ShipmentNumber}
         </Text>
       </View>
       <Text style={styles.staff} numberOfLines={2}>
-        {item.tracking}
+        {item.ReferenceNumber}
       </Text>
-      <Text
-        style={styles.location}
-        numberOfLines={1}
-        adjustsFontSizeToFit={true}
-      >
-        {item.location}
-      </Text>
-      <Text style={styles.quantity}>{item.quantity}</Text>
+      <View>
+        {item.LocationNames && (
+          <Text
+            style={styles.location}
+            numberOfLines={1}
+            adjustsFontSizeToFit={true}
+          >
+            {item.LocationNames[0]}
+          </Text>
+        )}
+      </View>
+      {/* <Text style={styles.quantity}>{item.quantity}</Text> */}
     </View>
   );
 };

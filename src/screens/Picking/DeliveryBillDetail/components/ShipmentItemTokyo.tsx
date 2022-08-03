@@ -1,10 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
+import { ShipmentSourceItem } from "@models";
 import React, { FunctionComponent } from "react";
 import { Text, View } from "react-native";
 import styles from "./styles";
 
 interface Props {
-  item: any;
+  item: ShipmentSourceItem;
 }
 
 export const ShipmentItemTokyo: FunctionComponent<Props> = props => {
@@ -17,27 +18,35 @@ export const ShipmentItemTokyo: FunctionComponent<Props> = props => {
           numberOfLines={1}
           adjustsFontSizeToFit={true}
         >
-          {item.shipmentId}
+          {item.ShipmentNumber}
         </Text>
         <Text
           style={styles.shipment}
           numberOfLines={1}
           adjustsFontSizeToFit={true}
         >
-          {item.tracking}
+          {item.ReferenceNumber}
         </Text>
       </View>
-      <Text style={styles.staff} numberOfLines={2}>
-        {item.staff}
-      </Text>
-      <Text
-        style={styles.location}
-        numberOfLines={1}
-        adjustsFontSizeToFit={true}
-      >
-        {item.location}
-      </Text>
-      <Text style={styles.quantity}>{item.quantity}</Text>
+      <View style={{ flex: 0.3 }}>
+        {!!item.ConsigneeName && (
+          <Text style={styles.staff} numberOfLines={2}>
+            {item.ConsigneeName}
+          </Text>
+        )}
+      </View>
+      <View style={{ flex: 0.3 }}>
+        {item.LocationNames && (
+          <Text
+            style={styles.location}
+            numberOfLines={1}
+            adjustsFontSizeToFit={true}
+          >
+            {item.LocationNames[0]}
+          </Text>
+        )}
+      </View>
+      {/* <Text style={styles.quantity}>{item.quantity}</Text> */}
     </View>
   );
 };

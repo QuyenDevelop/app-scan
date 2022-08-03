@@ -1,11 +1,13 @@
 import { Header } from "@components";
 import { ScreenUtils } from "@helpers";
 import { useNavigation } from "@react-navigation/native";
+import { IRootState } from "@redux";
 import { translate } from "@shared";
 import { Themes } from "@themes";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Text, View } from "react-native";
 import { TabBar, TabBarIndicator, TabView } from "react-native-tab-view";
+import { useSelector } from "react-redux";
 import { FinishingPickingComponent } from "./Component/FinishingPickingComponent";
 import { PickingComponent } from "./Component/PickingComponent";
 import { WaitingPickingComponent } from "./Component/WaitingPickingComponent";
@@ -35,16 +37,17 @@ const routes = [
 export const DeliveryBillManagementScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const [index, setIndex] = useState<number>(0);
+  const profile = useSelector((state: IRootState) => state.account.profile);
 
   const renderScene = useCallback(
     ({ route }: { route: { key: string; title: string } }) => {
       switch (route.key) {
         case TabKey.WAITING:
-          return <WaitingPickingComponent />;
+          return <WaitingPickingComponent profile={profile} />;
         case TabKey.PROGRESS:
-          return <PickingComponent />;
+          return <PickingComponent profile={profile} />;
         case TabKey.FINISHED:
-          return <FinishingPickingComponent />;
+          return <FinishingPickingComponent profile={profile} />;
         default:
           return null;
       }

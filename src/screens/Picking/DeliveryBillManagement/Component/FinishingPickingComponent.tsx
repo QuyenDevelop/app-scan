@@ -1,9 +1,8 @@
-/* eslint-disable react-native/no-inline-styles */
 import { deliveryBillApi } from "@api";
-import { CONSTANT, DATA_CONSTANT } from "@configs";
+import { CONSTANT } from "@configs";
 import { Alert, getAsyncItem, ScreenUtils } from "@helpers";
 import { useShow } from "@hooks";
-import { PostOfficeItemResponse } from "@models";
+import { Account, PostOfficeItemResponse } from "@models";
 import { IRootState } from "@redux";
 import { Themes } from "@themes";
 import React, { FunctionComponent, useEffect, useState } from "react";
@@ -17,7 +16,13 @@ import { useSelector } from "react-redux";
 import { DeliveryBillItem } from "../../components/DeliveryBillItem";
 import styles from "./styles";
 
-export const FinishingPickingComponent: FunctionComponent<any> = () => {
+interface Props {
+  profile: Account | null;
+}
+
+export const FinishingPickingComponent: FunctionComponent<Props> = ({
+  profile,
+}) => {
   const [data, setData] = useState<any>();
   const [isLoading, setShowLoading, setHideLoading] = useShow();
   const [isFreshing, setShowFreshing, setHideFreshing] = useShow();
@@ -27,6 +32,7 @@ export const FinishingPickingComponent: FunctionComponent<any> = () => {
   const postOfficesData = useSelector(
     (state: IRootState) => state.account.postOffices,
   );
+
   const [pageIndex, setPageIndex] = useState<number>(1);
   const PAGE_SIZE_DEFAULT = 20;
   const [postOffices, setPostOffice] = useState<PostOfficeItemResponse>();
@@ -55,15 +61,16 @@ export const FinishingPickingComponent: FunctionComponent<any> = () => {
         PageIndex: 1,
         PageSize: PAGE_SIZE_DEFAULT,
         PostOfficeId: postOffices?.Id || "",
+        Status: 2,
+        PickedBy: profile?.sub || "",
       })
       ?.then(response => {
-        if (
-          response?.data &&
-          response?.data?.data &&
-          response?.data?.data.length > 0
-        ) {
+        if (response?.data && response?.data?.data) {
           setData(response?.data?.data);
-          if (data >= response?.data.totalCount) {
+          if (
+            data.length >= response?.data.totalCount ||
+            response?.data?.data.length < PAGE_SIZE_DEFAULT
+          ) {
             setDisableLoadMore(true);
           }
         }
@@ -86,15 +93,16 @@ export const FinishingPickingComponent: FunctionComponent<any> = () => {
         PageIndex: 1,
         PageSize: PAGE_SIZE_DEFAULT,
         PostOfficeId: postOffices?.Id || "",
+        Status: 2,
+        PickedBy: profile?.sub || "",
       })
       ?.then(response => {
-        if (
-          response?.data &&
-          response?.data?.data &&
-          response?.data?.data.length > 0
-        ) {
+        if (response?.data && response?.data?.data) {
           setData(response?.data?.data);
-          if (data >= response?.data.totalCount) {
+          if (
+            data.length >= response?.data.totalCount ||
+            response?.data?.data.length < PAGE_SIZE_DEFAULT
+          ) {
             setDisableLoadMore(true);
           }
         }
@@ -117,18 +125,16 @@ export const FinishingPickingComponent: FunctionComponent<any> = () => {
         PageIndex: pageIndex,
         PageSize: PAGE_SIZE_DEFAULT,
         PostOfficeId: postOffices?.Id || "",
+        Status: 2,
+        PickedBy: profile?.sub || "",
       })
       ?.then(response => {
-        if (
-          response?.data &&
-          response?.data?.data &&
-          response?.data?.data.length > 0
-        ) {
-          setData([...data, ...response?.data?.data]);
+        if (response?.data && response?.data?.data) {
+          setData([...response?.data?.data]);
           setPageIndex(pageIndex + 1);
           if (
             data >= response?.data.totalCount ||
-            response?.data?.data.length > PAGE_SIZE_DEFAULT
+            response?.data?.data.length < PAGE_SIZE_DEFAULT
           ) {
             setDisableLoadMore(true);
           }
@@ -151,23 +157,12 @@ export const FinishingPickingComponent: FunctionComponent<any> = () => {
     <View style={styles.container}>
       {isLoading ? (
         <ActivityIndicator
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-          }}
+          style={styles.indicator}
           color={Themes.colors.coolGray100}
         />
       ) : (
         <FlatList
-          data={
-            data?.filter(
-              (item: any) =>
-                item.ProcessStatus === DATA_CONSTANT.PXK_STATUS.FINISHED,
-            ) || []
-          }
+          data={data || []}
           keyExtractor={keyExtractor}
           renderItem={renderItem}
           onEndReached={disableLoadMore ? null : onEndReached}
@@ -185,6 +180,7 @@ export const FinishingPickingComponent: FunctionComponent<any> = () => {
               <></>
             )
           }
+          onEndReachedThreshold={0.5}
           contentContainerStyle={{ paddingBottom: ScreenUtils.scale(8) }}
         />
       )}

@@ -3,7 +3,11 @@ import { Header } from "@components";
 import { CONSTANT, SCREENS } from "@configs";
 import { Alert, getAsyncItem, ScreenUtils } from "@helpers";
 import { useShow } from "@hooks";
-import { PlatformAndroidStatic, PostOfficeItemResponse } from "@models";
+import {
+  DeliveryBillItemResponse,
+  PlatformAndroidStatic,
+  PostOfficeItemResponse,
+} from "@models";
 import { BarcodeMask } from "@nartc/react-native-barcode-mask";
 import { PickingParamsList } from "@navigation";
 import {
@@ -38,7 +42,7 @@ import styles from "./styles";
 type NavigationRoute = RouteProp<PickingParamsList, SCREENS.PICKING_SCREEN>;
 
 export interface PickingParams {
-  id: string;
+  item: DeliveryBillItemResponse;
   tab: string;
 }
 
@@ -47,7 +51,7 @@ export const PickingScreen: FunctionComponent = () => {
   const insets = useSafeAreaInsets();
   const router = useRoute<NavigationRoute>();
   const params = router?.params;
-  console.log("🚀🚀🚀 => params", params);
+  const { item } = params;
   const [isLoadingFetchData, showIsLoadingFetchData, hideIsLoadingFetchData] =
     useShow();
   const inputRef = useRef<TextInput>(null);
@@ -70,9 +74,7 @@ export const PickingScreen: FunctionComponent = () => {
         CONSTANT.TOKEN_STORAGE_KEY.ICHIBA_POSTOFFICE_ID,
       );
       if (postOfficeId) {
-        const postOffice = postOfficesData.find(
-          item => item.Id === postOfficeId,
-        );
+        const postOffice = postOfficesData.find(i => i.Id === postOfficeId);
         setPostOffice(postOffice);
       }
     };
@@ -242,8 +244,9 @@ export const PickingScreen: FunctionComponent = () => {
     }, 500);
   };
 
-  const keyExtractor = (item: any, index: number) => index.toString();
-  const renderItem = ({ item }: { item: any }) => {
+  const keyExtractor = (items: DeliveryBillItemResponse, index: number) =>
+    `${items.Id}_${index}`;
+  const renderItem = ({ item }: { item: DeliveryBillItemResponse }) => {
     return postOffices?.Code !== "08" ? (
       <ShipmentItemNormal item={item} />
     ) : (
@@ -336,7 +339,14 @@ export const PickingScreen: FunctionComponent = () => {
               </TouchableOpacity>
             </View>
             {location === "" && (
-              <Text style={styles.warningLocation}>
+              <Text
+                style={[
+                  styles.warningLocation,
+                  {
+                    marginBottom: ScreenUtils.scale(4),
+                  },
+                ]}
+              >
                 {translate("label.scanLocationBefore")}
               </Text>
             )}
@@ -344,7 +354,7 @@ export const PickingScreen: FunctionComponent = () => {
               <Text style={styles.text}>
                 {translate("screens.picking.finished")}: 0/3
               </Text>
-              <Text style={styles.text}>{params?.id}</Text>
+              <Text style={styles.text}>{item?.RefNo}</Text>
             </View>
             <View style={styles.textInline}>
               <Text style={styles.text}>

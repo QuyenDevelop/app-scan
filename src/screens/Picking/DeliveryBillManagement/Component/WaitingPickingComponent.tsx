@@ -1,10 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react-native/no-inline-styles */
 import { deliveryBillApi } from "@api";
-import { CONSTANT, DATA_CONSTANT } from "@configs";
+import { CONSTANT } from "@configs";
 import { Alert, getAsyncItem, ScreenUtils } from "@helpers";
 import { useShow } from "@hooks";
-import { PostOfficeItemResponse } from "@models";
+import { Account, PostOfficeItemResponse } from "@models";
 import { IRootState } from "@redux";
 import { Themes } from "@themes";
 import React, { FunctionComponent, useEffect, useState } from "react";
@@ -18,7 +16,13 @@ import { useSelector } from "react-redux";
 import { DeliveryBillItem } from "../../components/DeliveryBillItem";
 import styles from "./styles";
 
-export const WaitingPickingComponent: FunctionComponent<any> = () => {
+interface Props {
+  profile: Account | null;
+}
+
+export const WaitingPickingComponent: FunctionComponent<Props> = ({
+  profile,
+}) => {
   const [data, setData] = useState<any>();
   const [isLoading, setShowLoading, setHideLoading] = useShow();
   const [isFreshing, setShowFreshing, setHideFreshing] = useShow();
@@ -44,7 +48,7 @@ export const WaitingPickingComponent: FunctionComponent<any> = () => {
       }
     };
     getPostoffice();
-  }, []);
+  }, [postOfficesData]);
 
   useEffect(() => {
     setShowLoading();
@@ -56,15 +60,16 @@ export const WaitingPickingComponent: FunctionComponent<any> = () => {
         PageIndex: 1,
         PageSize: PAGE_SIZE_DEFAULT,
         PostOfficeId: postOffices?.Id || "",
+        Status: 0,
+        PickedBy: profile?.sub || "",
       })
       ?.then(response => {
-        if (
-          response?.data &&
-          response?.data?.data &&
-          response?.data?.data.length > 0
-        ) {
+        if (response?.data && response?.data?.data) {
           setData(response?.data?.data);
-          if (data >= response?.data.totalCount) {
+          if (
+            data.length >= response?.data.totalCount ||
+            response?.data?.data.length < PAGE_SIZE_DEFAULT
+          ) {
             setDisableLoadMore(true);
           }
         }
@@ -87,15 +92,16 @@ export const WaitingPickingComponent: FunctionComponent<any> = () => {
         PageIndex: 1,
         PageSize: PAGE_SIZE_DEFAULT,
         PostOfficeId: postOffices?.Id || "",
+        Status: 0,
+        PickedBy: profile?.sub || "",
       })
       ?.then(response => {
-        if (
-          response?.data &&
-          response?.data?.data &&
-          response?.data?.data.length > 0
-        ) {
+        if (response?.data && response?.data?.data) {
           setData(response?.data?.data);
-          if (data >= response?.data.totalCount) {
+          if (
+            data.length >= response?.data.totalCount ||
+            response?.data?.data.length < PAGE_SIZE_DEFAULT
+          ) {
             setDisableLoadMore(true);
           }
         }
@@ -118,22 +124,23 @@ export const WaitingPickingComponent: FunctionComponent<any> = () => {
         PageIndex: pageIndex,
         PageSize: PAGE_SIZE_DEFAULT,
         PostOfficeId: postOffices?.Id || "",
+        Status: 0,
+        PickedBy: profile?.sub || "",
       })
       ?.then(response => {
-        if (
-          response?.data &&
-          response?.data?.data &&
-          response?.data?.data.length > 0
-        ) {
+        if (response?.data && response?.data?.data) {
           setData([...data, ...response?.data?.data]);
           setPageIndex(pageIndex + 1);
-          if (data >= response?.data.totalCount) {
+          if (data.length >= response?.data.totalCount) {
+            console.log("object");
+
             setDisableLoadMore(true);
           }
         }
       })
       .catch(error => {
         Alert.error(error);
+        setDisableLoadMore(true);
       })
       .finally(() => {
         setHideLoadingFooter();
@@ -149,43 +156,35 @@ export const WaitingPickingComponent: FunctionComponent<any> = () => {
     <View style={styles.container}>
       {isLoading ? (
         <ActivityIndicator
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-          }}
+          style={styles.indicator}
           color={Themes.colors.coolGray100}
         />
       ) : (
-        <FlatList
-          data={
-            data?.filter(
-              (item: any) =>
-                item.ProcessStatus === DATA_CONSTANT.PXK_STATUS.WAITING,
-            ) || []
-          }
-          keyExtractor={keyExtractor}
-          renderItem={renderItem}
-          nestedScrollEnabled
-          showsVerticalScrollIndicator={false}
-          onEndReached={disableLoadMore ? null : onEndReached}
-          refreshControl={
-            <RefreshControl refreshing={isFreshing} onRefresh={onRefresh} />
-          }
-          ListFooterComponent={
-            isLoadingFooter ? (
-              <ActivityIndicator
-                size="small"
-                color={Themes.colors.collGray40}
-              />
-            ) : (
-              <></>
-            )
-          }
-          contentContainerStyle={{ paddingBottom: ScreenUtils.scale(12) }}
-        />
+        <View style={styles.container}>
+          <FlatList
+            data={data || []}
+            keyExtractor={keyExtractor}
+            renderItem={renderItem}
+            nestedScrollEnabled
+            showsVerticalScrollIndicator={false}
+            onEndReached={disableLoadMore ? undefined : onEndReached}
+            refreshControl={
+              <RefreshControl refreshing={isFreshing} onRefresh={onRefresh} />
+            }
+            ListFooterComponent={
+              isLoadingFooter ? (
+                <ActivityIndicator
+                  size="small"
+                  color={Themes.colors.collGray40}
+                />
+              ) : (
+                <></>
+              )
+            }
+            onEndReachedThreshold={0.1}
+            contentContainerStyle={{ paddingBottom: ScreenUtils.scale(12) }}
+          />
+        </View>
       )}
     </View>
   );

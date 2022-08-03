@@ -1,5 +1,6 @@
+import { deliveryBillApi } from "@api";
 import { DATA_CONSTANT, SCREENS } from "@configs";
-import { Utils } from "@helpers";
+import { Alert, Utils } from "@helpers";
 import { DeliveryBillItemResponse } from "@models";
 import { useNavigation } from "@react-navigation/native";
 import { translate } from "@shared";
@@ -19,20 +20,43 @@ export const DeliveryBillItem: FunctionComponent<Props> = ({ item, tab }) => {
     navigation.navigate(SCREENS.PICKING_STACK, {
       screen: SCREENS.DELIVERY_BILL_DETAIL_SCREEN,
       params: {
-        id: item.RefNo,
+        item: item,
         tab: tab || "",
       },
     });
   };
 
   const gotoPicking = () => {
-    navigation.navigate(SCREENS.PICKING_STACK, {
-      screen: SCREENS.PICKING_SCREEN,
-      params: {
-        id: item.RefNo,
-        tab: tab || "",
-      },
-    });
+    if (item.ProcessStatus === DATA_CONSTANT.PXK_STATUS.PROGRESS) {
+      navigation.navigate(SCREENS.PICKING_STACK, {
+        screen: SCREENS.PICKING_SCREEN,
+        params: {
+          item: item,
+          tab: tab || "",
+        },
+      });
+      return;
+    }
+    deliveryBillApi
+      .assignPickDeliveryBill({
+        DeliveryBillIds: [item.Id],
+        StartDatePick: new Date(),
+        EndDatePick: null,
+      })
+      ?.then(response => {
+        if (response && response.success) {
+          navigation.navigate(SCREENS.PICKING_STACK, {
+            screen: SCREENS.PICKING_SCREEN,
+            params: {
+              item: item,
+              tab: tab || "",
+            },
+          });
+        }
+      })
+      .catch(error => {
+        Alert.error(error);
+      });
   };
 
   const getStatus = () => {

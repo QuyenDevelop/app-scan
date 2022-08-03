@@ -1,9 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
+import { deliveryBillApi } from "@api";
 import { Header } from "@components";
 import { CONSTANT, SCREENS } from "@configs";
-import { getAsyncItem, ScreenUtils } from "@helpers";
+import { Alert, getAsyncItem, ScreenUtils } from "@helpers";
 import { useShow } from "@hooks";
-import { PostOfficeItemResponse } from "@models";
+import {
+  DeliveryBillItemResponse,
+  PostOfficeItemResponse,
+  ShipmentSourceItem,
+} from "@models";
 import { PickingParamsList } from "@navigation";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { IRootState } from "@redux";
@@ -29,56 +34,21 @@ type NavigationRoute = RouteProp<
 >;
 
 export interface DeliveryBillDetailParams {
-  id: string;
+  item: DeliveryBillItemResponse;
   tab: string;
 }
-
-const DeliveryBillDetail: any = {
-  id: 1,
-  customerName: "Nguyễn Hoàng",
-  weight: 15,
-  picked: 1,
-  totalShipment: 3,
-  reason: "không tìm thấy hàng",
-  shipments: [
-    {
-      shipmentId: "IC220665780JP",
-      tracking: "256245821524",
-      location: "A1-01",
-      quantity: 1,
-      staff: "Cao Việt Hưng",
-      isPicked: false,
-    },
-    {
-      shipmentId: "IC220665765JP",
-      tracking: "256245828564",
-      location: "b1-01",
-      quantity: 2,
-      staff: "Nguyễn Khắc Phục",
-      isPicked: false,
-    },
-    {
-      shipmentId: "IC220665871JP",
-      tracking: "256245828750",
-      location: "B-01-01-02",
-      quantity: 1,
-      staff: "Lê Thị Hương",
-      isPicked: false,
-    },
-  ],
-};
 
 export const DeliveryBillDetailScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const router = useRoute<NavigationRoute>();
   const params = router?.params;
+  const { item, tab } = params;
   const postOfficesData = useSelector(
     (state: IRootState) => state.account.postOffices,
   );
   const [postOffices, setPostOffice] = useState<PostOfficeItemResponse>();
   const [loading, setShowLoading, setHideLoading] = useShow();
-  const [data, setData] = useState<any>({});
 
   useEffect(() => {
     const getPostoffice = async () => {
@@ -86,9 +56,7 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
         CONSTANT.TOKEN_STORAGE_KEY.ICHIBA_POSTOFFICE_ID,
       );
       if (postOfficeId) {
-        const postOffice = postOfficesData.find(
-          item => item.Id === postOfficeId,
-        );
+        const postOffice = postOfficesData.find(i => i.Id === postOfficeId);
         setPostOffice(postOffice);
       }
     };
@@ -97,16 +65,34 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
 
   useEffect(() => {
     setShowLoading();
-
+    deliveryBillApi
+      .getDeliveryBillDetail({
+        deliveryBillId: item?.Id,
+      })
+      ?.then(response => {
+        if (response.success) {
+          console.log(
+            "🚀🚀🚀 => getDeliveryBillDetail => response",
+            response?.data,
+          );
+          // setData(response.data);
+        }
+      })
+      .catch(err => {
+        Alert.error(err);
+      })
+      .finally(() => {
+        setHideLoading();
+      });
     setTimeout(() => {
-      setData(DeliveryBillDetail);
       setHideLoading();
     }, 1000);
   }, []);
 
-  const keyExtractor = (item: any, index: number) => `${item.id}_${index}`;
-  const renderItem = ({ item }: { item: any }) => {
-    return postOffices?.Code !== "02" ? (
+  const keyExtractor = (items: ShipmentSourceItem, index: number) =>
+    `${items.Id}_${index}`;
+  const renderItem = ({ item }: { item: ShipmentSourceItem }) => {
+    return postOffices?.Code !== "00" ? (
       <ShipmentItemNormal item={item} />
     ) : (
       <ShipmentItemTokyo item={item} />
@@ -117,7 +103,7 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
     navigation.navigate(SCREENS.PICKING_STACK, {
       screen: SCREENS.PICKING_SCREEN,
       params: {
-        id: params?.id,
+        item: item,
       },
     });
   };
@@ -146,30 +132,34 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
         <>
           <View style={styles.headerContainer}>
             <View style={styles.inline}>
-              <Text style={styles.shipmentCode}>{params?.id}</Text>
-              <Text style={styles.shipmentCode}>{data.customerName}</Text>
+              <Text style={styles.shipmentCode}>{item?.RefNo}</Text>
+              {!!item?.ConsigneeName && (
+                <Text style={styles.shipmentCode}>{item?.ConsigneeName}</Text>
+              )}
             </View>
             <View style={styles.inline}>
               <Text style={styles.shipmentCode}>
-                Shipment: {data.totalShipment}
+                Shipment: {item?.ShipmentNumberSource.length}
               </Text>
               <Text style={styles.shipmentCode}>
-                {translate("screens.picking.finished")}: {data.picked}/
-                {data.totalShipment}
+                {translate("screens.picking.finished")}: 0/
+                {item?.ShipmentNumberSource.length}
               </Text>
-              <Text style={styles.shipmentCode}>
+              {/* <Text style={styles.shipmentCode}>
                 {translate("label.weight")}: {data.weight} kg
-              </Text>
+              </Text> */}
             </View>
             <View style={styles.inline}>
-              <Text style={styles.shipmentCode}>
-                {translate("screens.picking.reason")}: {data.reason}
-              </Text>
+              {!!item?.Note && (
+                <Text style={styles.shipmentCode}>
+                  {translate("screens.picking.reason")}: {item?.Note}
+                </Text>
+              )}
             </View>
           </View>
           <View style={styles.flatListContainer}>
             <FlatList
-              data={data.shipments}
+              data={item?.ShipmentSourceItems ?? []}
               keyExtractor={keyExtractor}
               renderItem={renderItem}
               showsVerticalScrollIndicator={false}
@@ -200,7 +190,7 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
                 {translate("button.back")}
               </Text>
             </TouchableOpacity>
-            {params?.tab !== "" && (
+            {tab !== "" && (
               <TouchableOpacity
                 style={styles.touchableOpacity}
                 onPress={gotoPicking}
