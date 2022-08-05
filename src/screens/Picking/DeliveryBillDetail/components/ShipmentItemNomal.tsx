@@ -25,17 +25,17 @@ export const ShipmentItemNormal: FunctionComponent<Props> = props => {
         {item.ReferenceNumber}
       </Text>
       <View>
-        {item.LocationNames && (
+        {item.LocationName && (
           <Text
             style={styles.location}
             numberOfLines={1}
             adjustsFontSizeToFit={true}
           >
-            {item.LocationNames[0]}
+            {item.LocationName}
           </Text>
         )}
       </View>
-      {/* <Text style={styles.quantity}>{item.quantity}</Text> */}
+      <Text style={styles.quantity}>{item.TotalWeight ?? 0}</Text>
     </View>
   );
 };

@@ -47,6 +47,7 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
   const postOfficesData = useSelector(
     (state: IRootState) => state.account.postOffices,
   );
+  const [data, setData] = useState<any>({});
   const [postOffices, setPostOffice] = useState<PostOfficeItemResponse>();
   const [loading, setShowLoading, setHideLoading] = useShow();
 
@@ -70,12 +71,8 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
         deliveryBillId: item?.Id,
       })
       ?.then(response => {
-        if (response.success) {
-          console.log(
-            "🚀🚀🚀 => getDeliveryBillDetail => response",
-            response?.data,
-          );
-          // setData(response.data);
+        if (response.data) {
+          setData(response.data);
         }
       })
       .catch(err => {
@@ -92,7 +89,7 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
   const keyExtractor = (items: ShipmentSourceItem, index: number) =>
     `${items.Id}_${index}`;
   const renderItem = ({ item }: { item: ShipmentSourceItem }) => {
-    return postOffices?.Code !== "00" ? (
+    return postOffices?.Code !== "08" ? (
       <ShipmentItemNormal item={item} />
     ) : (
       <ShipmentItemTokyo item={item} />
@@ -133,33 +130,44 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
           <View style={styles.headerContainer}>
             <View style={styles.inline}>
               <Text style={styles.shipmentCode}>{item?.RefNo}</Text>
-              {!!item?.ConsigneeName && (
-                <Text style={styles.shipmentCode}>{item?.ConsigneeName}</Text>
+              {!!data?.PickedByUserName && (
+                <Text style={styles.shipmentCode}>
+                  {data?.PickedByUserName}
+                </Text>
               )}
             </View>
             <View style={styles.inline}>
               <Text style={styles.shipmentCode}>
-                Shipment: {item?.ShipmentNumberSource.length}
+                Shipment:{" "}
+                {data?.ShipmentSourceItems
+                  ? data?.ShipmentSourceItems.length
+                  : 0}
               </Text>
               <Text style={styles.shipmentCode}>
-                {translate("screens.picking.finished")}: 0/
-                {item?.ShipmentNumberSource.length}
+                {translate("screens.picking.finished")}:{" "}
+                {data?.ShipmentNumberSource
+                  ? data?.ShipmentNumberSource.length
+                  : 0}
+                /
+                {data?.ShipmentSourceItems
+                  ? data?.ShipmentSourceItems.length
+                  : 0}
               </Text>
-              {/* <Text style={styles.shipmentCode}>
-                {translate("label.weight")}: {data.weight} kg
-              </Text> */}
+              <Text style={styles.shipmentCode}>
+                {translate("label.weight")}: {data.TotalWeight ?? 0} kg
+              </Text>
             </View>
             <View style={styles.inline}>
-              {!!item?.Note && (
+              {!!data?.Note && (
                 <Text style={styles.shipmentCode}>
-                  {translate("screens.picking.reason")}: {item?.Note}
+                  {translate("screens.picking.reason")}: {data?.Note}
                 </Text>
               )}
             </View>
           </View>
           <View style={styles.flatListContainer}>
             <FlatList
-              data={item?.ShipmentSourceItems ?? []}
+              data={data?.ShipmentSourceItems ?? []}
               keyExtractor={keyExtractor}
               renderItem={renderItem}
               showsVerticalScrollIndicator={false}

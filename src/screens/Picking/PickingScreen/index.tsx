@@ -1,4 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
+import { deliveryBillApi } from "@api";
 import { Header } from "@components";
 import { CONSTANT, SCREENS } from "@configs";
 import { Alert, getAsyncItem, ScreenUtils } from "@helpers";
@@ -7,15 +8,11 @@ import {
   DeliveryBillItemResponse,
   PlatformAndroidStatic,
   PostOfficeItemResponse,
+  ShipmentSourceItem,
 } from "@models";
 import { BarcodeMask } from "@nartc/react-native-barcode-mask";
 import { PickingParamsList } from "@navigation";
-import {
-  CommonActions,
-  RouteProp,
-  useNavigation,
-  useRoute,
-} from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
@@ -66,6 +63,7 @@ export const PickingScreen: FunctionComponent = () => {
   const [reason, setReason] = useState<string>("");
   const [loading, showLoading, hideLoading] = useShow();
   const [loadingSubmit, showLoadingSubmit, hideLoadingSubmit] = useShow();
+  const [data, setData] = useState<any>({});
   const [dataShipments, setDataShipment] = useState<Array<any>>([]);
 
   useEffect(() => {
@@ -83,21 +81,34 @@ export const PickingScreen: FunctionComponent = () => {
 
   useEffect(() => {
     showLoading();
-
-    setTimeout(() => {
-      setDataShipment([
-        {
-          shipmentId: "IC220665871JP",
-          tracking: "256245828750",
-          location: "B-01-01-02",
-          quantity: 1,
-          staff: "Lê Thị Hương",
-          isPicked: false,
-        },
-      ]);
-      hideLoading();
-    }, 500);
-  }, []);
+    deliveryBillApi
+      .getDeliveryBillDetail({
+        deliveryBillId: item?.Id,
+      })
+      ?.then(response => {
+        if (response.data) {
+          setData(response.data);
+          if (
+            response.data.ShipmentSourceItems &&
+            response.data.ShipmentSourceItems.length > 0
+          ) {
+            if (location !== "") {
+              const shipmentData = response.data.ShipmentSourceItems.filter(
+                (i: ShipmentSourceItem) => i.LocationName === location,
+              );
+              setDataShipment(shipmentData);
+            } else {
+              setDataShipment(response.data.ShipmentSourceItems);
+            }
+          } else {
+            setDataShipment([]);
+          }
+        }
+      })
+      .finally(() => {
+        hideLoading();
+      });
+  }, [location]);
 
   useEffect(() => {
     PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
@@ -232,21 +243,32 @@ export const PickingScreen: FunctionComponent = () => {
   const handleCompletePicking = () => {
     console.log("🚀🚀🚀 => handleCompletePicking => reason", reason);
     showLoadingSubmit();
-
-    setTimeout(() => {
-      hideLoadingSubmit();
-      hideModalConfirm();
-      navigation.dispatch(
-        CommonActions.reset({
-          routes: [{ name: SCREENS.DELIVERY_BILL_MANAGEMENT_SCREEN }],
-        }),
-      );
-    }, 500);
+    deliveryBillApi
+      .assignPickDeliveryBill({
+        DeliveryBillIds: [item.Id],
+        StartDatePick: null,
+        EndDatePick: new Date(),
+      })
+      ?.then(response => {
+        if (response && response.success) {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: SCREENS.DELIVERY_BILL_MANAGEMENT_SCREEN }],
+          });
+        }
+      })
+      .catch(error => {
+        Alert.error(error);
+      })
+      .finally(() => {
+        hideLoadingSubmit();
+        hideModalConfirm();
+      });
   };
 
-  const keyExtractor = (items: DeliveryBillItemResponse, index: number) =>
+  const keyExtractor = (items: ShipmentSourceItem, index: number) =>
     `${items.Id}_${index}`;
-  const renderItem = ({ item }: { item: DeliveryBillItemResponse }) => {
+  const renderItem = ({ item }: { item: ShipmentSourceItem }) => {
     return postOffices?.Code !== "08" ? (
       <ShipmentItemNormal item={item} />
     ) : (
@@ -352,9 +374,16 @@ export const PickingScreen: FunctionComponent = () => {
             )}
             <View style={styles.textInline}>
               <Text style={styles.text}>
-                {translate("screens.picking.finished")}: 0/3
+                {translate("screens.picking.finished")}:{" "}
+                {data?.ShipmentNumberSource
+                  ? data?.ShipmentNumberSource.length
+                  : 0}
+                /
+                {data?.ShipmentSourceItems
+                  ? data?.ShipmentSourceItems.length
+                  : 0}
               </Text>
-              <Text style={styles.text}>{item?.RefNo}</Text>
+              <Text style={styles.text}>{data?.RefNo}</Text>
             </View>
             <View style={styles.textInline}>
               <Text style={styles.text}>
@@ -366,12 +395,22 @@ export const PickingScreen: FunctionComponent = () => {
                   {location}
                 </Text>
               </Text>
-              <Text style={styles.text}>Nguyễn Ánh nguyệt</Text>
+              {!!data?.ConsigneeName && (
+                <Text style={styles.text}>{data?.ConsigneeName}</Text>
+              )}
             </View>
             <View
               style={{
+                width: "100%",
+                height: ScreenUtils.scale(1),
+                marginTop: ScreenUtils.scale(4),
+                backgroundColor: Themes.colors.colGray20,
+              }}
+            />
+            <View
+              style={{
+                flex: 1,
                 paddingHorizontal: ScreenUtils.scale(8),
-                marginTop: ScreenUtils.scale(8),
               }}
             >
               <FlatList

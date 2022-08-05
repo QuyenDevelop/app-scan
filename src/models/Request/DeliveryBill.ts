@@ -11,7 +11,7 @@ export interface GetAllDeliveryBillRequest {
 
 export interface AssignPickedRequest {
   DeliveryBillIds: string[];
-  StartDatePick: Date;
+  StartDatePick: Date | null;
   EndDatePick: Date | null;
 }
 export interface GetDeliveryBillDetailRequest {

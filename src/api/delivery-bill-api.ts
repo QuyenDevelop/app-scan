@@ -25,7 +25,11 @@ class DeliveryBillApi extends BaseApi {
   }
   getDeliveryBillDetail(request: GetDeliveryBillDetailRequest) {
     // console.log("🚀🚀🚀 => getDeliveryBillDetail => ", request);
-    return this.post("get-delivery-bill-byId", request, {});
+    return this.post(
+      `get-delivery-bill-byId?deliveryBillId=${request.deliveryBillId}`,
+      {},
+      {},
+    );
   }
 }
 

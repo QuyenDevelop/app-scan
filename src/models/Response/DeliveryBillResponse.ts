@@ -67,6 +67,7 @@ export interface ShipmentSourceItem {
   ShipmentNumber: string;
   ReferenceNumber: string;
   LocationNames: string | undefined[];
+  LocationName: string;
   CargoSpServiceId: string;
   CargoSpServiceName: string;
   CustomerCode: string;
@@ -81,6 +82,7 @@ export interface ShipmentSourceItem {
   ConsigneeName: string;
   CommodityNames: string[];
   ProductNames: any;
+  TotalWeight: number;
 }
 
 export interface Errors {}

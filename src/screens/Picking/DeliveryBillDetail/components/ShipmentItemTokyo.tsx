@@ -36,17 +36,17 @@ export const ShipmentItemTokyo: FunctionComponent<Props> = props => {
         )}
       </View>
       <View style={{ flex: 0.3 }}>
-        {item.LocationNames && (
+        {item.LocationName && (
           <Text
             style={styles.location}
             numberOfLines={1}
             adjustsFontSizeToFit={true}
           >
-            {item.LocationNames[0]}
+            {item.LocationNames}
           </Text>
         )}
       </View>
-      {/* <Text style={styles.quantity}>{item.quantity}</Text> */}
+      <Text style={styles.quantity}>{item.TotalWeight ?? 0}</Text>
     </View>
   );
 };
