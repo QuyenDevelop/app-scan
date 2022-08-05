@@ -2,7 +2,11 @@ import { deliveryBillApi } from "@api";
 import { CONSTANT } from "@configs";
 import { Alert, getAsyncItem, ScreenUtils } from "@helpers";
 import { useShow } from "@hooks";
-import { Account, PostOfficeItemResponse } from "@models";
+import {
+  Account,
+  DeliveryBillItemResponse,
+  PostOfficeItemResponse,
+} from "@models";
 import { IRootState } from "@redux";
 import { Themes } from "@themes";
 import React, { FunctionComponent, useEffect, useState } from "react";
@@ -21,7 +25,7 @@ interface Props {
 }
 
 export const PickingComponent: FunctionComponent<Props> = ({ profile }) => {
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<Array<DeliveryBillItemResponse>>([]);
   const [isLoading, setShowLoading, setHideLoading] = useShow();
   const [isFreshing, setShowFreshing, setHideFreshing] = useShow();
   const [disableLoadMore, setDisableLoadMore] = useState<boolean>(false);
@@ -129,7 +133,7 @@ export const PickingComponent: FunctionComponent<Props> = ({ profile }) => {
       })
       ?.then(response => {
         if (response?.data && response?.data?.data) {
-          setData([...response?.data?.data]);
+          setData(pre => [...pre, ...response?.data?.data]);
           setPageIndex(pageIndex + 1);
           if (
             data.length >= response?.data.totalCount ||
@@ -148,7 +152,7 @@ export const PickingComponent: FunctionComponent<Props> = ({ profile }) => {
   };
 
   const keyExtractor = (item: any, index: number) => `${item.id}_${index}`;
-  const renderItem = ({ item }: { item: any }) => {
+  const renderItem = ({ item }: { item: DeliveryBillItemResponse }) => {
     return <DeliveryBillItem item={item} tab={"PROGRESS"} />;
   };
 

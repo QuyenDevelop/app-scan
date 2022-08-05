@@ -2,7 +2,11 @@ import { deliveryBillApi } from "@api";
 import { CONSTANT } from "@configs";
 import { Alert, getAsyncItem, ScreenUtils } from "@helpers";
 import { useShow } from "@hooks";
-import { Account, PostOfficeItemResponse } from "@models";
+import {
+  Account,
+  DeliveryBillItemResponse,
+  PostOfficeItemResponse,
+} from "@models";
 import { IRootState } from "@redux";
 import { Themes } from "@themes";
 import React, { FunctionComponent, useEffect, useState } from "react";
@@ -23,7 +27,7 @@ interface Props {
 export const WaitingPickingComponent: FunctionComponent<Props> = ({
   profile,
 }) => {
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<Array<DeliveryBillItemResponse>>([]);
   const [isLoading, setShowLoading, setHideLoading] = useShow();
   const [isFreshing, setShowFreshing, setHideFreshing] = useShow();
   const [isLoadingFooter, setShowLoadingFooter, setHideLoadingFooter] =
@@ -66,6 +70,7 @@ export const WaitingPickingComponent: FunctionComponent<Props> = ({
       ?.then(response => {
         if (response?.data && response?.data?.data) {
           setData(response?.data?.data);
+          setPageIndex(2);
           if (
             data.length >= response?.data.totalCount ||
             response?.data?.data.length < PAGE_SIZE_DEFAULT
@@ -98,6 +103,7 @@ export const WaitingPickingComponent: FunctionComponent<Props> = ({
       ?.then(response => {
         if (response?.data && response?.data?.data) {
           setData(response?.data?.data);
+          setPageIndex(2);
           if (
             data.length >= response?.data.totalCount ||
             response?.data?.data.length < PAGE_SIZE_DEFAULT
@@ -129,11 +135,12 @@ export const WaitingPickingComponent: FunctionComponent<Props> = ({
       })
       ?.then(response => {
         if (response?.data && response?.data?.data) {
-          setData([...data, ...response?.data?.data]);
+          setData(pre => [...pre, ...response?.data?.data]);
           setPageIndex(pageIndex + 1);
-          if (data.length >= response?.data.totalCount) {
-            console.log("object");
-
+          if (
+            data.length >= response?.data.totalCount ||
+            response?.data?.data.length < PAGE_SIZE_DEFAULT
+          ) {
             setDisableLoadMore(true);
           }
         }
@@ -148,7 +155,7 @@ export const WaitingPickingComponent: FunctionComponent<Props> = ({
   };
 
   const keyExtractor = (item: any, index: number) => `${item.id}_${index}`;
-  const renderItem = ({ item }: { item: any }) => {
+  const renderItem = ({ item }: { item: DeliveryBillItemResponse }) => {
     return <DeliveryBillItem item={item} tab={"WAITING"} />;
   };
 
