@@ -42,7 +42,7 @@ export const ShipmentItemTokyo: FunctionComponent<Props> = props => {
             numberOfLines={1}
             adjustsFontSizeToFit={true}
           >
-            {item.LocationNames}
+            {item.LocationName}
           </Text>
         )}
       </View>

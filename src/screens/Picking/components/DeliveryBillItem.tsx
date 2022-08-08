@@ -85,11 +85,11 @@ export const DeliveryBillItem: FunctionComponent<Props> = ({ item, tab }) => {
         </View>
         <View style={styles.rightContent}>
           <Text style={styles.status}>{getStatus()}</Text>
-          {!!item.ShipmentSourceItems && (
-            <Text style={styles.createdDate}>
-              0/{item.ShipmentSourceItems.length ?? 0}
-            </Text>
-          )}
+
+          <Text style={styles.createdDate}>
+            0/
+            {item.ShipmentNumberSource.length ?? 0}
+          </Text>
         </View>
       </View>
       <View style={[styles.content]}>

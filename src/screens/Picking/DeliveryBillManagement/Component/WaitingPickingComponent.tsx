@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { deliveryBillApi } from "@api";
 import { CONSTANT } from "@configs";
 import { Alert, getAsyncItem, ScreenUtils } from "@helpers";
@@ -7,9 +8,15 @@ import {
   DeliveryBillItemResponse,
   PostOfficeItemResponse,
 } from "@models";
+import { useFocusEffect } from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { Themes } from "@themes";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -22,10 +29,12 @@ import styles from "./styles";
 
 interface Props {
   profile: Account | null;
+  setNumber: (value: number) => void;
 }
 
 export const WaitingPickingComponent: FunctionComponent<Props> = ({
   profile,
+  setNumber,
 }) => {
   const [data, setData] = useState<Array<DeliveryBillItemResponse>>([]);
   const [isLoading, setShowLoading, setHideLoading] = useShow();
@@ -54,7 +63,7 @@ export const WaitingPickingComponent: FunctionComponent<Props> = ({
     getPostoffice();
   }, [postOfficesData]);
 
-  useEffect(() => {
+  const getData = () => {
     setShowLoading();
     deliveryBillApi
       .getDeliveryBill({
@@ -71,6 +80,7 @@ export const WaitingPickingComponent: FunctionComponent<Props> = ({
         if (response?.data && response?.data?.data) {
           setData(response?.data?.data);
           setPageIndex(2);
+          setNumber(response?.data.totalCount);
           if (
             data.length >= response?.data.totalCount ||
             response?.data?.data.length < PAGE_SIZE_DEFAULT
@@ -85,7 +95,13 @@ export const WaitingPickingComponent: FunctionComponent<Props> = ({
       .finally(() => {
         setHideLoading();
       });
-  }, []);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      getData();
+    }, []),
+  );
 
   const onRefresh = () => {
     setShowFreshing();

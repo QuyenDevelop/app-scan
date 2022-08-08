@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import { deliveryBillApi } from "@api";
 import { Header } from "@components";
@@ -17,7 +18,13 @@ import { IRootState } from "@redux";
 import { Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
 import { debounce } from "lodash";
-import React, { FunctionComponent, useEffect, useRef, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -64,7 +71,9 @@ export const PickingScreen: FunctionComponent = () => {
   const [loading, showLoading, hideLoading] = useShow();
   const [loadingSubmit, showLoadingSubmit, hideLoadingSubmit] = useShow();
   const [data, setData] = useState<any>({});
-  const [dataShipments, setDataShipment] = useState<Array<any>>([]);
+  const [dataShipments, setDataShipment] = useState<Array<ShipmentSourceItem>>(
+    [],
+  );
 
   useEffect(() => {
     const getPostoffice = async () => {
@@ -79,8 +88,7 @@ export const PickingScreen: FunctionComponent = () => {
     getPostoffice();
   }, [postOfficesData]);
 
-  useEffect(() => {
-    showLoading();
+  const getData = useCallback(() => {
     deliveryBillApi
       .getDeliveryBillDetail({
         deliveryBillId: item?.Id,
@@ -111,6 +119,11 @@ export const PickingScreen: FunctionComponent = () => {
   }, [location]);
 
   useEffect(() => {
+    showLoading();
+    getData();
+  }, [location]);
+
+  useEffect(() => {
     PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
       inputRef.current &&
       inputRef.current.focus();
@@ -124,13 +137,6 @@ export const PickingScreen: FunctionComponent = () => {
   };
   const onRead = async ({ barcodes }: { barcodes: Array<any> }) => {
     if (barcodes.length > 0 && !!barcodes[0].data) {
-      // const checkShipment = shipmentCode.filter(shipment => {
-      //   const itemData = shipment
-      //     ? shipment.ShipmentNumber.toUpperCase()
-      //     : "".toUpperCase();
-      //   const textSearch = barcodes[0].data.trim().toUpperCase();
-      //   return itemData.indexOf(textSearch) > -1;
-      // });
       if (!isLoadingFetchData) {
         // get location
         if (!location && isLocationCode(barcodes[0].data.trim())) {
@@ -141,14 +147,14 @@ export const PickingScreen: FunctionComponent = () => {
         // get shipment
         if (location && isShipmentCode(barcodes[0].data.trim())) {
           Vibration.vibrate();
-          await getShipment(barcodes[0]?.data.trim());
+          getShipment(barcodes[0]?.data.trim());
           return;
         }
       }
     }
   };
 
-  const onScan = async (barcodes: string) => {
+  const onScan = (barcodes: string) => {
     if (!barcodes || barcodes === "") {
       Alert.error("error.errBarCode");
       return;
@@ -163,7 +169,7 @@ export const PickingScreen: FunctionComponent = () => {
       // get shipment
       if (location && isShipmentCode(barcodes.trim())) {
         Vibration.vibrate();
-        await getShipment(barcodes.trim());
+        getShipment(barcodes.trim());
         return;
       }
 
@@ -175,6 +181,7 @@ export const PickingScreen: FunctionComponent = () => {
   const getLocation = (value: string | null) => {
     if (!value || value === "") {
       Alert.error("error.errBarCode");
+      setBarcodes("");
       return;
     }
     showIsLoadingFetchData();
@@ -187,49 +194,35 @@ export const PickingScreen: FunctionComponent = () => {
   };
 
   const getShipment = (value: string) => {
-    if (!value || value === "" || value === null) {
+    const checkShipment = dataShipments.filter(
+      shipment => shipment.ShipmentNumber === value,
+    );
+    if (!value || value === "" || value === null || checkShipment.length < 0) {
       Alert.error("error.errBarCode");
+      setBarcodes("");
       return;
     }
-    // const checkShipment = shipmentCode.filter(shipment => {
-    //   const itemData = shipment
-    //     ? shipment.ShipmentNumber.toUpperCase()
-    //     : "".toUpperCase();
-    //   const textSearch = value.trim().toUpperCase();
-    //   return itemData.indexOf(textSearch) > -1;
-    // });
-    // if (checkShipment.length > 0) {
-    //   setShipmentText("");
-    //   Alert.error("label.haveShipment");
-    //   return;
-    // }
 
     showIsLoadingFetchData();
-    // shipmentApi
-    //   .scanShipment(value)
-    //   ?.then(shipment => {
-    //     if (shipment?.success && shipment?.data) {
-    //       if (shipment.data.length === 0) {
-    //         Alert.error("error.noShipment");
-    //         return;
-    //       }
-    //       setShipmentCode(s => [...s, shipment?.data[0]]);
-    //       setShipmentText("");
-    //     } else {
-    //       Alert.error("error.noShipment");
-    //       setShipmentText("");
-    //     }
-    //   })
-    //   .catch(err => {
-    //     setShipmentText("");
-    //     Alert.error(err, true);
-    //   })
-    //   .finally(() => {
-    //     Keyboard.dismiss();
-    //     setShipmentValue("");
-    //     setShipmentText("");
-    //     hideIsLoadingFetchData();
-    //   });
+    deliveryBillApi
+      .pickShipment({
+        subShipmentNumber: value,
+        locationName: location,
+        deliveryBillId: item?.Id,
+      })
+      ?.then(response => {
+        if (response.status) {
+          Alert.success(response.message, true);
+          getData();
+        }
+      })
+      .catch(err => {
+        Alert.error(err, true);
+      })
+      .finally(() => {
+        setBarcodes("");
+        hideIsLoadingFetchData();
+      });
   };
 
   const handlerClearLocation = () => {
@@ -300,66 +293,94 @@ export const PickingScreen: FunctionComponent = () => {
         <>
           <View style={{ flex: 1 }}>
             {PlatformBrandConstraint.Brand !==
-              CONSTANT.PLATFORM_BRAND.HONEYWELL && (
-              <View style={styles.cameraView}>
-                <RNCamera
-                  style={styles.camera}
-                  type={RNCamera.Constants.Type.back}
-                  flashMode={RNCamera.Constants.FlashMode.on}
-                  captureAudio={false}
-                  onGoogleVisionBarcodesDetected={onRead}
-                >
-                  <BarcodeMask
-                    width={280}
-                    height={100}
-                    edgeWidth={20}
-                    edgeHeight={20}
-                    edgeRadius={20}
-                    showAnimatedLine={false}
-                    maskOpacity={0.7}
-                    backgroundColor={Themes.colors.black}
-                    // onLayoutChange={onBarcodeFinderLayoutChange}
+            CONSTANT.PLATFORM_BRAND.HONEYWELL ? (
+              <>
+                <View style={styles.cameraView}>
+                  <RNCamera
+                    style={styles.camera}
+                    type={RNCamera.Constants.Type.back}
+                    flashMode={RNCamera.Constants.FlashMode.on}
+                    captureAudio={false}
+                    onGoogleVisionBarcodesDetected={onRead}
+                  >
+                    <BarcodeMask
+                      width={280}
+                      height={100}
+                      edgeWidth={20}
+                      edgeHeight={20}
+                      edgeRadius={20}
+                      showAnimatedLine={false}
+                      maskOpacity={0.7}
+                      backgroundColor={Themes.colors.black}
+                      // onLayoutChange={onBarcodeFinderLayoutChange}
+                    />
+                    <View style={styles.centerView}>
+                      {isLoadingFetchData && Platform.OS === "ios" && (
+                        <View style={styles.loadingView}>
+                          <ActivityIndicator color={Themes.colors.collGray40} />
+                        </View>
+                      )}
+                    </View>
+                  </RNCamera>
+                </View>
+                <View style={styles.inputView}>
+                  <TextInput
+                    value={barcode}
+                    placeholder={translate("placeholder.scanOrType")}
+                    style={styles.input}
+                    contextMenuHidden={true}
+                    onChangeText={value => {
+                      setBarcodes(value);
+                    }}
+                    returnKeyType="done"
+                    returnKeyLabel="Add"
+                    blurOnSubmit={false}
                   />
-                  <View style={styles.centerView}>
-                    {isLoadingFetchData && Platform.OS === "ios" && (
-                      <View style={styles.loadingView}>
-                        <ActivityIndicator color={Themes.colors.collGray40} />
-                      </View>
-                    )}
-                  </View>
-                </RNCamera>
+                  <TouchableOpacity
+                    style={styles.addCode}
+                    onPress={() => onScan(barcode)}
+                  >
+                    <Icon
+                      name="ic_plus"
+                      color={Themes.colors.bg}
+                      size={Metrics.icons.small}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </>
+            ) : (
+              <View style={styles.inputView}>
+                <TextInput
+                  value={barcode}
+                  placeholder={translate("placeholder.scanOrType")}
+                  style={styles.input}
+                  contextMenuHidden={true}
+                  onChangeText={value => {
+                    setBarcodes(value);
+                    autoSubmitScan(value);
+                  }}
+                  onSubmitEditing={_e => {
+                    onScan(barcode);
+                  }}
+                  ref={inputRef}
+                  clearTextOnFocus={true}
+                  returnKeyType="done"
+                  returnKeyLabel="Add"
+                  blurOnSubmit={false}
+                />
+                <TouchableOpacity
+                  style={styles.addCode}
+                  onPress={() => onScan(barcode)}
+                >
+                  <Icon
+                    name="ic_plus"
+                    color={Themes.colors.bg}
+                    size={Metrics.icons.small}
+                  />
+                </TouchableOpacity>
               </View>
             )}
-            <View style={styles.inputView}>
-              <TextInput
-                value={barcode}
-                placeholder={translate("placeholder.scanOrType")}
-                style={styles.input}
-                contextMenuHidden={true}
-                onChangeText={value => {
-                  setBarcodes(value);
-                  autoSubmitScan(value);
-                }}
-                onSubmitEditing={_e => {
-                  onScan(barcode);
-                }}
-                ref={inputRef}
-                clearTextOnFocus={true}
-                returnKeyType="done"
-                returnKeyLabel="Add"
-                blurOnSubmit={false}
-              />
-              <TouchableOpacity
-                style={styles.addCode}
-                onPress={() => onScan(barcode)}
-              >
-                <Icon
-                  name="ic_plus"
-                  color={Themes.colors.bg}
-                  size={Metrics.icons.small}
-                />
-              </TouchableOpacity>
-            </View>
+
             {location === "" && (
               <Text
                 style={[

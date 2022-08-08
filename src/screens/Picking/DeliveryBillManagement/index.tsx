@@ -38,12 +38,24 @@ export const DeliveryBillManagementScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const [index, setIndex] = useState<number>(0);
   const profile = useSelector((state: IRootState) => state.account.profile);
+  const [, setNumOfWaitings] = useState<number>(0);
+  // const [numOfProcess, setNumOfProcess] = useState<number>(0);
+  // const [numOfFinished, setNumOfFinished] = useState<number>(0);
+
+  const setNumberOfWaitings = useCallback((value: number) => {
+    setNumOfWaitings(value);
+  }, []);
 
   const renderScene = useCallback(
     ({ route }: { route: { key: string; title: string } }) => {
       switch (route.key) {
         case TabKey.WAITING:
-          return <WaitingPickingComponent profile={profile} />;
+          return (
+            <WaitingPickingComponent
+              profile={profile}
+              setNumber={setNumberOfWaitings}
+            />
+          );
         case TabKey.PROGRESS:
           return <PickingComponent profile={profile} />;
         case TabKey.FINISHED:
@@ -52,7 +64,7 @@ export const DeliveryBillManagementScreen: FunctionComponent = () => {
           return null;
       }
     },
-    [],
+    [profile, setNumberOfWaitings],
   );
 
   const renderTabBar = useCallback(props => {

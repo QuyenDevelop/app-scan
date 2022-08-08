@@ -3,6 +3,7 @@ import {
   DeliveryBillResponse,
   GetAllDeliveryBillRequest,
   GetDeliveryBillDetailRequest,
+  PickShipment,
 } from "@models";
 import { BaseApi } from "./base-api";
 
@@ -30,6 +31,10 @@ class DeliveryBillApi extends BaseApi {
       {},
       {},
     );
+  }
+  pickShipment(request: PickShipment) {
+    // console.log("🚀🚀🚀 => pickShipment => request", request);
+    return this.post("scan-pick-shipment", request, {});
   }
 }
 

@@ -9,7 +9,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    borderBottomWidth: 2 * StyleSheet.hairlineWidth,
+    borderBottomWidth: ScreenUtils.scale(1),
     borderBottomColor: Themes.colors.colGray20,
   },
   shipment: {

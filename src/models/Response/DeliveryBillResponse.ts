@@ -14,43 +14,43 @@ export interface Data {
 }
 
 export interface DeliveryBillItemResponse {
-  ShipmentDestinationItems: any;
+  ConsigneeAddress: string;
+  ConsigneeEmail: string;
+  ConsigneeName: string;
+  ConsigneePhone: any;
+  CreatedOnUtc: string;
   Criteria: Criteria;
-  ProcessedOnUtc: any;
-  ProcessedByUsername: any;
+  CustomerCode: string;
+  CustomerId: string;
+  CustomerName: string;
+  EndDatePacked: any;
+  EndDatePick: any;
+  Id: string;
   IsOrderDeliveryBill: boolean;
+  IsTransferData: boolean;
+  IssueType: number;
+  Note: string;
+  PackedBy: string;
+  PackedByUserName: string;
+  PickedBy: string;
+  PickedByUserName: string;
+  PostOfficeCode: string;
+  PostOfficeId: string;
+  ProcessStatus: string;
+  ProcessStatusText: string;
+  ProcessedByUsername: string;
+  ProcessedOnUtc: string;
+  RefNo: string;
   SPPartnerCode: any;
   SPPartnerId: any;
-  ConsigneeAddress: any;
-  ConsigneePhone: any;
-  ConsigneeEmail: any;
-  ConsigneeName?: string;
-  PickedBy?: string;
-  PickedByUserName?: string;
-  StartDatePick?: string;
-  EndDatePick?: string;
-  PackedBy?: string;
-  PackedByUserName?: string;
-  StartDatePacked?: string;
-  EndDatePacked?: string;
-  Id: string;
-  PostOfficeId: string;
-  PostOfficeCode: string;
-  CustomerId: string;
-  CustomerCode: string;
-  CustomerName: string;
-  Type: number;
-  TypeText: string;
-  RefNo: string;
-  Note: any;
-  ProcessStatus?: string;
-  ProcessStatusText?: string;
-  IsTransferData: boolean;
-  CreatedOnUtc: string;
+  ShipmentDestinationItems: any;
   ShipmentNumberSource: string[];
   ShipmentNumberSourceIds: string[];
-  IssueType: number;
-  ShipmentSourceItems: ShipmentSourceItem[];
+  ShipmentSourceItems: any[][];
+  StartDatePacked: string;
+  StartDatePick: string;
+  Type: number;
+  TypeText: string;
 }
 
 export interface Criteria {
@@ -63,25 +63,27 @@ export interface Criteria {
 }
 
 export interface ShipmentSourceItem {
-  Id: string;
-  ShipmentNumber: string;
-  ReferenceNumber: string;
-  LocationNames: string | undefined[];
-  LocationName: string;
-  CargoSpServiceId: string;
-  CargoSpServiceName: string;
-  CustomerCode: string;
-  CustomerName: string;
   CargoShippingMethod: number;
   CargoShippingMethodText: string;
+  CargoSpServiceId: string;
+  CargoSpServiceName: string;
   CargoType: number;
   CargoTypeText: string;
+  CommodityNames: any[];
+  ConsigneeName: string;
+  CustomerCode: string;
+  CustomerName: string;
+  Id: string;
+  IsPicked: boolean | null;
+  IsProcessedCargoService: boolean;
+  LastLocation: string | null;
+  LocationName: string | null;
+  LocationNames: any[];
+  ProductNames: any;
+  ReferenceNumber: string;
+  ShipmentNumber: string;
   Status: number;
   StatusText: string;
-  IsProcessedCargoService: boolean;
-  ConsigneeName: string;
-  CommodityNames: string[];
-  ProductNames: any;
   TotalWeight: number;
 }
 

@@ -223,7 +223,7 @@ const shipmentStatus = [
 ];
 
 const pxkStatus = {
-  WAITING: "N",
+  WAITING: "WaitProcess",
   PROGRESS: "Picking",
   FINISHED: "Picked",
 };

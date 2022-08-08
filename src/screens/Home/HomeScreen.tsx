@@ -36,22 +36,19 @@ export const HomeScreen: FunctionComponent = () => {
         resizeMode="cover"
         style={[styles.headerImage, { paddingTop: insets.top }]}
       >
-        <View style={styles.headerView}>
-          <TouchableOpacity onPress={goToMenuScreen}>
-            <Icon
-              name="ic_menu"
-              size={Metrics.icons.medium}
-              color={Themes.colors.white}
-              styles={styles.menu}
-            />
-          </TouchableOpacity>
-
+        <TouchableOpacity style={styles.headerView} onPress={goToMenuScreen}>
+          <Icon
+            name="ic_menu"
+            size={Metrics.icons.medium}
+            color={Themes.colors.white}
+            styles={styles.menu}
+          />
           <Icon
             name="ic_efex"
             size={Metrics.icons.medium}
             color={Themes.colors.white}
           />
-        </View>
+        </TouchableOpacity>
       </ImageBackground>
       <FlatList
         data={DATA_CONSTANT.HOME_ITEMS}

@@ -17,3 +17,9 @@ export interface AssignPickedRequest {
 export interface GetDeliveryBillDetailRequest {
   deliveryBillId: string;
 }
+
+export interface PickShipment {
+  subShipmentNumber: string;
+  locationName: string;
+  deliveryBillId: string;
+}

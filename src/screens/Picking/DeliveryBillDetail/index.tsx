@@ -144,11 +144,7 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
                   : 0}
               </Text>
               <Text style={styles.shipmentCode}>
-                {translate("screens.picking.finished")}:{" "}
-                {data?.ShipmentNumberSource
-                  ? data?.ShipmentNumberSource.length
-                  : 0}
-                /
+                {translate("screens.picking.finished")}: 0/
                 {data?.ShipmentSourceItems
                   ? data?.ShipmentSourceItems.length
                   : 0}

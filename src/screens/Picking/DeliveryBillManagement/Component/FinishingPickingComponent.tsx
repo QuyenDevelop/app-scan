@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { deliveryBillApi } from "@api";
 import { CONSTANT } from "@configs";
 import { Alert, getAsyncItem, ScreenUtils } from "@helpers";
@@ -7,9 +8,15 @@ import {
   DeliveryBillItemResponse,
   PostOfficeItemResponse,
 } from "@models";
+import { useFocusEffect } from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { Themes } from "@themes";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -55,7 +62,7 @@ export const FinishingPickingComponent: FunctionComponent<Props> = ({
     getPostoffice();
   }, []);
 
-  useEffect(() => {
+  const getData = useCallback(() => {
     setShowLoading();
     deliveryBillApi
       .getDeliveryBill({
@@ -87,6 +94,12 @@ export const FinishingPickingComponent: FunctionComponent<Props> = ({
         setHideLoading();
       });
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      getData();
+    }, [getData]),
+  );
 
   const onRefresh = () => {
     setShowFreshing();
