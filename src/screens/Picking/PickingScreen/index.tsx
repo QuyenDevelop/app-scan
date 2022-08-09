@@ -308,77 +308,40 @@ export const PickingScreen: FunctionComponent = () => {
         isCenterTitle
         titleColor={Themes.colors.white}
       />
-      {loading ? (
-        <ActivityIndicator
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-          }}
-          color={Themes.colors.coolGray100}
-        />
-      ) : (
-        <>
-          <View style={{ flex: 1 }}>
-            {PlatformBrandConstraint.Brand !==
-            CONSTANT.PLATFORM_BRAND.HONEYWELL ? (
-              <>
-                <View style={styles.cameraView}>
-                  <RNCamera
-                    style={styles.camera}
-                    type={RNCamera.Constants.Type.back}
-                    flashMode={RNCamera.Constants.FlashMode.on}
-                    captureAudio={false}
-                    onGoogleVisionBarcodesDetected={onRead}
-                  >
-                    <BarcodeMask
-                      width={280}
-                      height={100}
-                      edgeWidth={20}
-                      edgeHeight={20}
-                      edgeRadius={20}
-                      showAnimatedLine={false}
-                      maskOpacity={0.7}
-                      backgroundColor={Themes.colors.black}
-                      // onLayoutChange={onBarcodeFinderLayoutChange}
-                    />
-                    <View style={styles.centerView}>
-                      {isLoadingFetchData && Platform.OS === "ios" && (
-                        <View style={styles.loadingView}>
-                          <ActivityIndicator color={Themes.colors.collGray40} />
-                        </View>
-                      )}
-                    </View>
-                  </RNCamera>
-                </View>
-                <View style={styles.inputView}>
-                  <TextInput
-                    value={barcode}
-                    placeholder={translate("placeholder.scanOrType")}
-                    style={styles.input}
-                    contextMenuHidden={true}
-                    onChangeText={value => {
-                      setBarcodes(value);
-                    }}
-                    returnKeyType="done"
-                    returnKeyLabel="Add"
-                    blurOnSubmit={false}
+
+      <>
+        <View style={{ flex: 1 }}>
+          {PlatformBrandConstraint.Brand !==
+          CONSTANT.PLATFORM_BRAND.HONEYWELL ? (
+            <>
+              <View style={styles.cameraView}>
+                <RNCamera
+                  style={styles.camera}
+                  type={RNCamera.Constants.Type.back}
+                  flashMode={RNCamera.Constants.FlashMode.on}
+                  captureAudio={false}
+                  onGoogleVisionBarcodesDetected={onRead}
+                >
+                  <BarcodeMask
+                    width={280}
+                    height={100}
+                    edgeWidth={20}
+                    edgeHeight={20}
+                    edgeRadius={20}
+                    showAnimatedLine={false}
+                    maskOpacity={0.7}
+                    backgroundColor={Themes.colors.black}
+                    // onLayoutChange={onBarcodeFinderLayoutChange}
                   />
-                  <TouchableOpacity
-                    style={styles.addCode}
-                    onPress={() => onScan(barcode)}
-                  >
-                    <Icon
-                      name="ic_plus"
-                      color={Themes.colors.bg}
-                      size={Metrics.icons.small}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </>
-            ) : (
+                  <View style={styles.centerView}>
+                    {isLoadingFetchData && Platform.OS === "ios" && (
+                      <View style={styles.loadingView}>
+                        <ActivityIndicator color={Themes.colors.collGray40} />
+                      </View>
+                    )}
+                  </View>
+                </RNCamera>
+              </View>
               <View style={styles.inputView}>
                 <TextInput
                   value={barcode}
@@ -387,13 +350,7 @@ export const PickingScreen: FunctionComponent = () => {
                   contextMenuHidden={true}
                   onChangeText={value => {
                     setBarcodes(value);
-                    autoSubmitScan(value);
                   }}
-                  onSubmitEditing={_e => {
-                    onScan(barcode);
-                  }}
-                  ref={inputRef}
-                  clearTextOnFocus={true}
                   returnKeyType="done"
                   returnKeyLabel="Add"
                   blurOnSubmit={false}
@@ -409,90 +366,132 @@ export const PickingScreen: FunctionComponent = () => {
                   />
                 </TouchableOpacity>
               </View>
-            )}
-
-            {location === "" && (
-              <Text
-                style={[
-                  styles.warningLocation,
-                  {
-                    marginBottom: ScreenUtils.scale(4),
-                  },
-                ]}
+            </>
+          ) : (
+            <View style={styles.inputView}>
+              <TextInput
+                value={barcode}
+                placeholder={translate("placeholder.scanOrType")}
+                style={styles.input}
+                contextMenuHidden={true}
+                onChangeText={value => {
+                  setBarcodes(value);
+                  autoSubmitScan(value);
+                }}
+                onSubmitEditing={_e => {
+                  onScan(barcode);
+                }}
+                ref={inputRef}
+                clearTextOnFocus={true}
+                returnKeyType="done"
+                returnKeyLabel="Add"
+                blurOnSubmit={false}
+              />
+              <TouchableOpacity
+                style={styles.addCode}
+                onPress={() => onScan(barcode)}
               >
-                {translate("label.scanLocationBefore")}
-              </Text>
-            )}
-            <View style={styles.textInline}>
-              <Text style={styles.text}>
-                {translate("screens.picking.finished")}:{" "}
-                {data?.ShipmentPickedItems
-                  ? data?.ShipmentPickedItems.length
-                  : 0}
-                /
-                {data?.ShipmentSourceItems
-                  ? data?.ShipmentSourceItems.length
-                  : 0}
-              </Text>
-              <Text style={styles.text}>{data?.RefNo}</Text>
+                <Icon
+                  name="ic_plus"
+                  color={Themes.colors.bg}
+                  size={Metrics.icons.small}
+                />
+              </TouchableOpacity>
             </View>
-            <View style={styles.textInline}>
-              <Text style={styles.text}>
-                {translate("label.location")}:{" "}
-                <Text
-                  style={styles.warningLocation}
-                  onPress={handlerClearLocation}
-                >
-                  {location}
-                </Text>
-              </Text>
-              {!!data?.ConsigneeName && (
-                <Text style={styles.text}>{data?.ConsigneeName}</Text>
-              )}
-            </View>
-            <View
-              style={{
-                width: "100%",
-                height: ScreenUtils.scale(1),
-                marginTop: ScreenUtils.scale(4),
-                backgroundColor: Themes.colors.colGray20,
-              }}
-            />
-            <View
-              style={{
-                flex: 1,
-                paddingHorizontal: ScreenUtils.scale(8),
-              }}
+          )}
+
+          {location === "" && (
+            <Text
+              style={[
+                styles.warningLocation,
+                {
+                  marginBottom: ScreenUtils.scale(4),
+                },
+              ]}
             >
+              {translate("label.scanLocationBefore")}
+            </Text>
+          )}
+          <View style={styles.textInline}>
+            <Text style={styles.text}>
+              {translate("screens.picking.finished")}:{" "}
+              {data?.ShipmentPickedItems ? data?.ShipmentPickedItems.length : 0}
+              /
+              {data?.ShipmentSourceItems ? data?.ShipmentSourceItems.length : 0}
+            </Text>
+            <Text style={styles.text}>{data?.RefNo}</Text>
+          </View>
+          <View style={styles.textInline}>
+            <Text style={styles.text}>
+              {translate("label.location")}:{" "}
+              <Text
+                style={styles.warningLocation}
+                onPress={handlerClearLocation}
+              >
+                {location}
+              </Text>
+            </Text>
+            {!!data?.ConsigneeName && (
+              <Text style={styles.text}>{data?.ConsigneeName}</Text>
+            )}
+          </View>
+          <View
+            style={{
+              width: "100%",
+              height: ScreenUtils.scale(1),
+              marginTop: ScreenUtils.scale(4),
+              backgroundColor: Themes.colors.colGray20,
+            }}
+          />
+
+          <View
+            style={{
+              flex: 1,
+              paddingHorizontal: ScreenUtils.scale(8),
+            }}
+          >
+            {loading ? (
+              <ActivityIndicator
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                }}
+                color={Themes.colors.coolGray100}
+              />
+            ) : (
               <FlatList
                 data={dataShipments}
                 keyExtractor={keyExtractor}
                 showsVerticalScrollIndicator={false}
                 renderItem={renderItem}
               />
-            </View>
+            )}
           </View>
-          <View
-            style={[
-              styles.footer,
-              {
-                paddingBottom: insets.bottom
-                  ? insets.bottom
-                  : ScreenUtils.scale(8),
-              },
-            ]}
+        </View>
+        <View
+          style={[
+            styles.footer,
+            {
+              paddingBottom: insets.bottom
+                ? insets.bottom
+                : ScreenUtils.scale(8),
+            },
+          ]}
+        >
+          <TouchableOpacity
+            style={styles.touchableOpacity}
+            onPress={showModalConfirm}
           >
-            <TouchableOpacity
-              style={styles.touchableOpacity}
-              onPress={showModalConfirm}
-            >
-              <Text style={styles.pickUpText}>
-                {translate("screens.picking.doneButton")}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </>
-      )}
+            <Text style={styles.pickUpText}>
+              {translate("screens.picking.doneButton")}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </>
+
       <ConfirmModal
         isVisible={isShowModalConfirm}
         closeModal={hideModalConfirm}

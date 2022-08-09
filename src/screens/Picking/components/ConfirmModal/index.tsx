@@ -117,11 +117,11 @@ export const ConfirmModal: FunctionComponent<Props> = props => {
                 {isShowInput && (
                   <>
                     <TextInput
-                      value={reason}
+                      value={reason.trim()}
                       placeholder={translate("screens.picking.reason")}
                       style={styles.input}
                       contextMenuHidden={true}
-                      onChangeText={value => onChangeReason?.(value.trim())}
+                      onChangeText={value => onChangeReason?.(value)}
                       multiline
                     />
                     {errorReason !== "" && (

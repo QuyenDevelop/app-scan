@@ -12,6 +12,7 @@ export default StyleSheet.create({
   },
   scrollViewContainer: {
     maxHeight: ScreenUtils.HEIGHT / 2,
+    width: "90%",
   },
   content: {
     backgroundColor: Themes.colors.white,
