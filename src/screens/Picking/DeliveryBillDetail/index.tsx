@@ -144,13 +144,18 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
                   : 0}
               </Text>
               <Text style={styles.shipmentCode}>
-                {translate("screens.picking.finished")}: 0/
+                {translate("screens.picking.finished")}:{" "}
+                {data?.ShipmentPickedItems
+                  ? data?.ShipmentPickedItems.length
+                  : 0}
+                /
                 {data?.ShipmentSourceItems
                   ? data?.ShipmentSourceItems.length
                   : 0}
               </Text>
               <Text style={styles.shipmentCode}>
-                {translate("label.weight")}: {data.TotalWeight ?? 0} kg
+                {translate("label.weight")}:{" "}
+                {data.TotalWeight > 0 ? data.TotalWeight.toFixed(2) : 0} kg
               </Text>
             </View>
             <View style={styles.inline}>

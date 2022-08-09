@@ -3,9 +3,11 @@ import { DATA_CONSTANT, SCREENS } from "@configs";
 import { Alert, Utils } from "@helpers";
 import { DeliveryBillItemResponse } from "@models";
 import { useNavigation } from "@react-navigation/native";
+import { IRootState } from "@redux";
 import { translate } from "@shared";
 import React, { FunctionComponent } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
+import { useSelector } from "react-redux";
 import styles from "./styles";
 
 interface Props {
@@ -15,6 +17,7 @@ interface Props {
 
 export const DeliveryBillItem: FunctionComponent<Props> = ({ item, tab }) => {
   const navigation = useNavigation();
+  const profile = useSelector((state: IRootState) => state.account.profile);
 
   const gotoDeliveryDetail = () => {
     navigation.navigate(SCREENS.PICKING_STACK, {
@@ -42,6 +45,8 @@ export const DeliveryBillItem: FunctionComponent<Props> = ({ item, tab }) => {
         DeliveryBillIds: [item.Id],
         StartDatePick: new Date(),
         EndDatePick: null,
+        pickedBy: profile?.sub,
+        pickedByUserName: profile?.preferred_username,
       })
       ?.then(response => {
         if (response && response.success) {
@@ -85,10 +90,9 @@ export const DeliveryBillItem: FunctionComponent<Props> = ({ item, tab }) => {
         </View>
         <View style={styles.rightContent}>
           <Text style={styles.status}>{getStatus()}</Text>
-
           <Text style={styles.createdDate}>
-            0/
-            {item.ShipmentNumberSource.length ?? 0}
+            {item?.ShipmentPickedItems ? item?.ShipmentPickedItems.length : 0}/
+            {item.ShipmentSourceItems.length ?? 0}
           </Text>
         </View>
       </View>

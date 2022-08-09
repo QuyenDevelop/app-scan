@@ -59,6 +59,7 @@ export const PickingScreen: FunctionComponent = () => {
   const [isLoadingFetchData, showIsLoadingFetchData, hideIsLoadingFetchData] =
     useShow();
   const inputRef = useRef<TextInput>(null);
+  const profile = useSelector((state: IRootState) => state.account.profile);
   const postOfficesData = useSelector(
     (state: IRootState) => state.account.postOffices,
   );
@@ -74,6 +75,7 @@ export const PickingScreen: FunctionComponent = () => {
   const [dataShipments, setDataShipment] = useState<Array<ShipmentSourceItem>>(
     [],
   );
+  const [isShowReason, setShowReason] = useState<boolean>(false);
 
   useEffect(() => {
     const getPostoffice = async () => {
@@ -132,14 +134,22 @@ export const PickingScreen: FunctionComponent = () => {
   const isShipmentCode = (value: string) => {
     return new RegExp(/^([0-9A-Z]){9,20}$/g).test(value);
   };
-  const isLocationCode = (value: string) => {
+  const isLocationCodeV1 = (value: string) => {
     return new RegExp(/^[A-z](-[0-9A-Z]{2}){1,3}$/g).test(value);
   };
+  const isLocationCodeV2 = (value: string) => {
+    return new RegExp(/^([0-9A-Z]{2}-){1,3}$/g).test(value);
+  };
+
   const onRead = async ({ barcodes }: { barcodes: Array<any> }) => {
     if (barcodes.length > 0 && !!barcodes[0].data) {
       if (!isLoadingFetchData) {
         // get location
-        if (!location && isLocationCode(barcodes[0].data.trim())) {
+        if (
+          !location &&
+          (isLocationCodeV1(barcodes[0].data.trim()) ||
+            isLocationCodeV2(barcodes[0].data.trim() + "-"))
+        ) {
           Vibration.vibrate();
           getLocation(barcodes[0].data.trim());
           return;
@@ -161,7 +171,11 @@ export const PickingScreen: FunctionComponent = () => {
     }
     if (!isLoadingFetchData) {
       // get location
-      if (!location && isLocationCode(barcodes.trim())) {
+      if (
+        !location &&
+        (isLocationCodeV1(barcodes.trim()) ||
+          isLocationCodeV2(barcodes.trim() + "-"))
+      ) {
         Vibration.vibrate();
         getLocation(barcodes.trim());
         return;
@@ -211,13 +225,13 @@ export const PickingScreen: FunctionComponent = () => {
         deliveryBillId: item?.Id,
       })
       ?.then(response => {
-        if (response.status) {
-          Alert.success(response.message, true);
+        if (response.data && response.data.Status) {
+          Alert.success(response.data.Message, true);
           getData();
         }
       })
-      .catch(err => {
-        Alert.error(err, true);
+      .catch(() => {
+        Alert.error("error.errBarCode");
       })
       .finally(() => {
         setBarcodes("");
@@ -239,6 +253,8 @@ export const PickingScreen: FunctionComponent = () => {
     deliveryBillApi
       .assignPickDeliveryBill({
         DeliveryBillIds: [item.Id],
+        pickedBy: profile?.sub,
+        pickedByUserName: profile?.preferred_username,
         StartDatePick: null,
         EndDatePick: new Date(),
       })
@@ -396,8 +412,8 @@ export const PickingScreen: FunctionComponent = () => {
             <View style={styles.textInline}>
               <Text style={styles.text}>
                 {translate("screens.picking.finished")}:{" "}
-                {data?.ShipmentNumberSource
-                  ? data?.ShipmentNumberSource.length
+                {data?.ShipmentPickedItems
+                  ? data?.ShipmentPickedItems.length
                   : 0}
                 /
                 {data?.ShipmentSourceItems
@@ -466,7 +482,7 @@ export const PickingScreen: FunctionComponent = () => {
       <ConfirmModal
         isVisible={isShowModalConfirm}
         closeModal={hideModalConfirm}
-        isShowReason={true}
+        isShowReason={isShowReason}
         onConfirm={handleCompletePicking}
         isLoadingSubmit={loadingSubmit}
         onChangeReason={setReason}

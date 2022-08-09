@@ -14,7 +14,7 @@ export default StyleSheet.create({
   },
   shipment: {
     ...Themes.font.medium,
-    fontSize: 12,
+    fontSize: 14,
     lineHeight: 18,
     color: Themes.colors.coolGray100,
   },

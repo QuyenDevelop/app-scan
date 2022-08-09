@@ -1,4 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
+import { ScreenUtils } from "@helpers";
 import { ShipmentSourceItem } from "@models";
 import { Themes } from "@themes";
 import React, { FunctionComponent } from "react";
@@ -25,7 +26,7 @@ export const ShipmentItemNormal: FunctionComponent<Props> = props => {
 
   return (
     <View style={styles.shipmentItem}>
-      <View style={{ flex: 0.3 }}>
+      <View style={{ flex: 0.5, marginLeft: ScreenUtils.scale(8) }}>
         <Text
           style={[
             styles.shipment,
@@ -38,18 +39,19 @@ export const ShipmentItemNormal: FunctionComponent<Props> = props => {
         >
           {item.ShipmentNumber}
         </Text>
+        <Text
+          style={[
+            styles.staff,
+            {
+              color: getColor(),
+            },
+          ]}
+          numberOfLines={1}
+          adjustsFontSizeToFit={true}
+        >
+          {item.ReferenceNumber}
+        </Text>
       </View>
-      <Text
-        style={[
-          styles.staff,
-          {
-            color: getColor(),
-          },
-        ]}
-        numberOfLines={2}
-      >
-        {item.ReferenceNumber}
-      </Text>
       <View>
         {item.LocationName && item.LocationName !== "" && (
           <Text
@@ -65,7 +67,8 @@ export const ShipmentItemNormal: FunctionComponent<Props> = props => {
             {item.LocationName}
           </Text>
         )}
-        {item.LastLocation && item.LastLocation !== item.LocationName && (
+        {(item.LastLocation !== null &&
+          item.LastLocation !== item.LocationName) ?? (
           <Text
             style={[
               styles.location,

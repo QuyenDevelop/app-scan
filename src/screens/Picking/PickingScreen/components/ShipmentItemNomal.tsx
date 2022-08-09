@@ -25,7 +25,7 @@ export const ShipmentItemNormal: FunctionComponent<Props> = props => {
 
   return (
     <View style={styles.shipmentItem}>
-      <View style={{ flex: 0.3 }}>
+      <View style={{ flex: 0.4 }}>
         <Text
           style={[
             styles.shipment,
@@ -38,18 +38,17 @@ export const ShipmentItemNormal: FunctionComponent<Props> = props => {
         >
           {item.ShipmentNumber}
         </Text>
+        <Text
+          style={[
+            styles.staff,
+            {
+              color: getColor(),
+            },
+          ]}
+        >
+          {item.ReferenceNumber}
+        </Text>
       </View>
-      <Text
-        style={[
-          styles.staff,
-          {
-            color: getColor(),
-          },
-        ]}
-        numberOfLines={2}
-      >
-        {item.ReferenceNumber}
-      </Text>
       <View>
         {item.LocationName && (
           <Text

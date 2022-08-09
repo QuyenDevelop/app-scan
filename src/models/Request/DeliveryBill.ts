@@ -9,10 +9,12 @@ export interface GetAllDeliveryBillRequest {
   PickedBy: string;
 }
 
-export interface AssignPickedRequest {
-  DeliveryBillIds: string[];
-  StartDatePick: Date | null;
-  EndDatePick: Date | null;
+export interface Root {
+  startDatePick: string;
+  endDatePick: string;
+  pickedBy: string;
+  pickedByUserName: string;
+  deliveryBillIds: string[];
 }
 export interface GetDeliveryBillDetailRequest {
   deliveryBillId: string;

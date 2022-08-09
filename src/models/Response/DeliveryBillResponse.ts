@@ -46,7 +46,8 @@ export interface DeliveryBillItemResponse {
   ShipmentDestinationItems: any;
   ShipmentNumberSource: string[];
   ShipmentNumberSourceIds: string[];
-  ShipmentSourceItems: any[][];
+  ShipmentPickedItems: any[];
+  ShipmentSourceItems: ShipmentSourceItem[];
   StartDatePacked: string;
   StartDatePick: string;
   Type: number;
