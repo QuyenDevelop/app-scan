@@ -34,6 +34,7 @@ export default {
         "まだ出荷がピックアップされていません。完了を確認する理由を選択してください！",
       confirmNoFindShipment: "商品はありません",
       confirmReason: "その他の理由",
+      fillReason: "Reason can not be empty!",
     },
   },
   shipmentStatus: {

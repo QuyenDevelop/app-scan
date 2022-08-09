@@ -76,6 +76,7 @@ export const PickingScreen: FunctionComponent = () => {
     [],
   );
   const [isShowReason, setShowReason] = useState<boolean>(false);
+  const [errorReason, setErrorReason] = useState<string>("");
 
   useEffect(() => {
     const getPostoffice = async () => {
@@ -98,6 +99,14 @@ export const PickingScreen: FunctionComponent = () => {
       ?.then(response => {
         if (response.data) {
           setData(response.data);
+          if (
+            response.data.ShipmentSourceItems &&
+            response.data.ShipmentPickedItems &&
+            response.data.ShipmentSourceItems.length >
+              response.data.ShipmentPickedItems.length
+          ) {
+            setShowReason(true);
+          }
           if (
             response.data.ShipmentSourceItems &&
             response.data.ShipmentSourceItems.length > 0
@@ -248,7 +257,11 @@ export const PickingScreen: FunctionComponent = () => {
   }, 1000);
 
   const handleCompletePicking = () => {
-    console.log("🚀🚀🚀 => handleCompletePicking => reason", reason);
+    if (isShowReason && reason.trim() === "") {
+      setErrorReason(translate("screens.picking.fillReason"));
+      return;
+    }
+
     showLoadingSubmit();
     deliveryBillApi
       .assignPickDeliveryBill({
@@ -272,6 +285,7 @@ export const PickingScreen: FunctionComponent = () => {
       .finally(() => {
         hideLoadingSubmit();
         hideModalConfirm();
+        setErrorReason("");
       });
   };
 
@@ -485,7 +499,9 @@ export const PickingScreen: FunctionComponent = () => {
         isShowReason={isShowReason}
         onConfirm={handleCompletePicking}
         isLoadingSubmit={loadingSubmit}
+        reason={reason}
         onChangeReason={setReason}
+        errorReason={errorReason}
       />
     </View>
   );

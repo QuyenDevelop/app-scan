@@ -17,7 +17,9 @@ interface OwnProps {
   closeModal: () => void;
   onConfirm: () => void;
   isShowReason: boolean;
+  reason: string;
   onChangeReason?: (value: string) => void;
+  errorReason: string;
   isLoadingSubmit?: boolean;
 }
 
@@ -30,7 +32,9 @@ export const ConfirmModal: FunctionComponent<Props> = props => {
     isShowReason,
     closeModal,
     onConfirm,
+    reason,
     onChangeReason,
+    errorReason,
   } = props;
   const [showReason, setShowReason] = useState<number>(1);
   const [isShowInput, setShowInput, setHideInput] = useShow();
@@ -111,14 +115,19 @@ export const ConfirmModal: FunctionComponent<Props> = props => {
                   </Text>
                 </TouchableOpacity>
                 {isShowInput && (
-                  <TextInput
-                    // value={barcode}
-                    placeholder={translate("screens.picking.reason")}
-                    style={styles.input}
-                    contextMenuHidden={true}
-                    onChangeText={value => onChangeReason?.(value)}
-                    multiline
-                  />
+                  <>
+                    <TextInput
+                      value={reason}
+                      placeholder={translate("screens.picking.reason")}
+                      style={styles.input}
+                      contextMenuHidden={true}
+                      onChangeText={value => onChangeReason?.(value.trim())}
+                      multiline
+                    />
+                    {errorReason !== "" && (
+                      <Text style={styles.error}>{errorReason}</Text>
+                    )}
+                  </>
                 )}
               </View>
             )}

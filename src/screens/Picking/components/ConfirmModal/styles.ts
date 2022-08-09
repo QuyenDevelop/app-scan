@@ -39,7 +39,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: ScreenUtils.scale(24),
+    marginTop: ScreenUtils.scale(16),
   },
   button: {
     flex: 1,
@@ -129,5 +129,13 @@ export default StyleSheet.create({
     marginHorizontal: ScreenUtils.scale(8),
     paddingHorizontal: ScreenUtils.scale(12),
     height: ScreenUtils.scale(48),
+  },
+  error: {
+    ...Themes.font.medium,
+    fontSize: 12,
+    lineHeight: 18,
+    color: Themes.colors.danger60,
+    marginTop: ScreenUtils.scale(4),
+    marginHorizontal: ScreenUtils.scale(8),
   },
 });

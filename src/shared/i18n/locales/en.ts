@@ -29,11 +29,12 @@ export default {
       pickingStatus: "Pick up the goods",
       doneStatus: "Picked",
       doneButton: "Complete Picking",
-      confirmTitle: "Confirm the completion of picking goods",
+      confirmTitle: "Confirm the complete of picking",
       confirmMessage:
         "Still shipment has not been picked up, please choose the reason to confirm the completion!",
       confirmNoFindShipment: "No Find goods",
       confirmReason: "Other reasons",
+      fillReason: "Reason can not be empty!",
     },
   },
   shipmentStatus: {
