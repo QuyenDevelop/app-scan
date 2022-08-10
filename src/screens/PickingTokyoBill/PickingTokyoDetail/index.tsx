@@ -1,17 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import { deliveryBillApi } from "@api";
 import { Header } from "@components";
-import { CONSTANT, SCREENS } from "@configs";
-import { Alert, getAsyncItem, ScreenUtils } from "@helpers";
+import { SCREENS } from "@configs";
+import { Alert, ScreenUtils } from "@helpers";
 import { useShow } from "@hooks";
-import {
-  DeliveryBillItemResponse,
-  PostOfficeItemResponse,
-  ShipmentSourceItem,
-} from "@models";
+import { DeliveryBillItemResponse, ShipmentSourceItem } from "@models";
 import { PickingParamsList } from "@navigation";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { IRootState } from "@redux";
 import { translate } from "@shared";
 import { Themes } from "@themes";
 import React, { FunctionComponent, useEffect, useState } from "react";
@@ -23,8 +18,6 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useSelector } from "react-redux";
-import { ShipmentItemNormal } from "./components/ShipmentItemNomal";
 import { ShipmentItemTokyo } from "./components/ShipmentItemTokyo";
 import styles from "./styles";
 
@@ -33,36 +26,19 @@ type NavigationRoute = RouteProp<
   SCREENS.DELIVERY_BILL_DETAIL_SCREEN
 >;
 
-export interface DeliveryBillDetailParams {
+export interface PickingTokyoDetailParams {
   item: DeliveryBillItemResponse;
   tab: string;
 }
 
-export const DeliveryBillDetailScreen: FunctionComponent = () => {
+export const PickingTokyoDetailScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const router = useRoute<NavigationRoute>();
   const params = router?.params;
   const { item, tab } = params;
-  const postOfficesData = useSelector(
-    (state: IRootState) => state.account.postOffices,
-  );
   const [data, setData] = useState<any>({});
-  const [postOffices, setPostOffice] = useState<PostOfficeItemResponse>();
   const [loading, setShowLoading, setHideLoading] = useShow();
-
-  useEffect(() => {
-    const getPostoffice = async () => {
-      const postOfficeId = await getAsyncItem(
-        CONSTANT.TOKEN_STORAGE_KEY.ICHIBA_POSTOFFICE_ID,
-      );
-      if (postOfficeId) {
-        const postOffice = postOfficesData.find(i => i.Id === postOfficeId);
-        setPostOffice(postOffice);
-      }
-    };
-    getPostoffice();
-  }, []);
 
   useEffect(() => {
     setShowLoading();
@@ -89,11 +65,7 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
   const keyExtractor = (items: ShipmentSourceItem, index: number) =>
     `${items.Id}_${index}`;
   const renderItem = ({ item }: { item: ShipmentSourceItem }) => {
-    return postOffices?.Code !== "08" ? (
-      <ShipmentItemNormal item={item} />
-    ) : (
-      <ShipmentItemTokyo item={item} />
-    );
+    return <ShipmentItemTokyo item={item} />;
   };
 
   const gotoPicking = () => {

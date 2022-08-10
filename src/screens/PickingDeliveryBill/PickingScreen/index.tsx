@@ -3,12 +3,11 @@
 import { deliveryBillApi } from "@api";
 import { Header } from "@components";
 import { CONSTANT, SCREENS } from "@configs";
-import { Alert, getAsyncItem, ScreenUtils } from "@helpers";
+import { Alert, ScreenUtils } from "@helpers";
 import { useShow } from "@hooks";
 import {
   DeliveryBillItemResponse,
   PlatformAndroidStatic,
-  PostOfficeItemResponse,
   ShipmentSourceItem,
 } from "@models";
 import { BarcodeMask } from "@nartc/react-native-barcode-mask";
@@ -40,7 +39,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import { ConfirmModal } from "../components/ConfirmModal";
 import { ShipmentItemNormal } from "./components/ShipmentItemNomal";
-import { ShipmentItemTokyo } from "./components/ShipmentItemTokyo";
 import styles from "./styles";
 
 type NavigationRoute = RouteProp<PickingParamsList, SCREENS.PICKING_SCREEN>;
@@ -60,10 +58,6 @@ export const PickingScreen: FunctionComponent = () => {
     useShow();
   const inputRef = useRef<TextInput>(null);
   const profile = useSelector((state: IRootState) => state.account.profile);
-  const postOfficesData = useSelector(
-    (state: IRootState) => state.account.postOffices,
-  );
-  const [postOffices, setPostOffice] = useState<PostOfficeItemResponse>();
   const PlatformBrandConstraint = Platform.constants as PlatformAndroidStatic;
   const [location, setLocation] = useState<string>("");
   const [barcode, setBarcodes] = useState<string>("");
@@ -71,25 +65,12 @@ export const PickingScreen: FunctionComponent = () => {
   const [reason, setReason] = useState<string>("");
   const [loading, showLoading, hideLoading] = useShow();
   const [loadingSubmit, showLoadingSubmit, hideLoadingSubmit] = useShow();
+  const [isShowReason, setShowReason] = useState<boolean>(false);
+  const [errorReason, setErrorReason] = useState<string>("");
   const [data, setData] = useState<any>({});
   const [dataShipments, setDataShipment] = useState<Array<ShipmentSourceItem>>(
     [],
   );
-  const [isShowReason, setShowReason] = useState<boolean>(false);
-  const [errorReason, setErrorReason] = useState<string>("");
-
-  useEffect(() => {
-    const getPostoffice = async () => {
-      const postOfficeId = await getAsyncItem(
-        CONSTANT.TOKEN_STORAGE_KEY.ICHIBA_POSTOFFICE_ID,
-      );
-      if (postOfficeId) {
-        const postOffice = postOfficesData.find(i => i.Id === postOfficeId);
-        setPostOffice(postOffice);
-      }
-    };
-    getPostoffice();
-  }, [postOfficesData]);
 
   const getData = useCallback(() => {
     deliveryBillApi
@@ -292,11 +273,7 @@ export const PickingScreen: FunctionComponent = () => {
   const keyExtractor = (items: ShipmentSourceItem, index: number) =>
     `${items.Id}_${index}`;
   const renderItem = ({ item }: { item: ShipmentSourceItem }) => {
-    return postOffices?.Code !== "08" ? (
-      <ShipmentItemNormal item={item} />
-    ) : (
-      <ShipmentItemTokyo item={item} />
-    );
+    return <ShipmentItemNormal item={item} />;
   };
 
   return (
