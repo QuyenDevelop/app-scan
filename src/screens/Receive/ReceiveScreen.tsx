@@ -30,6 +30,7 @@ import {
 } from "react-native";
 import { RNCamera } from "react-native-camera";
 import { useSelector } from "react-redux";
+import { ModalAddNewCode } from "./components/ModalAddNewCode";
 import { ReceiveItem } from "./components/ReceiveItem";
 import styles from "./styles";
 
@@ -55,6 +56,8 @@ export const ReceiveScreen: FunctionComponent = () => {
     useShow();
   const [isShowConfirmModal, showConfirmModal, hideConfirmModal] = useShow();
   const [shipmentCode, setShipmentCode] = useState<string>("");
+  const [showModalAddNewCode, setShowModalAddNewCode, setHideModalAddNewCode] =
+    useShow();
   const inputRef = useRef<TextInput>(null);
   const userInfo = useSelector((state: IRootState) => state.account.profile);
   const isFocused = useIsFocused();
@@ -121,18 +124,18 @@ export const ReceiveScreen: FunctionComponent = () => {
           acceptedByUserName: userInfo?.name || "",
           acceptedByUserId: userInfo?.sub || "",
         });
+        await setAsyncItem(
+          CONSTANT.TOKEN_STORAGE_KEY.RECEIVE_BARCODES,
+          newCodes,
+        );
+        setCodes(newCodes);
+        setShipmentCode("");
+        inputRef.current?.clear();
+        if (!noVibration) {
+          Vibration.vibrate();
+        }
       } else {
-        newCodes[findCodeIndex] = {
-          ...newCodes[findCodeIndex],
-          pieces: newCodes[findCodeIndex].pieces + 1,
-        };
-      }
-      await setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.RECEIVE_BARCODES, newCodes);
-      setCodes(newCodes);
-      setShipmentCode("");
-      inputRef.current?.clear();
-      if (!noVibration) {
-        Vibration.vibrate();
+        setShowModalAddNewCode();
       }
     },
     [codes, userInfo?.name, userInfo?.sub],
@@ -161,6 +164,26 @@ export const ReceiveScreen: FunctionComponent = () => {
   const handleCancel = () => {
     hideConfirmModal();
     inputRef.current && inputRef.current.focus();
+  };
+
+  const handleConfirmAddCode = () => {
+    const newCodes = [...codes];
+    const findCodeIndex = newCodes.findIndex(
+      c => c.referenceNumber === shipmentCode.trim(),
+    );
+    newCodes[findCodeIndex] = {
+      ...newCodes[findCodeIndex],
+      pieces: newCodes[findCodeIndex].pieces + 1,
+    };
+    setCodes(newCodes);
+    setShipmentCode("");
+    inputRef.current?.clear();
+  };
+
+  const handleCancelAddCode = () => {
+    setShipmentCode("");
+    inputRef.current?.clear();
+    setHideModalAddNewCode();
   };
 
   const receiverCode = () => {
@@ -351,6 +374,12 @@ export const ReceiveScreen: FunctionComponent = () => {
         closeModal={handleCancel}
         message={translate("alert.confirmReceive", { number: codes.length })}
         onConfirm={receiverCode}
+      />
+      <ModalAddNewCode
+        isVisible={showModalAddNewCode}
+        closeModal={handleCancelAddCode}
+        message={translate("label.confirmAddCode")}
+        onConfirm={handleConfirmAddCode}
       />
     </View>
   );

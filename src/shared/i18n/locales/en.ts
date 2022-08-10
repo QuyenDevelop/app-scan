@@ -80,6 +80,8 @@ export default {
     HandedOverTheExportPartner: "Handed Over The Export Partner",
   },
   label: {
+    confirmAddCode:
+      "Shipment has been scanned earlier, you are sure you want to one more time!!",
     haveShipment: "Shipment have scanned",
     bag: "Bag",
     sufficientQuantity: "Sufficient quantity",

@@ -80,6 +80,8 @@ export default {
     HandedOverTheExportPartner: "輸出パートナーの引き渡し",
   },
   label: {
+    confirmAddCode:
+      "出荷は以前にスキャンされました、あなたはもう一度したいと確信しています!!",
     haveShipment: "Shipment đã tốn tại",
     bag: "バッグ",
     changeLocation: "地域を変更",
