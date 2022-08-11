@@ -102,10 +102,8 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
           <View style={styles.headerContainer}>
             <View style={styles.inline}>
               <Text style={styles.shipmentCode}>{item?.RefNo}</Text>
-              {!!data?.PickedByUserName && (
-                <Text style={styles.shipmentCode}>
-                  {data?.PickedByUserName}
-                </Text>
+              {!!data?.ConsigneeName && (
+                <Text style={styles.shipmentCode}>{data?.ConsigneeName}</Text>
               )}
             </View>
             <View style={styles.inline}>

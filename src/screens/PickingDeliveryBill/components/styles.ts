@@ -53,6 +53,14 @@ export default StyleSheet.create({
     fontWeight: "700",
     color: Themes.colors.coolGray60,
   },
+  picker: {
+    ...Themes.font.medium,
+    fontSize: 12,
+    lineHeight: 15,
+    fontWeight: "700",
+    color: Themes.colors.coolGray60,
+    marginTop: ScreenUtils.scale(4),
+  },
   button: {
     width: ScreenUtils.WIDTH / 3,
     paddingVertical: ScreenUtils.scale(8),

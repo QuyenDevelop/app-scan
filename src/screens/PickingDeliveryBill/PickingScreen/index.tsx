@@ -71,6 +71,11 @@ export const PickingScreen: FunctionComponent = () => {
   const [dataShipments, setDataShipment] = useState<Array<ShipmentSourceItem>>(
     [],
   );
+  useEffect(() => {
+    PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
+      inputRef.current &&
+      inputRef.current.focus();
+  }, [PlatformBrandConstraint.Brand]);
 
   const getData = useCallback(() => {
     deliveryBillApi
@@ -114,12 +119,6 @@ export const PickingScreen: FunctionComponent = () => {
     showLoading();
     getData();
   }, [location]);
-
-  useEffect(() => {
-    PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
-      inputRef.current &&
-      inputRef.current.focus();
-  }, [PlatformBrandConstraint.Brand]);
 
   const isShipmentCode = (value: string) => {
     return new RegExp(/^([0-9A-Z]){9,20}$/g).test(value);
@@ -359,6 +358,7 @@ export const PickingScreen: FunctionComponent = () => {
                   onScan(barcode);
                 }}
                 ref={inputRef}
+                autoFocus={true}
                 clearTextOnFocus={true}
                 returnKeyType="done"
                 returnKeyLabel="Add"
