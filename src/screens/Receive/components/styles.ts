@@ -4,10 +4,7 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   receiveItem: {
-    borderBottomWidth: 1,
-    borderColor: Themes.colors.colGray20,
-    paddingVertical: ScreenUtils.scale(8),
-    marginHorizontal: ScreenUtils.scale(16),
+    marginHorizontal: ScreenUtils.scale(10),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -128,5 +125,18 @@ export default StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: Themes.colors.colGray20,
     marginHorizontal: ScreenUtils.scale(20),
+  },
+  imagesListContainer: {
+    paddingHorizontal: ScreenUtils.scale(8),
+  },
+  ImageButton: {
+    width: ScreenUtils.scale(40),
+    height: ScreenUtils.scale(40),
+    backgroundColor: Themes.colors.collGray40,
+    marginHorizontal: ScreenUtils.scale(4),
+  },
+  images: {
+    width: "100%",
+    height: "100%",
   },
 });

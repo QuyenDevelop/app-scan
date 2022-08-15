@@ -100,7 +100,8 @@ export const PickingScreen: FunctionComponent = () => {
           ) {
             if (location !== "") {
               const shipmentData = response.data.ShipmentSourceItems.filter(
-                (i: ShipmentSourceItem) => i.LocationName === location,
+                (i: ShipmentSourceItem) =>
+                  i.LocationName === location || i.LastLocation === location,
               );
               setDataShipment(shipmentData);
             } else {
@@ -275,7 +276,7 @@ export const PickingScreen: FunctionComponent = () => {
 
     timerRef.current = setTimeout(() => {
       onScan(value.trim());
-    }, 1000);
+    }, 2000);
   };
 
   const keyExtractor = (items: ShipmentSourceItem, index: number) =>
@@ -331,18 +332,16 @@ export const PickingScreen: FunctionComponent = () => {
           )}
           <View style={styles.inputView}>
             <TextInput
+              ref={inputRef}
               value={barcode}
               placeholder={translate("placeholder.scanOrType")}
               style={styles.input}
-              contextMenuHidden={true}
               onChangeText={onChangeInputText}
               onSubmitEditing={_e => {
                 onScan(barcode);
               }}
-              ref={inputRef}
               returnKeyType="done"
               returnKeyLabel="Add"
-              blurOnSubmit={false}
             />
             <TouchableOpacity
               style={styles.addCode}
@@ -369,23 +368,41 @@ export const PickingScreen: FunctionComponent = () => {
             </Text>
           )}
           <View style={styles.textInline}>
-            <Text style={styles.text}>
+            <Text style={styles.pickedText}>
               {translate("screens.picking.finished")}:{" "}
-              {data?.ShipmentPickedItems ? data?.ShipmentPickedItems.length : 0}
+              <Text
+                style={{
+                  color:
+                    data?.ShipmentPickedItems?.length >=
+                    data?.ShipmentSourceItems?.length
+                      ? Themes.colors.primary
+                      : Themes.colors.danger60,
+                }}
+              >
+                {data?.ShipmentPickedItems
+                  ? data?.ShipmentPickedItems.length
+                  : 0}
+              </Text>
               /
-              {data?.ShipmentSourceItems ? data?.ShipmentSourceItems.length : 0}
+              <Text style={{ color: Themes.colors.primary }}>
+                {data?.ShipmentSourceItems
+                  ? data?.ShipmentSourceItems.length
+                  : 0}
+              </Text>
             </Text>
             <Text style={styles.text}>{data?.RefNo}</Text>
           </View>
           <View style={styles.textInline}>
             <Text style={styles.text}>
               {translate("label.location")}:{" "}
-              <Text
-                style={styles.warningLocation}
-                onPress={handlerClearLocation}
-              >
-                {location}
-              </Text>
+              {location ? (
+                <Text
+                  style={styles.warningLocation}
+                  onPress={handlerClearLocation}
+                >
+                  {location}
+                </Text>
+              ) : null}
             </Text>
             {!!data?.ConsigneeName && (
               <Text style={styles.text}>{data?.ConsigneeName}</Text>

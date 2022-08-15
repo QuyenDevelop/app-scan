@@ -67,6 +67,13 @@ export default StyleSheet.create({
     fontWeight: "400",
     color: Themes.colors.coolGray100,
   },
+  pickedText: {
+    ...Themes.font.medium,
+    fontSize: 16,
+    lineHeight: 16,
+    fontWeight: "700",
+    color: Themes.colors.coolGray100,
+  },
   footer: {
     width: ScreenUtils.WIDTH,
     paddingTop: ScreenUtils.scale(8),
