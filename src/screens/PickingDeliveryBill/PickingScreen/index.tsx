@@ -16,11 +16,11 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
-import { debounce } from "lodash";
 import React, {
   FunctionComponent,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -57,6 +57,7 @@ export const PickingScreen: FunctionComponent = () => {
   const [isLoadingFetchData, showIsLoadingFetchData, hideIsLoadingFetchData] =
     useShow();
   const inputRef = useRef<TextInput>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const profile = useSelector((state: IRootState) => state.account.profile);
   const PlatformBrandConstraint = Platform.constants as PlatformAndroidStatic;
   const [location, setLocation] = useState<string>("");
@@ -71,11 +72,11 @@ export const PickingScreen: FunctionComponent = () => {
   const [dataShipments, setDataShipment] = useState<Array<ShipmentSourceItem>>(
     [],
   );
-  useEffect(() => {
+  useMemo(() => {
     PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
       inputRef.current &&
       inputRef.current.focus();
-  }, [PlatformBrandConstraint.Brand]);
+  }, [PlatformBrandConstraint.Brand, barcode]);
 
   const getData = useCallback(() => {
     deliveryBillApi
@@ -232,10 +233,6 @@ export const PickingScreen: FunctionComponent = () => {
     setLocation("");
   };
 
-  const autoSubmitScan = debounce((value: string) => {
-    onScan(value.trim());
-  }, 1000);
-
   const handleCompletePicking = () => {
     if (isShowReason && reason.trim() === "") {
       setErrorReason(translate("screens.picking.fillReason"));
@@ -269,6 +266,18 @@ export const PickingScreen: FunctionComponent = () => {
       });
   };
 
+  const onChangeInputText = (value: string) => {
+    setBarcodes(value);
+
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+
+    timerRef.current = setTimeout(() => {
+      onScan(value.trim());
+    }, 1000);
+  };
+
   const keyExtractor = (items: ShipmentSourceItem, index: number) =>
     `${items.Id}_${index}`;
   const renderItem = ({ item }: { item: ShipmentSourceItem }) => {
@@ -288,7 +297,7 @@ export const PickingScreen: FunctionComponent = () => {
       <>
         <View style={{ flex: 1 }}>
           {PlatformBrandConstraint.Brand !==
-          CONSTANT.PLATFORM_BRAND.HONEYWELL ? (
+            CONSTANT.PLATFORM_BRAND.HONEYWELL && (
             <>
               <View style={styles.cameraView}>
                 <RNCamera
@@ -318,64 +327,34 @@ export const PickingScreen: FunctionComponent = () => {
                   </View>
                 </RNCamera>
               </View>
-              <View style={styles.inputView}>
-                <TextInput
-                  value={barcode}
-                  placeholder={translate("placeholder.scanOrType")}
-                  style={styles.input}
-                  contextMenuHidden={true}
-                  onChangeText={value => {
-                    setBarcodes(value);
-                  }}
-                  returnKeyType="done"
-                  returnKeyLabel="Add"
-                  blurOnSubmit={false}
-                />
-                <TouchableOpacity
-                  style={styles.addCode}
-                  onPress={() => onScan(barcode)}
-                >
-                  <Icon
-                    name="ic_plus"
-                    color={Themes.colors.bg}
-                    size={Metrics.icons.small}
-                  />
-                </TouchableOpacity>
-              </View>
             </>
-          ) : (
-            <View style={styles.inputView}>
-              <TextInput
-                value={barcode}
-                placeholder={translate("placeholder.scanOrType")}
-                style={styles.input}
-                contextMenuHidden={true}
-                onChangeText={value => {
-                  setBarcodes(value);
-                  autoSubmitScan(value);
-                }}
-                onSubmitEditing={_e => {
-                  onScan(barcode);
-                }}
-                ref={inputRef}
-                autoFocus={true}
-                clearTextOnFocus={true}
-                returnKeyType="done"
-                returnKeyLabel="Add"
-                blurOnSubmit={false}
-              />
-              <TouchableOpacity
-                style={styles.addCode}
-                onPress={() => onScan(barcode)}
-              >
-                <Icon
-                  name="ic_plus"
-                  color={Themes.colors.bg}
-                  size={Metrics.icons.small}
-                />
-              </TouchableOpacity>
-            </View>
           )}
+          <View style={styles.inputView}>
+            <TextInput
+              value={barcode}
+              placeholder={translate("placeholder.scanOrType")}
+              style={styles.input}
+              contextMenuHidden={true}
+              onChangeText={onChangeInputText}
+              onSubmitEditing={_e => {
+                onScan(barcode);
+              }}
+              ref={inputRef}
+              returnKeyType="done"
+              returnKeyLabel="Add"
+              blurOnSubmit={false}
+            />
+            <TouchableOpacity
+              style={styles.addCode}
+              onPress={() => onScan(barcode)}
+            >
+              <Icon
+                name="ic_plus"
+                color={Themes.colors.bg}
+                size={Metrics.icons.small}
+              />
+            </TouchableOpacity>
+          </View>
 
           {location === "" && (
             <Text
