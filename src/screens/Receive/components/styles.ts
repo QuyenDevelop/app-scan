@@ -27,7 +27,7 @@ export default StyleSheet.create({
   deleteItem: {
     flexDirection: "row",
     alignItems: "center",
-    flex: 0.4,
+    flex: 0.5,
     justifyContent: "space-between",
   },
   quantityInput: {
@@ -84,5 +84,49 @@ export default StyleSheet.create({
   icon: {
     alignSelf: "center",
     marginVertical: ScreenUtils.scale(12),
+  },
+  waitingModalContainer: {
+    flex: 1,
+    height: ScreenUtils.HEIGHT,
+    width: ScreenUtils.WIDTH,
+    justifyContent: "center",
+    alignItems: "center",
+    // opacity: "0.5",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  loading: {
+    height: ScreenUtils.HEIGHT,
+    width: ScreenUtils.WIDTH,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  imageView: {
+    width: (ScreenUtils.WIDTH - ScreenUtils.scale(32)) / 3,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: ScreenUtils.scale(4),
+  },
+  imageLibrary: {
+    width: "100%",
+    height: "100%",
+    overflow: "hidden",
+  },
+  iconCheck: {
+    position: "absolute",
+    bottom: ScreenUtils.scale(8),
+    right: ScreenUtils.scale(8),
+  },
+  bottomModal: {
+    maxHeight: "100%",
+    paddingBottom: ScreenUtils.scale(10),
+  },
+  serviceSelect: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    paddingVertical: ScreenUtils.scale(20),
+    borderBottomWidth: 1,
+    borderBottomColor: Themes.colors.colGray20,
+    marginHorizontal: ScreenUtils.scale(20),
   },
 });

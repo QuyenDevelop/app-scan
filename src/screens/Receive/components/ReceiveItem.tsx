@@ -5,6 +5,7 @@ import { Metrics, Themes } from "@themes";
 import React, { FunctionComponent } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import styles from "./styles";
+import { TakePhotoModal } from "./TakePhotoModal";
 interface Props {
   item: ReceiveBarcode;
   index: number;
@@ -14,7 +15,10 @@ interface Props {
 
 export const ReceiveItem: FunctionComponent<Props> = props => {
   const { item, index, deleteItem, updatePieces } = props;
+  console.log("🚀🚀🚀 => item", item);
+
   const [isShowDeleteModal, showDeleteModal, hideDeleteModal] = useShow();
+  const [isShowPhotoModal, setShowPhotoModal, setHidePhotoModal] = useShow();
   const confirmDelete = () => {
     deleteItem(item.referenceNumber);
   };
@@ -54,13 +58,24 @@ export const ReceiveItem: FunctionComponent<Props> = props => {
           />
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={setShowPhotoModal}
+          hitSlop={styles.hitSlop}
+          style={styles.deleteBtn}
+        >
+          <Icon
+            name="ic_camera"
+            color={Themes.colors.coolGray100}
+            size={Metrics.icons.small}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={showDeleteModal}
           hitSlop={styles.hitSlop}
           style={styles.deleteBtn}
         >
           <Icon
             name="ic_delete"
-            color={Themes.colors.collGray40}
+            color={Themes.colors.coolGray60}
             size={Metrics.icons.small}
           />
         </TouchableOpacity>
@@ -72,6 +87,13 @@ export const ReceiveItem: FunctionComponent<Props> = props => {
           number: item.referenceNumber,
         })}
         confirmDelete={confirmDelete}
+      />
+      <TakePhotoModal
+        isShowModal={isShowPhotoModal}
+        closeModal={setHidePhotoModal}
+        shipment={item.referenceNumber}
+        reUpdateImagesList={() => {}}
+        images={[]}
       />
     </View>
   );

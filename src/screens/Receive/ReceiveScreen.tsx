@@ -12,11 +12,11 @@ import { useIsFocused } from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { Button, ConfirmModal, Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
-import debounce from "lodash/debounce";
 import React, {
   FunctionComponent,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -59,6 +59,7 @@ export const ReceiveScreen: FunctionComponent = () => {
   const [showModalAddNewCode, setShowModalAddNewCode, setHideModalAddNewCode] =
     useShow();
   const inputRef = useRef<TextInput>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const userInfo = useSelector((state: IRootState) => state.account.profile);
   const isFocused = useIsFocused();
   const [isShowDetectCode, showDetectCode, hideDetectCode] = useShow();
@@ -83,7 +84,7 @@ export const ReceiveScreen: FunctionComponent = () => {
       2000,
     );
 
-  useEffect(() => {
+  useMemo(() => {
     PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
       inputRef.current &&
       inputRef.current.focus();
@@ -211,11 +212,6 @@ export const ReceiveScreen: FunctionComponent = () => {
       });
   };
 
-  const keyExtractor = useCallback(
-    (item: ReceiveBarcode) => `${item.referenceNumber}`,
-    [],
-  );
-
   const deleteItem = useCallback(
     async (item: string) => {
       const newCodes = codes.filter(c => c.referenceNumber !== item);
@@ -239,6 +235,7 @@ export const ReceiveScreen: FunctionComponent = () => {
     [codes],
   );
 
+  const keyExtractor = (item: ReceiveBarcode) => `${item.referenceNumber}`;
   const renderItem = useCallback(
     ({ item, index }: { item: ReceiveBarcode; index: number }) => {
       return (
@@ -266,14 +263,22 @@ export const ReceiveScreen: FunctionComponent = () => {
     }
   };
 
-  const autoSubmitScan = debounce((value: string) => {
-    if (isShipmentCode(value)) {
-      addNewCode(value.trim(), true);
-    } else {
-      setShipmentCode("");
-      Alert.error("error.errBarCode");
+  const onChangeInputText = (value: string) => {
+    setShipmentCode(value);
+
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
     }
-  }, 500);
+
+    timerRef.current = setTimeout(() => {
+      if (!isShipmentCode(value)) {
+        setShipmentCode("");
+        Alert.error("error.errBarCode");
+      } else {
+        addNewCode(value.trim(), true);
+      }
+    }, 1000);
+  };
 
   return (
     <View style={styles.container}>
@@ -326,15 +331,12 @@ export const ReceiveScreen: FunctionComponent = () => {
         )}
         <View style={styles.inputView}>
           <TextInput
-            ref={inputRef}
             placeholder={translate("placeholder.scanOrType")}
             style={styles.input}
             value={shipmentCode}
+            ref={inputRef}
             contextMenuHidden={true}
-            onChangeText={value => {
-              setShipmentCode(value);
-              autoSubmitScan(value);
-            }}
+            onChangeText={onChangeInputText}
             onSubmitEditing={_e => {
               onPressAddCode();
             }}
