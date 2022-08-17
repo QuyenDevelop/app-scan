@@ -42,11 +42,13 @@ export const DeliveryBillItem: FunctionComponent<Props> = ({ item, tab }) => {
     }
     deliveryBillApi
       .assignPickDeliveryBill({
-        DeliveryBillIds: [item.Id],
-        StartDatePick: new Date(),
-        EndDatePick: null,
-        pickedBy: profile?.sub,
-        pickedByUserName: profile?.preferred_username,
+        startDatePick: new Date(),
+        pickedBy: profile?.sub || "",
+        pickedByUserName: profile?.preferred_username || "",
+        deliveryBillIds: [item.Id],
+        endDatePick: null,
+        note: "",
+        hasComplain: false,
       })
       ?.then(response => {
         if (response && response.success) {

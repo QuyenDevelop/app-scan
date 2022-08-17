@@ -247,11 +247,13 @@ export const PickingScreen: FunctionComponent = () => {
     showLoadingSubmit();
     deliveryBillApi
       .assignPickDeliveryBill({
-        DeliveryBillIds: [item.Id],
-        pickedBy: profile?.sub,
-        pickedByUserName: profile?.preferred_username,
-        StartDatePick: null,
-        EndDatePick: new Date(),
+        deliveryBillIds: [item.Id],
+        pickedBy: profile?.sub || "",
+        pickedByUserName: profile?.preferred_username || "",
+        startDatePick: null,
+        endDatePick: new Date(),
+        note: reason.trim(),
+        hasComplain: isShowReason,
       })
       ?.then(response => {
         if (response && response.success) {

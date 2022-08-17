@@ -25,3 +25,13 @@ export interface PickShipment {
   locationName: string;
   deliveryBillId: string;
 }
+
+export interface AssignPickedRequest {
+  startDatePick: Date | null;
+  endDatePick: Date | null;
+  pickedBy: string;
+  pickedByUserName: string;
+  deliveryBillIds: string[];
+  hasComplain: boolean;
+  note: string;
+}
