@@ -12,7 +12,12 @@ import {
 } from "@models";
 import { BarcodeMask } from "@nartc/react-native-barcode-mask";
 import { PickingParamsList } from "@navigation";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import {
+  RouteProp,
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
@@ -20,7 +25,6 @@ import React, {
   FunctionComponent,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -66,17 +70,19 @@ export const PickingScreen: FunctionComponent = () => {
   const [reason, setReason] = useState<string>("");
   const [loading, showLoading, hideLoading] = useShow();
   const [loadingSubmit, showLoadingSubmit, hideLoadingSubmit] = useShow();
-  const [isShowReason, setShowReason] = useState<boolean>(false);
+  const [isShowReason, setShowReason] = useState<boolean>(true);
   const [errorReason, setErrorReason] = useState<string>("");
   const [data, setData] = useState<any>({});
   const [dataShipments, setDataShipment] = useState<Array<ShipmentSourceItem>>(
     [],
   );
-  useMemo(() => {
-    PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
-      inputRef.current &&
-      inputRef.current.focus();
-  }, [PlatformBrandConstraint.Brand, barcode]);
+  useFocusEffect(
+    useCallback(() => {
+      PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
+        inputRef.current &&
+        inputRef.current.focus();
+    }, []),
+  );
 
   const getData = useCallback(() => {
     deliveryBillApi
@@ -87,12 +93,10 @@ export const PickingScreen: FunctionComponent = () => {
         if (response.data) {
           setData(response.data);
           if (
-            response.data.ShipmentSourceItems &&
-            response.data.ShipmentPickedItems &&
-            response.data.ShipmentSourceItems.length >
-              response.data.ShipmentPickedItems.length
+            response?.data?.ShipmentSourceItems?.length ===
+            response?.data?.ShipmentPickedItems?.length
           ) {
-            setShowReason(true);
+            setShowReason(false);
           }
           if (
             response.data.ShipmentSourceItems &&
@@ -221,8 +225,8 @@ export const PickingScreen: FunctionComponent = () => {
           getData();
         }
       })
-      .catch(() => {
-        Alert.error("error.errBarCode");
+      .catch(err => {
+        Alert.error(err, true);
       })
       .finally(() => {
         setBarcodes("");
