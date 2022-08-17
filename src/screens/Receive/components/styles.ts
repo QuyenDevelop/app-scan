@@ -132,11 +132,14 @@ export default StyleSheet.create({
   ImageButton: {
     width: ScreenUtils.scale(40),
     height: ScreenUtils.scale(40),
-    backgroundColor: Themes.colors.collGray40,
     marginHorizontal: ScreenUtils.scale(4),
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: ScreenUtils.scale(4),
+    overflow: "hidden",
   },
   images: {
-    width: "100%",
-    height: "100%",
+    width: ScreenUtils.scale(40),
+    height: ScreenUtils.scale(40),
   },
 });

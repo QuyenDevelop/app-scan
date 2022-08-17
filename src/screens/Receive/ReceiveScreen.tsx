@@ -8,7 +8,7 @@ import { useShow } from "@hooks";
 import { PlatformAndroidStatic } from "@models";
 import { BarcodeMask, useBarcodeRead } from "@nartc/react-native-barcode-mask";
 import { useNavigation } from "@react-navigation/core";
-import { useIsFocused } from "@react-navigation/native";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { Button, ConfirmModal, Icon, translate } from "@shared";
 import { Metrics, Themes } from "@themes";
@@ -16,7 +16,6 @@ import React, {
   FunctionComponent,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -40,6 +39,7 @@ export interface ReceiveBarcode {
   acceptedDate: string;
   acceptedByUserName: string;
   acceptedByUserId: string;
+  images: string[];
 }
 
 const getStoreBarcode = async (): Promise<Array<ReceiveBarcode>> => {
@@ -84,11 +84,13 @@ export const ReceiveScreen: FunctionComponent = () => {
       2000,
     );
 
-  useMemo(() => {
-    PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
-      inputRef.current &&
-      inputRef.current.focus();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
+        inputRef.current &&
+        inputRef.current.focus();
+    }, []),
+  );
 
   useEffect(() => {
     getStoreBarcode().then((barcodes: Array<ReceiveBarcode>) => {
@@ -124,6 +126,7 @@ export const ReceiveScreen: FunctionComponent = () => {
           acceptedDate: new Date().toISOString(),
           acceptedByUserName: userInfo?.name || "",
           acceptedByUserId: userInfo?.sub || "",
+          images: [],
         });
         await setAsyncItem(
           CONSTANT.TOKEN_STORAGE_KEY.RECEIVE_BARCODES,
@@ -235,6 +238,20 @@ export const ReceiveScreen: FunctionComponent = () => {
     [codes],
   );
 
+  const updateImages = useCallback(
+    async (index: number, value: string[]) => {
+      console.log("object");
+      const newCodes = [...codes];
+      newCodes[index] = {
+        ...newCodes[index],
+        images: [...newCodes[index].images, ...value],
+      };
+      await setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.RECEIVE_BARCODES, newCodes);
+      setCodes(newCodes);
+    },
+    [codes],
+  );
+
   const keyExtractor = (item: ReceiveBarcode) => `${item.referenceNumber}`;
   const renderItem = useCallback(
     ({ item, index }: { item: ReceiveBarcode; index: number }) => {
@@ -244,6 +261,7 @@ export const ReceiveScreen: FunctionComponent = () => {
           index={index}
           deleteItem={deleteItem}
           updatePieces={updatePieces}
+          updateImages={updateImages}
         />
       );
     },
@@ -277,7 +295,7 @@ export const ReceiveScreen: FunctionComponent = () => {
       } else {
         addNewCode(value.trim(), true);
       }
-    }, 1000);
+    }, 2000);
   };
 
   return (

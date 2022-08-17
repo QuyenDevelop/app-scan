@@ -1,5 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import { ScreenUtils } from "@helpers";
+import { DATA_CONSTANT, SCREENS } from "@configs";
+import { NavigationUtils, ScreenUtils } from "@helpers";
 import { useShow } from "@hooks";
 import { ReceiveBarcode } from "@screens";
 import { DeleteModal, Icon, translate } from "@shared";
@@ -20,10 +21,11 @@ interface Props {
   index: number;
   deleteItem: (value: string) => void;
   updatePieces: (index: number, value: number) => void;
+  updateImages: (index: number, value: string[]) => void;
 }
 
 export const ReceiveItem: FunctionComponent<Props> = props => {
-  const { item, index, deleteItem, updatePieces } = props;
+  const { item, index, deleteItem, updatePieces, updateImages } = props;
   const [isShowDeleteModal, showDeleteModal, hideDeleteModal] = useShow();
   const [isShowPhotoModal, setShowPhotoModal, setHidePhotoModal] = useShow();
   const confirmDelete = () => {
@@ -38,19 +40,28 @@ export const ReceiveItem: FunctionComponent<Props> = props => {
     updatePieces(index, item.pieces - 1);
   };
 
-  const onViewImage = () => {};
+  const onViewImage = () => {
+    NavigationUtils.navigate(SCREENS.RECEIVE_STACK, {
+      screen: SCREENS.RECEIVE_PHOTOS_SCREEN,
+      params: {
+        images: item.images,
+        reUpdateImagesList: updateImages,
+        prefix: item.referenceNumber,
+        suffix: DATA_CONSTANT.SUFFIX_IMAGE.shipmentImages,
+      },
+    });
+  };
 
   const keyExtractor = (item: any, index: number) => `${item}_${index}`;
   const renderItem = ({ item }: { item: any }) => {
-    console.log("🚀🚀🚀 => renderItem => item", item);
     return (
-      <TouchableOpacity style={styles.ImageButton} onPress={onViewImage}>
+      <TouchableOpacity onPress={onViewImage} style={styles.ImageButton}>
         <Image
           source={{
-            uri: "https://cdn.efex.asia/file/fmobile/2021/11/21/IB08211079549JP_009_1637538240665_0_shipment_add_service_suffix.jpg",
+            uri: item,
           }}
           style={styles.images}
-          resizeMode="contain"
+          resizeMode="cover"
         />
       </TouchableOpacity>
     );
@@ -115,7 +126,11 @@ export const ReceiveItem: FunctionComponent<Props> = props => {
       </View>
       <View style={styles.imagesListContainer}>
         <FlatList
-          data={["1", "2"]}
+          data={[
+            "https://ttol.vietnamnetjsc.vn/images/2021/08/26/09/53/Ngoc-Mai-1.jpg",
+            "https://ttol.vietnamnetjsc.vn/images/2021/08/26/09/53/Ngoc-Mai-2.jpg",
+            "https://anhdep123.com/wp-content/uploads/2021/01/hinh-gai-xinh-deo-mat-kinh-toc-dai.jpg",
+          ]}
           horizontal
           keyExtractor={keyExtractor}
           renderItem={renderItem}
@@ -133,8 +148,9 @@ export const ReceiveItem: FunctionComponent<Props> = props => {
         isShowModal={isShowPhotoModal}
         closeModal={setHidePhotoModal}
         shipment={item.referenceNumber}
-        reUpdateImagesList={() => {}}
-        images={[]}
+        shipmentIndex={index}
+        updateImages={updateImages}
+        images={item.images}
       />
     </View>
   );

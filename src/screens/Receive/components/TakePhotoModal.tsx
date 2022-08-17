@@ -10,21 +10,18 @@ interface Props {
   isShowModal: boolean;
   closeModal: () => void;
   shipment: string;
-  service?: string;
-  images?: Array<ShipmentImages> | [];
-  reUpdateImagesList?: (
-    photos: Array<ShipmentImages>,
-    imgList?: Array<ShipmentImages>,
-  ) => void;
+  shipmentIndex: number;
+  images?: Array<ShipmentImages> | Array<string>;
+  updateImages: (shipmentIndex: number, imgList: Array<string>) => void;
 }
 export const TakePhotoModal: FunctionComponent<Props> = props => {
   const {
     isShowModal,
     closeModal,
     shipment,
-    service,
     images,
-    reUpdateImagesList,
+    shipmentIndex,
+    updateImages,
   } = props;
 
   const goToTakePhoto = () => {
@@ -32,12 +29,11 @@ export const TakePhotoModal: FunctionComponent<Props> = props => {
     NavigationUtils.navigate(SCREENS.RECEIVE_STACK, {
       screen: SCREENS.RECEIVE_UPLOAD_SCREEN,
       params: {
-        images: images ? images : [],
-        reUpdateImagesList: reUpdateImagesList,
-        prefix: service ? `${shipment}_${service}` : `${shipment}`,
-        suffix: service
-          ? DATA_CONSTANT.SUFFIX_IMAGE.shipmentAddServices
-          : DATA_CONSTANT.SUFFIX_IMAGE.shipmentImages,
+        shipmentIndex: shipmentIndex,
+        images: images,
+        reUpdateImagesList: updateImages,
+        prefix: shipment,
+        suffix: DATA_CONSTANT.SUFFIX_IMAGE.shipmentImages,
       },
     });
   };
@@ -47,12 +43,11 @@ export const TakePhotoModal: FunctionComponent<Props> = props => {
     NavigationUtils.navigate(SCREENS.RECEIVE_STACK, {
       screen: SCREENS.RECEIVE_PHOTOS_SCREEN,
       params: {
-        images: images ? images : [],
-        reUpdateImagesList: reUpdateImagesList,
-        prefix: service ? `${shipment}_${service}` : `${shipment}`,
-        suffix: service
-          ? DATA_CONSTANT.SUFFIX_IMAGE.shipmentAddServices
-          : DATA_CONSTANT.SUFFIX_IMAGE.shipmentImages,
+        shipmentIndex: shipmentIndex,
+        images: images,
+        reUpdateImagesList: updateImages,
+        prefix: shipment,
+        suffix: DATA_CONSTANT.SUFFIX_IMAGE.shipmentImages,
       },
     });
   };
