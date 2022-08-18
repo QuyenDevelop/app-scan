@@ -172,6 +172,7 @@ export const WaitingPickingComponent: FunctionComponent<Props> = ({
 
   const keyExtractor = (item: any, index: number) => `${item.id}_${index}`;
   const renderItem = ({ item }: { item: DeliveryBillItemResponse }) => {
+    // return <Text>abc</Text>;
     return <DeliveryBillItem item={item} tab={"WAITING"} />;
   };
 
@@ -184,29 +185,31 @@ export const WaitingPickingComponent: FunctionComponent<Props> = ({
         />
       ) : (
         <View style={styles.container}>
-          <FlatList
-            data={data || []}
-            keyExtractor={keyExtractor}
-            renderItem={renderItem}
-            nestedScrollEnabled
-            showsVerticalScrollIndicator={false}
-            onEndReached={disableLoadMore ? undefined : onEndReached}
-            refreshControl={
-              <RefreshControl refreshing={isFreshing} onRefresh={onRefresh} />
-            }
-            ListFooterComponent={
-              isLoadingFooter ? (
-                <ActivityIndicator
-                  size="small"
-                  color={Themes.colors.collGray40}
-                />
-              ) : (
-                <></>
-              )
-            }
-            onEndReachedThreshold={0.1}
-            contentContainerStyle={{ paddingBottom: ScreenUtils.scale(12) }}
-          />
+          {!!data.length && (
+            <FlatList
+              data={data}
+              keyExtractor={keyExtractor}
+              renderItem={renderItem}
+              nestedScrollEnabled
+              showsVerticalScrollIndicator={false}
+              onEndReached={disableLoadMore ? undefined : onEndReached}
+              refreshControl={
+                <RefreshControl refreshing={isFreshing} onRefresh={onRefresh} />
+              }
+              ListFooterComponent={
+                isLoadingFooter ? (
+                  <ActivityIndicator
+                    size="small"
+                    color={Themes.colors.collGray40}
+                  />
+                ) : (
+                  <></>
+                )
+              }
+              onEndReachedThreshold={0.1}
+              contentContainerStyle={{ paddingBottom: ScreenUtils.scale(12) }}
+            />
+          )}
         </View>
       )}
     </View>

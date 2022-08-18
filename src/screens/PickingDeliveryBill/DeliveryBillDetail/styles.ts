@@ -17,11 +17,22 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  title: {
+    ...Themes.font.medium,
+    fontSize: 12,
+    lineHeight: 18,
+    fontWeight: "500",
+    color: Themes.colors.coolGray60,
+  },
   shipmentCode: {
     ...Themes.font.medium,
     fontSize: 14,
     lineHeight: 21,
-    fontWeight: "500",
+    fontWeight: "700",
+    color: Themes.colors.coolGray100,
+  },
+  shipmentReason: {
+    color: Themes.colors.coolGray100,
   },
   flatListContainer: {
     flex: 1,

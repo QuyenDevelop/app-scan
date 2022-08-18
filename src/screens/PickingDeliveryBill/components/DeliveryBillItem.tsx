@@ -100,9 +100,9 @@ export const DeliveryBillItem: FunctionComponent<Props> = ({ item, tab }) => {
       </View>
       <View style={[styles.content]}>
         <View style={styles.reasonContent}>
-          {item.PickedByUserName && (
+          {item.PickedByUserName && item.PickedByUserName !== "" ? (
             <Text style={styles.picker}>Picker: {item.PickedByUserName}</Text>
-          )}
+          ) : null}
           {!!item.Note && (
             <Text numberOfLines={1} style={styles.reason}>
               {translate("screens.picking.reason")}: {item.Note}

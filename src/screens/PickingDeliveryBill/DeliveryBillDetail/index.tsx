@@ -107,31 +107,32 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
               )}
             </View>
             <View style={styles.inline}>
-              <Text style={styles.shipmentCode}>
+              <Text style={styles.title}>
                 Shipment:{" "}
-                {data?.ShipmentSourceItems
-                  ? data?.ShipmentSourceItems.length
-                  : 0}
+                <Text style={styles.shipmentCode}>
+                  {data?.ShipmentSourceItems?.length ?? 0}
+                </Text>
               </Text>
-              <Text style={styles.shipmentCode}>
+              <Text style={styles.title}>
                 {translate("screens.picking.finished")}:{" "}
-                {data?.ShipmentPickedItems
-                  ? data?.ShipmentPickedItems.length
-                  : 0}
-                /
-                {data?.ShipmentSourceItems
-                  ? data?.ShipmentSourceItems.length
-                  : 0}
+                <Text style={styles.shipmentCode}>
+                  {data?.ShipmentPickedItems?.length ?? 0}/
+                  {data?.ShipmentSourceItems?.length ?? 0}
+                </Text>
               </Text>
-              <Text style={styles.shipmentCode}>
+              <Text style={styles.title}>
                 {translate("label.weight")}:{" "}
-                {data.TotalWeight > 0 ? data.TotalWeight.toFixed(2) : 0} kg
+                <Text style={styles.shipmentCode}>
+                  {data.TotalWeight > 0 ? data.TotalWeight.toFixed(2) : 0}
+                </Text>{" "}
+                kg
               </Text>
             </View>
             <View style={styles.inline}>
               {!!data?.Note && (
-                <Text style={styles.shipmentCode}>
-                  {translate("screens.picking.reason")}: {data?.Note}
+                <Text style={styles.title}>
+                  {translate("screens.picking.reason")}:{" "}
+                  <Text style={styles.shipmentReason}>{data?.Note}</Text>
                 </Text>
               )}
             </View>

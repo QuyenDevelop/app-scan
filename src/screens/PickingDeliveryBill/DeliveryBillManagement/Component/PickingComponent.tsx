@@ -177,28 +177,32 @@ export const PickingComponent: FunctionComponent<Props> = ({ profile }) => {
           color={Themes.colors.coolGray100}
         />
       ) : (
-        <FlatList
-          data={data || []}
-          keyExtractor={keyExtractor}
-          renderItem={renderItem}
-          onEndReached={disableLoadMore ? null : onEndReached}
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl refreshing={isFreshing} onRefresh={onRefresh} />
-          }
-          ListFooterComponent={
-            isLoadingFooter ? (
-              <ActivityIndicator
-                size="small"
-                color={Themes.colors.collGray40}
-              />
-            ) : (
-              <></>
-            )
-          }
-          onEndReachedThreshold={0.5}
-          contentContainerStyle={{ paddingBottom: ScreenUtils.scale(8) }}
-        />
+        <View style={styles.container}>
+          {!!data.length && (
+            <FlatList
+              data={data}
+              keyExtractor={keyExtractor}
+              renderItem={renderItem}
+              onEndReached={disableLoadMore ? null : onEndReached}
+              showsVerticalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl refreshing={isFreshing} onRefresh={onRefresh} />
+              }
+              ListFooterComponent={
+                isLoadingFooter ? (
+                  <ActivityIndicator
+                    size="small"
+                    color={Themes.colors.collGray40}
+                  />
+                ) : (
+                  <></>
+                )
+              }
+              onEndReachedThreshold={0.5}
+              contentContainerStyle={{ paddingBottom: ScreenUtils.scale(8) }}
+            />
+          )}
+        </View>
       )}
     </View>
   );
