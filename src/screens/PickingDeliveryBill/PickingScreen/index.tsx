@@ -151,8 +151,8 @@ export const PickingScreen: FunctionComponent = () => {
         }
         // get shipment
         if (location && isShipmentCode(barcodes[0].data.trim())) {
-          Vibration.vibrate();
           getShipment(barcodes[0]?.data.trim());
+          Vibration.vibrate();
           return;
         }
       }

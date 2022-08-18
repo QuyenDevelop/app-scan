@@ -7,6 +7,7 @@ import { useShow } from "@hooks";
 import { DeliveryBillItemResponse, ShipmentSourceItem } from "@models";
 import { PickingParamsList } from "@navigation";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { IRootState } from "@redux";
 import { translate } from "@shared";
 import { Themes } from "@themes";
 import React, { FunctionComponent, useEffect, useState } from "react";
@@ -18,6 +19,7 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
 import { ShipmentItemNormal } from "./components/ShipmentItemNomal";
 import styles from "./styles";
 
@@ -37,6 +39,7 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
   const router = useRoute<NavigationRoute>();
   const params = router?.params;
   const { item, tab } = params;
+  const profile = useSelector((state: IRootState) => state.account.profile);
   const [data, setData] = useState<any>({});
   const [loading, setShowLoading, setHideLoading] = useShow();
 
@@ -69,12 +72,30 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
   };
 
   const gotoPicking = () => {
-    navigation.navigate(SCREENS.PICKING_STACK, {
-      screen: SCREENS.PICKING_SCREEN,
-      params: {
-        item: item,
-      },
-    });
+    deliveryBillApi
+      .assignPickDeliveryBill({
+        startDatePick: new Date(),
+        pickedBy: profile?.sub || "",
+        pickedByUserName: profile?.preferred_username || "",
+        deliveryBillIds: [item.Id],
+        endDatePick: null,
+        note: "",
+        hasComplain: false,
+      })
+      ?.then(response => {
+        if (response && response.success) {
+          navigation.navigate(SCREENS.PICKING_STACK, {
+            screen: SCREENS.PICKING_SCREEN,
+            params: {
+              item: item,
+              tab: tab || "",
+            },
+          });
+        }
+      })
+      .catch(error => {
+        Alert.error(error);
+      });
   };
 
   return (
