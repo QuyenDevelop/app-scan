@@ -25,6 +25,7 @@ export default {
       finished: "選んだ",
       reason: "理由",
       pickingNow: "拾った",
+      unCompleted: "未完成",
       waitingStatus: "未払いの商品",
       pickingStatus: "商品を拾います",
       doneStatus: "拾った",

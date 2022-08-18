@@ -45,7 +45,7 @@ export const FinishingPickingComponent: FunctionComponent<Props> = ({
   );
 
   const [pageIndex, setPageIndex] = useState<number>(1);
-  const PAGE_SIZE_DEFAULT = 20;
+  const PAGE_SIZE_DEFAULT = 10;
   const [postOffices, setPostOffice] = useState<PostOfficeItemResponse>();
   useEffect(() => {
     const getPostoffice = async () => {
@@ -149,7 +149,7 @@ export const FinishingPickingComponent: FunctionComponent<Props> = ({
       })
       ?.then(response => {
         if (response?.data && response?.data?.data) {
-          setData(data => [...data, ...response?.data?.data]);
+          setData(pre => [...pre, ...response?.data?.data]);
           setPageIndex(pageIndex + 1);
           if (
             data.length >= response?.data.totalCount ||

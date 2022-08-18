@@ -46,7 +46,7 @@ export const WaitingPickingComponent: FunctionComponent<Props> = ({
     (state: IRootState) => state.account.postOffices,
   );
   const [pageIndex, setPageIndex] = useState<number>(1);
-  const PAGE_SIZE_DEFAULT = 20;
+  const PAGE_SIZE_DEFAULT = 10;
   const [postOffices, setPostOffice] = useState<PostOfficeItemResponse>();
   useEffect(() => {
     const getPostoffice = async () => {
@@ -138,6 +138,7 @@ export const WaitingPickingComponent: FunctionComponent<Props> = ({
 
   const onEndReached = () => {
     setShowLoadingFooter();
+
     deliveryBillApi
       .getDeliveryBill({
         RequireTotalCount: true,
@@ -155,7 +156,7 @@ export const WaitingPickingComponent: FunctionComponent<Props> = ({
           setPageIndex(pageIndex + 1);
           if (
             data.length >= response?.data.totalCount ||
-            response?.data?.data.length < PAGE_SIZE_DEFAULT
+            response?.data?.data?.length < PAGE_SIZE_DEFAULT
           ) {
             setDisableLoadMore(true);
           }

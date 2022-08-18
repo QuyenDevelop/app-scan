@@ -23,6 +23,7 @@ export default {
       process: "Đang nhặt",
       continue: "Tiếp tục",
       finished: "Đã nhặt",
+      unCompleted: "Chưa đủ hàng",
       reason: "Lý do",
       pickingNow: "Nhặt ngay",
       waitingStatus: "Chưa nhặt hàng",

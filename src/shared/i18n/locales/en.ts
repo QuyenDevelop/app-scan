@@ -23,6 +23,7 @@ export default {
       process: "Processing",
       continue: "Continue",
       finished: "Picked",
+      unCompleted: "Uncompleted",
       reason: "Reason",
       pickingNow: "Picked up",
       waitingStatus: "Waiting Picking",

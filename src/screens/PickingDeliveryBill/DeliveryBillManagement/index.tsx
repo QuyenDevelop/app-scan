@@ -30,7 +30,7 @@ const routes = [
   },
   {
     key: TabKey.FINISHED,
-    title: translate("screens.picking.finished"),
+    title: translate("screens.picking.unCompleted"),
   },
 ];
 
