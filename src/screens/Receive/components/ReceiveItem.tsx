@@ -17,53 +17,74 @@ import {
 import styles from "./styles";
 import { TakePhotoModal } from "./TakePhotoModal";
 interface Props {
-  item: ReceiveBarcode;
-  index: number;
+  ShipmentData: ReceiveBarcode;
+  shipmentIndex: number;
   deleteItem: (value: string) => void;
   updatePieces: (index: number, value: number) => void;
   updateImages: (index: number, value: string[]) => void;
+  deleteImage: (index: number, value: string) => void;
 }
 
 export const ReceiveItem: FunctionComponent<Props> = props => {
-  const { item, index, deleteItem, updatePieces, updateImages } = props;
+  const {
+    ShipmentData,
+    shipmentIndex,
+    deleteItem,
+    updatePieces,
+    updateImages,
+    deleteImage,
+  } = props;
   const [isShowDeleteModal, showDeleteModal, hideDeleteModal] = useShow();
   const [isShowPhotoModal, setShowPhotoModal, setHidePhotoModal] = useShow();
   const confirmDelete = () => {
-    deleteItem(item.referenceNumber);
+    deleteItem(ShipmentData.referenceNumber);
   };
 
   const plusPieces = () => {
-    updatePieces(index, item.pieces + 1);
+    updatePieces(shipmentIndex, ShipmentData.pieces + 1);
   };
 
   const minusPieces = () => {
-    updatePieces(index, item.pieces - 1);
+    updatePieces(shipmentIndex, ShipmentData.pieces - 1);
   };
 
   const onViewImage = () => {
     NavigationUtils.navigate(SCREENS.RECEIVE_STACK, {
       screen: SCREENS.RECEIVE_PHOTOS_SCREEN,
       params: {
-        images: item.images,
+        images: ShipmentData.images,
+        shipmentIndex: shipmentIndex,
         reUpdateImagesList: updateImages,
-        prefix: item.referenceNumber,
+        prefix: ShipmentData.referenceNumber,
         suffix: DATA_CONSTANT.SUFFIX_IMAGE.shipmentImages,
       },
     });
   };
 
-  const keyExtractor = (item: any, index: number) => `${item}_${index}`;
+  const keyExtractor = (item: any) => `${item}_`;
   const renderItem = ({ item }: { item: any }) => {
     return (
-      <TouchableOpacity onPress={onViewImage} style={styles.ImageButton}>
-        <Image
-          source={{
-            uri: item,
-          }}
-          style={styles.images}
-          resizeMode="cover"
-        />
-      </TouchableOpacity>
+      <View style={{ paddingTop: ScreenUtils.scale(4) }}>
+        <TouchableOpacity onPress={onViewImage} style={styles.ImageButton}>
+          <Image
+            source={{
+              uri: item,
+            }}
+            style={styles.images}
+            resizeMode="cover"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.deleteImage}
+          onPress={() => deleteImage(shipmentIndex, item)}
+        >
+          <Icon
+            name="ic_close"
+            color={Themes.colors.white}
+            size={Metrics.icons.smallTiny}
+          />
+        </TouchableOpacity>
+      </View>
     );
   };
   return (
@@ -75,7 +96,7 @@ export const ReceiveItem: FunctionComponent<Props> = props => {
       }}
     >
       <View style={styles.receiveItem}>
-        <Text style={styles.code}>{item.referenceNumber}</Text>
+        <Text style={styles.code}>{ShipmentData.referenceNumber}</Text>
         <View style={styles.deleteItem}>
           <TouchableOpacity hitSlop={styles.hitSlop} onPress={minusPieces}>
             <Icon
@@ -85,12 +106,12 @@ export const ReceiveItem: FunctionComponent<Props> = props => {
             />
           </TouchableOpacity>
           <TextInput
-            defaultValue={item.pieces.toString()}
+            defaultValue={ShipmentData.pieces.toString()}
             style={styles.quantityInput}
             keyboardType="number-pad"
             contextMenuHidden={true}
             onChangeText={(text: string) => {
-              updatePieces(index, Number(text));
+              updatePieces(shipmentIndex, Number(text));
             }}
           />
           <TouchableOpacity hitSlop={styles.hitSlop} onPress={plusPieces}>
@@ -126,11 +147,7 @@ export const ReceiveItem: FunctionComponent<Props> = props => {
       </View>
       <View style={styles.imagesListContainer}>
         <FlatList
-          data={[
-            "https://ttol.vietnamnetjsc.vn/images/2021/08/26/09/53/Ngoc-Mai-1.jpg",
-            "https://ttol.vietnamnetjsc.vn/images/2021/08/26/09/53/Ngoc-Mai-2.jpg",
-            "https://anhdep123.com/wp-content/uploads/2021/01/hinh-gai-xinh-deo-mat-kinh-toc-dai.jpg",
-          ]}
+          data={ShipmentData.images}
           horizontal
           keyExtractor={keyExtractor}
           renderItem={renderItem}
@@ -140,17 +157,17 @@ export const ReceiveItem: FunctionComponent<Props> = props => {
         isVisible={isShowDeleteModal}
         closeModal={hideDeleteModal}
         message={translate("alert.deleteReceive", {
-          number: item.referenceNumber,
+          number: ShipmentData.referenceNumber,
         })}
         confirmDelete={confirmDelete}
       />
       <TakePhotoModal
         isShowModal={isShowPhotoModal}
         closeModal={setHidePhotoModal}
-        shipment={item.referenceNumber}
-        shipmentIndex={index}
+        shipment={ShipmentData.referenceNumber}
+        shipmentIndex={shipmentIndex}
         updateImages={updateImages}
-        images={item.images}
+        images={ShipmentData.images}
       />
     </View>
   );

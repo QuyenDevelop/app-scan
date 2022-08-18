@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react-native/no-inline-styles */
 import { shipmentApi } from "@api";
 import { Header } from "@components";
 import { CONSTANT } from "@configs";
@@ -62,27 +61,19 @@ export const ReceiveScreen: FunctionComponent = () => {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const userInfo = useSelector((state: IRootState) => state.account.profile);
   const isFocused = useIsFocused();
-  const [isShowDetectCode, showDetectCode, hideDetectCode] = useShow();
-  const [positionCode, setPositionCode] = useState({
-    top: 0,
-    left: 0,
-    width: 0,
-    height: 0,
-  });
-
+  const [, showDetectCode, hideDetectCode] = useShow();
   const PlatformBrandConstraint = Platform.constants as PlatformAndroidStatic;
 
-  const { barcodeRead, onBarcodeRead, onBarcodeFinderLayoutChange } =
-    useBarcodeRead(
-      isFocused,
-      barcodeData => {
-        return barcodeData;
-      },
-      processedBarcodeData => {
-        addNewCode(processedBarcodeData.trim());
-      },
-      2000,
-    );
+  const { onBarcodeFinderLayoutChange } = useBarcodeRead(
+    isFocused,
+    barcodeData => {
+      return barcodeData;
+    },
+    processedBarcodeData => {
+      addNewCode(processedBarcodeData.trim());
+    },
+    2000,
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -134,6 +125,7 @@ export const ReceiveScreen: FunctionComponent = () => {
         );
         setCodes(newCodes);
         setShipmentCode("");
+        hideDetectCode();
         inputRef.current?.clear();
         if (!noVibration) {
           Vibration.vibrate();
@@ -146,22 +138,12 @@ export const ReceiveScreen: FunctionComponent = () => {
   );
 
   const onRead = async ({ barcodes }: { barcodes: Array<any> }) => {
-    if (isLoadingFetchData || barcodeRead) {
+    if (isLoadingFetchData) {
       return;
     }
-
     if (barcodes.length > 0) {
-      setPositionCode({
-        top: barcodes[0].bounds.origin.y,
-        left: barcodes[0].bounds.origin.x,
-        width: barcodes[0].bounds.size.width,
-        height: barcodes[0].bounds.size.height,
-      });
       showDetectCode();
-      setTimeout(() => {
-        hideDetectCode();
-      }, 200);
-      onBarcodeRead(barcodes[0]);
+      addNewCode(barcodes[0].data.trim(), true);
     }
   };
 
@@ -240,11 +222,23 @@ export const ReceiveScreen: FunctionComponent = () => {
 
   const updateImages = useCallback(
     async (index: number, value: string[]) => {
-      console.log("object");
       const newCodes = [...codes];
       newCodes[index] = {
         ...newCodes[index],
         images: [...newCodes[index].images, ...value],
+      };
+      await setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.RECEIVE_BARCODES, newCodes);
+      setCodes(newCodes);
+    },
+    [codes],
+  );
+
+  const deleteImages = useCallback(
+    async (index: number, value: string) => {
+      const newCodes = [...codes];
+      newCodes[index] = {
+        ...newCodes[index],
+        images: newCodes[index]?.images?.filter(image => image !== value) ?? [],
       };
       await setAsyncItem(CONSTANT.TOKEN_STORAGE_KEY.RECEIVE_BARCODES, newCodes);
       setCodes(newCodes);
@@ -257,11 +251,12 @@ export const ReceiveScreen: FunctionComponent = () => {
     ({ item, index }: { item: ReceiveBarcode; index: number }) => {
       return (
         <ReceiveItem
-          item={item}
-          index={index}
+          ShipmentData={item}
+          shipmentIndex={index}
           deleteItem={deleteItem}
           updatePieces={updatePieces}
           updateImages={updateImages}
+          deleteImage={deleteImages}
         />
       );
     },
@@ -331,19 +326,6 @@ export const ReceiveScreen: FunctionComponent = () => {
                   onLayoutChange={onBarcodeFinderLayoutChange}
                 />
               </RNCamera>
-            )}
-
-            {isShowDetectCode && (
-              <View
-                style={{
-                  position: "absolute",
-                  top: positionCode.top,
-                  left: positionCode.left,
-                  height: 2,
-                  width: positionCode.width,
-                  backgroundColor: Themes.colors.success60,
-                }}
-              />
             )}
           </View>
         )}

@@ -1,8 +1,13 @@
 import { SCREENS } from "@configs";
-import { Alert, hasAndroidPermission, NavigationUtils } from "@helpers";
+import {
+  Alert,
+  hasAndroidPermission,
+  NavigationUtils,
+  uploadImageShipment,
+} from "@helpers";
 import { useToggle } from "@hooks";
-import { ShipmentImages } from "@models";
-import { ShipmentStackParamsList } from "@navigation";
+// import { ShipmentImages } from "@models";
+import { ReceiveParamsList } from "@navigation";
 import CameraRoll from "@react-native-community/cameraroll";
 import {
   RouteProp,
@@ -21,16 +26,17 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from "./styles";
 
 type NavigationRoute = RouteProp<
-  ShipmentStackParamsList,
-  SCREENS.UPLOAD_SCREEN
+  ReceiveParamsList,
+  SCREENS.RECEIVE_UPLOAD_SCREEN
 >;
 export interface ReceiveUploadScreenParams {
   prefix: string;
   suffix: string;
-  images?: Array<ShipmentImages> | [];
-  reUpdateImagesList?: (
-    photos: Array<ShipmentImages>,
-    imgList?: Array<ShipmentImages>,
+  images: Array<any>;
+  shipmentIndex: number;
+  reUpdateImagesList: (
+    shipmentIndex: number,
+    shipmentImages: Array<any>,
   ) => void;
 }
 
@@ -39,7 +45,8 @@ export const ReceiveUploadImagesScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const route = useRoute<NavigationRoute>();
-  const { images, prefix, suffix, reUpdateImagesList } = route?.params;
+  const { images, prefix, suffix, shipmentIndex, reUpdateImagesList } =
+    route?.params;
   const cameraRef = useRef<RNCamera>(null);
   const [uri, setUri] = useState<string>();
   const [isFlashMode, toggleFlashMode] = useToggle();
@@ -105,20 +112,26 @@ export const ReceiveUploadImagesScreen: FunctionComponent = () => {
         name: name,
       };
     });
-    console.log("🚀🚀🚀 => updatePhotos => updatePhotos", updatePhotos);
 
-    // uploadImageShipment(updatePhotos)
-    //   .then(image => {
-    //     // console.log(JSON.stringify(image));
-    //     reUpdateImagesList ? reUpdateImagesList(image, images) : undefined;
-    //     Alert.success(
-    //       translate("success.autoUploadImage", { number: photos.length }),
-    //       true,
-    //     );
-    //   })
-    //   .finally(() => {
-    //     setPhotos([]);
-    //   });
+    uploadImageShipment(updatePhotos)
+      .then(image => {
+        if (image.length > 0) {
+          reUpdateImagesList(
+            shipmentIndex,
+            image.map(img => img.Url),
+          );
+          Alert.success(
+            translate("success.autoUploadImage", { number: photos.length }),
+            true,
+          );
+        }
+      })
+      .catch(error => {
+        Alert.error(error, true);
+      })
+      .finally(() => {
+        setPhotos([]);
+      });
   };
 
   return (

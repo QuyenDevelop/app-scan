@@ -1,9 +1,13 @@
 import { Header } from "@components";
 import { SCREENS } from "@configs";
-import { Alert, hasAndroidPermission, ScreenUtils } from "@helpers";
+import {
+  Alert,
+  hasAndroidPermission,
+  ScreenUtils,
+  uploadImageShipment,
+} from "@helpers";
 import { useShow, useToggle } from "@hooks";
-import { ShipmentImages } from "@models";
-import { ShipmentStackParamsList } from "@navigation";
+import { ReceiveParamsList } from "@navigation";
 import CameraRoll, {
   PhotoIdentifier,
 } from "@react-native-community/cameraroll";
@@ -24,16 +28,17 @@ import { UploadWaitingModal } from "../components/UploadWaitingModal";
 import styles from "./styles";
 
 type NavigationRoute = RouteProp<
-  ShipmentStackParamsList,
-  SCREENS.PHOTO_LIBRARY_SCREEN
+  ReceiveParamsList,
+  SCREENS.RECEIVE_PHOTOS_SCREEN
 >;
 export interface ReceivePhotoLibraryScreenParams {
   prefix: string;
   suffix: string;
-  images?: Array<ShipmentImages> | [];
-  reUpdateImagesList?: (
-    photos: Array<ShipmentImages>,
-    imgList?: Array<ShipmentImages>,
+  images?: Array<any> | [];
+  shipmentIndex: number;
+  reUpdateImagesList: (
+    shipmentIndex: number,
+    shipmentImages: Array<any>,
   ) => void;
 }
 
@@ -42,7 +47,8 @@ const ITEM_HEIGHT = (ScreenUtils.WIDTH - ScreenUtils.scale(32)) / 3;
 export const ReceivePhotoLibraryScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const route = useRoute<NavigationRoute>();
-  const { prefix, suffix } = route?.params || {};
+  const { prefix, suffix, shipmentIndex, reUpdateImagesList } =
+    route?.params || {};
   const [photos, setPhotos] = useState<Array<PhotoIdentifier>>([]);
   const [photosShow, setPhotosShow] = useState<Array<string>>([]);
   const [photosSelected, setPhotosSelected] = useState<Array<string>>([]);
@@ -61,8 +67,6 @@ export const ReceivePhotoLibraryScreen: FunctionComponent = () => {
       first: 40,
       assetType: "Photos",
       after: after,
-      // groupTypes: "Album",
-      // groupName: CONSTANT.ALBUMS,
     })
       .then(r => {
         setPhotos(p => [...p, ...r.edges]);
@@ -165,23 +169,30 @@ export const ReceivePhotoLibraryScreen: FunctionComponent = () => {
         uri: imageUri,
       });
     }
-    // uploadImageShipment(updatePhotos)
-    //   .then(image => {
-    //     console.log(image);
-    //     reUpdateImagesList ? reUpdateImagesList(image, images) : undefined;
-    //     Alert.success(
-    //       translate("success.autoUploadImage", {
-    //         number: photosSelected.length,
-    //       }),
-    //       true,
-    //     );
-    //     navigation.goBack();
-    //   })
-    //   .finally(() => {
-    //     setWaiting(false);
-    //     toggleMode();
-    //     setPhotosSelected([]);
-    //   });
+    uploadImageShipment(updatePhotos)
+      .then(image => {
+        if (image.length) {
+          reUpdateImagesList(
+            shipmentIndex,
+            image.map(img => img.Url),
+          );
+          Alert.success(
+            translate("success.autoUploadImage", {
+              number: photosSelected.length,
+            }),
+            true,
+          );
+          navigation.goBack();
+        }
+      })
+      .catch(error => {
+        Alert.error(error, true);
+      })
+      .finally(() => {
+        setWaiting(false);
+        toggleMode();
+        setPhotosSelected([]);
+      });
   };
 
   return (

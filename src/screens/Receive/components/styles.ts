@@ -127,19 +127,30 @@ export default StyleSheet.create({
     marginHorizontal: ScreenUtils.scale(20),
   },
   imagesListContainer: {
+    marginTop: ScreenUtils.scale(4),
     paddingHorizontal: ScreenUtils.scale(8),
   },
   ImageButton: {
-    width: ScreenUtils.scale(40),
-    height: ScreenUtils.scale(40),
     marginHorizontal: ScreenUtils.scale(4),
     alignItems: "center",
     justifyContent: "center",
     borderRadius: ScreenUtils.scale(4),
-    overflow: "hidden",
+    // overflow: "hidden",
   },
   images: {
     width: ScreenUtils.scale(40),
     height: ScreenUtils.scale(40),
+    borderRadius: ScreenUtils.scale(4),
+  },
+  deleteImage: {
+    position: "absolute",
+    top: ScreenUtils.scale(0),
+    right: ScreenUtils.scale(0),
+    width: ScreenUtils.scale(16),
+    height: ScreenUtils.scale(16),
+    borderRadius: ScreenUtils.scale(20),
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: Themes.colors.danger60,
   },
 });
