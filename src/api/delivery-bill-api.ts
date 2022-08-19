@@ -3,7 +3,7 @@ import {
   DeliveryBillResponse,
   GetAllDeliveryBillRequest,
   GetDeliveryBillDetailRequest,
-  PickShipment,
+  PickShipment
 } from "@models";
 import { BaseApi } from "./base-api";
 
@@ -12,8 +12,6 @@ class DeliveryBillApi extends BaseApi {
     // console.log("🚀🚀🚀 => getDeliveryBill => request", request);
     return this.get<DeliveryBillResponse>("search", {
       RequireTotalCount: request.RequireTotalCount,
-      Skip: request.Skip,
-      Take: request.Take,
       PageSize: request.PageSize,
       PageIndex: request.PageIndex,
       PostOfficeId: request.PostOfficeId,

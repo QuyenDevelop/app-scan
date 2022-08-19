@@ -202,6 +202,13 @@ export const PickingScreen: FunctionComponent = () => {
     }, 500);
   };
 
+  const numOfShipmentPicked = () => {
+    const numOfPicked = dataShipments.filter(shipment => shipment.IsPicked);
+    if (numOfPicked?.length >= dataShipments.length) {
+      return setLocation("");
+    }
+  };
+
   const getShipment = (value: string) => {
     const checkShipment = dataShipments.filter(
       shipment => shipment.ShipmentNumber === value,
@@ -233,6 +240,10 @@ export const PickingScreen: FunctionComponent = () => {
         hideIsLoadingFetchData();
       });
   };
+
+  useEffect(() => {
+    numOfShipmentPicked();
+  }, [dataShipments]);
 
   const handlerClearLocation = () => {
     setLocation("");

@@ -29,10 +29,12 @@ import styles from "./styles";
 
 interface Props {
   profile: Account | null;
+  setNumOfFinished: (value: number) => void;
 }
 
 export const FinishingPickingComponent: FunctionComponent<Props> = ({
   profile,
+  setNumOfFinished,
 }) => {
   const [data, setData] = useState<Array<DeliveryBillItemResponse>>([]);
   const [isLoading, setShowLoading, setHideLoading] = useShow();
@@ -67,8 +69,6 @@ export const FinishingPickingComponent: FunctionComponent<Props> = ({
     deliveryBillApi
       .getDeliveryBill({
         RequireTotalCount: true,
-        Skip: 0,
-        Take: 10,
         PageIndex: 1,
         PageSize: PAGE_SIZE_DEFAULT,
         PostOfficeId: postOffices?.Id || "",
@@ -78,6 +78,7 @@ export const FinishingPickingComponent: FunctionComponent<Props> = ({
       ?.then(response => {
         if (response?.data && response?.data?.data) {
           setData(response?.data?.data);
+          setNumOfFinished(response?.data?.totalCount);
           setPageIndex(2);
           if (
             data.length >= response?.data.totalCount ||
@@ -106,8 +107,6 @@ export const FinishingPickingComponent: FunctionComponent<Props> = ({
     deliveryBillApi
       .getDeliveryBill({
         RequireTotalCount: true,
-        Skip: 0,
-        Take: 10,
         PageIndex: 1,
         PageSize: PAGE_SIZE_DEFAULT,
         PostOfficeId: postOffices?.Id || "",
@@ -139,8 +138,6 @@ export const FinishingPickingComponent: FunctionComponent<Props> = ({
     deliveryBillApi
       .getDeliveryBill({
         RequireTotalCount: true,
-        Skip: 0,
-        Take: 10,
         PageIndex: pageIndex,
         PageSize: PAGE_SIZE_DEFAULT,
         PostOfficeId: postOffices?.Id || "",
@@ -149,7 +146,7 @@ export const FinishingPickingComponent: FunctionComponent<Props> = ({
       })
       ?.then(response => {
         if (response?.data && response?.data?.data) {
-          setData(pre => [...pre, ...response?.data?.data]);
+          setData([...data, ...response?.data?.data]);
           setPageIndex(pageIndex + 1);
           if (
             data.length >= response?.data.totalCount ||

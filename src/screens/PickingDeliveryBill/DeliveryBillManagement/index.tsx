@@ -38,13 +38,9 @@ export const DeliveryBillManagementScreen: FunctionComponent = () => {
   const navigation = useNavigation();
   const [index, setIndex] = useState<number>(0);
   const profile = useSelector((state: IRootState) => state.account.profile);
-  const [, setNumOfWaitings] = useState<number>(0);
-  // const [numOfProcess, setNumOfProcess] = useState<number>(0);
-  // const [numOfFinished, setNumOfFinished] = useState<number>(0);
-
-  const setNumberOfWaitings = useCallback((value: number) => {
-    setNumOfWaitings(value);
-  }, []);
+  const [numOfWaiting, setNumOfWaitings] = useState<number>(0);
+  const [numOfProcess, setNumOfProcess] = useState<number>(0);
+  const [numOfFinished, setNumOfFinished] = useState<number>(0);
 
   const renderScene = useCallback(
     ({ route }: { route: { key: string; title: string } }) => {
@@ -53,45 +49,75 @@ export const DeliveryBillManagementScreen: FunctionComponent = () => {
           return (
             <WaitingPickingComponent
               profile={profile}
-              setNumber={setNumberOfWaitings}
+              setNumOfWaitings={setNumOfWaitings}
             />
           );
         case TabKey.PROGRESS:
-          return <PickingComponent profile={profile} />;
+          return (
+            <PickingComponent
+              profile={profile}
+              setNumOfProcess={setNumOfProcess}
+            />
+          );
         case TabKey.FINISHED:
-          return <FinishingPickingComponent profile={profile} />;
+          return (
+            <FinishingPickingComponent
+              profile={profile}
+              setNumOfFinished={setNumOfFinished}
+            />
+          );
         default:
           return null;
       }
     },
-    [profile, setNumberOfWaitings],
+    [profile],
   );
 
-  const renderTabBar = useCallback(props => {
-    return (
-      <TabBar
-        {...props}
-        style={{ backgroundColor: Themes.colors.white }}
-        renderIndicator={indicatorProps => (
-          <TabBarIndicator {...indicatorProps} style={styles.indicatorStyle} />
-        )}
-        renderLabel={({ route, focused }) => (
-          <Text
-            style={[
-              styles.tabBarLabel,
-              {
-                color: focused
-                  ? Themes.colors.primary
-                  : Themes.colors.coolGray60,
-              },
-            ]}
-          >
-            {route.title}
-          </Text>
-        )}
-      />
-    );
-  }, []);
+  const showNumOfShipment = useCallback(
+    (value: string) => {
+      switch (value) {
+        case TabKey.WAITING:
+          return numOfWaiting;
+        case TabKey.PROGRESS:
+          return numOfProcess;
+        case TabKey.FINISHED:
+          return numOfFinished;
+      }
+    },
+    [numOfFinished, numOfProcess, numOfWaiting],
+  );
+
+  const renderTabBar = useCallback(
+    props => {
+      return (
+        <TabBar
+          {...props}
+          style={{ backgroundColor: Themes.colors.white }}
+          renderIndicator={indicatorProps => (
+            <TabBarIndicator
+              {...indicatorProps}
+              style={styles.indicatorStyle}
+            />
+          )}
+          renderLabel={({ route, focused }) => (
+            <Text
+              style={[
+                styles.tabBarLabel,
+                {
+                  color: focused
+                    ? Themes.colors.primary
+                    : Themes.colors.coolGray60,
+                },
+              ]}
+            >
+              {route.title} ({showNumOfShipment(route.key || "")})
+            </Text>
+          )}
+        />
+      );
+    },
+    [showNumOfShipment],
+  );
 
   return (
     <View style={styles.container}>
