@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import { ScreenUtils } from "@helpers";
 import { ShipmentSourceItem } from "@models";
 import { Themes } from "@themes";
@@ -26,7 +25,7 @@ export const ShipmentItemNormal: FunctionComponent<Props> = props => {
 
   return (
     <View style={styles.shipmentItem}>
-      <View style={{ flex: 0.5, marginLeft: ScreenUtils.scale(8) }}>
+      <View style={{ marginLeft: ScreenUtils.scale(8) }}>
         <Text
           style={[
             styles.shipment,

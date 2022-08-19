@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import { ShipmentSourceItem } from "@models";
 import { Themes } from "@themes";
 import React, { FunctionComponent } from "react";
@@ -25,7 +24,7 @@ export const ShipmentItemNormal: FunctionComponent<Props> = props => {
 
   return (
     <View style={styles.shipmentItem}>
-      <View style={{ flex: 0.4 }}>
+      <View>
         <Text
           style={[
             styles.shipment,
@@ -34,7 +33,6 @@ export const ShipmentItemNormal: FunctionComponent<Props> = props => {
             },
           ]}
           numberOfLines={1}
-          adjustsFontSizeToFit={true}
         >
           {item.ShipmentNumber}
         </Text>

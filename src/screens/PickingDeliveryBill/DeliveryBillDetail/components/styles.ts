@@ -19,7 +19,6 @@ export default StyleSheet.create({
     color: Themes.colors.coolGray100,
   },
   staff: {
-    flex: 0.4,
     textAlign: "left",
     ...Themes.font.medium,
     fontSize: 12,
@@ -27,7 +26,6 @@ export default StyleSheet.create({
     color: Themes.colors.coolGray60,
   },
   location: {
-    flex: 0.2,
     textAlign: "left",
     ...Themes.font.medium,
     fontSize: 12,
@@ -35,7 +33,6 @@ export default StyleSheet.create({
     color: Themes.colors.coolGray60,
   },
   quantity: {
-    flex: 0.1,
     textAlign: "center",
     ...Themes.font.medium,
     fontSize: 12,
