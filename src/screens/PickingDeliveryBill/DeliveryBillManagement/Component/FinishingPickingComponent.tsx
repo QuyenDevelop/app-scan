@@ -72,7 +72,7 @@ export const FinishingPickingComponent: FunctionComponent<Props> = ({
         PageIndex: 1,
         PageSize: PAGE_SIZE_DEFAULT,
         PostOfficeId: postOffices?.Id || "",
-        Status: 2,
+        Status: 7,
         PickedBy: profile?.sub || "",
       })
       ?.then(response => {
@@ -110,7 +110,7 @@ export const FinishingPickingComponent: FunctionComponent<Props> = ({
         PageIndex: 1,
         PageSize: PAGE_SIZE_DEFAULT,
         PostOfficeId: postOffices?.Id || "",
-        Status: 2,
+        Status: 7,
         PickedBy: profile?.sub || "",
       })
       ?.then(response => {
@@ -141,7 +141,7 @@ export const FinishingPickingComponent: FunctionComponent<Props> = ({
         PageIndex: pageIndex,
         PageSize: PAGE_SIZE_DEFAULT,
         PostOfficeId: postOffices?.Id || "",
-        Status: 2,
+        Status: 7,
         PickedBy: profile?.sub || "",
       })
       ?.then(response => {

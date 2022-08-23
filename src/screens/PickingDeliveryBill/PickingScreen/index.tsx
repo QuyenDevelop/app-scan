@@ -42,6 +42,7 @@ import { RNCamera } from "react-native-camera";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import { ConfirmModal } from "../components/ConfirmModal";
+import { ErrorModal } from "../components/ErrorModal";
 import { ShipmentItemNormal } from "./components/ShipmentItemNomal";
 import styles from "./styles";
 
@@ -60,6 +61,8 @@ export const PickingScreen: FunctionComponent = () => {
   const { item } = params;
   const [isLoadingFetchData, showIsLoadingFetchData, hideIsLoadingFetchData] =
     useShow();
+  const [isModalErr, showModalErr, hideModalErr] = useShow();
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const inputRef = useRef<TextInput>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const profile = useSelector((state: IRootState) => state.account.profile);
@@ -79,8 +82,7 @@ export const PickingScreen: FunctionComponent = () => {
   useFocusEffect(
     useCallback(() => {
       PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
-        inputRef.current &&
-        inputRef.current.focus();
+        inputRef?.current?.focus();
     }, []),
   );
 
@@ -229,11 +231,16 @@ export const PickingScreen: FunctionComponent = () => {
       ?.then(response => {
         if (response.data && response.data.Status) {
           Alert.success(response.data.Message, true);
+          setErrorMessage("");
           getData();
+        } else {
+          setErrorMessage(response.data.Message);
+          showModalErr();
         }
       })
       .catch(err => {
-        Alert.error(err, true);
+        showModalErr();
+        setErrorMessage(err);
       })
       .finally(() => {
         setBarcodes("");
@@ -300,6 +307,12 @@ export const PickingScreen: FunctionComponent = () => {
     `${items.Id}_${index}`;
   const renderItem = ({ item }: { item: ShipmentSourceItem }) => {
     return <ShipmentItemNormal item={item} />;
+  };
+
+  const handleCancel = () => {
+    hideModalErr();
+    PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
+      inputRef?.current?.focus();
   };
 
   return (
@@ -481,7 +494,6 @@ export const PickingScreen: FunctionComponent = () => {
           </TouchableOpacity>
         </View>
       </>
-
       <ConfirmModal
         isVisible={isShowModalConfirm}
         closeModal={hideModalConfirm}
@@ -491,6 +503,11 @@ export const PickingScreen: FunctionComponent = () => {
         reason={reason}
         onChangeReason={setReason}
         errorReason={errorReason}
+      />
+      <ErrorModal
+        isVisible={isModalErr}
+        closeModal={handleCancel}
+        message={errorMessage}
       />
     </View>
   );
