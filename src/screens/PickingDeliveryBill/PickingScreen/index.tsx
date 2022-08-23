@@ -234,13 +234,13 @@ export const PickingScreen: FunctionComponent = () => {
           setErrorMessage("");
           getData();
         } else {
-          setErrorMessage(response.data.Message);
+          setErrorMessage(response.data.ErrorCode);
           showModalErr();
         }
       })
       .catch(err => {
-        showModalErr();
         setErrorMessage(err);
+        showModalErr();
       })
       .finally(() => {
         setBarcodes("");
