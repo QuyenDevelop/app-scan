@@ -167,7 +167,6 @@ export const WaitingPickingComponent: FunctionComponent<Props> = ({
 
   const keyExtractor = (item: any, index: number) => `${item.id}_${index}`;
   const renderItem = ({ item }: { item: DeliveryBillItemResponse }) => {
-    // return <Text>abc</Text>;
     return <DeliveryBillItem item={item} tab={"WAITING"} />;
   };
 

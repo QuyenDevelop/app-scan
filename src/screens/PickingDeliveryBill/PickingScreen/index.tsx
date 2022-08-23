@@ -204,12 +204,12 @@ export const PickingScreen: FunctionComponent = () => {
     }, 500);
   };
 
-  const numOfShipmentPicked = () => {
-    const numOfPicked = dataShipments.filter(shipment => shipment.IsPicked);
-    if (numOfPicked?.length >= dataShipments.length) {
-      return setLocation("");
-    }
-  };
+  // const numOfShipmentPicked = () => {
+  //   const numOfPicked = dataShipments.filter(shipment => shipment.IsPicked);
+  //   if (numOfPicked?.length >= dataShipments.length) {
+  //     return setLocation("");
+  //   }
+  // };
 
   const getShipment = (value: string) => {
     const checkShipment = dataShipments.filter(
@@ -248,9 +248,9 @@ export const PickingScreen: FunctionComponent = () => {
       });
   };
 
-  useEffect(() => {
-    numOfShipmentPicked();
-  }, [dataShipments]);
+  // useEffect(() => {
+  //   numOfShipmentPicked();
+  // }, [dataShipments]);
 
   const handlerClearLocation = () => {
     setLocation("");
@@ -313,6 +313,16 @@ export const PickingScreen: FunctionComponent = () => {
     hideModalErr();
     PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
       inputRef?.current?.focus();
+  };
+
+  const handleBack = () => {
+    if (location) {
+      setLocation("");
+      PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
+        inputRef?.current?.focus();
+    } else {
+      navigation.goBack();
+    }
   };
 
   return (
@@ -484,6 +494,19 @@ export const PickingScreen: FunctionComponent = () => {
             },
           ]}
         >
+          <TouchableOpacity
+            style={[
+              styles.touchableOpacity,
+              {
+                backgroundColor: Themes.colors.white,
+              },
+            ]}
+            onPress={handleBack}
+          >
+            <Text style={[styles.pickUpText, { color: Themes.colors.primary }]}>
+              {translate("button.back")}
+            </Text>
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.touchableOpacity}
             onPress={showModalConfirm}
