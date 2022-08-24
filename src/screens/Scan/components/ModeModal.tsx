@@ -73,7 +73,8 @@ export const ModeModal: FunctionComponent<Props> = props => {
             />
           </TouchableOpacity>
         </View>
-        {modes && modes.map(mode => <Mode mode={mode} key={mode.Code} />)}
+        {modes.length &&
+          modes.map(mode => <Mode mode={mode} key={mode.Code} />)}
       </View>
     </BaseBottomSheet>
   );
