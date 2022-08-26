@@ -50,7 +50,7 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
     cnee,
     service,
     // subShipments: sShipments,
-    mode,
+    // mode,
     isDirectShipment,
   } = props;
   const [subShipments, setSubShipments] = useState<Array<SubShipment>>([
@@ -66,7 +66,7 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
   );
   const [listService, setListService] =
     useState<Array<ServiceShipmentResponse>>();
-  const [listMode, setListMode] = useState<Array<ModeShipmentResponse>>([]);
+  // const [listMode, setListMode] = useState<Array<ModeShipmentResponse>>([]);
   const [selectedMode, setSelectedMode] = useState<ModeShipmentResponse>();
 
   const getSubShipments = () => {
@@ -98,11 +98,9 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
 
   const fetchMode = () => {
     serviceApi.getModes()?.then(response => {
-      setListMode(response?.data || []);
-      const findMode = response?.data.filter(s => s.Code === mode);
-      if (findMode) {
-        setSelectedMode(findMode[0]);
-      }
+      console.log("🚀 ~ file: response ~ line 101", response);
+      // setListMode(response?.data || []);
+      //
     });
   };
 
@@ -158,7 +156,10 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
 
   const updateDirectShipment = (value: boolean) => {
     shipmentApi
-      .updateDirectShipment({ ShipmentId: shipmentId, IsDirectShipment: value })
+      .updateDirectShipment({
+        ShipmentId: shipmentId,
+        IsDirectShipment: value,
+      })
       ?.then(response => {
         if (response.success) {
           toggleShipmentStatus();
@@ -375,12 +376,12 @@ export const GeneralInfoTab: FunctionComponent<Props> = props => {
           onSelectService={setSelectedService}
           services={listService || []}
         />
-        <ModeModal
+        {/* <ModeModal
           isShowModal={isShowModeModal}
           closeModal={hideModeModal}
           onSelectMode={setSelectedMode}
           modes={listMode || []}
-        />
+        /> */}
       </KeyboardAvoidingView>
     </View>
   );
