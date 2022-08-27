@@ -11,7 +11,6 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		3E6E9AE5272278BA00753F65 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E6E9AE4272278BA00753F65 /* GoogleService-Info.plist */; };
 		754B032426AE73D5009EF4C4 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2B100C369694267927E1B53 /* icomoon.ttf */; };
 		754B032526AE73D5009EF4C4 /* Oswald-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A4E40F381EE47FB8E1F4404 /* Oswald-Medium.ttf */; };
 		754B032626AE73D5009EF4C4 /* Oswald-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1898AC3AC528433F856B2292 /* Oswald-Regular.ttf */; };
@@ -24,6 +23,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A746730B07ECBDA90936B394 /* libPods-EfexWarehouse.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BCF3C359AD959635970A8C /* libPods-EfexWarehouse.a */; };
 		AFBEC41B0AD9B44DB65F8676 /* libPods-EfexWarehouse-EfexWarehouseTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E6F8A6FDD75788B6BD3269 /* libPods-EfexWarehouse-EfexWarehouseTests.a */; };
+		E64C5B1F28B9BF8F00733403 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E64C5B1E28B9BF8F00733403 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +54,6 @@
 		36D9D436AB5045BA97B0C9AE /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		37D470A8905B456088EF4A16 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		3E1A225A271F1CD4008DBD46 /* EfexWarehouse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = EfexWarehouse.entitlements; path = EfexWarehouse/EfexWarehouse.entitlements; sourceTree = "<group>"; };
-		3E6E9AE4272278BA00753F65 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../FirebaseConfig/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		55E92AD626714883836E4E35 /* SFProText-Semibold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Semibold.ttf"; path = "../src/assets/fonts/SFProText-Semibold.ttf"; sourceTree = "<group>"; };
 		5A0AB70E036B4245A337692D /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		5A4E40F381EE47FB8E1F4404 /* Oswald-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Oswald-Medium.ttf"; path = "../src/assets/fonts/Oswald-Medium.ttf"; sourceTree = "<group>"; };
@@ -79,6 +78,7 @@
 		C48C9BF56B804055AE311DEB /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		C7EA4A0F102B4E4EEEB1AD7E /* Pods-EfexWarehouse-EfexWarehouseTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EfexWarehouse-EfexWarehouseTests.release.xcconfig"; path = "Target Support Files/Pods-EfexWarehouse-EfexWarehouseTests/Pods-EfexWarehouse-EfexWarehouseTests.release.xcconfig"; sourceTree = "<group>"; };
 		D36D161AD931464598C61EAC /* SFProText-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Medium.ttf"; path = "../src/assets/fonts/SFProText-Medium.ttf"; sourceTree = "<group>"; };
+		E64C5B1E28B9BF8F00733403 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		EDD3650173FCF5EE5C817346 /* Pods-EfexWarehouse-EfexWarehouseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EfexWarehouse-EfexWarehouseTests.debug.xcconfig"; path = "Target Support Files/Pods-EfexWarehouse-EfexWarehouseTests/Pods-EfexWarehouse-EfexWarehouseTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EE66B1BAC1E94E0FA3D2503D /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -124,7 +124,7 @@
 		13B07FAE1A68108700A75B9A /* EfexWarehouse */ = {
 			isa = PBXGroup;
 			children = (
-				3E6E9AE4272278BA00753F65 /* GoogleService-Info.plist */,
+				E64C5B1E28B9BF8F00733403 /* GoogleService-Info.plist */,
 				3E1A225A271F1CD4008DBD46 /* EfexWarehouse.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -322,10 +322,10 @@
 				754B032626AE73D5009EF4C4 /* Oswald-Regular.ttf in Resources */,
 				754B032726AE73D5009EF4C4 /* Oswald-SemiBold.ttf in Resources */,
 				754B032826AE73D5009EF4C4 /* SFProText-Bold.ttf in Resources */,
+				E64C5B1F28B9BF8F00733403 /* GoogleService-Info.plist in Resources */,
 				754B032926AE73D5009EF4C4 /* SFProText-Medium.ttf in Resources */,
 				754B032A26AE73D5009EF4C4 /* SFProText-Regular.ttf in Resources */,
 				754B032B26AE73D5009EF4C4 /* SFProText-Semibold.ttf in Resources */,
-				3E6E9AE5272278BA00753F65 /* GoogleService-Info.plist in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
@@ -585,7 +585,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = EfexWarehouse/EfexWarehouse.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BF2QE86V7N;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = EfexWarehouse/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -593,7 +593,7 @@
 					"@executable_path/Frameworks",
 				);
 				LD_VERIFY_BITCODE = NO;
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -617,7 +617,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = EfexWarehouse/EfexWarehouse.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BF2QE86V7N;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphoneos*]" = armv7;
 				INFOPLIST_FILE = EfexWarehouse/Info.plist;
@@ -626,7 +626,7 @@
 					"@executable_path/Frameworks",
 				);
 				LD_VERIFY_BITCODE = NO;
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
