@@ -12,6 +12,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3E6E9AE5272278BA00753F65 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E6E9AE4272278BA00753F65 /* GoogleService-Info.plist */; };
+		3EBA0B2928B9BA8B002924FF /* ios in Resources */ = {isa = PBXBuildFile; fileRef = 3EBA0B2828B9BA8B002924FF /* ios */; };
 		754B032426AE73D5009EF4C4 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2B100C369694267927E1B53 /* icomoon.ttf */; };
 		754B032526AE73D5009EF4C4 /* Oswald-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A4E40F381EE47FB8E1F4404 /* Oswald-Medium.ttf */; };
 		754B032626AE73D5009EF4C4 /* Oswald-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1898AC3AC528433F856B2292 /* Oswald-Regular.ttf */; };
@@ -55,6 +56,7 @@
 		37D470A8905B456088EF4A16 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		3E1A225A271F1CD4008DBD46 /* EfexWarehouse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = EfexWarehouse.entitlements; path = EfexWarehouse/EfexWarehouse.entitlements; sourceTree = "<group>"; };
 		3E6E9AE4272278BA00753F65 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../FirebaseConfig/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3EBA0B2828B9BA8B002924FF /* ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ios; sourceTree = "<group>"; };
 		55E92AD626714883836E4E35 /* SFProText-Semibold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Semibold.ttf"; path = "../src/assets/fonts/SFProText-Semibold.ttf"; sourceTree = "<group>"; };
 		5A0AB70E036B4245A337692D /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		5A4E40F381EE47FB8E1F4404 /* Oswald-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Oswald-Medium.ttf"; path = "../src/assets/fonts/Oswald-Medium.ttf"; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				3E6E9AE4272278BA00753F65 /* GoogleService-Info.plist */,
+				3EBA0B2828B9BA8B002924FF /* ios */,
 				3E1A225A271F1CD4008DBD46 /* EfexWarehouse.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -323,6 +326,7 @@
 				754B032726AE73D5009EF4C4 /* Oswald-SemiBold.ttf in Resources */,
 				754B032826AE73D5009EF4C4 /* SFProText-Bold.ttf in Resources */,
 				754B032926AE73D5009EF4C4 /* SFProText-Medium.ttf in Resources */,
+				3EBA0B2928B9BA8B002924FF /* ios in Resources */,
 				754B032A26AE73D5009EF4C4 /* SFProText-Regular.ttf in Resources */,
 				754B032B26AE73D5009EF4C4 /* SFProText-Semibold.ttf in Resources */,
 				3E6E9AE5272278BA00753F65 /* GoogleService-Info.plist in Resources */,
@@ -584,7 +588,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = EfexWarehouse/EfexWarehouse.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = BF2QE86V7N;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = EfexWarehouse/Info.plist;
@@ -616,7 +620,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = EfexWarehouse/EfexWarehouse.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = BF2QE86V7N;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphoneos*]" = armv7;
