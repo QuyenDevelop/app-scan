@@ -997,6 +997,8 @@ export default {
     searchShipmentManage: "出荷番号/参照番号を入力してください",
     enterCodAmount: "配達の金額の現金を入力してください",
     scanOrType: "スキャンまたはコード....",
+    scanMode: "PDAスキャン ...",
+    typeMode: "コードを挿入します ...",
     enterWeight: "輸入重量",
     length: "長さ",
     width: "幅",

@@ -1024,6 +1024,8 @@ export default {
     searchShipmentManage: "Enter shipment number/ref number",
     enterCodAmount: "Enter amount COD",
     scanOrType: "Scan or code ....",
+    scanMode: "PDA Scan QR code ...",
+    typeMode: "Enter code ...",
     enterWeight: "Enter weight",
     length: "length",
     width: "width",

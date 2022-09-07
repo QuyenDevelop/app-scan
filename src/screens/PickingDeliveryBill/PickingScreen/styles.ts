@@ -30,7 +30,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: ScreenUtils.scale(10),
-    paddingHorizontal: ScreenUtils.scale(16),
+    paddingHorizontal: ScreenUtils.scale(8),
   },
   input: {
     borderWidth: 1,

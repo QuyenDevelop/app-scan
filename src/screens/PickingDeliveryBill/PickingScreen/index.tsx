@@ -20,7 +20,7 @@ import {
 } from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { Icon, translate } from "@shared";
-import { Metrics, Themes } from "@themes";
+import { Icons, Metrics, Themes } from "@themes";
 import React, {
   FunctionComponent,
   useCallback,
@@ -79,6 +79,8 @@ export const PickingScreen: FunctionComponent = () => {
   const [dataShipments, setDataShipment] = useState<Array<ShipmentSourceItem>>(
     [],
   );
+  const [isScanMode, setIsScanMode] = useState<boolean>(true);
+
   useFocusEffect(
     useCallback(() => {
       PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
@@ -325,6 +327,13 @@ export const PickingScreen: FunctionComponent = () => {
     }
   };
 
+  const handleChangeMode = () => {
+    setBarcodes("");
+    setIsScanMode(mode => !mode);
+    PlatformBrandConstraint.Brand === CONSTANT.PLATFORM_BRAND.HONEYWELL &&
+      inputRef?.current?.focus();
+  };
+
   return (
     <View style={styles.container}>
       <Header
@@ -338,7 +347,7 @@ export const PickingScreen: FunctionComponent = () => {
       <>
         <View style={{ flex: 1 }}>
           {PlatformBrandConstraint.Brand !==
-            CONSTANT.PLATFORM_BRAND.HONEYWELL && (
+          CONSTANT.PLATFORM_BRAND.HONEYWELL ? (
             <>
               <View style={styles.cameraView}>
                 <RNCamera
@@ -368,32 +377,83 @@ export const PickingScreen: FunctionComponent = () => {
                   </View>
                 </RNCamera>
               </View>
+              <View style={styles.inputView}>
+                <TextInput
+                  ref={inputRef}
+                  value={barcode}
+                  placeholder={translate("placeholder.scanOrType")}
+                  style={styles.input}
+                  onChangeText={setBarcodes}
+                  onEndEditing={_e => {
+                    onScan(barcode);
+                  }}
+                  returnKeyType="done"
+                  returnKeyLabel="Add"
+                />
+                <TouchableOpacity
+                  style={styles.addCode}
+                  onPress={() => onScan(barcode)}
+                >
+                  <Icon
+                    name="ic_plus"
+                    color={Themes.colors.bg}
+                    size={Metrics.icons.small}
+                  />
+                </TouchableOpacity>
+              </View>
             </>
-          )}
-          <View style={styles.inputView}>
-            <TextInput
-              ref={inputRef}
-              value={barcode}
-              placeholder={translate("placeholder.scanOrType")}
-              style={styles.input}
-              onChangeText={onChangeInputText}
-              onSubmitEditing={_e => {
-                onScan(barcode);
-              }}
-              returnKeyType="done"
-              returnKeyLabel="Add"
-            />
-            <TouchableOpacity
-              style={styles.addCode}
-              onPress={() => onScan(barcode)}
-            >
-              <Icon
-                name="ic_plus"
-                color={Themes.colors.bg}
-                size={Metrics.icons.small}
+          ) : isScanMode ? (
+            <View style={styles.inputView}>
+              <TextInput
+                ref={inputRef}
+                value={barcode}
+                placeholder={translate("placeholder.scanMode")}
+                style={styles.input}
+                onChangeText={onChangeInputText}
+                onSubmitEditing={_e => {
+                  onScan(barcode);
+                }}
+                // editable={false}
+                returnKeyType="done"
+                returnKeyLabel="Add"
               />
-            </TouchableOpacity>
-          </View>
+              <TouchableOpacity
+                style={styles.addCode}
+                onPress={handleChangeMode}
+              >
+                <Icons.MaterialIcons
+                  name="sync"
+                  color={Themes.colors.bg}
+                  size={Metrics.icons.small}
+                />
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View style={styles.inputView}>
+              <TextInput
+                ref={inputRef}
+                value={barcode}
+                placeholder={translate("placeholder.typeMode")}
+                style={styles.input}
+                onChangeText={setBarcodes}
+                onEndEditing={_e => {
+                  onScan(barcode);
+                }}
+                returnKeyType="done"
+                returnKeyLabel="Add"
+              />
+              <TouchableOpacity
+                style={styles.addCode}
+                onPress={handleChangeMode}
+              >
+                <Icons.MaterialIcons
+                  name="sync"
+                  color={Themes.colors.bg}
+                  size={Metrics.icons.small}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
 
           {location === "" && (
             <Text

@@ -1021,6 +1021,8 @@ export default {
     searchShipmentManage: "Nhập lô hàng/số tham chiếu",
     enterCodAmount: "Enter COD amount",
     scanOrType: "Quét hoặc nhâp mã ....",
+    scanMode: "PDA Quét mã code ...",
+    typeMode: "Nhập mã ...",
     enterWeight: "Nhập trọng lượng",
     length: "dài",
     width: "rộng",
