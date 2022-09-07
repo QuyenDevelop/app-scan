@@ -3,8 +3,9 @@ import { useShipmentInfo, useStatusBar } from "@hooks";
 import { goToMenuScreen } from "@navigation";
 import { Icon, translate } from "@shared";
 import { Images, Metrics, Themes } from "@themes";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import {
+  BackHandler,
   FlatList,
   ImageBackground,
   TouchableOpacity,
@@ -18,6 +19,12 @@ export const HomeScreen: FunctionComponent = () => {
   useShipmentInfo();
   const insets = useSafeAreaInsets();
   useStatusBar("light-content");
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      return true;
+    });
+  }, []);
 
   const renderHomeItem = ({ item, index }: { item: any; index: number }) => {
     return (
