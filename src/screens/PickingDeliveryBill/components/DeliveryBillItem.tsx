@@ -5,6 +5,7 @@ import { DeliveryBillItemResponse } from "@models";
 import { useNavigation } from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { translate } from "@shared";
+import { Themes } from "@themes";
 import React, { FunctionComponent } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
@@ -13,9 +14,14 @@ import styles from "./styles";
 interface Props {
   item: DeliveryBillItemResponse;
   tab?: string;
+  disableHandler: boolean;
 }
 
-export const DeliveryBillItem: FunctionComponent<Props> = ({ item, tab }) => {
+export const DeliveryBillItem: FunctionComponent<Props> = ({
+  item,
+  tab,
+  disableHandler,
+}) => {
   const navigation = useNavigation();
   const profile = useSelector((state: IRootState) => state.account.profile);
 
@@ -111,7 +117,18 @@ export const DeliveryBillItem: FunctionComponent<Props> = ({ item, tab }) => {
         </View>
         <View>
           {item.ProcessStatus !== DATA_CONSTANT.PXK_STATUS.FINISHED && (
-            <TouchableOpacity style={styles.button} onPress={gotoPicking}>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {
+                  backgroundColor: disableHandler
+                    ? Themes.colors.coolGray60
+                    : Themes.colors.info60,
+                },
+              ]}
+              onPress={gotoPicking}
+              disabled={disableHandler}
+            >
               <Text style={styles.buttonText}>
                 {item.ProcessStatus === DATA_CONSTANT.PXK_STATUS.WAITING
                   ? translate("screens.picking.pickingNow")

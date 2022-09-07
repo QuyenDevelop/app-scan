@@ -30,11 +30,13 @@ import styles from "./styles";
 interface Props {
   profile: Account | null;
   setNumOfFinished: (value: number) => void;
+  disableHandler: boolean;
 }
 
 export const FinishingPickingComponent: FunctionComponent<Props> = ({
   profile,
   setNumOfFinished,
+  disableHandler,
 }) => {
   const [data, setData] = useState<Array<DeliveryBillItemResponse>>([]);
   const [isLoading, setShowLoading, setHideLoading] = useShow();
@@ -166,7 +168,7 @@ export const FinishingPickingComponent: FunctionComponent<Props> = ({
 
   const keyExtractor = (item: any, index: number) => `${item.id}_${index}`;
   const renderItem = ({ item }: { item: DeliveryBillItemResponse }) => {
-    return <DeliveryBillItem item={item} />;
+    return <DeliveryBillItem item={item} disableHandler={disableHandler} />;
   };
 
   return (

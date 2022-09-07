@@ -30,11 +30,13 @@ import styles from "./styles";
 interface Props {
   profile: Account | null;
   setNumOfWaitings: (value: number) => void;
+  disableHandler: boolean;
 }
 
 export const WaitingPickingComponent: FunctionComponent<Props> = ({
   profile,
   setNumOfWaitings,
+  disableHandler,
 }) => {
   const [data, setData] = useState<Array<DeliveryBillItemResponse>>([]);
   const [isLoading, setShowLoading, setHideLoading] = useShow();
@@ -167,7 +169,13 @@ export const WaitingPickingComponent: FunctionComponent<Props> = ({
 
   const keyExtractor = (item: any, index: number) => `${item.id}_${index}`;
   const renderItem = ({ item }: { item: DeliveryBillItemResponse }) => {
-    return <DeliveryBillItem item={item} tab={"WAITING"} />;
+    return (
+      <DeliveryBillItem
+        item={item}
+        tab={"WAITING"}
+        disableHandler={disableHandler}
+      />
+    );
   };
 
   return (

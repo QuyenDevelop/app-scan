@@ -1,10 +1,15 @@
 import { Header } from "@components";
 import { ScreenUtils } from "@helpers";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { translate } from "@shared";
 import { Themes } from "@themes";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { Text, View } from "react-native";
 import { TabBar, TabBarIndicator, TabView } from "react-native-tab-view";
 import { useSelector } from "react-redux";
@@ -50,6 +55,7 @@ export const DeliveryBillManagementScreen: FunctionComponent = () => {
             <WaitingPickingComponent
               profile={profile}
               setNumOfWaitings={setNumOfWaitings}
+              disableHandler={numOfProcess >= 1 ? true : false}
             />
           );
         case TabKey.PROGRESS:
@@ -57,6 +63,7 @@ export const DeliveryBillManagementScreen: FunctionComponent = () => {
             <PickingComponent
               profile={profile}
               setNumOfProcess={setNumOfProcess}
+              disableHandler={false}
             />
           );
         case TabKey.FINISHED:
@@ -64,13 +71,14 @@ export const DeliveryBillManagementScreen: FunctionComponent = () => {
             <FinishingPickingComponent
               profile={profile}
               setNumOfFinished={setNumOfFinished}
+              disableHandler={numOfProcess >= 1 ? true : false}
             />
           );
         default:
           return null;
       }
     },
-    [profile],
+    [profile, numOfProcess],
   );
 
   const showNumOfShipment = useCallback(

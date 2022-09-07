@@ -30,11 +30,13 @@ import styles from "./styles";
 interface Props {
   profile: Account | null;
   setNumOfProcess: (value: number) => void;
+  disableHandler: boolean;
 }
 
 export const PickingComponent: FunctionComponent<Props> = ({
   profile,
   setNumOfProcess,
+  disableHandler,
 }) => {
   const [data, setData] = useState<Array<DeliveryBillItemResponse>>([]);
   const [isLoading, setShowLoading, setHideLoading] = useShow();
@@ -165,7 +167,13 @@ export const PickingComponent: FunctionComponent<Props> = ({
 
   const keyExtractor = (item: any, index: number) => `${item.id}_${index}`;
   const renderItem = ({ item }: { item: DeliveryBillItemResponse }) => {
-    return <DeliveryBillItem item={item} tab={"PROGRESS"} />;
+    return (
+      <DeliveryBillItem
+        item={item}
+        tab={"PROGRESS"}
+        disableHandler={disableHandler}
+      />
+    );
   };
 
   return (
