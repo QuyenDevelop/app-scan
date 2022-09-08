@@ -1,15 +1,10 @@
 import { Header } from "@components";
 import { ScreenUtils } from "@helpers";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { IRootState } from "@redux";
 import { translate } from "@shared";
 import { Themes } from "@themes";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { Text, View } from "react-native";
 import { TabBar, TabBarIndicator, TabView } from "react-native-tab-view";
 import { useSelector } from "react-redux";

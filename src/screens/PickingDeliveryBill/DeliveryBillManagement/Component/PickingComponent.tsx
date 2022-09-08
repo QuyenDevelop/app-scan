@@ -80,7 +80,7 @@ export const PickingComponent: FunctionComponent<Props> = ({
         if (response?.data && response?.data?.data) {
           setData(response?.data?.data);
           setNumOfProcess(response?.data?.totalCount);
-          setPageIndex(1);
+          setPageIndex(2);
           if (
             data.length >= response?.data.totalCount ||
             response?.data?.data.length < PAGE_SIZE_DEFAULT
@@ -117,7 +117,7 @@ export const PickingComponent: FunctionComponent<Props> = ({
       ?.then(response => {
         if (response?.data && response?.data?.data) {
           setData(response?.data?.data);
-          setPageIndex(1);
+          setPageIndex(2);
           if (
             data.length >= response?.data.totalCount ||
             response?.data?.data.length < PAGE_SIZE_DEFAULT
