@@ -3,7 +3,7 @@ import {
   DeliveryBillResponse,
   GetAllDeliveryBillRequest,
   GetDeliveryBillDetailRequest,
-  PickShipment
+  PickShipment,
 } from "@models";
 import { BaseApi } from "./base-api";
 

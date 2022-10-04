@@ -13,12 +13,12 @@ export const ShipmentItemNormal: FunctionComponent<Props> = props => {
   const { item } = props;
 
   const getColor = () => {
-    if (item.IsPicked && item.LocationName === item.LastLocation) {
+    if (item.IsPicked) {
       return Themes.colors.success60;
     } else {
-      if (item.LastLocation !== null) {
-        return Themes.colors.danger60;
-      }
+      // if (item.LastLocation !== null) {
+      //   return Themes.colors.danger60;
+      // }
       return Themes.colors.coolGray100;
     }
   };
@@ -52,7 +52,7 @@ export const ShipmentItemNormal: FunctionComponent<Props> = props => {
         </Text>
       </View>
       <View>
-        {item.LocationName && item.LocationName !== "" && (
+        {item.LocationName! !== "" && (
           <Text
             style={[
               styles.location,
@@ -63,11 +63,10 @@ export const ShipmentItemNormal: FunctionComponent<Props> = props => {
             numberOfLines={1}
             adjustsFontSizeToFit={true}
           >
-            {item.LocationName}
+            {item.LocationName!}
           </Text>
         )}
-        {(item.LastLocation !== null &&
-          item.LastLocation !== item.LocationName) ?? (
+        {item.LastLocation! !== null && (
           <Text
             style={[
               styles.location,
@@ -78,7 +77,7 @@ export const ShipmentItemNormal: FunctionComponent<Props> = props => {
             numberOfLines={1}
             adjustsFontSizeToFit={true}
           >
-            {item.LastLocation}
+            {item.LastLocation!}
           </Text>
         )}
       </View>
