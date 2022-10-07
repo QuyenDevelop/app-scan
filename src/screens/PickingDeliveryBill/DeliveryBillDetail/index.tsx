@@ -192,24 +192,22 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
                 {translate("button.back")}
               </Text>
             </TouchableOpacity>
-            {tab !== "" && (
-              <TouchableOpacity
-                style={[
-                  styles.touchableOpacity,
-                  {
-                    backgroundColor: disableHandler
-                      ? Themes.colors.coolGray60
-                      : Themes.colors.info60,
-                  },
-                ]}
-                onPress={gotoPicking}
-                disabled={disableHandler}
-              >
-                <Text style={styles.pickUpText}>
-                  {translate("screens.picking.pickingNow")}
-                </Text>
-              </TouchableOpacity>
-            )}
+            <TouchableOpacity
+              style={[
+                styles.touchableOpacity,
+                {
+                  backgroundColor: disableHandler
+                    ? Themes.colors.coolGray60
+                    : Themes.colors.info60,
+                },
+              ]}
+              onPress={gotoPicking}
+              disabled={disableHandler}
+            >
+              <Text style={styles.pickUpText}>
+                {translate("screens.picking.pickingNow")}
+              </Text>
+            </TouchableOpacity>
           </View>
         </>
       )}
