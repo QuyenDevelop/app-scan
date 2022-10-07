@@ -31,6 +31,7 @@ type NavigationRoute = RouteProp<
 export interface DeliveryBillDetailParams {
   item: DeliveryBillItemResponse;
   tab: string;
+  disableHandler: boolean;
 }
 
 export const DeliveryBillDetailScreen: FunctionComponent = () => {
@@ -38,7 +39,7 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
   const insets = useSafeAreaInsets();
   const router = useRoute<NavigationRoute>();
   const params = router?.params;
-  const { item, tab } = params;
+  const { item, tab, disableHandler } = params;
   const profile = useSelector((state: IRootState) => state.account.profile);
   const [data, setData] = useState<any>({});
   const [loading, setShowLoading, setHideLoading] = useShow();
@@ -193,8 +194,16 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
             </TouchableOpacity>
             {tab !== "" && (
               <TouchableOpacity
-                style={styles.touchableOpacity}
+                style={[
+                  styles.touchableOpacity,
+                  {
+                    backgroundColor: disableHandler
+                      ? Themes.colors.coolGray60
+                      : Themes.colors.info60,
+                  },
+                ]}
                 onPress={gotoPicking}
+                disabled={disableHandler}
               >
                 <Text style={styles.pickUpText}>
                   {translate("screens.picking.pickingNow")}

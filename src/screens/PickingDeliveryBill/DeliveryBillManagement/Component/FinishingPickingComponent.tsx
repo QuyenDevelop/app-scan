@@ -106,6 +106,7 @@ export const FinishingPickingComponent: FunctionComponent<Props> = ({
 
   const onRefresh = () => {
     setShowFreshing();
+    setDisableLoadMore(false);
     deliveryBillApi
       .getDeliveryBill({
         RequireTotalCount: true,

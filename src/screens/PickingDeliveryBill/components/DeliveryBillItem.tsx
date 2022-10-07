@@ -31,6 +31,7 @@ export const DeliveryBillItem: FunctionComponent<Props> = ({
       params: {
         item: item,
         tab: tab || "",
+        disableHandler: disableHandler,
       },
     });
   };

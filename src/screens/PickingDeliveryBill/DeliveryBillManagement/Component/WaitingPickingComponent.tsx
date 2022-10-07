@@ -104,6 +104,7 @@ export const WaitingPickingComponent: FunctionComponent<Props> = ({
   );
 
   const onRefresh = () => {
+    setDisableLoadMore(false);
     setShowFreshing();
     deliveryBillApi
       .getDeliveryBill({
