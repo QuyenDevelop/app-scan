@@ -39,7 +39,7 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
   const insets = useSafeAreaInsets();
   const router = useRoute<NavigationRoute>();
   const params = router?.params;
-  const { item, tab, disableHandler } = params;
+  const { item, tab } = params;
   const profile = useSelector((state: IRootState) => state.account.profile);
   const [data, setData] = useState<any>({});
   const [loading, setShowLoading, setHideLoading] = useShow();
@@ -195,14 +195,14 @@ export const DeliveryBillDetailScreen: FunctionComponent = () => {
             <TouchableOpacity
               style={[
                 styles.touchableOpacity,
-                {
-                  backgroundColor: disableHandler
-                    ? Themes.colors.coolGray60
-                    : Themes.colors.info60,
-                },
+                // {
+                //   backgroundColor: disableHandler
+                //     ? Themes.colors.coolGray60
+                //     : Themes.colors.info60,
+                // },
               ]}
               onPress={gotoPicking}
-              disabled={disableHandler}
+              // disabled={disableHandler}
             >
               <Text style={styles.pickUpText}>
                 {translate("screens.picking.pickingNow")}
