@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "168592587132",
+    "project_id": "efexwarehouse",
+    "storage_bucket": "efexwarehouse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168592587132:android:6e8209a4ee8b51c908ccf9",
+        "android_client_info": {
+          "package_name": "com.efexmobileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "168592587132-br2vsph05p1dhcumm9eveup8uidua9o2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLXslfu6zudDE2mxyuNiYp4zXMI78QFDM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "168592587132-br2vsph05p1dhcumm9eveup8uidua9o2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "168592587132-qp3hnpuq1llgahiraecaojckgkuj7vsf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "jp.efex.efexMobileRn"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
